@@ -10,6 +10,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using timebot.Classes;
 
 namespace timebot
 {
@@ -86,7 +87,7 @@ namespace timebot
             {
                 return;
             }
-            
+
             string msg_prefix = message.Content.ToString().Substring(0, 3);
 
             //if the prefix is in the list of valid prefixes, continue
@@ -103,119 +104,62 @@ namespace timebot
                 string command = fullcommand.Replace(msg_prefix, "");
 
                 SocketGuildUser user = (message.Author as SocketGuildUser);
-                
+
                 //check if the user is authorized to send the message that they did, using the prefix binding SortedDictionary above
-                bool isAuthorized = CheckAuthorization(user, msg_prefix);
+                bool isAuthorized = CheckAuthorization(user);
 
                 if (!isAuthorized)
                 {
                     //if not authorized, drop out before any message is processed 
-                    await SendPMAsync("You are not authorized to send messages for this Faction.", message.Author);
+                    await SendPMAsync("You are not authorized to control the timebot. Send a message to an administrator to request access.", message.Author);
 
                     return;
                 }
 
-                //figure out which module we're looking at
-                if (fullcommand.ToString().Contains("votefor") || fullcommand.ToString().Contains("votetally") || fullcommand.ToString().Contains("listquestions"))
-                {
-                    //process a vote request
-                    voting.voting vt = new churchbot.voting.voting();
-                    List<string> returns = await vt.ProcessVote(message, msg_prefix);
-                    foreach (string rtn in returns)
-                    {
-                        await SendPMAsync(rtn, message.Author);
-                    }
-                }
-                else if (fullcommand.ToString().Contains("addquestion"))
-                {
-                    //process a new poll
-                    churchbot.voting.voting vt = new churchbot.voting.voting();
-                    List<int> ids = new List<int>();
-                    string path = String.Concat("votes/" + msg_prefix.Replace("!", ""), "/");
-                    //make sure the directory exists before we call any other methods
-                    if (!(Directory.Exists(path))) Directory.CreateDirectory(path);
-
-                    string[] files = System.IO.Directory.GetFiles(path);
-                    int id = 0;
-
-                    foreach (string file in files)
-                    {
-                        ids.Add(Convert.ToInt32(file.Replace(path, "").Replace(".json", "")));
-                    }
-
-                    if (ids.Count == 0)
-                    {
-                        id = 1;
-                    }
-                    else
-                    {
-                        id = ids.Max() + 1;
-                    }
-
-                    List<string> returns = await vt.AddQuestion(id, msg_prefix);
-
-                    await SendPMAsync(returns[0], message.Author);
-
-                }
-                else
-                {
-                    //here is where we handle commands that are not involved in voting, that just return messages.
-                    switch (msg_prefix)
-                    {
-                        case "cb!":
-                            Modules.HighChurch.commands cmd = new Modules.HighChurch.commands();
-                            Type type = cmd.GetType();
-                            MethodInfo methodInfo = type.GetMethod(FirstCharToUpper(command) + "Async");
-                            List<object> list = new List<object>();
-                            list.Add(message.Author);
-                            methodInfo.Invoke(cmd, list.ToArray());
-                            break;
-                        case "!":
-                            Modules.Default.commands cmd2 = new Modules.Default.commands();
-                            Type type2 = cmd2.GetType();
-                            MethodInfo methodInfo2 = type2.GetMethod(FirstCharToUpper(command) + "Async");
-                            List<object> list2 = new List<object>();
-                            list2.Add(message.Author);
-                            methodInfo2.Invoke(cmd2, list2.ToArray());
-                            break;
-                        default:
-                            await SendPMAsync("There are no commands associated with this faction. Please consult an admin", message.Author);
-                            break;
-                    }
-                }
+                Modules.Default.commands cmd = new Modules.Default.commands();
+                Type type = cmd.GetType();
+                MethodInfo methodInfo = type.GetMethod(FirstCharToUpper(command) + "Async");
+                List<object> list = new List<object>();
+                list.Add(message.Author);
+                methodInfo.Invoke(cmd, list.ToArray());
             }
-        }
+        
+    }
 
-        public async Task SendPMAsync(string message, SocketUser user)
-        {
-            string logmessage = String.Concat(user.Username, " was sent a messge");
+    public async Task SendPMAsync(string message, SocketUser user)
+    {
+        string logmessage = String.Concat(user.Username, " was sent a messge");
 
-            await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
+        await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
 
-            await user.SendMessageAsync(message);
-        }
+        await user.SendMessageAsync(message);
+    }
 
-        private bool CheckAuthorization(SocketGuildUser user, string prefix)
-        {
-            
+    private bool CheckAuthorization(SocketGuildUser user)
+    {
+        timebot.Classes.Data.user usr = new timebot.Classes.Data.user();
 
-            return isAuthorized;
-        }
+        usr.Name = user.Username;
+        usr.ID = user.Discriminator;
+
+
+        return timebot.Classes.Data.is_user_authorized(usr);
+    }
 
     //helper method for manipulating strings to be in the right format for generic method section above
-        public static string FirstCharToUpper(string s)
+    public static string FirstCharToUpper(string s)
+    {
+        // Check for empty string.
+        if (string.IsNullOrEmpty(s))
         {
-            // Check for empty string.
-            if (string.IsNullOrEmpty(s))
-            {
-                return string.Empty;
-            }
-            // Return char and concat substring.
-            return char.ToUpper(s[0]) + s.Substring(1);
+            return string.Empty;
         }
-
-
-
-
+        // Return char and concat substring.
+        return char.ToUpper(s[0]) + s.Substring(1);
     }
+
+
+
+
+}
 }
