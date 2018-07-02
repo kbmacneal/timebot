@@ -116,12 +116,49 @@ namespace timebot
                     return;
                 }
 
-                Modules.Default.commands cmd = new Modules.Default.commands();
-                Type type = cmd.GetType();
-                MethodInfo methodInfo = type.GetMethod(FirstCharToUpper(command) + "Async");
-                List<object> list = new List<object>();
-                list.Add(message.Author);
-                methodInfo.Invoke(cmd, list.ToArray());
+                timebot.Modules.Default.commands cmds = new timebot.Modules.Default.commands();
+
+                if(fullcommand.Contains("ping"))
+                {
+                    await cmds.PingAsync(user);
+                }
+
+                if(fullcommand.Contains("changedefaults"))
+                {
+                    string[] split = fullcommand.Split("changedefaults");
+
+                    int newminutes = Convert.ToInt32(split[1]);
+
+                    await cmds.changedefaults(user, newminutes);
+                }
+
+                if(fullcommand.Contains("starttimer"))
+                {
+                    string[] split = fullcommand.Split("starttimer");
+
+                    string username = split[1].Split("#")[0];
+                    string disc = split[1].Split("#")[1];
+
+
+                    SocketUser usr = _client.GetUser(username, disc);
+
+
+                    await cmds.StarttimerAsync(usr);
+                }
+
+                if(fullcommand.Contains("addspeaker"))
+                {
+                    string[] split = fullcommand.Split("addspeaker");
+
+                    string username = split[1].Split("#")[0];
+                    string disc = split[1].Split("#")[1];
+
+
+                    SocketUser usr = _client.GetUser(username, disc);
+
+
+                    await cmds.AddspeakerAsync(usr);
+                }
             }
         
     }

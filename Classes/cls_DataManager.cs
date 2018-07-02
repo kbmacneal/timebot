@@ -23,10 +23,10 @@ namespace timebot.Classes
         {
             public user user {get;set;}
             public DateTime start_time{get;set;} = DateTime.Now;
-            public DateTime speaking_time{get;set;}
+            public int speaking_time_minutes{get;set;}
         }
 
-        public static List<user> get_auth_user()
+        public static List<user> get_users()
         {
 
             // Open database (create new if file doesn't exist)
@@ -36,23 +36,28 @@ namespace timebot.Classes
             return store.GetCollection<user>().AsQueryable().ToList();
         }
 
+        public static List<speaker> get_speakers()
+        {
+
+            // Open database (create new if file doesn't exist)
+            var store = new DataStore("data.json");
+
+            // Get employee collection
+            return store.GetCollection<speaker>().AsQueryable().ToList();
+        }
+
         public static Boolean is_user_authorized(user user)
         {
-            List<user> users = get_auth_user();
+            List<user> users = get_users();
 
             if(users.Where(s=>s.admin == true).Contains(user))
             {return true;}
             else {return false;}
         }
 
-        public static Boolean insert_auth_user(user user)
+        public static void insert_user(user user)
         {
-            List<user> auths = get_auth_user();
-
-            if (auths.Contains(user))
-            {
-
-                // Open database (create new if file doesn't exist)
+            // Open database (create new if file doesn't exist)
                 var store = new DataStore("data.json");
 
                 // Get employee collection
@@ -61,10 +66,29 @@ namespace timebot.Classes
                 collection.InsertOne(user);
 
                 store.Dispose();
+        }
 
-                return true;
-            }
-            else { return false; }
+        public static void insert_speaker(speaker spkr)
+        {
+            // Open database (create new if file doesn't exist)
+                var store = new DataStore("data.json");
+
+                // Get employee collection
+                var collection = store.GetCollection<speaker>();
+
+                collection.InsertOne(spkr);
+
+                store.Dispose();
+        }
+
+        public static void reset_speaking_time(int minutes)
+        {
+            get_speakers().ForEach(s=>s.speaking_time_minutes = minutes);
+        }
+
+        public static int get_speaking_time()
+        {
+            return get_speakers().FirstOrDefault().speaking_time_minutes;
         }
     }
 
