@@ -65,7 +65,7 @@ namespace timebot.Modules.Default
                 int tick = 0;
                 Thread.Sleep(spkr.speaking_time_minutes * 60 * 1000);
 
-                await user.SendMessageAsync("Speaking times have been reset");
+                await user.SendMessageAsync("You are out of time.");
             }
             else
             {
@@ -77,7 +77,7 @@ namespace timebot.Modules.Default
                 int tick = 0;
                 Thread.Sleep(spkr.speaking_time_minutes * 60 * 1000);
 
-                await user.SendMessageAsync("Speaking times have been reset");
+                await user.SendMessageAsync("You are out of time.");
             }
         }
 

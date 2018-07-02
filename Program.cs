@@ -118,12 +118,12 @@ namespace timebot
 
                 timebot.Modules.Default.commands cmds = new timebot.Modules.Default.commands();
 
-                if(fullcommand.Contains("ping"))
+                if (fullcommand.Contains("ping"))
                 {
                     await cmds.PingAsync(user);
                 }
 
-                if(fullcommand.Contains("changedefaults"))
+                if (fullcommand.Contains("changedefaults"))
                 {
                     string[] split = fullcommand.Split("changedefaults");
 
@@ -132,7 +132,7 @@ namespace timebot
                     await cmds.changedefaults(user, newminutes);
                 }
 
-                if(fullcommand.Contains("starttimer"))
+                if (fullcommand.Contains("starttimer"))
                 {
                     string[] split = fullcommand.Split("starttimer");
 
@@ -146,7 +146,7 @@ namespace timebot
                     await cmds.StarttimerAsync(usr);
                 }
 
-                if(fullcommand.Contains("addspeaker"))
+                if (fullcommand.Contains("addspeaker"))
                 {
                     string[] split = fullcommand.Split("addspeaker");
 
@@ -160,43 +160,43 @@ namespace timebot
                     await cmds.AddspeakerAsync(usr);
                 }
             }
-        
-    }
 
-    public async Task SendPMAsync(string message, SocketUser user)
-    {
-        string logmessage = String.Concat(user.Username, " was sent a messge");
-
-        await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
-
-        await user.SendMessageAsync(message);
-    }
-
-    private bool CheckAuthorization(SocketGuildUser user)
-    {
-        timebot.Classes.Data.user usr = new timebot.Classes.Data.user();
-
-        usr.Name = user.Username;
-        usr.ID = user.Discriminator;
-
-
-        return timebot.Classes.Data.is_user_authorized(usr);
-    }
-
-    //helper method for manipulating strings to be in the right format for generic method section above
-    public static string FirstCharToUpper(string s)
-    {
-        // Check for empty string.
-        if (string.IsNullOrEmpty(s))
-        {
-            return string.Empty;
         }
-        // Return char and concat substring.
-        return char.ToUpper(s[0]) + s.Substring(1);
+
+        public async Task SendPMAsync(string message, SocketUser user)
+        {
+            string logmessage = String.Concat(user.Username, " was sent a messge");
+
+            await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
+
+            await user.SendMessageAsync(message);
+        }
+
+        private bool CheckAuthorization(SocketGuildUser user)
+        {
+            timebot.Classes.Data.user usr = new timebot.Classes.Data.user();
+
+            usr.Name = user.Username;
+            usr.ID = user.Discriminator;
+
+
+            return timebot.Classes.Data.is_user_authorized(usr);
+        }
+
+        //helper method for manipulating strings to be in the right format for generic method section above
+        public static string FirstCharToUpper(string s)
+        {
+            // Check for empty string.
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            // Return char and concat substring.
+            return char.ToUpper(s[0]) + s.Substring(1);
+        }
+
+
+
+
     }
-
-
-
-
-}
 }
