@@ -132,12 +132,12 @@ namespace timebot
 
                 timebot.Modules.Default.commands cmds = new timebot.Modules.Default.commands();
 
-                if (fullcommand.Contains("ping"))
+                if (fullcommand.StartsWith("tb!ping"))
                 {
                     await cmds.PingAsync(user);
                 }
 
-                if (fullcommand.Contains("changedefaults"))
+                if (fullcommand.StartsWith("tb!changedefaults"))
                 {
                     string[] split = fullcommand.Split("changedefaults");
 
@@ -146,7 +146,7 @@ namespace timebot
                     await cmds.changedefaults(user, newminutes);
                 }
 
-                if (fullcommand.Contains("starttimer"))
+                if (fullcommand.StartsWith("tb!starttimer"))
                 {
                     string[] split = fullcommand.Split("starttimer");
 
@@ -160,7 +160,7 @@ namespace timebot
                     await cmds.StarttimerAsync(usr);
                 }
 
-                if (fullcommand.Contains("addspeaker"))
+                if (fullcommand.StartsWith("tb!addspeaker"))
                 {
                     string[] split = fullcommand.Split("addspeaker");
 
@@ -172,6 +172,10 @@ namespace timebot
 
 
                     await cmds.AddspeakerAsync(usr);
+                }
+                if (fullcommand.StartsWith("tb!commands"))
+                {
+                    await cmds.CommandsAsync(user);
                 }
             }
 
