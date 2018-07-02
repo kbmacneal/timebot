@@ -62,7 +62,6 @@ namespace timebot.Modules.Default
 
             if (Data.get_users().Where(s => s.Name == user.Username && s.ID == user.Discriminator).Count() > 1)
             {
-                int tick = 0;
                 Thread.Sleep(spkr.speaking_time_minutes * 60 * 1000);
 
                 await user.SendMessageAsync("You are out of time.");
@@ -73,8 +72,7 @@ namespace timebot.Modules.Default
 
                 spkr = new Data.speaker();
                 spkr.user = Data.get_users().Where(s => s.Name == user.Username && s.ID == user.Discriminator).FirstOrDefault();
-
-                int tick = 0;
+                
                 Thread.Sleep(spkr.speaking_time_minutes * 60 * 1000);
 
                 await user.SendMessageAsync("You are out of time.");

@@ -179,7 +179,7 @@ namespace timebot
 
         public async Task SendPMAsync(string message, SocketUser user)
         {
-            string logmessage = String.Concat(user.Username, " was sent a messge");
+            string logmessage = String.Concat(user.Username, " was sent a message");
 
             await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
 
