@@ -40,6 +40,8 @@ namespace timebot
 
         private static void Main(string[] args) => new Program().RunBotAsync(args[0]).GetAwaiter().GetResult();
 
+        
+
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
@@ -49,6 +51,18 @@ namespace timebot
 
         public async Task RunBotAsync(string botToken)
         {
+
+            //initialize the default admin
+
+            if(Data.get_users().Where(s=>s.Name == "BowmoreK").Count() == 0)
+            {
+                Data.user usr = new Data.user();
+                usr.Name = "BowmoreK";
+                usr.ID = "9327";
+                usr.admin = true;
+
+                Data.insert_user(usr);
+            }
 
             _client = new DiscordSocketClient();
             _commands = new CommandService();
