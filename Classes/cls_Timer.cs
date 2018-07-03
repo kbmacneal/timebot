@@ -8,7 +8,7 @@ namespace timebot.Classes
 {
     public class timer
     {
-        public SocketUser user {get;set;}
+        public SocketUser user { get; set; }
 
         public void StartTimer(int dueTime)
         {

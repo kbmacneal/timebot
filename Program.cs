@@ -38,7 +38,7 @@ namespace timebot
             return result;
         }
 
-        private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();        
+        private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();
 
         private DiscordSocketClient _client;
         private CommandService _commands;
@@ -52,7 +52,7 @@ namespace timebot
 
             //initialize the default admin
 
-            if(Data.get_users().Where(s=>s.Name == "BowmoreK").Count() == 0)
+            if (Data.get_users().Where(s => s.Name == "BowmoreK").Count() == 0)
             {
                 Data.user usr = new Data.user();
                 usr.Name = "BowmoreK";
@@ -73,7 +73,7 @@ namespace timebot
 
             await _client.LoginAsync(TokenType.Bot, botToken);
 
-            await _client.StartAsync();            
+            await _client.StartAsync();
 
             // var guild = _client.GetGuild(435921918152146945);
             // var user = guild.GetUser(_client.CurrentUser.Id);
