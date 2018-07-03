@@ -36,8 +36,9 @@ namespace timebot.Modules.Default
         public async Task AddspeakerAsync(SocketUser user)
         {
             Data.speaker spkr = new Data.speaker();
+            spkr.user = new Data.user();
             spkr.user.Name = user.Username;
-            spkr.user.ID = user.Discriminator;
+            spkr.user.Discriminator = user.Discriminator;
             spkr.user.admin = false;
             spkr.speaking_time_minutes = Data.get_speaking_time();
 
@@ -58,26 +59,44 @@ namespace timebot.Modules.Default
         {
 
             Data.speaker spkr = new Data.speaker();
-            spkr.user = Data.get_users().Where(s => s.Name == user.Username && s.ID == user.Discriminator).FirstOrDefault();
 
-            if (Data.get_users().Where(s => s.Name == user.Username && s.ID == user.Discriminator).Count() > 1)
-            {
-                Thread.Sleep(spkr.speaking_time_minutes * 60 * 1000);
-
-                await user.SendMessageAsync("You are out of time.");
-            }
-            else
+            if (!Data.is_speaker(user))
             {
                 await AddspeakerAsync(user);
 
-                spkr = new Data.speaker();
-                spkr.user = Data.get_users().Where(s => s.Name == user.Username && s.ID == user.Discriminator).FirstOrDefault();
-                
-                Thread.Sleep(spkr.speaking_time_minutes * 60 * 1000);
+                spkr = Data.get_speakers().Where(s => s.user.Name == user.Username && s.user.Discriminator == user.Discriminator).First();
 
-                await user.SendMessageAsync("You are out of time.");
+                spkr.start_time = DateTime.Now;
+
+                string msg = String.Concat("You are now the speaker. You have ", spkr.speaking_time_minutes, " minutes remaining");
+
+                await user.SendMessageAsync(msg);
+
+                timer tmr = new timer();
+
+                tmr.user = user;
+
+                tmr.StartTimer(spkr.speaking_time_minutes * 60 * 1000);
+            }
+            else
+            {
+                spkr = Data.get_speakers().Where(s => s.user.Name == user.Username && s.user.Discriminator == user.Discriminator).First();
+
+                spkr.start_time = DateTime.Now;
+
+                string msg = String.Concat("You are now the speaker. You have ", spkr.speaking_time_minutes, " minutes remaining");
+
+                await user.SendMessageAsync(msg);
+
+                timer tmr = new timer();
+
+                tmr.user = user;
+
+                tmr.StartTimer(spkr.speaking_time_minutes * 60 * 1000);
             }
         }
+
+
 
         //template
         // [Command ("")]

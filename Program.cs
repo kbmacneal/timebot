@@ -38,7 +38,7 @@ namespace timebot
             return result;
         }
 
-        private static void Main(string[] args) => new Program().RunBotAsync(args[0]).GetAwaiter().GetResult();
+        private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();
 
         
 
@@ -58,7 +58,7 @@ namespace timebot
             {
                 Data.user usr = new Data.user();
                 usr.Name = "BowmoreK";
-                usr.ID = "9327";
+                usr.Discriminator = "9327";
                 usr.admin = true;
 
                 Data.insert_user(usr);
@@ -195,7 +195,7 @@ namespace timebot
             timebot.Classes.Data.user usr = new timebot.Classes.Data.user();
 
             usr.Name = user.Username;
-            usr.ID = user.Discriminator;
+            usr.Discriminator = user.Discriminator;
 
 
             return timebot.Classes.Data.is_user_authorized(usr);
