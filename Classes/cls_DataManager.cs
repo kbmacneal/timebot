@@ -9,6 +9,7 @@ using System.Text;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System.Dynamic;
 
 namespace timebot.Classes
 {
@@ -109,9 +110,15 @@ namespace timebot.Classes
             var collection = store.GetCollection<speaker>();
 
             List<speaker> spkrs = get_speakers();
-            spkrs.ForEach(s => s.speaking_time_minutes = minutes);
 
-            spkrs.ForEach(s => collection.UpdateOneAsync(e => s.user == e.user, s));
+            foreach (speaker spkr in spkrs)
+            {
+                dynamic source = new ExpandoObject();
+                source.speaking_time_minutes = minutes;
+                collection.UpdateOne(e => e.user.Name == spkr.user.Name, source as object);
+            }
+
+
         }
 
         public static int get_speaking_time()
