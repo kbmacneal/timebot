@@ -38,9 +38,7 @@ namespace timebot
             return result;
         }
 
-        private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();
-
-        
+        private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();        
 
         private DiscordSocketClient _client;
         private CommandService _commands;
@@ -75,7 +73,13 @@ namespace timebot
 
             await _client.LoginAsync(TokenType.Bot, botToken);
 
-            await _client.StartAsync();
+            await _client.StartAsync();            
+
+            // var guild = _client.GetGuild(435921918152146945);
+            // var user = guild.GetUser(_client.CurrentUser.Id);
+            // await user.ModifyAsync(x => {
+            //     x.Nickname = "Arch Lector Frederick";
+            // });
 
             await Task.Delay(-1);
         }
