@@ -13,7 +13,7 @@ namespace timebot.Classes
         public void StartTimer(int dueTime)
         {
             Timer t = new Timer(new TimerCallback(TimerProc));
-            t.Change(dueTime, 0);
+            t.Change(dueTime, System.Threading.Timeout.Infinite);
         }
 
         private void TimerProc(object state)
