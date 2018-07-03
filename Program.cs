@@ -160,8 +160,17 @@ namespace timebot
 
                     SocketUser usr = _client.GetUser(username, disc);
 
+                    List<SocketUser> admins = new List<SocketUser>();
 
-                    await cmds.StarttimerAsync(usr);
+                    List<Data.user> admns = Data.get_users().Where(s => s.admin == true).ToList();
+
+                    foreach (Data.user admn in admns)
+                    {
+                        admins.Add(_client.GetUser(admn.Name, admn.Discriminator));
+                    }
+
+
+                    await cmds.StarttimerAsync(usr, admins);
                 }
 
                 if (fullcommand.StartsWith("tb!addspeaker"))

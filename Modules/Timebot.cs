@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using System.Threading;
 using timebot.Classes;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace timebot.Modules.Default
 {
@@ -55,7 +57,7 @@ namespace timebot.Modules.Default
             await user.SendMessageAsync("Speaking times have been reset");
         }
 
-        public async Task StarttimerAsync(SocketUser user)
+        public async Task StarttimerAsync(SocketUser user, List<SocketUser> admins)
         {
 
             Data.speaker spkr = new Data.speaker();
@@ -76,6 +78,8 @@ namespace timebot.Modules.Default
 
                 tmr.user = user;
 
+                tmr.admins = admins;
+
                 tmr.StartTimer(spkr.speaking_time_minutes * 60 * 1000);
             }
             else
@@ -91,6 +95,8 @@ namespace timebot.Modules.Default
                 timer tmr = new timer();
 
                 tmr.user = user;
+
+                tmr.admins = admins;
 
                 tmr.StartTimer(spkr.speaking_time_minutes * 60 * 1000);
             }

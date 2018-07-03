@@ -3,12 +3,16 @@ using System.Threading;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace timebot.Classes
 {
     public class timer
     {
         public SocketUser user { get; set; }
+        public List<SocketUser> admins {get;set;}
 
         public void StartTimer(int dueTime)
         {
@@ -28,6 +32,8 @@ namespace timebot.Classes
 
         {
             this.user.SendMessageAsync("You are out of time.");
+
+            this.admins.ForEach(s=>s.SendMessageAsync("The speaker is out of time."));
         }
     }
 }
