@@ -75,12 +75,6 @@ namespace timebot
 
             await _client.StartAsync();
 
-            // var guild = _client.GetGuild(435921918152146945);
-            // var user = guild.GetUser(_client.CurrentUser.Id);
-            // await user.ModifyAsync(x => {
-            //     x.Nickname = "Arch Lector Frederick";
-            // });
-
             await Task.Delay(-1);
         }
 
@@ -213,21 +207,5 @@ namespace timebot
 
             return timebot.Classes.Data.is_user_authorized(usr);
         }
-
-        //helper method for manipulating strings to be in the right format for generic method section above
-        public static string FirstCharToUpper(string s)
-        {
-            // Check for empty string.
-            if (string.IsNullOrEmpty(s))
-            {
-                return string.Empty;
-            }
-            // Return char and concat substring.
-            return char.ToUpper(s[0]) + s.Substring(1);
-        }
-
-
-
-
     }
 }
