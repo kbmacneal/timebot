@@ -133,6 +133,18 @@ namespace timebot.Classes
             }
 
         }
+
+        public static speaker GuilduserToSpeaker (IGuildUser user)
+        {
+            Data.speaker spkr = new Data.speaker();
+            spkr.user = new Data.user();
+            spkr.user.Name = user.Username;
+            spkr.user.Discriminator = user.Discriminator;
+            spkr.user.admin = false;
+            spkr.speaking_time_minutes = Data.get_speaking_time();
+
+            return spkr;
+        }
     }
 
 }
