@@ -34,7 +34,7 @@ namespace timebot.Modules.Commnads
             await Context.User.SendMessageAsync(String.Concat("```Here are the commands available" + System.Environment.NewLine +
                 "tb!ping : Make sure the bot is alive" + System.Environment.NewLine +
                 "tb!changedefaults#: Change the default speaking time" + System.Environment.NewLine +
-                "tb!starttimerName#Disc: start a timer for a specific person" + System.Environment.NewLine + "tb!addspeakerName#Disc: adds a speaker to the list" + System.Environment.NewLine + "```"));
+                "tb!starttimer @mention: start a timer for a specific person" + System.Environment.NewLine + "tb!addspeaker @mention: adds a speaker to the list" + System.Environment.NewLine + "```"));
         }
 
         [Command("addspeaker")]
