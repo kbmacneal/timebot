@@ -17,27 +17,6 @@ namespace timebot
     internal class Program
     {
 
-        private static string Bash(string cmd)
-        {
-            var escapedArgs = cmd.Replace("\"", "\\\"");
-
-            var process = new Process()
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    Arguments = $"-c \"{escapedArgs}\"",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                }
-            };
-            process.Start();
-            string result = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-            return result;
-        }
-
         private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();
 
         private DiscordSocketClient _client;
@@ -75,6 +54,8 @@ namespace timebot
 
             await _client.StartAsync();
 
+            await _client.SetGameAsync("World Domination", null, StreamType.NotStreaming);
+
             await Task.Delay(-1);
         }
 
@@ -88,6 +69,7 @@ namespace timebot
         {
             _client.MessageReceived += HandleCommandAsync;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
+
         }
 
         private async Task HandleCommandAsync(SocketMessage arg)
@@ -110,15 +92,8 @@ namespace timebot
 
                 await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
 
-                //useful variables to hold the message content and the command that was sent for later
-                string fullcommand = message.Content;
-
-                string command = fullcommand.Replace(msg_prefix, "");
-
-                SocketGuildUser user = (message.Author as SocketGuildUser);
-
                 //check if the user is authorized to send the message that they did, using the prefix binding SortedDictionary above
-                bool isAuthorized = CheckAuthorization(user);
+                bool isAuthorized = CheckAuthorization((SocketGuildUser)message.Author);
 
                 if (!isAuthorized)
                 {
@@ -128,61 +103,16 @@ namespace timebot
                     return;
                 }
 
-                timebot.Modules.Default.commands cmds = new timebot.Modules.Default.commands();
-
-                if (fullcommand.StartsWith("tb!ping"))
+                int argPosition = 0;
+                if (message.HasStringPrefix("tb!", ref argPosition) || message.HasMentionPrefix(_client.CurrentUser, ref argPosition))
                 {
-                    await cmds.PingAsync(user);
-                }
+                    var context = new SocketCommandContext(_client, message);
 
-                if (fullcommand.StartsWith("tb!changedefaults"))
-                {
-                    string[] split = fullcommand.Split("changedefaults");
-
-                    int newminutes = Convert.ToInt32(split[1]);
-
-                    await cmds.changedefaults(user, newminutes);
-                }
-
-                if (fullcommand.StartsWith("tb!starttimer"))
-                {
-                    string[] split = fullcommand.Split("starttimer");
-
-                    string username = split[1].Split("#")[0];
-                    string disc = split[1].Split("#")[1];
-
-
-                    SocketUser usr = _client.GetUser(username, disc);
-
-                    List<SocketUser> admins = new List<SocketUser>();
-
-                    List<Data.user> admns = Data.get_users().Where(s => s.admin == true).ToList();
-
-                    foreach (Data.user admn in admns)
+                    var result = await _commands.ExecuteAsync(context, argPosition, _services);
+                    if (!result.IsSuccess)
                     {
-                        admins.Add(_client.GetUser(admn.Name, admn.Discriminator));
+                        Console.WriteLine(result.ErrorReason);
                     }
-
-
-                    await cmds.StarttimerAsync(usr, admins);
-                }
-
-                if (fullcommand.StartsWith("tb!addspeaker"))
-                {
-                    string[] split = fullcommand.Split("addspeaker");
-
-                    string username = split[1].Split("#")[0];
-                    string disc = split[1].Split("#")[1];
-
-
-                    SocketUser usr = _client.GetUser(username, disc);
-
-
-                    await cmds.AddspeakerAsync(usr);
-                }
-                if (fullcommand.StartsWith("tb!commands"))
-                {
-                    await cmds.CommandsAsync(user);
                 }
             }
 

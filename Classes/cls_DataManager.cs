@@ -50,7 +50,7 @@ namespace timebot.Classes
             return store.GetCollection<speaker>().AsQueryable().ToList();
         }
 
-        public static Boolean is_speaker(SocketUser user)
+        public static Boolean is_speaker(IGuildUser user)
         {
 
             // Open database (create new if file doesn't exist)

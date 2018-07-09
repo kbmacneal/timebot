@@ -10,7 +10,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace timebot.Modules.Default
+namespace timebot.Modules.Commnads
 {
 
     public class commands : ModuleBase<SocketCommandContext>
@@ -21,21 +21,24 @@ namespace timebot.Modules.Default
             await user.SendMessageAsync(message);
         }
 
-        public async Task PingAsync(SocketUser user)
+        [Command("ping")]
+        public async Task PingAsync()
         {
-            await user.SendMessageAsync("Pong!");
+            await Context.User.SendMessageAsync("Pong!");
         }
 
-        public async Task CommandsAsync(SocketUser user)
+        [Command("commands")]
+        public async Task CommandsAsync()
         {
 
-            await user.SendMessageAsync(String.Concat("```Here are the commands available" + System.Environment.NewLine +
+            await Context.User.SendMessageAsync(String.Concat("```Here are the commands available" + System.Environment.NewLine +
                 "tb!ping : Make sure the bot is alive" + System.Environment.NewLine +
                 "tb!changedefaults#: Change the default speaking time" + System.Environment.NewLine +
                 "tb!starttimerName#Disc: start a timer for a specific person" + System.Environment.NewLine + "tb!addspeakerName#Disc: adds a speaker to the list" + System.Environment.NewLine + "```"));
         }
 
-        public async Task AddspeakerAsync(SocketUser user)
+        [Command("addspeaker")]
+        public async Task AddspeakerAsync(IGuildUser user)
         {
             Data.speaker spkr = new Data.speaker();
             spkr.user = new Data.user();
@@ -47,17 +50,19 @@ namespace timebot.Modules.Default
             Data.insert_user(spkr.user);
             Data.insert_speaker(spkr);
 
-            await user.SendMessageAsync("You have been added as a speaker");
+            await Context.User.SendMessageAsync("You have been added as a speaker");
         }
 
-        public async Task changedefaults(SocketUser user, int minutes)
+        [Command("changedefaults")]
+        public async Task changedefaults(int minutes)
         {
             Data.reset_speaking_time(minutes);
 
-            await user.SendMessageAsync("Speaking times have been reset");
+            await Context.User.SendMessageAsync("Speaking times have been reset");
         }
 
-        public async Task StarttimerAsync(SocketUser user, List<SocketUser> admins)
+        [Command("starttimer")]
+        public async Task StarttimerAsync(IGuildUser user)
         {
 
             Data.speaker spkr = new Data.speaker();
@@ -78,8 +83,6 @@ namespace timebot.Modules.Default
 
                 tmr.user = user;
 
-                tmr.admins = admins;
-
                 tmr.StartTimer(spkr.speaking_time_minutes * 60 * 1000);
             }
             else
@@ -95,8 +98,6 @@ namespace timebot.Modules.Default
                 timer tmr = new timer();
 
                 tmr.user = user;
-
-                tmr.admins = admins;
 
                 tmr.StartTimer(spkr.speaking_time_minutes * 60 * 1000);
             }
