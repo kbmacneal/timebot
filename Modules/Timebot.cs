@@ -16,6 +16,15 @@ namespace timebot.Modules.Commnads
     public class commands : ModuleBase<SocketCommandContext>
     {
 
+        [Command("setbotusername")]
+        public async Task SetBotUserName()
+        {
+            var guild = Context.Client.GetGuild(Context.Guild.Id);
+            var user = guild.GetUser(Context.Client.CurrentUser.Id);
+
+            await user.ModifyAsync(e=> e.Nickname="Arch Lector Frederick of Timebot", null);
+        }
+
         public async Task SendPMAsync(string message, SocketUser user)
         {
             await user.SendMessageAsync(message);
