@@ -145,6 +145,29 @@ namespace timebot.Classes
 
             return spkr;
         }
+
+        public static void Adduser(IGuildUser user, bool admin_tf)
+        {
+            user usr = new user();
+
+            usr.Name = user.Username;
+            usr.Discriminator = user.Discriminator;
+            usr.admin = admin_tf;
+
+            insert_user(usr);
+        }
+
+        public static void set_user_as_admin(IGuildUser user)
+        {
+            var store = new DataStore("data.json");
+
+            // Get employee collection
+            var collection = store.GetCollection<user>();
+            
+            dynamic source = new ExpandoObject();
+            source.admin = true;
+            collection.UpdateOne(e => e.Name == user.Username && e.Discriminator == user.Discriminator, source as object);            
+        }
     }
 
 }

@@ -22,7 +22,7 @@ namespace timebot.Modules.Commnads
             var guild = Context.Client.GetGuild(Context.Guild.Id);
             var user = guild.GetUser(Context.Client.CurrentUser.Id);
 
-            await user.ModifyAsync(e=> e.Nickname="Arch Lector Frederick of Timebot", null);
+            await user.ModifyAsync(e => e.Nickname = "Arch Lector Frederick of Timebot", null);
 
             await Context.User.SendMessageAsync("Username changed");
         }
@@ -44,9 +44,32 @@ namespace timebot.Modules.Commnads
 
             await Context.User.SendMessageAsync(String.Concat("```Here are the commands available" + System.Environment.NewLine +
                 "tb!ping : Make sure the bot is alive" + System.Environment.NewLine +
+                "tb!commands you're using it right now!" + System.Environment.NewLine +
+                "tb!addadmin @mention adds a user as a bot admin" + System.Environment.NewLine +
                 "tb!changedefaults#: Change the default speaking time" + System.Environment.NewLine +
-                "tb!starttimer @mention: start a timer for a specific person" + System.Environment.NewLine + 
+                "tb!setbotusername: Initializes the bot's username and state" + System.Environment.NewLine +
+                "tb!starttimer @mention: start a timer for a specific person" + System.Environment.NewLine +
                 "tb!addspeaker @mention: adds a speaker to the list" + System.Environment.NewLine + "```"));
+        }
+
+        [Command("addadmin")]
+        public async Task AddadminAsync(IGuildUser user)
+        {
+            Data.user usr = new Data.user();
+
+            List<Data.user> users = Data.get_users();
+
+            if (users.Where(e => e.Name == user.Username && e.Discriminator == user.Discriminator).Count() > 0)
+            {
+                Data.set_user_as_admin(user);
+            }
+            else
+            {
+                Data.Adduser(user,true);
+            }
+
+            await Context.User.SendMessageAsync("User is now admin");
+
         }
 
         [Command("addspeaker")]
