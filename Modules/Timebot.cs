@@ -23,6 +23,8 @@ namespace timebot.Modules.Commnads
             var user = guild.GetUser(Context.Client.CurrentUser.Id);
 
             await user.ModifyAsync(e=> e.Nickname="Arch Lector Frederick of Timebot", null);
+
+            await Context.User.SendMessageAsync("Username changed");
         }
 
         public async Task SendPMAsync(string message, SocketUser user)
