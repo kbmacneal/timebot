@@ -53,8 +53,6 @@ namespace timebot.Modules.Commnads
         public async Task AddspeakerAsync(IGuildUser user)
         {
             Data.speaker spkr = Data.GuilduserToSpeaker(user);
-
-            Data.insert_user(spkr.user);
             Data.insert_speaker(spkr);
 
             await Context.User.SendMessageAsync("You have been added as a speaker");
