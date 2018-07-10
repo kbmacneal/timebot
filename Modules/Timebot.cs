@@ -15,14 +15,27 @@ namespace timebot.Modules.Commnads
 
     public class commands : ModuleBase<SocketCommandContext>
     {
+        [Command("stopbot")]
+        public async Task StopbotAsync()
+        {
+            await Context.Client.LogoutAsync();
+            await Context.Client.StopAsync();
+            Context.Client.Dispose();
+        }
+
 
         [Command("setbotusername")]
         public async Task SetBotUserName()
         {
             var guild = Context.Client.GetGuild(Context.Guild.Id);
+
             var user = guild.GetUser(Context.Client.CurrentUser.Id);
 
             await user.ModifyAsync(e => e.Nickname = "Arch Lector Frederick of Timebot", null);
+
+            await Context.Client.SetStatusAsync(UserStatus.Online);
+
+            await Context.Client.SetGameAsync("World Domination", null, StreamType.NotStreaming);
 
             await Context.User.SendMessageAsync("Username changed");
         }
@@ -44,10 +57,11 @@ namespace timebot.Modules.Commnads
 
             await Context.User.SendMessageAsync(String.Concat("```Here are the commands available" + System.Environment.NewLine +
                 "tb!ping : Make sure the bot is alive" + System.Environment.NewLine +
-                "tb!commands you're using it right now!" + System.Environment.NewLine +
-                "tb!addadmin @mention adds a user as a bot admin" + System.Environment.NewLine +
+                "tb!commands: you're using it right now!" + System.Environment.NewLine +
+                "tb!addadmin @mention: adds a user as a bot admin" + System.Environment.NewLine +
                 "tb!changedefaults#: Change the default speaking time" + System.Environment.NewLine +
-                "tb!setbotusername: Initializes the bot's username and state" + System.Environment.NewLine +
+                "tb!setbotusername: Initializes the bot's nickname and state" + System.Environment.NewLine +
+                "tb!stopbot: PERMANENTLY STOPS THE BOT. Only Pelax should use this." + System.Environment.NewLine +
                 "tb!starttimer @mention: start a timer for a specific person" + System.Environment.NewLine +
                 "tb!addspeaker @mention: adds a speaker to the list" + System.Environment.NewLine + "```"));
         }
@@ -65,7 +79,7 @@ namespace timebot.Modules.Commnads
             }
             else
             {
-                Data.Adduser(user,true);
+                Data.Adduser(user, true);
             }
 
             await Context.User.SendMessageAsync("User is now admin");

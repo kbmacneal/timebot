@@ -54,8 +54,6 @@ namespace timebot
 
             await _client.StartAsync();
 
-            await _client.SetGameAsync("World Domination", null, StreamType.NotStreaming);
-
             await Task.Delay(-1);
         }
 
