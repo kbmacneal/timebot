@@ -94,7 +94,7 @@ namespace timebot.Modules.Commands
             Data.speaker spkr = Data.GuilduserToSpeaker(user);
             Data.insert_speaker(spkr);
 
-            await ReplyAsync("You have been added as a speaker");
+            await ReplyAsync("User been added as a speaker");
         }
 
         [Command("changedefaults")]
