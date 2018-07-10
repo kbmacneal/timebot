@@ -18,6 +18,8 @@ namespace timebot.Modules.Commnads
         [Command("stopbot")]
         public async Task StopbotAsync()
         {
+            var bot_chan = Context.Guild.Channels.Where(e=>e.Name.StartsWith("bot"));
+            await Context.Channel.SendMessageAsync("The bot is shutting down.");
             await Context.Client.LogoutAsync();
             await Context.Client.StopAsync();
             Context.Client.Dispose();
