@@ -17,11 +17,10 @@ namespace timebot.Modules.Commands
     {
         [Command("stopbot")]
         public async Task StopbotAsync()
-        {
-            var bot_chan = Context.Guild.Channels.Where(e=>e.Name.StartsWith("bot"));
+        {;
             await ReplyAsync("The bot is shutting down.");
-            await Context.Client.LogoutAsync();
-            await Context.Client.StopAsync();
+            Context.Client.LogoutAsync().GetAwaiter().GetResult();
+            Context.Client.StopAsync().GetAwaiter().GetResult();
             Context.Client.Dispose();
         }
 
