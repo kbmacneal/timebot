@@ -10,7 +10,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace timebot.Modules.Commnads
+namespace timebot.Modules.Commands
 {
 
     public class commands : ModuleBase<SocketCommandContext>
