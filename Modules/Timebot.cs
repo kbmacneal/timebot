@@ -19,7 +19,7 @@ namespace timebot.Modules.Commnads
         public async Task StopbotAsync()
         {
             var bot_chan = Context.Guild.Channels.Where(e=>e.Name.StartsWith("bot"));
-            await Context.Channel.SendMessageAsync("The bot is shutting down.");
+            await ReplyAsync("The bot is shutting down.");
             await Context.Client.LogoutAsync();
             await Context.Client.StopAsync();
             Context.Client.Dispose();
@@ -39,7 +39,7 @@ namespace timebot.Modules.Commnads
 
             await Context.Client.SetGameAsync("World Domination", null, StreamType.NotStreaming);
 
-            await Context.User.SendMessageAsync("Username changed");
+            await ReplyAsync("Username changed");
         }
 
         public async Task SendPMAsync(string message, SocketUser user)
@@ -50,14 +50,14 @@ namespace timebot.Modules.Commnads
         [Command("ping")]
         public async Task PingAsync()
         {
-            await Context.User.SendMessageAsync("Pong!");
+            await ReplyAsync("Pong!");
         }
 
         [Command("commands")]
         public async Task CommandsAsync()
         {
 
-            await Context.User.SendMessageAsync(String.Concat("```Here are the commands available" + System.Environment.NewLine +
+            await ReplyAsync(String.Concat("```Here are the commands available" + System.Environment.NewLine +
                 "tb!ping : Make sure the bot is alive" + System.Environment.NewLine +
                 "tb!commands: you're using it right now!" + System.Environment.NewLine +
                 "tb!addadmin @mention: adds a user as a bot admin" + System.Environment.NewLine +
@@ -84,7 +84,7 @@ namespace timebot.Modules.Commnads
                 Data.Adduser(user, true);
             }
 
-            await Context.User.SendMessageAsync("User is now admin");
+            await ReplyAsync("User is now admin");
 
         }
 
@@ -94,7 +94,7 @@ namespace timebot.Modules.Commnads
             Data.speaker spkr = Data.GuilduserToSpeaker(user);
             Data.insert_speaker(spkr);
 
-            await Context.User.SendMessageAsync("You have been added as a speaker");
+            await ReplyAsync("You have been added as a speaker");
         }
 
         [Command("changedefaults")]
@@ -102,7 +102,7 @@ namespace timebot.Modules.Commnads
         {
             Data.reset_speaking_time(minutes);
 
-            await Context.User.SendMessageAsync("Speaking times have been reset");
+            await ReplyAsync("Speaking times have been reset");
         }
 
         [Command("starttimer")]
