@@ -56,15 +56,23 @@ namespace timebot.Modules.Commands
         public async Task CommandsAsync()
         {
 
-            await ReplyAsync(String.Concat("```Here are the commands available" + System.Environment.NewLine +
-                "tb!ping : Make sure the bot is alive" + System.Environment.NewLine +
-                "tb!commands: you're using it right now!" + System.Environment.NewLine +
-                "tb!addadmin @mention: adds a user as a bot admin" + System.Environment.NewLine +
-                "tb!changedefaults#: Change the default speaking time" + System.Environment.NewLine +
-                "tb!setbotusername: Initializes the bot's nickname and state" + System.Environment.NewLine +
-                "tb!stopbot: PERMANENTLY STOPS THE BOT. Only Pelax should use this." + System.Environment.NewLine +
-                "tb!starttimer @mention: start a timer for a specific person" + System.Environment.NewLine +
-                "tb!addspeaker @mention: adds a speaker to the list" + System.Environment.NewLine + "```"));
+            List<string> rtn_message = new List<string>();
+
+            rtn_message.Add("```");
+            rtn_message.Add("Here are the commands available");
+            rtn_message.Add("tb!ping : Make sure the bot is alive");
+            rtn_message.Add("tb!commands: you're using it right now!");
+            rtn_message.Add("tb!addadmin @mention: adds a user as a bot admin");
+            rtn_message.Add("tb!changedefaults#: Change the default speaking time");
+            rtn_message.Add("tb!setbotusername: Initializes the bot's nickname and state");
+            rtn_message.Add("tb!stopbot: PERMANENTLY STOPS THE BOT. Only Pelax should use this.");
+            rtn_message.Add("tb!starttimer @mention: start a timer for a specific person");
+            rtn_message.Add("tb!addspeaker @mention: adds a speaker to the list");
+            rtn_message.Add("tb!listfaction: List the factions available to be added to");
+            rtn_message.Add("tb!addfaction \"Faction Name with Spaces\": adds a speaker to the faction");
+            rtn_message.Add("```");
+
+            await ReplyAsync(String.Join(System.Environment.NewLine,rtn_message));
         }
 
         [Command("addadmin")]
