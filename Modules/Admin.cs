@@ -30,7 +30,6 @@ namespace timebot.Modules.Commands
             bad_requests.Add("14 Red Dogs Triad");
             bad_requests.Add("The Trilliant Ring");
             bad_requests.Add("PRISM");
-            bad_requests.Add("House Pyxis");
             bad_requests.Add("Timebot");
             bad_requests.Add("Bots");
             bad_requests.Add("ACRE");
@@ -55,7 +54,6 @@ namespace timebot.Modules.Commands
             bad_requests.Add("14 Red Dogs Triad");
             bad_requests.Add("The Trilliant Ring");
             bad_requests.Add("PRISM");
-            bad_requests.Add("House Pyxis");
             bad_requests.Add("Timebot");
             bad_requests.Add("Bots");
             bad_requests.Add("ACRE");
