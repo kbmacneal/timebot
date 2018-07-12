@@ -23,13 +23,8 @@ namespace timebot.Modules.Commands
             "Speaker",
             "Observer",
             "Moderator",
-            "Church of Humanity Repentant",
-            "14 Red Dogs Triad",
-            "The Trilliant Ring",
-            "PRISM",
             "Timebot",
-            "Bots",
-            "ACRE"
+            "Bots"
         };
 
         [Command("listfaction")]
