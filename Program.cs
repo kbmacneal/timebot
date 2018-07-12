@@ -93,7 +93,7 @@ namespace timebot
                 //check if the user is authorized to send the message that they did, using the prefix binding SortedDictionary above
                 bool isAuthorized = CheckAuthorization((SocketGuildUser)message.Author);
 
-                if (!isAuthorized)
+                if (!isAuthorized && !message.Content.Contains("faction"))
                 {
                     //if not authorized, drop out before any message is processed 
                     await SendPMAsync("You are not authorized to control the timebot. Send a message to an administrator to request access.", message.Author);
