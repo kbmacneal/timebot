@@ -17,7 +17,7 @@ namespace timebot.Modules.Commands
     public class Admin : ModuleBase<SocketCommandContext>
     {
 
-        public string[] bad_requests {get;set;} = 
+        public string[] bad_requests {get;} = 
         {
             "@everyone",
             "Speaker",
