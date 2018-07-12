@@ -22,12 +22,20 @@ namespace timebot.Modules.Commands
         {
             List<string> bad_requests = new List<string>();
 
-            bad_requests.Add("everyone");
+            bad_requests.Add("@everyone");
             bad_requests.Add("Houses Minor");
             bad_requests.Add("Houses Major");
             bad_requests.Add("Speaker");
             bad_requests.Add("Observer");
             bad_requests.Add("Moderator");
+            bad_requests.Add("Church of Humanity Repentant");
+            bad_requests.Add("14 Red Dogs Triad");
+            bad_requests.Add("The Trilliant Ring");
+            bad_requests.Add("PRISM");
+            bad_requests.Add("House Pyxis");
+            bad_requests.Add("Timebot");
+            bad_requests.Add("Bots");
+            bad_requests.Add("ACRE");
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
@@ -41,12 +49,20 @@ namespace timebot.Modules.Commands
         {
             List<string> bad_requests = new List<string>();
 
-            bad_requests.Add("everyone");
+            bad_requests.Add("@everyone");
             bad_requests.Add("Houses Minor");
             bad_requests.Add("Houses Major");
             bad_requests.Add("Speaker");
             bad_requests.Add("Observer");
             bad_requests.Add("Moderator");
+            bad_requests.Add("Church of Humanity Repentant");
+            bad_requests.Add("14 Red Dogs Triad");
+            bad_requests.Add("The Trilliant Ring");
+            bad_requests.Add("PRISM");
+            bad_requests.Add("House Pyxis");
+            bad_requests.Add("Timebot");
+            bad_requests.Add("Bots");
+            bad_requests.Add("ACRE");
 
             if(bad_requests.Any(faction.Contains))
             {
