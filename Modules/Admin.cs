@@ -17,7 +17,7 @@ namespace timebot.Modules.Commands
     public class Admin : ModuleBase<SocketCommandContext>
     {
 
-        public string[] bad_requests {get;} = 
+        public string[] bad_requests { get; } =
         {
             "@everyone",
             "Speaker",
@@ -34,7 +34,7 @@ namespace timebot.Modules.Commands
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
-            string rtn_message = String.Join(System.Environment.NewLine, roles.Where(e=>!bad_requests.Contains(e.Name)).OrderBy(e=>e.Name));
+            string rtn_message = String.Join(System.Environment.NewLine, roles.Where(e => !bad_requests.Contains(e.Name)).OrderBy(e => e.Name));
 
             await ReplyAsync(rtn_message);
         }
@@ -44,7 +44,7 @@ namespace timebot.Modules.Commands
         {
             List<string> bad_requests = this.bad_requests.ToList();
 
-            if(bad_requests.Any(faction.Contains))
+            if (bad_requests.Any(faction.Contains))
             {
                 await ReplyAsync("Invalid Request");
                 return;
@@ -54,13 +54,13 @@ namespace timebot.Modules.Commands
 
             SocketGuildUser user = (SocketGuildUser)Context.User;
 
-            if(roles.Where(e=>e.Name == faction).FirstOrDefault() == null)
+            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
             {
                 await ReplyAsync("Faction selection not valid");
                 return;
             }
 
-            await user.AddRoleAsync(roles.Where(e=>e.Name == faction).FirstOrDefault(), null);
+            await user.AddRoleAsync(roles.Where(e => e.Name == faction).FirstOrDefault(), null);
 
             await ReplyAsync("Role Added");
             return;
