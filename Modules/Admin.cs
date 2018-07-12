@@ -23,8 +23,6 @@ namespace timebot.Modules.Commands
             List<string> bad_requests = new List<string>();
 
             bad_requests.Add("@everyone");
-            bad_requests.Add("Houses Minor");
-            bad_requests.Add("Houses Major");
             bad_requests.Add("Speaker");
             bad_requests.Add("Observer");
             bad_requests.Add("Moderator");
@@ -50,8 +48,6 @@ namespace timebot.Modules.Commands
             List<string> bad_requests = new List<string>();
 
             bad_requests.Add("@everyone");
-            bad_requests.Add("Houses Minor");
-            bad_requests.Add("Houses Major");
             bad_requests.Add("Speaker");
             bad_requests.Add("Observer");
             bad_requests.Add("Moderator");
