@@ -17,22 +17,25 @@ namespace timebot.Modules.Commands
     public class Admin : ModuleBase<SocketCommandContext>
     {
 
+        public string[] bad_requests {get;set;} = 
+        {
+            "@everyone",
+            "Speaker",
+            "Observer",
+            "Moderator",
+            "Church of Humanity Repentant",
+            "14 Red Dogs Triad",
+            "The Trilliant Ring",
+            "PRISM",
+            "Timebot",
+            "Bots",
+            "ACRE"
+        };
+
         [Command("listfaction")]
         public async Task ListfactionAsync()
         {
-            List<string> bad_requests = new List<string>();
-
-            bad_requests.Add("@everyone");
-            bad_requests.Add("Speaker");
-            bad_requests.Add("Observer");
-            bad_requests.Add("Moderator");
-            bad_requests.Add("Church of Humanity Repentant");
-            bad_requests.Add("14 Red Dogs Triad");
-            bad_requests.Add("The Trilliant Ring");
-            bad_requests.Add("PRISM");
-            bad_requests.Add("Timebot");
-            bad_requests.Add("Bots");
-            bad_requests.Add("ACRE");
+            List<string> bad_requests = this.bad_requests.ToList();
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
@@ -44,19 +47,7 @@ namespace timebot.Modules.Commands
         [Command("addfaction")]
         public async Task AddfactionAsync(string faction)
         {
-            List<string> bad_requests = new List<string>();
-
-            bad_requests.Add("@everyone");
-            bad_requests.Add("Speaker");
-            bad_requests.Add("Observer");
-            bad_requests.Add("Moderator");
-            bad_requests.Add("Church of Humanity Repentant");
-            bad_requests.Add("14 Red Dogs Triad");
-            bad_requests.Add("The Trilliant Ring");
-            bad_requests.Add("PRISM");
-            bad_requests.Add("Timebot");
-            bad_requests.Add("Bots");
-            bad_requests.Add("ACRE");
+            List<string> bad_requests = this.bad_requests.ToList();
 
             if(bad_requests.Any(faction.Contains))
             {
