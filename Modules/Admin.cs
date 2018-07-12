@@ -34,7 +34,7 @@ namespace timebot.Modules.Commands
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
-            string rtn_message = String.Join(System.Environment.NewLine, roles.Where(e=>!bad_requests.Contains(e.Name)));
+            string rtn_message = String.Join(System.Environment.NewLine, roles.Where(e=>!bad_requests.Contains(e.Name)).OrderBy(e=>e.Name));
 
             await ReplyAsync(rtn_message);
         }
