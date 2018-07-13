@@ -24,7 +24,11 @@ namespace timebot.Modules.Commands
             "Observer",
             "Moderator",
             "Timebot",
-            "Bots"
+            "Bots",
+            "admin",
+            "church_member",
+            "inquisitor",
+            "churchbot"
         };
 
         [Command("listfaction")]
