@@ -6,15 +6,15 @@ using Discord.WebSocket;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using JsonFlatFileDataStore;
 
 namespace timebot.Classes
 {
     public class Bingo
     {
-        public Dictionary<char, List<int>> bingo_card { get; set; }
         public char[] letters { get; } = { 'B', 'I', 'N', 'G', 'O' };
-        public List<SocketGuildUser> Participants { get; set; }
         public bool bingo { get; set; } = false;
+        public SocketGuildUser winner {get;set;}
         public Dictionary<char, List<int>> Gen_Card()
         {
             Dictionary<char, List<int>> bingo_card = new Dictionary<char, List<int>>();
@@ -50,6 +50,36 @@ namespace timebot.Classes
 
             return bingo_card;
 
+        }
+
+        public void add_participant(SocketGuildUser user)
+        {
+            // Open database (create new if file doesn't exist)
+            var store = new DataStore("data.json");
+
+            // Get employee collection
+            var collection = store.GetCollection<SocketGuildUser>();
+
+            collection.InsertOne(user);
+
+            store.Dispose();
+        }
+
+        public List<SocketGuildUser> get_participants()
+        {
+            // Open database (create new if file doesn't exist)
+            var store = new DataStore("data.json");
+
+            // Get employee collection
+            return store.GetCollection<SocketGuildUser>().AsQueryable().ToList();
+        }
+
+        public void clear_participants()
+        {
+            // Open database (create new if file doesn't exist)
+            var store = new DataStore("data.json");
+
+            store.GetCollection<SocketGuildUser>().DeleteManyAsync(e=>e.Nickname!="");
         }
 
         public string call_next()
@@ -114,19 +144,6 @@ namespace timebot.Classes
             string rtn_message = String.Join(System.Environment.NewLine, message);
 
             usr.SendMessageAsync(rtn_message, false, null, null);
-        }
-
-        public void StartTimer(int dueTime)
-        {
-            Timer t = new Timer(new TimerCallback(TimerProc));
-            t.Change(dueTime, System.Threading.Timeout.Infinite);
-        }
-
-        private void TimerProc(object state)
-        {
-            // The state object is the Timer object.
-            Timer t = (Timer)state;
-            t.Dispose();
         }
     }
 
