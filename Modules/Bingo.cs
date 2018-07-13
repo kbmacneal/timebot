@@ -70,6 +70,8 @@ namespace timebot.Modules.Commands
 
             await ReplyAsync("Winner is " + bingo.winner.Nickname.ToString());
 
+            bingo.clear_participants();
+
         }
 
         [Command("playwinner")]
