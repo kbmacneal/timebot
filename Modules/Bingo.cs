@@ -33,7 +33,7 @@ namespace timebot.Modules.Commands
             t.Dispose();
         }
 
-        void WaitUntilCompleted(Timer timer)
+        private void WaitUntilCompleted(Timer timer)
         {
             List<WaitHandle> waitHnd = new List<WaitHandle>();
             WaitHandle h = new AutoResetEvent(false);
@@ -54,7 +54,7 @@ namespace timebot.Modules.Commands
 
             foreach (participant part in bingo.get_participants(Context.Message.Channel.Id))
             {
-                bingo.print_card(part.part,bingo.Gen_Card());
+                bingo.print_card(part.part, bingo.Gen_Card());
             }
 
             StartTimer(1 * 60 * 1000).GetAwaiter().GetResult();
@@ -62,22 +62,21 @@ namespace timebot.Modules.Commands
             await ReplyAsync("Beginning Game");
             await ReplyAsync("To declare yourself the winner, use the command tb!playwinner");
 
-            while(!bingo.bingo && !bingo.stopped)
+            while (!bingo.bingo && !bingo.stopped)
             {
                 await ReplyAsync(bingo.call_next());
                 StartTimer((int)(0.25 * 60.00 * 1000.00)).GetAwaiter().GetResult();
             }
 
-            if(bingo.bingo) await ReplyAsync("Winner is " + bingo.get_winner(Context.Message.Channel.Id).part.Nickname.ToString());
+            if (bingo.bingo) await ReplyAsync("Winner is " + bingo.get_winner(Context.Message.Channel.Id).part.Nickname.ToString());
 
             bingo.clear_participants(Context.Message.Channel.Id);
 
         }
 
         [Command("playwinner")]
-        public async Task PlaywinnerAsync()
+        public void PlaywinnerAsync()
         {
-
             bingo.make_winner((SocketGuildUser)Context.Message.Author);
         }
 

@@ -15,15 +15,15 @@ namespace timebot.Classes
 {
     public class participant
     {
-        public ulong channel_id{get;set;}
-        public SocketGuildUser part{get;set;}
-        public bool winner {get;set;}
+        public ulong channel_id { get; set; }
+        public SocketGuildUser part { get; set; }
+        public bool winner { get; set; }
     }
     public class Bingo
     {
         public char[] letters { get; } = { 'B', 'I', 'N', 'G', 'O' };
         public bool bingo { get; set; } = false;
-        public bool stopped{get;set;} = false;
+        public bool stopped { get; set; } = false;
         public Dictionary<char, List<int>> Gen_Card()
         {
             Dictionary<char, List<int>> bingo_card = new Dictionary<char, List<int>>();
@@ -66,7 +66,7 @@ namespace timebot.Classes
             var store = new DataStore("participant.json");
 
             // Get employee collection
-            return store.GetCollection<participant>().AsQueryable().Where(e=>e.channel_id==channel_id && e.winner==true).ToList().Count > 0;
+            return store.GetCollection<participant>().AsQueryable().Where(e => e.channel_id == channel_id && e.winner == true).ToList().Count > 0;
         }
 
         public participant get_winner(ulong channel_id)
@@ -74,7 +74,7 @@ namespace timebot.Classes
             var store = new DataStore("participant.json");
 
             // Get employee collection
-            return store.GetCollection<participant>().AsQueryable().Where(e=>e.channel_id==channel_id && e.winner==true).ToList().FirstOrDefault();
+            return store.GetCollection<participant>().AsQueryable().Where(e => e.channel_id == channel_id && e.winner == true).ToList().FirstOrDefault();
         }
 
         public void make_winner(SocketGuildUser user)
@@ -83,10 +83,10 @@ namespace timebot.Classes
 
             // Get employee collection
             var collection = store.GetCollection<participant>();
-            
+
             dynamic source = new ExpandoObject();
             source.winner = true;
-            collection.UpdateOne(e => e.part == user, source as object); 
+            collection.UpdateOne(e => e.part == user, source as object);
         }
         public void add_participant(participant user)
         {
@@ -107,7 +107,7 @@ namespace timebot.Classes
             var store = new DataStore("participant.json");
 
             // Get employee collection
-            return store.GetCollection<participant>().AsQueryable().Where(e=>e.channel_id==channel_id).ToList();
+            return store.GetCollection<participant>().AsQueryable().Where(e => e.channel_id == channel_id).ToList();
         }
 
         public void clear_participants(ulong channel_id)
@@ -115,7 +115,7 @@ namespace timebot.Classes
             // Open database (create new if file doesn't exist)
             var store = new DataStore("participant.json");
 
-            store.GetCollection<participant>().DeleteManyAsync(e=>e.channel_id == channel_id);
+            store.GetCollection<participant>().DeleteManyAsync(e => e.channel_id == channel_id);
         }
 
         public string call_next()
