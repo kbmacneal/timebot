@@ -115,6 +115,19 @@ namespace timebot.Classes
 
             usr.SendMessageAsync(rtn_message, false, null, null);
         }
+
+        public void StartTimer(int dueTime)
+        {
+            Timer t = new Timer(new TimerCallback(TimerProc));
+            t.Change(dueTime, System.Threading.Timeout.Infinite);
+        }
+
+        private void TimerProc(object state)
+        {
+            // The state object is the Timer object.
+            Timer t = (Timer)state;
+            t.Dispose();
+        }
     }
 
 }
