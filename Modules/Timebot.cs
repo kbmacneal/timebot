@@ -63,7 +63,7 @@ namespace timebot.Modules.Commands
             rtn_message.Add("tb!ping : Make sure the bot is alive");
             rtn_message.Add("tb!commands: you're using it right now!");
             rtn_message.Add("tb!addadmin @mention: adds a user as a bot admin");
-            rtn_message.Add("tb!changedefaults#: Change the default speaking time");
+            rtn_message.Add("tb!changedefaults #: Change the default speaking time");
             rtn_message.Add("tb!setbotusername: Initializes the bot's nickname and state");
             rtn_message.Add("tb!stopbot: PERMANENTLY STOPS THE BOT. Only Pelax should use this.");
             rtn_message.Add("tb!starttimer @mention: start a timer for a specific person");

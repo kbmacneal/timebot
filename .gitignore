@@ -324,3 +324,4 @@ emperor_mvc/secrets.json
 .vscode/launch.json
 .vscode/tasks.json
 data.json
+participant.json

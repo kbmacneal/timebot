@@ -17,7 +17,7 @@ namespace timebot
     internal class Program
     {
 
-        private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();
+        private static void Main(string[] args) => new Program().RunBotAsync("NDYzNDc1MDk3NDY2ODMwODYw.DiLG3g.QrBuWyvOR_kDyXxe2JOo-pkXlyQ".ToString()).GetAwaiter().GetResult();
 
         private DiscordSocketClient _client;
         private CommandService _commands;

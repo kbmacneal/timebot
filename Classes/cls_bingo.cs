@@ -15,8 +15,10 @@ namespace timebot.Classes
 {
     public class participant
     {
+        public ulong user_id {get;set;}
         public ulong channel_id { get; set; }
-        public SocketGuildUser part { get; set; }
+        public string username{get;set;}
+        public string disc{get;set;}
         public bool winner { get; set; }
     }
     public class Bingo
@@ -24,6 +26,7 @@ namespace timebot.Classes
         public char[] letters { get; } = { 'B', 'I', 'N', 'G', 'O' };
         public bool bingo { get; set; } = false;
         public bool stopped { get; set; } = false;
+        
         public Dictionary<char, List<int>> Gen_Card()
         {
             Dictionary<char, List<int>> bingo_card = new Dictionary<char, List<int>>();
@@ -54,7 +57,9 @@ namespace timebot.Classes
                         default:
                             break;
                     }
+                    
                 }
+                bingo_card.Add(letter,numbers);
             }
 
             return bingo_card;
@@ -86,7 +91,7 @@ namespace timebot.Classes
 
             dynamic source = new ExpandoObject();
             source.winner = true;
-            collection.UpdateOne(e => e.part == user, source as object);
+            collection.UpdateOne(e => e.username == user.Username, source as object);
         }
         public void add_participant(participant user)
         {
@@ -156,13 +161,13 @@ namespace timebot.Classes
             return rtn_message;
         }
 
-        public void print_card(SocketGuildUser usr, Dictionary<char, List<int>> card)
+        public string format_card(Dictionary<char, List<int>> card)
         {
             List<string> message = new List<string>();
             string tab = "    ";
             message.Add("```");
 
-            this.letters.ToList().ForEach(e => message.Add(e.ToString() + tab));
+            message.Add(String.Join(tab,this.letters));
 
             for (int i = 0; i < 5; i++)
             {
@@ -177,9 +182,9 @@ namespace timebot.Classes
 
             message.Add("```");
 
-            string rtn_message = String.Join(System.Environment.NewLine, message);
-
-            usr.SendMessageAsync(rtn_message, false, null, null);
+            return String.Join(System.Environment.NewLine, message);
+            
+            
         }
     }
 
