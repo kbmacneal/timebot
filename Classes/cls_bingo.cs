@@ -55,7 +55,7 @@ namespace timebot.Classes
         public void add_participant(SocketGuildUser user)
         {
             // Open database (create new if file doesn't exist)
-            var store = new DataStore("data.json");
+            var store = new DataStore("participant.json");
 
             // Get employee collection
             var collection = store.GetCollection<SocketGuildUser>();
@@ -68,7 +68,7 @@ namespace timebot.Classes
         public List<SocketGuildUser> get_participants()
         {
             // Open database (create new if file doesn't exist)
-            var store = new DataStore("data.json");
+            var store = new DataStore("participant.json");
 
             // Get employee collection
             return store.GetCollection<SocketGuildUser>().AsQueryable().ToList();
@@ -77,7 +77,7 @@ namespace timebot.Classes
         public void clear_participants()
         {
             // Open database (create new if file doesn't exist)
-            var store = new DataStore("data.json");
+            var store = new DataStore("participant.json");
 
             store.GetCollection<SocketGuildUser>().DeleteManyAsync(e=>e.Nickname!="");
         }
