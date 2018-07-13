@@ -1,12 +1,15 @@
+using System.IO;
+using JsonFlatFileDataStore;
 using System;
-using System.Threading;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using JsonFlatFileDataStore;
+using System.Security.Cryptography;
+using System.Text;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using System.Dynamic;
 
 namespace timebot.Classes
 {
@@ -14,12 +17,12 @@ namespace timebot.Classes
     {
         public ulong channel_id{get;set;}
         public SocketGuildUser part{get;set;}
+        public bool winner {get;set;}
     }
     public class Bingo
     {
         public char[] letters { get; } = { 'B', 'I', 'N', 'G', 'O' };
         public bool bingo { get; set; } = false;
-        public SocketGuildUser winner {get;set;}
         public bool stopped{get;set;} = false;
         public Dictionary<char, List<int>> Gen_Card()
         {
@@ -58,6 +61,33 @@ namespace timebot.Classes
 
         }
 
+        public bool is_there_a_winner(ulong channel_id)
+        {
+            var store = new DataStore("participant.json");
+
+            // Get employee collection
+            return store.GetCollection<participant>().AsQueryable().Where(e=>e.channel_id==channel_id && e.winner==true).ToList().Count > 0;
+        }
+
+        public participant get_winner(ulong channel_id)
+        {
+            var store = new DataStore("participant.json");
+
+            // Get employee collection
+            return store.GetCollection<participant>().AsQueryable().Where(e=>e.channel_id==channel_id && e.winner==true).ToList().FirstOrDefault();
+        }
+
+        public void make_winner(SocketGuildUser user)
+        {
+            var store = new DataStore("participant.json");
+
+            // Get employee collection
+            var collection = store.GetCollection<participant>();
+            
+            dynamic source = new ExpandoObject();
+            source.winner = true;
+            collection.UpdateOne(e => e.part == user, source as object); 
+        }
         public void add_participant(participant user)
         {
             // Open database (create new if file doesn't exist)

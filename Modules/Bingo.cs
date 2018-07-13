@@ -68,7 +68,7 @@ namespace timebot.Modules.Commands
                 StartTimer((int)(0.25 * 60.00 * 1000.00)).GetAwaiter().GetResult();
             }
 
-            if(bingo.bingo) await ReplyAsync("Winner is " + bingo.winner.Nickname.ToString());
+            if(bingo.bingo) await ReplyAsync("Winner is " + bingo.get_winner(Context.Message.Channel.Id).part.Nickname.ToString());
 
             bingo.clear_participants(Context.Message.Channel.Id);
 
@@ -77,7 +77,8 @@ namespace timebot.Modules.Commands
         [Command("playwinner")]
         public async Task PlaywinnerAsync()
         {
-            bingo.winner = (SocketGuildUser)Context.Message.Author;
+
+            bingo.make_winner((SocketGuildUser)Context.Message.Author);
         }
 
         [Command("iwanttoplay")]
