@@ -10,11 +10,17 @@ using JsonFlatFileDataStore;
 
 namespace timebot.Classes
 {
+    public class participant
+    {
+        public ulong channel_id{get;set;}
+        public SocketGuildUser part{get;set;}
+    }
     public class Bingo
     {
         public char[] letters { get; } = { 'B', 'I', 'N', 'G', 'O' };
         public bool bingo { get; set; } = false;
         public SocketGuildUser winner {get;set;}
+        public bool stopped{get;set;} = false;
         public Dictionary<char, List<int>> Gen_Card()
         {
             Dictionary<char, List<int>> bingo_card = new Dictionary<char, List<int>>();
@@ -52,34 +58,34 @@ namespace timebot.Classes
 
         }
 
-        public void add_participant(SocketGuildUser user)
+        public void add_participant(participant user)
         {
             // Open database (create new if file doesn't exist)
             var store = new DataStore("participant.json");
 
             // Get employee collection
-            var collection = store.GetCollection<SocketGuildUser>();
+            var collection = store.GetCollection<participant>();
 
             collection.InsertOne(user);
 
             store.Dispose();
         }
 
-        public List<SocketGuildUser> get_participants()
+        public List<participant> get_participants(ulong channel_id)
         {
             // Open database (create new if file doesn't exist)
             var store = new DataStore("participant.json");
 
             // Get employee collection
-            return store.GetCollection<SocketGuildUser>().AsQueryable().ToList();
+            return store.GetCollection<participant>().AsQueryable().Where(e=>e.channel_id==channel_id).ToList();
         }
 
-        public void clear_participants()
+        public void clear_participants(ulong channel_id)
         {
             // Open database (create new if file doesn't exist)
             var store = new DataStore("participant.json");
 
-            store.GetCollection<SocketGuildUser>().DeleteManyAsync(e=>e.Nickname!="");
+            store.GetCollection<participant>().DeleteManyAsync(e=>e.channel_id == channel_id);
         }
 
         public string call_next()

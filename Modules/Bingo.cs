@@ -52,9 +52,9 @@ namespace timebot.Modules.Commands
 
             StartTimer(2 * 60 * 1000).GetAwaiter().GetResult();
 
-            foreach (SocketGuildUser part in bingo.get_participants())
+            foreach (participant part in bingo.get_participants(Context.Message.Channel.Id))
             {
-                bingo.print_card(part,bingo.Gen_Card());
+                bingo.print_card(part.part,bingo.Gen_Card());
             }
 
             StartTimer(1 * 60 * 1000).GetAwaiter().GetResult();
@@ -62,15 +62,15 @@ namespace timebot.Modules.Commands
             await ReplyAsync("Beginning Game");
             await ReplyAsync("To declare yourself the winner, use the command tb!playwinner");
 
-            while(!bingo.bingo)
+            while(!bingo.bingo && !bingo.stopped)
             {
                 await ReplyAsync(bingo.call_next());
                 StartTimer((int)(0.25 * 60.00 * 1000.00)).GetAwaiter().GetResult();
             }
 
-            await ReplyAsync("Winner is " + bingo.winner.Nickname.ToString());
+            if(bingo.bingo) await ReplyAsync("Winner is " + bingo.winner.Nickname.ToString());
 
-            bingo.clear_participants();
+            bingo.clear_participants(Context.Message.Channel.Id);
 
         }
 
@@ -83,7 +83,10 @@ namespace timebot.Modules.Commands
         [Command("iwanttoplay")]
         public async Task Iwanttoplay()
         {
-            bingo.add_participant((SocketGuildUser)Context.Message.Author);
+            participant part = new participant();
+            part.channel_id = Context.Message.Channel.Id;
+            part.part = (SocketGuildUser)Context.Message.Author;
+            bingo.add_participant(part);
             await ReplyAsync("You have been added to the bingo game.");
         }
 
