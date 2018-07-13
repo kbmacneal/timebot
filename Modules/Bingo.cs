@@ -33,7 +33,7 @@ namespace timebot.Modules.Commands
         }
 
         [Command("playwinner")]
-        public void PlaywinnerAsync()
+        public async Task PlaywinnerAsync()
         {
             bingo.make_winner((SocketGuildUser)Context.Message.Author);
         }
@@ -48,6 +48,10 @@ namespace timebot.Modules.Commands
             part.user_id = Context.Message.Author.Id;
             bingo.add_participant(part);
             await ReplyAsync("You have been added to the bingo game.");
+
+            string message = bingo.format_card(bingo.Gen_Card());
+
+            await Context.User.SendMessageAsync("Here is your card" + System.Environment.NewLine + message);
         }
 
     }

@@ -169,6 +169,8 @@ namespace timebot.Classes
 
             message.Add(String.Join(tab,this.letters));
 
+            card.Values.ElementAt(2)[2] = 0;
+
             for (int i = 0; i < 5; i++)
             {
                 string row = "";

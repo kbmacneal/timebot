@@ -63,23 +63,18 @@ namespace timebot.Classes
 
         {
             this.setup=false;
-            foreach (participant part in bingo.get_participants(Context.Message.Channel.Id))
-            {
-                string message = bingo.format_card(bingo.Gen_Card());
-
-                Context.Guild.GetUser(part.user_id).SendMessageAsync(message);
-            }
 
             this.Context.Channel.SendMessageAsync("Beginning Game");
             this.Context.Channel.SendMessageAsync("To declare yourself the winner, use the command tb!playwinner");
 
             while (!bingo.bingo && !bingo.stopped)
             {
+                if(bingo.is_there_a_winner(this.Context.Channel.Id)) break;
                 this.Context.Channel.SendMessageAsync(bingo.call_next());
-                Thread.Sleep((int)0.25*60*1000);
+                Thread.Sleep(10*1000);
             }
 
-            if (bingo.bingo) this.Context.Channel.SendMessageAsync("Winner is " + bingo.get_winner(Context.Message.Channel.Id).username.ToString());
+            this.Context.Channel.SendMessageAsync("Winner is " + bingo.get_winner(Context.Message.Channel.Id).username.ToString());
 
             bingo.clear_participants(Context.Message.Channel.Id);
         }
