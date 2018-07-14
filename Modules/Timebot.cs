@@ -71,6 +71,7 @@ namespace timebot.Modules.Commands
             rtn_message.Add("tb!listfaction: List the factions available to be added to");
             rtn_message.Add("tb!addfaction \"Faction Name with Spaces\": adds a speaker to the faction");
             rtn_message.Add("tb!playbingo: starts a game of bingo, hosted by the bot.");
+            rtn_message.Add("tb!clearspeakers: clears the observers and speakers from having those specific roles");
             rtn_message.Add("```");
 
             await ReplyAsync(String.Join(System.Environment.NewLine,rtn_message));
