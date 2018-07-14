@@ -26,7 +26,11 @@ namespace timebot.Modules.Commands
             "admin",
             "church_member",
             "inquisitor",
-            "churchbot"
+            "churchbot",
+            "new role",
+            "OOC a human don't forget it",
+            "pilgrim"
+
         };
 
         [Command("listfaction")]
