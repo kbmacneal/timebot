@@ -106,7 +106,7 @@ namespace timebot
                 {
                     var context = new SocketCommandContext(_client, message);
 
-                    await context.Message.ModifyAsync(e=>e.Content = message.Content.Replace('“','"').Replace('”','"'));
+                    // await context.Message.ModifyAsync(e=>e.Content = message.Content.Replace('“','"').Replace('”','"'));
 
                     var result = await _commands.ExecuteAsync(context, argPosition, _services);
                     if (!result.IsSuccess)
