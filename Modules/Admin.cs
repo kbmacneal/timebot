@@ -20,8 +20,6 @@ namespace timebot.Modules.Commands
         public string[] bad_requests { get; } =
         {
             "@everyone",
-            "Speaker",
-            "Observer",
             "Moderator",
             "Timebot",
             "Bots",
