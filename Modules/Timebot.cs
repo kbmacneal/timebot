@@ -155,6 +155,25 @@ namespace timebot.Modules.Commands
             }
         }
 
+        [Command("clearspeakers")]
+        public async Task clearspeakers(string faction)
+        {
+            List<ulong> roles = Context.Guild.Roles.Where(e=>e.Name=="Speaker" || e.Name=="Observer").Select(e=>e.Id).ToList();
+
+            foreach(SocketGuildUser usr in Context.Guild.Users)
+            {
+                if(roles.Any(usr.Roles.Select(e=>e.Id).Contains))
+                {
+                    foreach(ulong role in roles)
+                    {
+                       await usr.RemoveRoleAsync(Context.Guild.GetRole(role));
+                    }
+                }
+            }
+
+            await ReplyAsync("Tags removed");
+        }
+
     }
 
 }
