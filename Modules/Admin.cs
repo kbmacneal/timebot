@@ -72,6 +72,33 @@ namespace timebot.Modules.Commands
             return;
         }
 
+        [Command("removerole")]
+        public async Task RemoveroleAsync(string faction)
+        {
+            List<string> bad_requests = this.bad_requests.ToList();
+
+            if (bad_requests.Any(faction.Contains))
+            {
+                await ReplyAsync("Invalid Request");
+                return;
+            }
+
+            List<SocketRole> roles = Context.Guild.Roles.ToList();
+
+            SocketGuildUser user = (SocketGuildUser)Context.User;
+
+            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
+            {
+                await ReplyAsync("Faction selection not valid");
+                return;
+            }
+
+            await user.RemoveRoleAsync(roles.Where(e => e.Name == faction).FirstOrDefault(), null);
+
+            await ReplyAsync("Role Removed");
+            return;
+        }
+
     }
 
 }
