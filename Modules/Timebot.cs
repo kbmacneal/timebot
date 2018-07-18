@@ -161,7 +161,9 @@ namespace timebot.Modules.Commands
         {
             List<ulong> roles = Context.Guild.Roles.Where(e=>e.Name=="Speaker" || e.Name=="Observer").Select(e=>e.Id).ToList();
 
-            foreach(SocketGuildUser usr in Context.Guild.Users)
+            List<SocketGuildUser> users = Context.Guild.Users.ToList();
+
+            foreach(SocketGuildUser usr in users)
             {
                 if(roles.Any(usr.Roles.Select(e=>e.Id).Contains))
                 {
@@ -169,6 +171,7 @@ namespace timebot.Modules.Commands
                     {
                        await usr.RemoveRoleAsync(Context.Guild.GetRole(role));
                     }
+                    System.Threading.Thread.Sleep(5*1000);
                 }
             }
 
