@@ -171,7 +171,6 @@ namespace timebot.Modules.Commands
                     {
                        await usr.RemoveRoleAsync(Context.Guild.GetRole(role));
                     }
-                    System.Threading.Thread.Sleep(5*1000);
                 }
             }
 
