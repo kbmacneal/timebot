@@ -157,7 +157,7 @@ namespace timebot.Modules.Commands
         }
 
         [Command("clearspeakers")]
-        public async Task clearspeakers(string faction)
+        public async Task clearspeakers()
         {
             List<ulong> roles = Context.Guild.Roles.Where(e=>e.Name=="Speaker" || e.Name=="Observer").Select(e=>e.Id).ToList();
 
