@@ -70,7 +70,6 @@ namespace timebot.Modules.Commands
             rtn_message.Add("tb!setbotusername: Initializes the bot's nickname and state");
             rtn_message.Add("tb!stopbot: PERMANENTLY STOPS THE BOT. Only Pelax should use this.");
             rtn_message.Add("tb!starttimer @mention: start a timer for a specific person");
-            rtn_message.Add("tb!addspeaker @mention: adds a speaker to the list");
             rtn_message.Add("tb!listfaction: List the factions available to be added to");
             rtn_message.Add("tb!addfaction \"Faction Name with Spaces\": adds a speaker to the faction");
             rtn_message.Add("tb!playbingo: starts a game of bingo, hosted by the bot.");

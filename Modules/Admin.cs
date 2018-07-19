@@ -75,7 +75,6 @@ namespace timebot.Modules.Commands
 
         [Command("removefaction")]
         [RequireBotPermission(GuildPermission.Administrator)]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task RemovefactionAsync(string faction)
         {
             List<string> bad_requests = this.bad_requests.ToList();
