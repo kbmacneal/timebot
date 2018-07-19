@@ -46,6 +46,7 @@ namespace timebot.Modules.Commands
         }
 
         [Command("addfaction")]
+        [RequireBotPermission(GuildPermission.Administrator)]
         public async Task AddfactionAsync(string faction)
         {
             List<string> bad_requests = this.bad_requests.ToList();
@@ -72,8 +73,10 @@ namespace timebot.Modules.Commands
             return;
         }
 
-        [Command("removerole")]
-        public async Task RemoveroleAsync(string faction)
+        [Command("removefaction")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task RemovefactionAsync(string faction)
         {
             List<string> bad_requests = this.bad_requests.ToList();
 

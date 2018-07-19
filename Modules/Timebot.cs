@@ -16,6 +16,8 @@ namespace timebot.Modules.Commands
     public class commands : ModuleBase<SocketCommandContext>
     {
         [Command("stopbot")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task StopbotAsync()
         {;
             await ReplyAsync("The bot is shutting down.");
@@ -26,6 +28,8 @@ namespace timebot.Modules.Commands
 
 
         [Command("setbotusername")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task SetBotUserName()
         {
             var guild = Context.Client.GetGuild(Context.Guild.Id);
@@ -62,7 +66,6 @@ namespace timebot.Modules.Commands
             rtn_message.Add("Here are the commands available");
             rtn_message.Add("tb!ping : Make sure the bot is alive");
             rtn_message.Add("tb!commands: you're using it right now!");
-            rtn_message.Add("tb!addadmin @mention: adds a user as a bot admin");
             rtn_message.Add("tb!changedefaults #: Change the default speaking time");
             rtn_message.Add("tb!setbotusername: Initializes the bot's nickname and state");
             rtn_message.Add("tb!stopbot: PERMANENTLY STOPS THE BOT. Only Pelax should use this.");
@@ -72,32 +75,16 @@ namespace timebot.Modules.Commands
             rtn_message.Add("tb!addfaction \"Faction Name with Spaces\": adds a speaker to the faction");
             rtn_message.Add("tb!playbingo: starts a game of bingo, hosted by the bot.");
             rtn_message.Add("tb!clearspeakers: clears the observers and speakers from having those specific roles");
+            rtn_message.Add("tb!clearchannel: clears all messages from the current channel");
+            rtn_message.Add("tb!removefaction: removes a user from a faction");
             rtn_message.Add("```");
 
             await ReplyAsync(String.Join(System.Environment.NewLine,rtn_message));
         }
 
-        [Command("addadmin")]
-        public async Task AddadminAsync(IGuildUser user)
-        {
-            Data.user usr = new Data.user();
-
-            List<Data.user> users = Data.get_users();
-
-            if (users.Where(e => e.Name == user.Username && e.Discriminator == user.Discriminator).Count() > 0)
-            {
-                Data.set_user_as_admin(user);
-            }
-            else
-            {
-                Data.Adduser(user, true);
-            }
-
-            await ReplyAsync("User is now admin");
-
-        }
-
         [Command("addspeaker")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task AddspeakerAsync(IGuildUser user)
         {
             Data.speaker spkr = Data.GuilduserToSpeaker(user);
@@ -107,6 +94,8 @@ namespace timebot.Modules.Commands
         }
 
         [Command("changedefaults")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ChangedefaultsAsync(int minutes)
         {
             Data.reset_speaking_time(minutes);
@@ -115,6 +104,8 @@ namespace timebot.Modules.Commands
         }
 
         [Command("starttimer")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task StarttimerAsync(IGuildUser user)
         {
 
@@ -157,7 +148,9 @@ namespace timebot.Modules.Commands
         }
 
         [Command("clearspeakers")]
-        public async Task clearspeakers()
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task ClearspeakersAsync()
         {
             List<ulong> roles = Context.Guild.Roles.Where(e=>e.Name=="Speaker" || e.Name=="Observer").Select(e=>e.Id).ToList();
 
@@ -175,6 +168,15 @@ namespace timebot.Modules.Commands
             }
 
             await ReplyAsync("Tags removed");
+        }
+
+        [Command("clearchannel")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        public async Task ClearchannelAsync()
+        {
+            var messages = await Context.Channel.GetMessagesAsync().Flatten();
+
+            await Context.Channel.DeleteMessagesAsync(messages);
         }
 
     }

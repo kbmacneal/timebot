@@ -66,16 +66,6 @@ namespace timebot.Classes
                 return false;
             }
         }
-
-        public static Boolean is_user_authorized(user user)
-        {
-            List<user> users = get_users();
-
-            if (users.Where(s => s.admin == true && s.Name == user.Name && s.Discriminator == user.Discriminator).Count() > 0)
-            { return true; }
-            else { return false; }
-        }
-
         public static void insert_user(user user)
         {
             // Open database (create new if file doesn't exist)
@@ -155,18 +145,6 @@ namespace timebot.Classes
             usr.admin = admin_tf;
 
             insert_user(usr);
-        }
-
-        public static void set_user_as_admin(IGuildUser user)
-        {
-            var store = new DataStore("data.json");
-
-            // Get employee collection
-            var collection = store.GetCollection<user>();
-            
-            dynamic source = new ExpandoObject();
-            source.admin = true;
-            collection.UpdateOne(e => e.Name == user.Username && e.Discriminator == user.Discriminator, source as object);            
         }
     }
 

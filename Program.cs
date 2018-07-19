@@ -90,17 +90,6 @@ namespace timebot
 
                 await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
 
-                //check if the user is authorized to send the message that they did, using the prefix binding SortedDictionary above
-                bool isAuthorized = CheckAuthorization((SocketGuildUser)message.Author);
-
-                if (!isAuthorized && !message.Content.Contains("faction") && !message.Content.Contains("play"))
-                {
-                    //if not authorized, drop out before any message is processed 
-                    await SendPMAsync("You are not authorized to control the timebot. Send a message to an administrator to request access.", message.Author);
-
-                    return;
-                }
-
                 int argPosition = 0;
                 if (message.HasStringPrefix("tb!", ref argPosition) || message.HasMentionPrefix(_client.CurrentUser, ref argPosition))
                 {
@@ -125,17 +114,6 @@ namespace timebot
             await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
 
             await user.SendMessageAsync(message);
-        }
-
-        private bool CheckAuthorization(SocketGuildUser user)
-        {
-            timebot.Classes.Data.user usr = new timebot.Classes.Data.user();
-
-            usr.Name = user.Username;
-            usr.Discriminator = user.Discriminator;
-
-
-            return timebot.Classes.Data.is_user_authorized(usr);
         }
     }
 }
