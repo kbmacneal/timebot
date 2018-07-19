@@ -174,7 +174,7 @@ namespace timebot.Modules.Commands
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task ClearchannelAsync()
         {
-            var messages = Context.Channel.GetCachedMessages();
+            var messages = await Context.Channel.GetMessagesAsync().Flatten();
 
             await Context.Channel.DeleteMessagesAsync(messages);
         }
