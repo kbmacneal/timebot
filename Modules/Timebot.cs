@@ -171,6 +171,7 @@ namespace timebot.Modules.Commands
 
         [Command("clearchannel")]
         [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ClearchannelAsync()
         {
             List<SocketMessage> old = Context.Channel.GetCachedMessages().ToList();
