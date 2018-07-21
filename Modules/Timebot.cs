@@ -199,7 +199,12 @@ namespace timebot.Modules.Commands
         [Command("cactus")]
         public async Task CactusAsync()
         {
-            await ReplyAsync(":cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: ");
+            GuildEmote cactus = Context.Guild.Emotes.Where(e=>e.Name == "cactusemo").First();
+
+            await Context.Message.AddReactionAsync(cactus);
+
+            await ReplyAsync("<:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197>");
+            return;
         }
 
     }
