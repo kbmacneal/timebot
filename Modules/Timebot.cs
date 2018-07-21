@@ -9,6 +9,7 @@ using timebot.Classes;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace timebot.Modules.Commands
 {
@@ -203,7 +204,10 @@ namespace timebot.Modules.Commands
 
             await Context.Message.AddReactionAsync(cactus);
 
-            await ReplyAsync("<:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197> <:cactusemo:470328501283848197>");
+            string result = new StringBuilder().Insert(0, String.Concat("<:cactusemo:",cactus.Id.ToString(),"> "), 10).ToString();
+
+            await ReplyAsync(result);
+
             return;
         }
 
