@@ -173,9 +173,18 @@ namespace timebot.Modules.Commands
 
         [Command("clearchannel")]
         [RequireBotPermission(GuildPermission.Administrator)]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ClearchannelAsync()
         {
+            List<SocketRole> roles = Context.Guild.Roles.ToList();
+
+            SocketGuildUser user = (SocketGuildUser)Context.User;
+
+            if (!(user.Roles.Select(e=>e.Name).ToList().Contains("Representative")))
+            {
+                await ReplyAsync("You are not authorized to clear channels");
+                return;
+            }
+
             List<SocketMessage> old = Context.Channel.GetCachedMessages().ToList();
 
             await Context.Channel.DeleteMessagesAsync(old);
