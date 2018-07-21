@@ -196,6 +196,12 @@ namespace timebot.Modules.Commands
             
         }
 
+        [Command("cactus")]
+        public async Task CactusAsync()
+        {
+            await ReplyAsync(":cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: :cactusemo: ");
+        }
+
     }
 
 }
