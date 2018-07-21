@@ -29,7 +29,8 @@ namespace timebot.Modules.Commands
             "churchbot",
             "new role",
             "OOC a human don't forget it",
-            "pilgrim"
+            "pilgrim",
+            "Representative"
 
         };
 

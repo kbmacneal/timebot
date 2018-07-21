@@ -45,7 +45,7 @@ namespace timebot.Modules.Commands
             await ReplyAsync("Username changed");
         }
 
-        public async Task SendPMAsync(string message, SocketUser user)
+        private async Task SendPMAsync(string message, SocketUser user)
         {
             await user.SendMessageAsync(message);
         }
@@ -76,6 +76,8 @@ namespace timebot.Modules.Commands
             rtn_message.Add("tb!clearspeakers: clears the observers and speakers from having those specific roles");
             rtn_message.Add("tb!clearchannel: clears all messages from the current channel");
             rtn_message.Add("tb!removefaction: removes a user from a faction");
+            rtn_message.Add("tb!addrepresentative: adds you as the representative for your faction");
+            rtn_message.Add("tb!removerepresentative: removes you as the representative for your faction");
             rtn_message.Add("```");
 
             await ReplyAsync(String.Join(System.Environment.NewLine,rtn_message));
