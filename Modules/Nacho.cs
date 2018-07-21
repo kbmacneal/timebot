@@ -82,6 +82,8 @@ namespace timebot.Modules.Commands
 
             await nacho.assign_representative(rep);
             
+            await user.AddRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            
             string message = "You have been added as the representative for " + faction;
 
             await ReplyAsync(message);
@@ -125,8 +127,10 @@ namespace timebot.Modules.Commands
             rep.faction_text = role.Name;
 
             await nacho.remove_rep(rep);
+
+            await user.RemoveRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
             
-            string message = "You have been added as the representative for " + faction;
+            string message = "You have been removed as the representative for " + faction;
 
             await ReplyAsync(message);
             
