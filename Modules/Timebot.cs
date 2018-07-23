@@ -21,7 +21,7 @@ namespace timebot.Modules.Commands {
                 Tuple.Create ("Church of Humanity Repentant", "#227F97"),
                 Tuple.Create ("High Church of the Messiah-as-Emperox", "#F1C40F"),
                 Tuple.Create ("House Aquila", "#C2A77A"),
-                Tuple.Create ("House Crux", "#640B8E"),
+                Tuple.Create ("House Crux", "#7851A9"),
                 Tuple.Create ("House Eridanus", "#070000"),
                 Tuple.Create ("House Fornax", "#C27C0E"),
                 Tuple.Create ("House Lyra", "#853C67"),
