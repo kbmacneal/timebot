@@ -54,6 +54,14 @@ namespace timebot.Classes {
             return store.GetCollection<vote> ().AsQueryable ().ToList ();
         }
 
+        public async Task delete_question (int question_id) {
+            List<vote> rtn = new List<vote> ();
+
+            var store = new DataStore ("data.json");
+
+            await store.GetCollection<vote> ().DeleteManyAsync(e=>e.vote_id == question_id);
+        }
+
         public async Task add_vote (vote vote) {
             List<vote> rtn = new List<vote> ();
 
