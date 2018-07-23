@@ -37,7 +37,7 @@ namespace timebot.Modules.Commands {
                 Tuple.Create ("The Deathless", "#8F5C5C"),
                 Tuple.Create ("Unified People's Collective", "#89B951"),
                 Tuple.Create ("\"House\" Vagrant", "#2F4CCA")
-        }
+        };
 
         [Command ("stopbot")]
         [RequireBotPermission (GuildPermission.Administrator)]
