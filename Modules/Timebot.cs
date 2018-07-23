@@ -266,7 +266,7 @@ namespace timebot.Modules.Commands {
         [Command ("setcolors")]
         [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task SetcolorsAsync (int question_id) {
+        public async Task SetcolorsAsync () {
             
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
@@ -282,6 +282,8 @@ namespace timebot.Modules.Commands {
                 }
                 
             }
+
+            await ReplyAsync("Faction colors normalized.");
         }
 
     }
