@@ -186,7 +186,7 @@ namespace timebot.Modules.Commands {
         [Command ("clearchannel")]
         [RequireBotPermission (GuildPermission.Administrator)]
         public async Task ClearchannelAsync () {
-            List<ulong> roles = Context.Guild.Roles.Where (e => e.Name == "Representative" || e.Name == "Moderator").Select (e => e.Id).ToList ();
+            List<ulong> roles = Context.Guild.Roles.Where (e => e.Name == "Representative" || e.Name == "Moderator" || e.Name == "admin").Select (e => e.Id).ToList ();
 
             SocketGuildUser user = (SocketGuildUser) Context.User;
 
