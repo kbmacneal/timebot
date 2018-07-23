@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,33 +11,32 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Newtonsoft.Json;
 using timebot.Classes;
-using System.Drawing;
 
 namespace timebot.Modules.Commands {
 
     public class commands : ModuleBase<SocketCommandContext> {
         private Tuple<string, string>[] Factions = new Tuple<string, string>[] {
             Tuple.Create ("14 Red Dogs Triad", "#AD4641"),
-                Tuple.Create ("ACRE", "#915A2D"),
-                Tuple.Create ("Church of Humanity Repentant", "#227F97"),
-                Tuple.Create ("High Church of the Messiah-as-Emperox", "#F1C40F"),
-                Tuple.Create ("House Aquila", "#C2A77A"),
-                Tuple.Create ("House Crux", "#7851A9"),
-                Tuple.Create ("House Eridanus", "#070000"),
-                Tuple.Create ("House Fornax", "#C27C0E"),
-                Tuple.Create ("House Lyra", "#853C67"),
-                Tuple.Create ("House Pyxis", "#E3A041"),
-                Tuple.Create ("House Reticulum", "#B00000"),
-                Tuple.Create ("House Serpens", "#009115"),
-                Tuple.Create ("House Triangulum", "#7DB6FF"),
-                Tuple.Create ("House Vela", "#1B75BC"),
-                Tuple.Create ("Houses Major", ""),
-                Tuple.Create ("Houses Minor", ""),
-                Tuple.Create ("PRISM", "#AB99B6"),
-                Tuple.Create ("The Trilliant Ring", "#BBBBBB"),
-                Tuple.Create ("The Deathless", "#8F5C5C"),
-                Tuple.Create ("Unified People's Collective", "#89B951"),
-                Tuple.Create ("\"House\" Vagrant", "#2F4CCA")
+            Tuple.Create ("ACRE", "#915A2D"),
+            Tuple.Create ("Church of Humanity Repentant", "#227F97"),
+            Tuple.Create ("High Church of the Messiah-as-Emperox", "#F1C40F"),
+            Tuple.Create ("House Aquila", "#C2A77A"),
+            Tuple.Create ("House Crux", "#7851A9"),
+            Tuple.Create ("House Eridanus", "#070000"),
+            Tuple.Create ("House Fornax", "#C27C0E"),
+            Tuple.Create ("House Lyra", "#853C67"),
+            Tuple.Create ("House Pyxis", "#E3A041"),
+            Tuple.Create ("House Reticulum", "#B00000"),
+            Tuple.Create ("House Serpens", "#009115"),
+            Tuple.Create ("House Triangulum", "#7DB6FF"),
+            Tuple.Create ("House Vela", "#1B75BC"),
+            Tuple.Create ("Houses Major", ""),
+            Tuple.Create ("Houses Minor", ""),
+            Tuple.Create ("PRISM", "#AB99B6"),
+            Tuple.Create ("The Trilliant Ring", "#BBBBBB"),
+            Tuple.Create ("The Deathless", "#8F5C5C"),
+            Tuple.Create ("Unified People's Collective", "#89B951"),
+            Tuple.Create ("\"House\" Vagrant", "#2F4CCA")
         };
 
         [Command ("stopbot")]
@@ -185,22 +185,19 @@ namespace timebot.Modules.Commands {
         [Command ("clearchannel")]
         [RequireBotPermission (GuildPermission.Administrator)]
         public async Task ClearchannelAsync () {
-            List<SocketRole> roles = Context.Guild.Roles.ToList ();
+            List<ulong> roles = Context.Guild.Roles.Where (e => e.Name == "Representative" || e.Name == "Moderator").Select (e => e.Id).ToList ();
 
             SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (!(user.Roles.Select (e => e.Name).ToList ().Contains ("Representative"))) {
-                await ReplyAsync ("You are not authorized to clear channels");
-                return;
+            if (roles.Any (user.Roles.Select (e => e.Id).Contains)) {
+                List<SocketMessage> old = Context.Channel.GetCachedMessages ().ToList ();
+
+                await Context.Channel.DeleteMessagesAsync (old);
+
+                var current = await Context.Channel.GetMessagesAsync ().Flatten ();
+
+                await Context.Channel.DeleteMessagesAsync (current);
             }
-
-            List<SocketMessage> old = Context.Channel.GetCachedMessages ().ToList ();
-
-            await Context.Channel.DeleteMessagesAsync (old);
-
-            var current = await Context.Channel.GetMessagesAsync ().Flatten ();
-
-            await Context.Channel.DeleteMessagesAsync (current);
 
         }
 
@@ -267,23 +264,21 @@ namespace timebot.Modules.Commands {
         [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task SetcolorsAsync () {
-            
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
 
-            System.Drawing.ColorConverter converter = new System.Drawing.ColorConverter();
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            foreach (Tuple<string,string> Faction in Factions)
-            {
-                if(roles.Select(e=>e.Name).Contains(Faction.Item1))
-                {
-                    System.Drawing.Color colorhex = (System.Drawing.Color)converter.ConvertFromString(Faction.Item2);
+            System.Drawing.ColorConverter converter = new System.Drawing.ColorConverter ();
 
-                    await roles.Where(e=>e.Name==Faction.Item1).FirstOrDefault().ModifyAsync(r => r.Color = new Discord.Color(colorhex.R, colorhex.G, colorhex.B)).ConfigureAwait(false);
+            foreach (Tuple<string, string> Faction in Factions) {
+                if (roles.Select (e => e.Name).Contains (Faction.Item1)) {
+                    System.Drawing.Color colorhex = (System.Drawing.Color) converter.ConvertFromString (Faction.Item2);
+
+                    await roles.Where (e => e.Name == Faction.Item1).FirstOrDefault ().ModifyAsync (r => r.Color = new Discord.Color (colorhex.R, colorhex.G, colorhex.B)).ConfigureAwait (false);
                 }
-                
+
             }
 
-            await ReplyAsync("Faction colors normalized.");
+            await ReplyAsync ("Faction colors normalized.");
         }
 
     }
