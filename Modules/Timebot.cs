@@ -99,6 +99,7 @@ namespace timebot.Modules.Commands {
             rtn_message.Add ("tb!vote \"Faction name with spaces\" question# selection#: casts your factions vote for a specified option of a specified question");
             rtn_message.Add ("tb!tally #: Tallies the votes cast for a specified question.");
             rtn_message.Add ("tb!deletequestion #: Deletes the votes for the question specified.");
+            rtn_message.Add ("tb!setcolors: normalizes the server's faction colors.");
             rtn_message.Add ("```");
 
             await ReplyAsync (String.Join (System.Environment.NewLine, rtn_message));
