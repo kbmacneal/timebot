@@ -167,7 +167,7 @@ namespace timebot.Modules.Commands {
         [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ClearspeakersAsync () {
-            List<ulong> roles = Context.Guild.Roles.Where (e => e.Name == "Speaker" || e.Name == "Observer").Select (e => e.Id).ToList ();
+            List<ulong> roles = Context.Guild.Roles.Where (e => e.Name == "Speaker" || e.Name == "Observer" || e.Name == "Moderator").Select (e => e.Id).ToList ();
 
             List<SocketGuildUser> users = Context.Guild.Users.ToList ();
 
