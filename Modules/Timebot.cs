@@ -192,8 +192,8 @@ namespace timebot.Modules.Commands {
             SocketGuildUser user = (SocketGuildUser) Context.User;
 
             if (roles.Any (user.Roles.Select (e => e.Id).Contains)) {
-                var messages = await this.Context.Channel.GetMessagesAsync(int.MaxValue).Flatten();
-                await this.Context.Channel.DeleteMessagesAsync(messages);
+                var messages = await this.Context.Channel.GetMessagesAsync (int.MaxValue).Flatten ();
+                await this.Context.Channel.DeleteMessagesAsync (messages);
             }
 
         }
@@ -263,17 +263,15 @@ namespace timebot.Modules.Commands {
         public async Task InitializeserverAsync () {
             List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            foreach(Tuple<string,string> faction in Factions)
-            {
-                if(!(roles.Select(e=> e.Name).Contains(faction.Item1)))
-                {
-                    await Context.Guild.CreateRoleAsync(faction.Item1,null,null,false,null);
+            foreach (Tuple<string, string> faction in Factions) {
+                if (!(roles.Select (e => e.Name).Contains (faction.Item1))) {
+                    await Context.Guild.CreateRoleAsync (faction.Item1, null, null, false, null);
                 }
             }
 
-            await ReplyAsync("Server initialized");
+            await ReplyAsync ("Server initialized");
 
-            await SetcolorsAsync();
+            await SetcolorsAsync ();
 
         }
 
