@@ -30,8 +30,6 @@ namespace timebot.Modules.Commands {
             Tuple.Create ("House Serpens", "#009115"),
             Tuple.Create ("House Triangulum", "#7DB6FF"),
             Tuple.Create ("House Vela", "#1B75BC"),
-            Tuple.Create ("Houses Major", ""),
-            Tuple.Create ("Houses Minor", ""),
             Tuple.Create ("PRISM", "#AB99B6"),
             Tuple.Create ("The Trilliant Ring", "#BBBBBB"),
             Tuple.Create ("The Deathless", "#8F5C5C"),
