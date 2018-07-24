@@ -191,13 +191,8 @@ namespace timebot.Modules.Commands {
             SocketGuildUser user = (SocketGuildUser) Context.User;
 
             if (roles.Any (user.Roles.Select (e => e.Id).Contains)) {
-                List<SocketMessage> old = Context.Channel.GetCachedMessages ().ToList ();
-
-                await Context.Channel.DeleteMessagesAsync (old);
-
-                var current = await Context.Channel.GetMessagesAsync ().Flatten ();
-
-                await Context.Channel.DeleteMessagesAsync (current);
+                var messages = await this.Context.Channel.GetMessagesAsync(int.MaxValue).Flatten();
+                await this.Context.Channel.DeleteMessagesAsync(messages);
             }
 
         }
