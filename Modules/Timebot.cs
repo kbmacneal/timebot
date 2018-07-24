@@ -39,33 +39,6 @@ namespace timebot.Modules.Commands {
             Tuple.Create ("\"House\" Vagrant", "#2F4CCA")
         };
 
-        [Command ("stopbot")]
-        [RequireBotPermission (GuildPermission.Administrator)]
-        [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task StopbotAsync () {;
-            await ReplyAsync ("The bot is shutting down.");
-            Context.Client.LogoutAsync ().GetAwaiter ().GetResult ();
-            Context.Client.StopAsync ().GetAwaiter ().GetResult ();
-            Context.Client.Dispose ();
-        }
-
-        [Command ("setbotusername")]
-        [RequireBotPermission (GuildPermission.Administrator)]
-        [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task SetBotUserName () {
-            var guild = Context.Client.GetGuild (Context.Guild.Id);
-
-            var user = guild.GetUser (Context.Client.CurrentUser.Id);
-
-            await user.ModifyAsync (e => e.Nickname = "Arch Lector Frederick of Timebot", null);
-
-            await Context.Client.SetStatusAsync (UserStatus.Online);
-
-            await Context.Client.SetGameAsync ("World Domination", null, StreamType.NotStreaming);
-
-            await ReplyAsync ("Username changed");
-        }
-
         private async Task SendPMAsync (string message, SocketUser user) {
             await user.SendMessageAsync (message);
         }
@@ -255,45 +228,6 @@ namespace timebot.Modules.Commands {
             await voting.delete_question (question_id);
 
             await ReplyAsync ("Votes for the question have been removed");
-        }
-
-        [Command ("initializeserver")]
-        [RequireBotPermission (GuildPermission.Administrator)]
-        [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task InitializeserverAsync () {
-            List<SocketRole> roles = Context.Guild.Roles.ToList ();
-
-            foreach (Tuple<string, string> faction in Factions) {
-                if (!(roles.Select (e => e.Name).Contains (faction.Item1))) {
-                    await Context.Guild.CreateRoleAsync (faction.Item1, null, null, false, null);
-                }
-            }
-
-            await ReplyAsync ("Server initialized");
-
-            await SetcolorsAsync ();
-
-        }
-
-        [Command ("setcolors")]
-        [RequireBotPermission (GuildPermission.Administrator)]
-        [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task SetcolorsAsync () {
-
-            List<SocketRole> roles = Context.Guild.Roles.ToList ();
-
-            System.Drawing.ColorConverter converter = new System.Drawing.ColorConverter ();
-
-            foreach (Tuple<string, string> Faction in Factions) {
-                if (roles.Select (e => e.Name).Contains (Faction.Item1)) {
-                    System.Drawing.Color colorhex = (System.Drawing.Color) converter.ConvertFromString (Faction.Item2);
-
-                    await roles.Where (e => e.Name == Faction.Item1).FirstOrDefault ().ModifyAsync (r => r.Color = new Discord.Color (colorhex.R, colorhex.G, colorhex.B)).ConfigureAwait (false);
-                }
-
-            }
-
-            await ReplyAsync ("Faction colors normalized.");
         }
 
     }

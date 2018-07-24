@@ -1,24 +1,21 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Discord.Net;
+using Discord.WebSocket;
 using Newtonsoft.Json;
-using System.Threading;
 using timebot.Classes;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 
-namespace timebot.Modules.Commands
-{
+namespace timebot.Modules.Commands {
 
-    public class Admin : ModuleBase<SocketCommandContext>
-    {
+    public class Admin : ModuleBase<SocketCommandContext> {
 
-        public string[] bad_requests { get; } =
-        {
+        public string[] bad_requests { get; } = {
             "@everyone",
             "Moderator",
             "Timebot",
@@ -34,72 +31,75 @@ namespace timebot.Modules.Commands
 
         };
 
-        [Command("listfaction")]
-        public async Task ListfactionAsync()
-        {
-            List<string> bad_requests = this.bad_requests.ToList();
+        [Command ("listfaction")]
+        public async Task ListfactionAsync () {
+            List<string> bad_requests = this.bad_requests.ToList ();
 
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            string rtn_message = String.Join(System.Environment.NewLine, roles.Where(e => !bad_requests.Contains(e.Name)).OrderBy(e => e.Name));
+            string rtn_message = String.Join (System.Environment.NewLine, roles.Where (e => !bad_requests.Contains (e.Name)).OrderBy (e => e.Name));
 
-            await ReplyAsync(rtn_message);
+            await ReplyAsync (rtn_message);
         }
 
-        [Command("addfaction")]
-        [RequireBotPermission(GuildPermission.Administrator)]
-        public async Task AddfactionAsync(string faction)
-        {
-            List<string> bad_requests = this.bad_requests.ToList();
+        [Command ("addfaction")]
+        [RequireBotPermission (GuildPermission.Administrator)]
+        public async Task AddfactionAsync (string faction) {
+            List<string> bad_requests = this.bad_requests.ToList ();
 
-            if (bad_requests.Any(faction.Contains))
-            {
-                await ReplyAsync("Invalid Request");
+            if (bad_requests.Any (faction.Contains)) {
+                await ReplyAsync ("Invalid Request");
                 return;
             }
 
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            SocketGuildUser user = (SocketGuildUser)Context.User;
+            SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
-            {
-                await ReplyAsync("Faction selection not valid");
+            if (roles.Where (e => e.Name == faction).FirstOrDefault () == null) {
+                await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await user.AddRoleAsync(roles.Where(e => e.Name == faction).FirstOrDefault(), null);
+            await user.AddRoleAsync (roles.Where (e => e.Name == faction).FirstOrDefault (), null);
 
-            await ReplyAsync("Role Added");
+            await ReplyAsync ("Role Added");
             return;
         }
 
-        [Command("removefaction")]
-        [RequireBotPermission(GuildPermission.Administrator)]
-        public async Task RemovefactionAsync(string faction)
-        {
-            List<string> bad_requests = this.bad_requests.ToList();
+        [Command ("removefaction")]
+        [RequireBotPermission (GuildPermission.Administrator)]
+        public async Task RemovefactionAsync (string faction) {
+            List<string> bad_requests = this.bad_requests.ToList ();
 
-            if (bad_requests.Any(faction.Contains))
-            {
-                await ReplyAsync("Invalid Request");
+            if (bad_requests.Any (faction.Contains)) {
+                await ReplyAsync ("Invalid Request");
                 return;
             }
 
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            SocketGuildUser user = (SocketGuildUser)Context.User;
+            SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
-            {
-                await ReplyAsync("Faction selection not valid");
+            if (roles.Where (e => e.Name == faction).FirstOrDefault () == null) {
+                await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await user.RemoveRoleAsync(roles.Where(e => e.Name == faction).FirstOrDefault(), null);
+            await user.RemoveRoleAsync (roles.Where (e => e.Name == faction).FirstOrDefault (), null);
 
-            await ReplyAsync("Role Removed");
+            await ReplyAsync ("Role Removed");
             return;
+        }
+
+        [Command ("stopbot")]
+        [RequireBotPermission (GuildPermission.Administrator)]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task StopbotAsync () {;
+            await ReplyAsync ("The bot is shutting down.");
+            Context.Client.LogoutAsync ().GetAwaiter ().GetResult ();
+            Context.Client.StopAsync ().GetAwaiter ().GetResult ();
+            Context.Client.Dispose ();
         }
 
     }
