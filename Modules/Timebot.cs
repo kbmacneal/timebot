@@ -99,6 +99,7 @@ namespace timebot.Modules.Commands {
             rtn_message.Add ("tb!vote \"Faction name with spaces\" question# selection#: casts your factions vote for a specified option of a specified question");
             rtn_message.Add ("tb!tally #: Tallies the votes cast for a specified question.");
             rtn_message.Add ("tb!deletequestion #: Deletes the votes for the question specified.");
+            rtn_message.Add ("tb!initializeserver: sets the server up with all the main factions, and sets them to the right color.");
             rtn_message.Add ("tb!setcolors: normalizes the server's faction colors.");
             rtn_message.Add ("```");
 
@@ -254,6 +255,26 @@ namespace timebot.Modules.Commands {
             await voting.delete_question (question_id);
 
             await ReplyAsync ("Votes for the question have been removed");
+        }
+
+        [Command ("initializeserver")]
+        [RequireBotPermission (GuildPermission.Administrator)]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task InitializeserverAsync () {
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
+
+            foreach(Tuple<string,string> faction in Factions)
+            {
+                if(!(roles.Select(e=> e.Name).Contains(faction.Item1)))
+                {
+                    await Context.Guild.CreateRoleAsync(faction.Item1,null,null,false,null);
+                }
+            }
+
+            await SetcolorsAsync();
+
+            await ReplyAsync("Server initialized");
+
         }
 
         [Command ("setcolors")]
