@@ -271,9 +271,9 @@ namespace timebot.Modules.Commands {
                 }
             }
 
-            await SetcolorsAsync();
-
             await ReplyAsync("Server initialized");
+
+            await SetcolorsAsync();
 
         }
 
