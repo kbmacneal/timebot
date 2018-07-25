@@ -15,29 +15,6 @@ using timebot.Classes;
 namespace timebot.Modules.Commands {
 
     public class commands : ModuleBase<SocketCommandContext> {
-        private Tuple<string, string>[] Factions = new Tuple<string, string>[] {
-            Tuple.Create ("14 Red Dogs Triad", "#AD4641"),
-            Tuple.Create ("ACRE", "#915A2D"),
-            Tuple.Create ("Church of Humanity Repentant", "#227F97"),
-            Tuple.Create ("High Church of the Messiah-as-Emperox", "#F1C40F"),
-            Tuple.Create ("House Aquila", "#C2A77A"),
-            Tuple.Create ("House Crux", "#7851A9"),
-            Tuple.Create ("House Eridanus", "#070000"),
-            Tuple.Create ("House Fornax", "#C27C0E"),
-            Tuple.Create ("House Lyra", "#853C67"),
-            Tuple.Create ("House Pyxis", "#E3A041"),
-            Tuple.Create ("House Reticulum", "#B00000"),
-            Tuple.Create ("House Serpens", "#009115"),
-            Tuple.Create ("House Triangulum", "#7DB6FF"),
-            Tuple.Create ("House Vela", "#1B75BC"),
-            Tuple.Create ("Houses Major", ""),
-            Tuple.Create ("Houses Minor", ""),
-            Tuple.Create ("PRISM", "#AB99B6"),
-            Tuple.Create ("The Trilliant Ring", "#BBBBBB"),
-            Tuple.Create ("The Deathless", "#8F5C5C"),
-            Tuple.Create ("Unified People's Collective", "#89B951"),
-            Tuple.Create ("\"House\" Vagrant", "#2F4CCA")
-        };
 
         private async Task SendPMAsync (string message, SocketUser user) {
             await user.SendMessageAsync (message);
@@ -72,7 +49,6 @@ namespace timebot.Modules.Commands {
             rtn_message.Add ("tb!vote \"Faction name with spaces\" question# selection#: casts your factions vote for a specified option of a specified question");
             rtn_message.Add ("tb!tally #: Tallies the votes cast for a specified question.");
             rtn_message.Add ("tb!deletequestion #: Deletes the votes for the question specified.");
-            rtn_message.Add ("tb!initializeserver: sets the server up with all the main factions, and sets them to the right color.");
             rtn_message.Add ("tb!setcolors: normalizes the server's faction colors.");
             rtn_message.Add ("```");
 

@@ -37,24 +37,6 @@ namespace timebot.Modules.Commands {
             Tuple.Create ("\"House\" Vagrant", "#2F4CCA")
         };
 
-        [Command ("initializeserver")]
-        [RequireBotPermission (GuildPermission.Administrator)]
-        [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task InitializeserverAsync () {
-            List<SocketRole> roles = Context.Guild.Roles.ToList ();
-
-            foreach (Tuple<string, string> faction in Factions) {
-                if (!(roles.Select (e => e.Name).Contains (faction.Item1))) {
-                    await Context.Guild.CreateRoleAsync (faction.Item1, null, null, false, null);
-                }
-            }
-
-            await ReplyAsync ("Server initialized");
-
-            await SetcolorsAsync ();
-
-        }
-
         [Command ("setcolors")]
         [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
@@ -65,10 +47,13 @@ namespace timebot.Modules.Commands {
             System.Drawing.ColorConverter converter = new System.Drawing.ColorConverter ();
 
             foreach (Tuple<string, string> Faction in Factions) {
+                System.Drawing.Color colorhex = (System.Drawing.Color) converter.ConvertFromString (Faction.Item2);
+
                 if (roles.Select (e => e.Name).Contains (Faction.Item1)) {
-                    System.Drawing.Color colorhex = (System.Drawing.Color) converter.ConvertFromString (Faction.Item2);
 
                     await roles.Where (e => e.Name == Faction.Item1).FirstOrDefault ().ModifyAsync (r => r.Color = new Discord.Color (colorhex.R, colorhex.G, colorhex.B)).ConfigureAwait (false);
+                } else {
+                    await Context.Guild.CreateRoleAsync (Faction.Item1, null, new Discord.Color (colorhex.R, colorhex.G, colorhex.B), false, null);
                 }
 
             }
