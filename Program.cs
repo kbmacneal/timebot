@@ -95,10 +95,10 @@ namespace timebot
                 {
                     var context = new SocketCommandContext(_client, message);
 
-                    if(context.Message.ToString().Contains('”')||context.Message.ToString().Contains('“'))
-                    {
-                        await context.Message.ModifyAsync(e=>e.Content = e.Content.ToString().Replace('“','"').Replace('”','"'));
-                    }
+                    // if(context.Message.ToString().Contains('”')||context.Message.ToString().Contains('“'))
+                    // {
+                    //     await context.Message.ModifyAsync(e=>e.Content = e.Content.ToString().Replace('“','"').Replace('”','"'));
+                    // }
                     
 
                     var result = await _commands.ExecuteAsync(context, argPosition, _services);
