@@ -119,5 +119,33 @@ namespace timebot
 
             await user.SendMessageAsync(message);
         }
+
+        public Boolean check_command(string server_id, string command)
+        {
+            Boolean rtn = false;
+
+            List<string> commands_available = generate_server_command_list().Where(e=>e.Key == server_id).Select(e=>e.Value).FirstOrDefault().ToList();
+
+            rtn = commands_available.Contains(command) ? true : false;
+
+            return rtn;
+        }
+
+        public Dictionary<string,List<string>> generate_server_command_list()
+        {
+            Dictionary<string,List<string>> rtn = new Dictionary<string,List<string>>();
+
+            rtn.Add("465538179978756096",new List<string>(){
+                "1",
+                "2"
+            });
+
+            rtn.Add("435921918152146945",new List<string>(){
+                "1",
+                "2"
+            });
+
+            return rtn;
+        }
     }
 }
