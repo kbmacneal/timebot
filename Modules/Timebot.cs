@@ -188,7 +188,7 @@ namespace timebot.Modules.Commands {
             foreach (int option in options) {
                 results.Add ("The tally for option " + option.ToString () + "is: " + votes.Where (e => e.selection == option).ToList ().Count ().ToString ());
                 results.Add("The factions who voted for this option are:");
-                String.Join(", ",votes.Select(e=>e.faction_name));
+                results.Add(String.Join(", ",votes.Select(e=>e.faction_name)));
             }
             results.Add ("```");
 
