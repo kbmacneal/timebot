@@ -137,6 +137,53 @@ namespace timebot.Modules.Commands
             return;
         }
 
+        [Command("removerepresentative")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task RemoverepresentativeAsync(SocketUser user, string faction)
+        {
+            List<string> bad_requests = this.bad_requests.ToList();
+
+            if (bad_requests.Any(faction.Contains))
+            {
+                await ReplyAsync("Invalid Request");
+                return;
+            }
+
+            List<SocketRole> roles = Context.Guild.Roles.ToList();
+
+            SocketGuildUser usr = (SocketGuildUser)user;
+
+            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
+            {
+                await ReplyAsync("Faction selection not valid");
+                return;
+            }
+
+            SocketRole role = Context.Guild.Roles.Where(e=>e.Name == faction).FirstOrDefault();
+
+            if(role == null)return;
+
+            Nacho nacho = new Nacho();
+
+            Nacho.representative rep = new Nacho.representative();
+
+            rep.name = user.Username;
+            rep.discriminator = Convert.ToUInt64(user.Discriminator);
+            rep.faction_id = role.Id;
+            rep.faction_text = role.Name;
+
+            await nacho.remove_rep(rep);
+
+            await usr.RemoveRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            
+            string message = "You have been removed as the representative for " + faction;
+
+            await ReplyAsync(message);
+            
+            return;
+        }
+
 
         public async Task<Boolean> check_if_rep(Nacho.representative rep)
         {

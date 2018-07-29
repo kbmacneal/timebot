@@ -156,6 +156,8 @@ namespace timebot.Modules.Commands {
 
         [Command ("vote")]
         public async Task vote (string faction, int question, int selection) {
+
+           
             vote vote = new vote ();
 
             if(Context.Guild.Roles.Where (e => e.Name == faction).FirstOrDefault () == null)
@@ -170,6 +172,14 @@ namespace timebot.Modules.Commands {
             vote.vote_id = question;
             vote.faction_name = faction;
             vote.faction_id = Context.Guild.Roles.Where (e => e.Name == faction).Select (e => e.Id).FirstOrDefault ();
+
+             Boolean can_vote = validate_vote(Context.User, vote);
+             if(!can_vote)
+             {
+                 await ReplyAsync("User not authorized to cast a vote for this faction.");
+                 return;
+             }
+
 
             factionvoting voter = new factionvoting ();
             await voter.add_vote (vote);
@@ -186,7 +196,7 @@ namespace timebot.Modules.Commands {
             List<int> options = votes.Select (e => e.selection).Distinct ().ToList ();
 
             foreach (int option in options) {
-                results.Add ("The tally for option " + option.ToString () + "is: " + votes.Where (e => e.selection == option).ToList ().Count ().ToString ());
+                results.Add ("The tally for option " + option.ToString () + " is: " + votes.Where (e => e.selection == option).ToList ().Count ().ToString ());
                 results.Add("The factions who voted for this option are:");
                 results.Add(String.Join(", ",votes.Select(e=>e.faction_name)));
             }
@@ -206,6 +216,26 @@ namespace timebot.Modules.Commands {
             await voting.delete_question (question_id);
 
             await ReplyAsync ("Votes for the question have been removed");
+        }
+
+        private Boolean validate_vote(SocketUser user, vote vote)
+        {
+            Nacho nacho = new Nacho();
+
+            if(nacho.get_rep(user.Username, Convert.ToUInt64(user.Discriminator)).FirstOrDefault() == null)
+            {
+                return false;
+            }
+
+            Nacho.representative rep = nacho.get_rep(user.Username, Convert.ToUInt64(user.Discriminator)).FirstOrDefault();
+
+            if(rep.faction_text != vote.faction_name)
+            {
+                return false;
+            }
+
+            return true;
+            
         }
 
     }
