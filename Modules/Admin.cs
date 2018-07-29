@@ -95,7 +95,6 @@ namespace timebot.Modules.Commands {
 
         [Command ("removefaction")]
         [RequireBotPermission (GuildPermission.Administrator)]
-        [RequireUserPermission (GuildPermission.Administrator)]
         public async Task RemovefactionAsync (string faction) {
             List<string> bad_requests = this.bad_requests.ToList ();
 
@@ -114,6 +113,32 @@ namespace timebot.Modules.Commands {
             }
 
             await user.RemoveRoleAsync (roles.Where (e => e.Name == faction).FirstOrDefault (), null);
+
+            await ReplyAsync ("Role Removed");
+            return;
+        }
+
+        [Command ("removefaction")]
+        [RequireBotPermission (GuildPermission.Administrator)]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task RemovefactionAsync (SocketUser user, string faction) {
+            List<string> bad_requests = this.bad_requests.ToList ();
+
+            if (bad_requests.Any (faction.Contains)) {
+                await ReplyAsync ("Invalid Request");
+                return;
+            }
+
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
+
+            SocketGuildUser usr = (SocketGuildUser)user;
+
+            if (roles.Where (e => e.Name == faction).FirstOrDefault () == null) {
+                await ReplyAsync ("Faction selection not valid");
+                return;
+            }
+
+            await usr.RemoveRoleAsync (roles.Where (e => e.Name == faction).FirstOrDefault (), null);
 
             await ReplyAsync ("Role Removed");
             return;
