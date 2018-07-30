@@ -80,6 +80,12 @@ namespace timebot
                 return;
             }
 
+            if(message.Content.Contains('“') || message.Content.Contains('”'))
+            {
+                string msg = message.Content.Replace('“','"').Replace('”','"');
+                await message.ModifyAsync(e=>e.Content = msg);
+            }
+
             string msg_prefix = message.Content.ToString().Substring(0, 3);
 
             //if the prefix is in the list of valid prefixes, continue
@@ -97,7 +103,7 @@ namespace timebot
 
                     string server_id = context.Guild.Id.ToString();
 
-                    if(!(check_command(server_id, message.Content.Replace("tb!",""))))
+                    if (!(check_command(server_id, message.Content.Replace("tb!", ""))))
                     {
                         Console.WriteLine(message.Content + " not allowed on this server.");
                         return;
@@ -127,14 +133,15 @@ namespace timebot
             Boolean rtn = false;
             string cmd = "";
 
-            if(command.Contains(" "))
+            if (command.Contains(" "))
             {
                 cmd = command.Split(" ")[0];
             }
-            else{
+            else
+            {
                 cmd = command;
             }
-            
+
 
             List<string> commands_available = generate_server_command_list().Where(e => e.Key == server_id).Select(e => e.Value).FirstOrDefault().ToList();
 
