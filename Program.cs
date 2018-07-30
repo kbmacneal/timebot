@@ -95,11 +95,13 @@ namespace timebot
                 {
                     var context = new SocketCommandContext(_client, message);
 
-                    // if(context.Message.ToString().Contains('”')||context.Message.ToString().Contains('“'))
-                    // {
-                    //     await context.Message.ModifyAsync(e=>e.Content = e.Content.ToString().Replace('“','"').Replace('”','"'));
-                    // }
-                    
+                    string server_id = context.Guild.Id.ToString();
+
+                    if(!(check_command(server_id, message.Content.Replace("tb!",""))))
+                    {
+                        Console.WriteLine(message.Content + " not allowed on this server.");
+                        return;
+                    }
 
                     var result = await _commands.ExecuteAsync(context, argPosition, _services);
                     if (!result.IsSuccess)
@@ -124,25 +126,50 @@ namespace timebot
         {
             Boolean rtn = false;
 
-            List<string> commands_available = generate_server_command_list().Where(e=>e.Key == server_id).Select(e=>e.Value).FirstOrDefault().ToList();
+            List<string> commands_available = generate_server_command_list().Where(e => e.Key == server_id).Select(e => e.Value).FirstOrDefault().ToList();
 
             rtn = commands_available.Contains(command) ? true : false;
 
             return rtn;
         }
 
-        public Dictionary<string,List<string>> generate_server_command_list()
+        public Dictionary<string, List<string>> generate_server_command_list()
         {
-            Dictionary<string,List<string>> rtn = new Dictionary<string,List<string>>();
+            Dictionary<string, List<string>> rtn = new Dictionary<string, List<string>>();
 
-            rtn.Add("465538179978756096",new List<string>(){
-                "1",
-                "2"
+            //Inter-faction discussion server
+            rtn.Add("465538179978756096", new List<string>(){
+                "ping",
+                "commands",
+                "changedefaults",
+                "setbotusername",
+                "starttimer",
+                "listfaction",
+                "addfaction",
+                "playbingo",
+                "clearspeakers",
+                "clearchannel",
+                "removefaction",
+                "addrepresentative",
+                "removerepresentative",
+                "vote",
+                "tally",
+                "deletequestion",
+                "setcolors"
             });
 
-            rtn.Add("435921918152146945",new List<string>(){
-                "1",
-                "2"
+            //main diplo server
+            rtn.Add("435921918152146945", new List<string>(){
+                "ping",
+                "commands",
+                "setbotusername",
+                "stopbot",
+                "listfaction",
+                "addfaction",
+                "playbingo",
+                "clearchannel",
+                "removefaction",
+                "setcolors"
             });
 
             return rtn;
