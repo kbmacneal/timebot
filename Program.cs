@@ -155,7 +155,8 @@ namespace timebot
                 "vote",
                 "tally",
                 "deletequestion",
-                "setcolors"
+                "setcolors",
+                "cactus"
             });
 
             //main diplo server
@@ -169,7 +170,8 @@ namespace timebot
                 "playbingo",
                 "clearchannel",
                 "removefaction",
-                "setcolors"
+                "setcolors",
+                "cactus"
             });
 
             return rtn;
