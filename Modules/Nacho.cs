@@ -93,7 +93,22 @@ namespace timebot.Modules.Commands
 
         [Command("removerepresentative")]
         [RequireBotPermission(GuildPermission.Administrator)]
-        public async Task RemoverepresentativeAsync(string faction)
+        public async Task RemoverepresentativeAsync()
+        {
+            Nacho nacho = new Nacho();
+
+            await nacho.remove_rep(Context.User);
+
+            await ((SocketGuildUser)Context.User).RemoveRoleAsync(Context.Guild.Roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            
+            await ReplyAsync("You have been removed as the representative");
+            return;
+        }
+
+        [Command("removerepresentative")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task RemoverepresentativeAsync(SocketUser user, string faction)
         {
             List<string> bad_requests = this.bad_requests.ToList();
 
@@ -105,7 +120,7 @@ namespace timebot.Modules.Commands
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
-            SocketGuildUser user = (SocketGuildUser)Context.User;
+            SocketGuildUser usr = (SocketGuildUser)user;
 
             if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
             {
@@ -128,7 +143,7 @@ namespace timebot.Modules.Commands
 
             await nacho.remove_rep(rep);
 
-            await user.RemoveRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            await usr.RemoveRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
             
             string message = "You have been removed as the representative for " + faction;
 

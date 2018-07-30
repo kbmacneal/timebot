@@ -72,5 +72,17 @@ namespace timebot.Classes {
 
             store.Dispose ();
         }
+
+        public async Task remove_rep (SocketUser user) {
+            // Open database (create new if file doesn't exist)
+            var store = new DataStore ("data.json");
+
+            // Get employee collection
+            var collection = store.GetCollection<representative> ();
+
+            await collection.DeleteManyAsync (e => e.name == user.Username && e.discriminator.ToString() == user.Discriminator);
+
+            store.Dispose ();
+        }
     }
 }

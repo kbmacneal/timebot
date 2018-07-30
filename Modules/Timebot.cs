@@ -34,15 +34,9 @@ namespace timebot.Modules.Commands {
             rtn_message.Add ("Here are the commands available");
             rtn_message.Add ("tb!ping : Make sure the bot is alive");
             rtn_message.Add ("tb!commands: you're using it right now!");
-            rtn_message.Add ("tb!changedefaults #: Change the default speaking time");
-            rtn_message.Add ("tb!setbotusername: Initializes the bot's nickname and state");
-            rtn_message.Add ("tb!stopbot: PERMANENTLY STOPS THE BOT. Only Pelax should use this.");
-            rtn_message.Add ("tb!starttimer @mention: start a timer for a specific person");
             rtn_message.Add ("tb!listfaction: List the factions available to be added to");
-            rtn_message.Add ("tb!addfaction \"Faction Name with Spaces\": adds a speaker to the faction");
+            rtn_message.Add ("tb!addfaction \"Faction Name with Spaces\": adds a user to the faction");
             rtn_message.Add ("tb!playbingo: starts a game of bingo, hosted by the bot.");
-            rtn_message.Add ("tb!clearspeakers: clears the observers and speakers from having those specific roles");
-            rtn_message.Add ("tb!clearchannel: clears all messages from the current channel");
             rtn_message.Add ("tb!removefaction: removes a user from a faction");
             rtn_message.Add ("tb!addrepresentative \"HOUSE NAME WITH SPACES\": adds you as the representative for your faction");
             rtn_message.Add ("tb!removerepresentative \"HOUSE NAME WITH SPACES\": removes you as the representative for your faction");
@@ -118,7 +112,7 @@ namespace timebot.Modules.Commands {
         [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ClearspeakersAsync () {
-            List<ulong> roles = Context.Guild.Roles.Where (e => e.Name == "Speaker" || e.Name == "Observer" || e.Name == "Moderator").Select (e => e.Id).ToList ();
+            List<ulong> roles = Context.Guild.Roles.Where (e => e.Name == "Speaker" || e.Name == "Observer").Select (e => e.Id).ToList ();
 
             List<SocketGuildUser> users = Context.Guild.Users.ToList ();
 
@@ -162,7 +156,15 @@ namespace timebot.Modules.Commands {
 
         [Command ("vote")]
         public async Task vote (string faction, int question, int selection) {
+
+           
             vote vote = new vote ();
+
+            if(Context.Guild.Roles.Where (e => e.Name == faction).FirstOrDefault () == null)
+            {
+                await ReplyAsync("Faction invalid.");
+                return;
+            }
 
             vote.name = Context.User.Username;
             vote.discriminator = Convert.ToUInt64 (Context.User.Discriminator);
@@ -170,6 +172,14 @@ namespace timebot.Modules.Commands {
             vote.vote_id = question;
             vote.faction_name = faction;
             vote.faction_id = Context.Guild.Roles.Where (e => e.Name == faction).Select (e => e.Id).FirstOrDefault ();
+
+             Boolean can_vote = validate_vote(Context.User, vote);
+             if(!can_vote)
+             {
+                 await ReplyAsync("User not authorized to cast a vote for this faction.");
+                 return;
+             }
+
 
             factionvoting voter = new factionvoting ();
             await voter.add_vote (vote);
@@ -186,7 +196,9 @@ namespace timebot.Modules.Commands {
             List<int> options = votes.Select (e => e.selection).Distinct ().ToList ();
 
             foreach (int option in options) {
-                results.Add ("The tally for option " + option.ToString () + "is: " + votes.Where (e => e.selection == option).ToList ().Count ().ToString ());
+                results.Add ("The tally for option " + option.ToString () + " is: " + votes.Where (e => e.selection == option).ToList ().Count ().ToString ());
+                results.Add("The factions who voted for this option are:");
+                results.Add(String.Join(", ",votes.Select(e=>e.faction_name)));
             }
             results.Add ("```");
 
@@ -204,6 +216,26 @@ namespace timebot.Modules.Commands {
             await voting.delete_question (question_id);
 
             await ReplyAsync ("Votes for the question have been removed");
+        }
+
+        private Boolean validate_vote(SocketUser user, vote vote)
+        {
+            Nacho nacho = new Nacho();
+
+            if(nacho.get_rep(user.Username, Convert.ToUInt64(user.Discriminator)).FirstOrDefault() == null)
+            {
+                return false;
+            }
+
+            Nacho.representative rep = nacho.get_rep(user.Username, Convert.ToUInt64(user.Discriminator)).FirstOrDefault();
+
+            if(rep.faction_text != vote.faction_name)
+            {
+                return false;
+            }
+
+            return true;
+            
         }
 
     }
