@@ -125,10 +125,20 @@ namespace timebot
         public Boolean check_command(string server_id, string command)
         {
             Boolean rtn = false;
+            string cmd = "";
+
+            if(command.Contains(" "))
+            {
+                cmd = command.Split(" ")[0];
+            }
+            else{
+                cmd = command;
+            }
+            
 
             List<string> commands_available = generate_server_command_list().Where(e => e.Key == server_id).Select(e => e.Value).FirstOrDefault().ToList();
 
-            rtn = commands_available.Contains(command) ? true : false;
+            rtn = commands_available.Contains(cmd) ? true : false;
 
             return rtn;
         }
