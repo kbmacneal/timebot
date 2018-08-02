@@ -69,6 +69,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("addfaction")]
+        [RequireUserPermission (GuildPermission.Administrator)]
         [RequireBotPermission (GuildPermission.Administrator)]
         public async Task AddfactionAsync (SocketUser user, string faction) {
             List<string> bad_requests = this.bad_requests.ToList ();
