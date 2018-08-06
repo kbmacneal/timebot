@@ -162,16 +162,9 @@ namespace timebot.Modules.Commands {
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ArchivechannelAsync()
         {
-            List<SocketMessage> messages = new List<SocketMessage>();
             string date_archived = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
 
-            List<IMessage> archive = Context.Channel.GetMessagesAsync(0,CacheMode.AllowDownload,RequestOptions.Default).Flatten().GetAwaiter().GetResult().ToList();
-
-            foreach(var msg in archive)
-            {
-                SocketMessage e = (SocketMessage)msg;
-                messages.Add(e);
-            }
+            var archive = Context.Channel.GetMessagesAsync(0,CacheMode.AllowDownload,RequestOptions.Default);
 
             string serialized = JsonConvert.SerializeObject(archive);
 
