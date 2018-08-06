@@ -29,7 +29,8 @@ namespace timebot.Modules.Commands {
             "pilgrim",
             "Representative",
             "shame",
-            "NACHO"
+            "NACHO",
+            "Locked"
 
         };
 
@@ -154,6 +155,21 @@ namespace timebot.Modules.Commands {
             Context.Client.LogoutAsync ().GetAwaiter ().GetResult ();
             Context.Client.StopAsync ().GetAwaiter ().GetResult ();
             Context.Client.Dispose ();
+        }
+
+        [Command ("archivechannel")]
+        [RequireBotPermission (GuildPermission.Administrator)]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task ArchivechannelAsync()
+        {
+            List<SocketMessage> messages = new List<SocketMessage>();
+            string date_archived = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
+
+            var archive = Context.Channel.GetMessagesAsync(0,CacheMode.AllowDownload,RequestOptions.Default);
+
+            archive.ForEach(e=>messages.Add((SocketMessage)e));
+
+
         }
 
     }
