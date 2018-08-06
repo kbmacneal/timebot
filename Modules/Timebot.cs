@@ -145,17 +145,11 @@ namespace timebot.Modules.Commands
 
         [Command("clearchannel")]
         [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ClearchannelAsync()
         {
-            List<ulong> roles = Context.Guild.Roles.Where(e => e.Name == "Representative" || e.Name == "Moderator" || e.Name == "admin").Select(e => e.Id).ToList();
-
-            SocketGuildUser user = (SocketGuildUser)Context.User;
-
-            if (roles.Any(user.Roles.Select(e => e.Id).Contains))
-            {
-                var messages = await this.Context.Channel.GetMessagesAsync(int.MaxValue).Flatten();
-                await this.Context.Channel.DeleteMessagesAsync(messages);
-            }
+            var messages = await this.Context.Channel.GetMessagesAsync(int.MaxValue).Flatten();
+            await this.Context.Channel.DeleteMessagesAsync(messages);
 
         }
 
