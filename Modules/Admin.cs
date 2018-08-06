@@ -169,7 +169,13 @@ namespace timebot.Modules.Commands {
 
             archive.ForEach(e=>messages.Add((SocketMessage)e));
 
+            string serialized = JsonConvert.SerializeObject(archive);
 
+            string path = Context.Channel.Name + " " + date_archived;
+
+            System.IO.File.WriteAllText(path + ".json", serialized);
+
+            await ReplyAsync("Channel archived");
         }
 
     }
