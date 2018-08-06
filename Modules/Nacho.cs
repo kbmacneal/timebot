@@ -91,6 +91,64 @@ namespace timebot.Modules.Commands
             return;
         }
 
+        [Command("addrepresentative")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        public async Task AddrepresentativeAsync(SocketUser usr, string faction)
+        {
+            List<string> bad_requests = this.bad_requests.ToList();
+
+            if (bad_requests.Any(faction.Contains))
+            {
+                await ReplyAsync("Invalid Request");
+                return;
+            }
+
+            List<SocketRole> roles = Context.Guild.Roles.ToList();
+
+            SocketGuildUser user = (SocketGuildUser)usr;
+
+            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
+            {
+                await ReplyAsync("Faction selection not valid");
+                return;
+            }
+
+            SocketRole role = Context.Guild.Roles.Where(e=>e.Name == faction).FirstOrDefault();
+
+            if(role == null)return;
+
+            Nacho nacho = new Nacho();
+
+            Nacho.representative rep = new Nacho.representative();
+
+            rep.name = user.Username;
+            rep.discriminator = Convert.ToUInt64(user.Discriminator);
+            rep.faction_id = role.Id;
+            rep.faction_text = role.Name;
+
+            if((check_if_rep(rep)).GetAwaiter().GetResult() == true)
+            {
+                await ReplyAsync("You are already the representative for a faction. Run the tb!removerepresentative function then try again.");
+                return;
+            }
+
+            if((check_if_already_represented(rep.faction_text)).GetAwaiter().GetResult() == true)
+            {
+                await ReplyAsync("The faction selected already has a representative. Please contact the mods if you have further questions.");
+                return;
+            }
+
+            await nacho.assign_representative(rep);
+            
+            await user.AddRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            
+            string message = "You have been added as the representative for " + faction;
+
+            await ReplyAsync(message);
+            
+            return;
+        }
+
         [Command("removerepresentative")]
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task RemoverepresentativeAsync()
