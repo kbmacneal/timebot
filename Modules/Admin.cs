@@ -28,7 +28,8 @@ namespace timebot.Modules.Commands {
             "OOC a human don't forget it",
             "pilgrim",
             "Representative",
-            "shame"
+            "shame",
+            "NACHO"
 
         };
 
