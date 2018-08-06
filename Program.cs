@@ -184,10 +184,8 @@ namespace timebot
                 "setbotusername",
                 "stopbot",
                 "listfaction",
-                "addfaction",
                 "playbingo",
                 "clearchannel",
-                "removefaction",
                 "setcolors",
                 "cactus",
                 "badbot"
