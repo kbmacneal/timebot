@@ -164,9 +164,13 @@ namespace timebot.Modules.Commands {
         {
             string date_archived = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
 
-            IEnumerable<IMessage> archive = await Context.Channel.GetMessagesAsync(0,CacheMode.AllowDownload,RequestOptions.Default).Flatten();
+            IEnumerable<IMessage> archive = await Context.Channel.GetMessagesAsync(Int32.MaxValue).Flatten();
 
-            string serialized = JsonConvert.SerializeObject(archive);
+             var query =
+        from msg in archive
+        select new { msg.Author.Username, msg.Author.Discriminator, msg.Content, msg.CreatedAt, msg.EditedTimestamp, msg.Id, msg.Source, msg.Timestamp, msg.Attachments };
+
+            string serialized = JsonConvert.SerializeObject(query);
 
             string path = Context.Channel.Name + " " + date_archived;
 
