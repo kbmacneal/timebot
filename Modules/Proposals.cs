@@ -45,7 +45,7 @@ namespace timebot.Modules.Commands {
 
             text = text.Insert(0,"```");
             text = text += "```";
-            text = stamp.ToString() + System.Environment.NewLine + "Proposal by: " + System.Environment.NewLine + "Representing Faction: " + rep.faction_text + System.Environment.NewLine + text;
+            text = stamp.ToString() + System.Environment.NewLine + "Proposal by: " + nickname + System.Environment.NewLine + "Representing Faction: " + rep.faction_text + System.Environment.NewLine + text;
 
             if (attach != null) {
                 using (WebClient wc = new WebClient ()) {
