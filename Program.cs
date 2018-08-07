@@ -193,6 +193,25 @@ namespace timebot
                 "archivechannel"
             });
 
+            //meeting room 1
+            rtn.Add("476147072526188546",new List<string>(){
+                "ping",
+                "commands",
+                "changedefaults",
+                "setbotusername",
+                "starttimer",
+                "listfaction",
+                "addfaction",
+                "playbingo",
+                "clearspeakers",
+                "clearchannel",
+                "removefaction",
+                "setcolors",
+                "cactus",
+                "badbot",
+                "archivechannel"
+            });
+
             return rtn;
         }
     }

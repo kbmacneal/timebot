@@ -29,7 +29,6 @@ namespace timebot.Modules.Commands {
             "pilgrim",
             "Representative",
             "shame",
-            "NACHO",
             "Locked"
 
         };
