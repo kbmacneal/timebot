@@ -88,7 +88,7 @@ namespace timebot.Modules.Commands
             {
                 await AddspeakerAsync(user);
 
-                spkr = Data.get_speakers().Where(s => s.user.Name == user.Username && s.user.Discriminator == user.Discriminator).First();
+                spkr = Data.get_speakers().First(s => s.user.Name == user.Username && s.user.Discriminator == user.Discriminator);
 
                 spkr.start_time = DateTime.Now;
 
@@ -104,7 +104,7 @@ namespace timebot.Modules.Commands
             }
             else
             {
-                spkr = Data.get_speakers().Where(s => s.user.Name == user.Username && s.user.Discriminator == user.Discriminator).First();
+                spkr = Data.get_speakers().First(s => s.user.Name == user.Username && s.user.Discriminator == user.Discriminator);
 
                 spkr.start_time = DateTime.Now;
 

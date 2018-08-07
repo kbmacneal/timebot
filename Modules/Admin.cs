@@ -58,12 +58,12 @@ namespace timebot.Modules.Commands {
 
             SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (roles.Where (e => e.Name == faction).FirstOrDefault () == null) {
+            if (roles.FirstOrDefault (e => e.Name == faction) == null) {
                 await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await user.AddRoleAsync (roles.Where (e => e.Name == faction).FirstOrDefault (), null);
+            await user.AddRoleAsync (roles.FirstOrDefault (e => e.Name == faction), null);
 
             await ReplyAsync ("Role Added");
             return;
@@ -84,12 +84,12 @@ namespace timebot.Modules.Commands {
 
             SocketGuildUser usr = (SocketGuildUser)user;
 
-            if (roles.Where (e => e.Name == faction).FirstOrDefault () == null) {
+            if (roles.FirstOrDefault (e => e.Name == faction) == null) {
                 await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await usr.AddRoleAsync (roles.Where (e => e.Name == faction).FirstOrDefault (), null);
+            await usr.AddRoleAsync (roles.FirstOrDefault (e => e.Name == faction), null);
 
             await ReplyAsync ("Role Added");
             return;
@@ -109,12 +109,12 @@ namespace timebot.Modules.Commands {
 
             SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (roles.Where (e => e.Name == faction).FirstOrDefault () == null) {
+            if (roles.FirstOrDefault (e => e.Name == faction) == null) {
                 await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await user.RemoveRoleAsync (roles.Where (e => e.Name == faction).FirstOrDefault (), null);
+            await user.RemoveRoleAsync (roles.FirstOrDefault (e => e.Name == faction), null);
 
             await ReplyAsync ("Role Removed");
             return;
@@ -135,12 +135,12 @@ namespace timebot.Modules.Commands {
 
             SocketGuildUser usr = (SocketGuildUser)user;
 
-            if (roles.Where (e => e.Name == faction).FirstOrDefault () == null) {
+            if (roles.FirstOrDefault (e => e.Name == faction) == null) {
                 await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await usr.RemoveRoleAsync (roles.Where (e => e.Name == faction).FirstOrDefault (), null);
+            await usr.RemoveRoleAsync (roles.FirstOrDefault (e => e.Name == faction), null);
 
             await ReplyAsync ("Role Removed");
             return;

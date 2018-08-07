@@ -31,7 +31,7 @@ namespace timebot
 
             //initialize the default admin
 
-            if (Data.get_users().Where(s => s.Name == "BowmoreK").Count() == 0)
+            if (Data.get_users().Count(s => s.Name == "BowmoreK") == 0)
             {
                 Data.user usr = new Data.user();
                 usr.Name = "BowmoreK";
@@ -150,7 +150,7 @@ namespace timebot
             return rtn;
         }
 
-        public Dictionary<string, List<string>> generate_server_command_list()
+        public static Dictionary<string, List<string>> generate_server_command_list()
         {
             Dictionary<string, List<string>> rtn = new Dictionary<string, List<string>>();
 

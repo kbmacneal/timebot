@@ -49,13 +49,13 @@ namespace timebot.Modules.Commands
 
             SocketGuildUser user = (SocketGuildUser)Context.User;
 
-            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
+            if (roles.FirstOrDefault(e => e.Name == faction) == null)
             {
                 await ReplyAsync("Faction selection not valid");
                 return;
             }
 
-            SocketRole role = Context.Guild.Roles.Where(e=>e.Name == faction).FirstOrDefault();
+            SocketRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name == faction);
 
             if(role == null)return;
 
@@ -82,7 +82,7 @@ namespace timebot.Modules.Commands
 
             await nacho.assign_representative(rep);
             
-            await user.AddRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            await user.AddRoleAsync(roles.FirstOrDefault(e => e.Name == "Representative"), null);
             
             string message = "You have been added as the representative for " + faction;
 
@@ -107,13 +107,13 @@ namespace timebot.Modules.Commands
 
             SocketGuildUser user = (SocketGuildUser)usr;
 
-            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
+            if (roles.FirstOrDefault(e => e.Name == faction) == null)
             {
                 await ReplyAsync("Faction selection not valid");
                 return;
             }
 
-            SocketRole role = Context.Guild.Roles.Where(e=>e.Name == faction).FirstOrDefault();
+            SocketRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name == faction);
 
             if(role == null)return;
 
@@ -140,7 +140,7 @@ namespace timebot.Modules.Commands
 
             await nacho.assign_representative(rep);
             
-            await user.AddRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            await user.AddRoleAsync(roles.FirstOrDefault(e => e.Name == "Representative"), null);
             
             string message = "You have been added as the representative for " + faction;
 
@@ -157,7 +157,7 @@ namespace timebot.Modules.Commands
 
             await nacho.remove_rep(Context.User);
 
-            await ((SocketGuildUser)Context.User).RemoveRoleAsync(Context.Guild.Roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            await ((SocketGuildUser)Context.User).RemoveRoleAsync(Context.Guild.Roles.FirstOrDefault(e => e.Name == "Representative"), null);
             
             await ReplyAsync("You have been removed as the representative");
             return;
@@ -180,13 +180,13 @@ namespace timebot.Modules.Commands
 
             SocketGuildUser usr = (SocketGuildUser)user;
 
-            if (roles.Where(e => e.Name == faction).FirstOrDefault() == null)
+            if (roles.FirstOrDefault(e => e.Name == faction) == null)
             {
                 await ReplyAsync("Faction selection not valid");
                 return;
             }
 
-            SocketRole role = Context.Guild.Roles.Where(e=>e.Name == faction).FirstOrDefault();
+            SocketRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name == faction);
 
             if(role == null)return;
 
@@ -201,7 +201,7 @@ namespace timebot.Modules.Commands
 
             await nacho.remove_rep(rep);
 
-            await usr.RemoveRoleAsync(roles.Where(e => e.Name == "Representative").FirstOrDefault(), null);
+            await usr.RemoveRoleAsync(roles.FirstOrDefault(e => e.Name == "Representative"), null);
             
             string message = "You have been removed as the representative for " + faction;
 
