@@ -170,7 +170,7 @@ namespace timebot.Modules.Commands
         [Command("churchapproved")]
         public async Task ChurchapprovedAsync()
         {
-            await Context.Channel.SendFileAsync("https://highchurch.space/Assets/Memes/Cactus_Pius_seal.png","Officially Approved by the High Church",false,null);
+            await Context.Channel.SendFileAsync("Cactus_Pius_seal.png","Officially Approved by the High Church",false,null);
 
             return;
         }
