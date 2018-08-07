@@ -160,7 +160,7 @@ namespace timebot.Modules.Commands
 
             await Context.Message.AddReactionAsync(cactus);
 
-            string result = new StringBuilder().Insert(0, String.Concat("<:cactusemo:", cactus.Id.ToString(), "> "), 10).ToString();
+            string result = new StringBuilder().Insert(0, String.Concat("<:cactusemo:", cactus.Id.ToString(), ">"), 10).ToString();
 
             await ReplyAsync(result);
 
