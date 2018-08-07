@@ -177,8 +177,8 @@ namespace timebot.Modules.Commands {
 
             await ReplyAsync("Channel archived");
 
-            await Context.User.SendMessageAsync("Here is the archived file.");
-            await Context.Channel.SendFileAsync(path);
+            await Context.Channel.SendMessageAsync("Here is the archived file.");
+            await Context.Channel.SendFileAsync(path + ".json");
         }
 
     }
