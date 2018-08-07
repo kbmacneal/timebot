@@ -176,6 +176,7 @@ namespace timebot
                 "cactus",
                 "badbot",
                 "churchapproved",
+                "propose",
                 "archivechannel"
             });
 
