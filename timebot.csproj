@@ -17,4 +17,8 @@
     <PackageReference Include="system.threading.timer" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+  <None Include="Cactus_Pius_seal.png" CopyToPublishDirectory="Always" />
+</ItemGroup>
+
 </Project>
