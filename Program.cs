@@ -190,6 +190,7 @@ namespace timebot
                 "setcolors",
                 "cactus",
                 "badbot",
+                "churchapproved",
                 "archivechannel"
             });
 
@@ -209,6 +210,7 @@ namespace timebot
                 "setcolors",
                 "cactus",
                 "badbot",
+                "churchapproved",
                 "archivechannel"
             });
 
