@@ -177,6 +177,9 @@ namespace timebot.Modules.Commands {
             System.IO.File.WriteAllText(path + ".json", serialized);
 
             await ReplyAsync("Channel archived");
+
+            await Context.User.SendMessageAsync("Here is the archived file.");
+            await Context.Channel.SendFileAsync(path);
         }
 
     }
