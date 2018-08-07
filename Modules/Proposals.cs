@@ -27,6 +27,9 @@ namespace timebot.Modules.Commands {
 
             Attachment attach = Context.Message.Attachments.FirstOrDefault ();
 
+            text.Insert(0,"```");
+            text = text += "```";
+
             if (attach != null) {
                 using (WebClient wc = new WebClient ()) {
                     wc.DownloadFileAsync (new System.Uri (attach.Url),
