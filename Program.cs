@@ -175,6 +175,7 @@ namespace timebot
                 "setcolors",
                 "cactus",
                 "badbot",
+                "churchapproved",
                 "archivechannel"
             });
 
