@@ -167,6 +167,14 @@ namespace timebot.Modules.Commands
             return;
         }
 
+        [Command("churchapproved")]
+        public async Task ChurchapprovedAsync()
+        {
+            await Context.Channel.SendFileAsync("https://highchurch.space/Assets/Memes/Cactus_Pius_seal.png","Officially Approved by the High Church",false,null);
+
+            return;
+        }
+
         [Command("vote")]
         public async Task vote(string faction, int question, int selection)
         {
@@ -315,6 +323,8 @@ namespace timebot.Modules.Commands
             return true;
 
         }
+
+        
 
     }
 
