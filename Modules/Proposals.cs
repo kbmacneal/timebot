@@ -47,8 +47,8 @@ namespace timebot.Modules.Commands {
 
             if (attach != null) {
                 using (WebClient wc = new WebClient ()) {
-                    wc.DownloadFileAsync (new System.Uri (attach.Url),
-                        attach.Filename);                        
+                    wc.DownloadFile (new System.Uri (attach.Url),
+                        attach.Filename);                  
                 }
 
                 await channel.SendFileAsync(attach.Filename,text,false,null);
