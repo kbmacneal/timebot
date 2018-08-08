@@ -16,20 +16,13 @@ namespace timebot.Modules.Commands
 
     public class NachoAdmin : ModuleBase<SocketCommandContext>
     {
-         public string[] bad_requests { get; } =
+        public string[] factions { get; } =
         {
-            "@everyone",
-            "Moderator",
-            "Timebot",
-            "Bots",
-            "admin",
-            "church_member",
-            "inquisitor",
-            "churchbot",
-            "new role",
-            "OOC a human don't forget it",
-            "pilgrim",
-            "Representative"
+            "House Crux",
+            "House Vela",
+            "House Fornax",
+            "The Houses Minor",
+            "High Church of the Messiah-as-Emperox"
 
         };
 
@@ -37,9 +30,7 @@ namespace timebot.Modules.Commands
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task AddrepresentativeAsync(string faction)
         {
-            List<string> bad_requests = this.bad_requests.ToList();
-
-            if (bad_requests.Any(faction.Contains))
+            if (!(factions.Contains(faction)))
             {
                 await ReplyAsync("Invalid Request");
                 return;
@@ -95,9 +86,7 @@ namespace timebot.Modules.Commands
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task AddrepresentativeAsync(SocketUser usr, string faction)
         {
-            List<string> bad_requests = this.bad_requests.ToList();
-
-            if (bad_requests.Any(faction.Contains))
+            if (!(factions.Contains(faction)))
             {
                 await ReplyAsync("Invalid Request");
                 return;
@@ -155,9 +144,9 @@ namespace timebot.Modules.Commands
         {
             Nacho nacho = new Nacho();
 
-            await nacho.remove_rep(Context.User);
+            await nacho.remove_rep(Context.Message.Author);
 
-            await ((SocketGuildUser)Context.User).RemoveRoleAsync(Context.Guild.Roles.FirstOrDefault(e => e.Name == "Representative"), null);
+            await ((SocketGuildUser)Context.Message.Author).RemoveRoleAsync(Context.Guild.Roles.FirstOrDefault(e => e.Name == "Representative"), null);
             
             await ReplyAsync("You have been removed as the representative");
             return;
@@ -166,44 +155,20 @@ namespace timebot.Modules.Commands
         [Command("removerepresentative")]
         [RequireBotPermission(GuildPermission.Administrator)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task RemoverepresentativeAsync(SocketUser user, string faction)
+        public async Task RemoverepresentativeAsync(SocketUser user)
         {
-            List<string> bad_requests = this.bad_requests.ToList();
-
-            if (bad_requests.Any(faction.Contains))
-            {
-                await ReplyAsync("Invalid Request");
-                return;
-            }
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
             SocketGuildUser usr = (SocketGuildUser)user;
 
-            if (roles.FirstOrDefault(e => e.Name == faction) == null)
-            {
-                await ReplyAsync("Faction selection not valid");
-                return;
-            }
-
-            SocketRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name == faction);
-
-            if(role == null)return;
-
             Nacho nacho = new Nacho();
 
-            Nacho.representative rep = new Nacho.representative();
-
-            rep.name = user.Username;
-            rep.discriminator = Convert.ToUInt64(user.Discriminator);
-            rep.faction_id = role.Id;
-            rep.faction_text = role.Name;
-
-            await nacho.remove_rep(rep);
+            await nacho.remove_rep(user);
 
             await usr.RemoveRoleAsync(roles.FirstOrDefault(e => e.Name == "Representative"), null);
             
-            string message = "You have been removed as the representative for " + faction;
+            string message = "User has been removed as a Representative";
 
             await ReplyAsync(message);
             

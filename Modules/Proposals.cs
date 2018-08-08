@@ -22,9 +22,7 @@ namespace timebot.Modules.Commands {
 
             ulong channel_id = 476521329122869259;
 
-            Nacho nacho = new Nacho();
-
-            
+            Nacho nacho = new Nacho();            
 
             List<SocketRole> roles = Context.Guild.GetUser(Context.User.Id).Roles.ToList();
 
