@@ -105,13 +105,19 @@ namespace timebot
 
                     if (!(check_command(server_id, message.Content.Replace("tb!", ""))))
                     {
-                        Console.WriteLine(message.Content + " not allowed on this server.");
+                        await context.Channel.SendMessageAsync(message.Content + " not allowed on this server.");
                         return;
                     }
 
                     var result = await _commands.ExecuteAsync(context, argPosition, _services);
                     if (!result.IsSuccess)
                     {
+                        ulong channel_id = 465549356074795010;
+
+                        var channel = context.Client.Guilds.FirstOrDefault(e=>e.Id == 465538179978756096).GetChannel(channel_id) as ISocketMessageChannel;
+                        
+                        await channel.SendMessageAsync(result.ErrorReason);
+
                         Console.WriteLine(result.ErrorReason);
                     }
                 }
