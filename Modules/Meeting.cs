@@ -35,7 +35,7 @@ namespace timebot.Modules.Commands
             {
                 await ReplyAsync("Datetime not in valid format.");
                 return;
-                
+
             }
 
             await Classes.Meeting.insert_notice(notice);
@@ -68,7 +68,9 @@ namespace timebot.Modules.Commands
 
             SocketUserMessage message = chnl.GetMessagesAsync(Int32.MaxValue,CacheMode.AllowDownload,null).Flatten().GetAwaiter().GetResult().FirstOrDefault(e=>e.Content.Contains(note.title)) as SocketUserMessage;
 
-            await message.ModifyAsync(e=>e.Content = note.text);
+            if(message != null) await message.ModifyAsync(e=>e.Content = note.text);
+
+            await ReplyAsync("Meeting acknowledged.");
 
 
         }
@@ -91,9 +93,9 @@ namespace timebot.Modules.Commands
 
             SocketUserMessage message = chnl.GetMessagesAsync(Int32.MaxValue,CacheMode.AllowDownload,null).Flatten().GetAwaiter().GetResult().FirstOrDefault(e=>e.Content.Contains(note.title)) as SocketUserMessage;
 
-            await message.ModifyAsync(e=>e.Content = note.text);
+            if(message != null) await message.ModifyAsync(e=>e.Content = note.text);
 
-
+            await ReplyAsync("Meeting attendance acknowledged.");
         }
     }
 
