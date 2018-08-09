@@ -31,6 +31,13 @@ namespace timebot.Modules.Commands
 
             notice.text = Classes.Meeting.gen_text(title, date, time, timezone);
 
+            if(notice.text == string.Empty)
+            {
+                await ReplyAsync("Datetime not in valid format.");
+                return;
+                
+            }
+
             await Classes.Meeting.insert_notice(notice);
 
             ulong channel_id = 477209571509796866;
@@ -52,6 +59,29 @@ namespace timebot.Modules.Commands
             if(!(user.Roles.Select(e=>e.Name).Contains("Speaker")))return;
 
             Classes.Meeting.add_acknowledged(id, faction);
+
+            Classes.Meeting.notice note = await Classes.Meeting.get_notice(id);
+
+            ulong channel_id = 477209571509796866;
+
+            ISocketMessageChannel chnl = Context.Guild.GetChannel(channel_id) as ISocketMessageChannel;
+
+            SocketUserMessage message = chnl.GetMessagesAsync(Int32.MaxValue,CacheMode.AllowDownload,null).Flatten().GetAwaiter().GetResult().FirstOrDefault(e=>e.Content.Contains(note.title)) as SocketUserMessage;
+
+            await message.ModifyAsync(e=>e.Content = note.text);
+
+
+        }
+
+        [Command("attend")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        public async Task AttendAsync(int id, string faction)
+        {
+            SocketGuildUser user = Context.Guild.GetUser(Context.Message.Author.Id);
+
+            if(!(user.Roles.Select(e=>e.Name).Contains("Speaker")))return;
+
+            Classes.Meeting.add_attendee(id, faction);
 
             Classes.Meeting.notice note = await Classes.Meeting.get_notice(id);
 
