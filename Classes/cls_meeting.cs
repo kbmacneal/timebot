@@ -79,9 +79,9 @@ namespace timebot.Classes
 
             List<string> edited = note.text.Split(System.Environment.NewLine).ToList();
 
-            edited.ForEach(e=> e = e.Contains(ack) ? e + @" \:white_check_mark:" : e);
+            edited.ForEach(e => e = e.Contains(ack) ? e + @" \:white_check_mark:" : e);
 
-            note.text = String.Join(System.Environment.NewLine,edited);
+            note.text = String.Join(System.Environment.NewLine, edited);
 
             source = new ExpandoObject();
             source.text = note.text;
@@ -101,6 +101,18 @@ namespace timebot.Classes
 
             dynamic source = new ExpandoObject();
             source.attendees = note.attendees;
+            collection.UpdateOne(e => e.ID == note.ID, source as object);
+
+            note = get_notice(note.ID).GetAwaiter().GetResult();
+
+            List<string> edited = note.text.Split(System.Environment.NewLine).ToList();
+
+            edited.ForEach(e => e = e.Contains(att) ? e + @" \:speaker:" : e);
+
+            note.text = String.Join(System.Environment.NewLine, edited);
+
+            source = new ExpandoObject();
+            source.text = note.text;
             collection.UpdateOne(e => e.ID == note.ID, source as object);
 
         }
