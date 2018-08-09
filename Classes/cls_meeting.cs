@@ -164,6 +164,7 @@ namespace timebot.Classes
             factions.ToList().ForEach(e => message.Add(e));
 
             message.Add(@"\:white_check_mark: <- Indicates Confirmation");
+            message.Add(@"\:speaker: <- Indicates Attendance");
 
             return string.Join(System.Environment.NewLine, message);
         }
