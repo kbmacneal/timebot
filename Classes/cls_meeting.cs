@@ -185,7 +185,7 @@ namespace timebot.Classes
             {
                 DateTime UTCTime = adjusted.ToUniversalTime();
 
-                TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+                TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
                 DateTime cstTime = TimeZoneInfo.ConvertTimeFromUtc(UTCTime, cstZone);
                 message.Add(cstTime + " " + (cstZone.IsDaylightSavingTime(cstTime) ? cstZone.DaylightName : cstZone.StandardName).ToString());
 
