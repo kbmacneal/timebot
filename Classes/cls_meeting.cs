@@ -185,6 +185,7 @@ namespace timebot.Classes
 
                 var easternTimeZone = DateTimeZoneProviders.Tzdb["America/New_York"];
                 var centralTimeZone = DateTimeZoneProviders.Tzdb["America/Chicago"];
+                var sydneyTimeZone = DateTimeZoneProviders.Tzdb["Australia/Sydney"];
 
 
                 DateTime estTime = Instant.FromDateTimeUtc(UTCTime)
@@ -198,6 +199,12 @@ namespace timebot.Classes
                   .ToDateTimeUnspecified();
 
                 message.Add(estTime + " " + "Central");
+
+                DateTime sydTime = Instant.FromDateTimeUtc(UTCTime)
+                  .InZone(sydneyTimeZone)
+                  .ToDateTimeUnspecified();
+
+                message.Add(sydTime + " " + "Sydney Time");
 
                 message.Add(UTCTime.ToString() + " UTC");
 
