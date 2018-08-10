@@ -192,13 +192,13 @@ namespace timebot.Classes
                   .InZone(easternTimeZone)
                   .ToDateTimeUnspecified();
 
-                message.Add(estTime + " " + "Eastern");
+                message.Add(estTime + " " + " Eastern");
 
                 DateTime cstTime = Instant.FromDateTimeUtc(UTCTime)
                   .InZone(centralTimeZone)
                   .ToDateTimeUnspecified();
 
-                message.Add(cstTime + " " + "Central");
+                message.Add(cstTime + " " + " Central");
 
                 DateTime sydTime = Instant.FromDateTimeUtc(UTCTime)
                   .InZone(sydneyTimeZone)
@@ -218,6 +218,10 @@ namespace timebot.Classes
 
             message.Add(check + "<- Indicates Confirmation");
             message.Add(speaker + "<- Indicates Attendance");
+
+            message.Add("To acknowlege a meeting, use the command tb!acknowledge MeetingID# \"Faction with Spaces\" in any channel.");
+
+            message.Add("To indicate your faction will attend a meeting, use the command tb!attend MeetingID# \"Faction with Spaces\" in any channel.");
 
             return string.Join(System.Environment.NewLine, message);
         }
