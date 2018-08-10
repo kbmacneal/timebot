@@ -198,15 +198,15 @@ namespace timebot.Classes
                   .InZone(centralTimeZone)
                   .ToDateTimeUnspecified();
 
-                message.Add(estTime + " " + "Central");
+                message.Add(cstTime + " " + "Central");
 
                 DateTime sydTime = Instant.FromDateTimeUtc(UTCTime)
                   .InZone(sydneyTimeZone)
-                  .ToDateTimeUnspecified();
-
-                message.Add(sydTime + " " + "Sydney Time");
+                  .ToDateTimeUnspecified();                
 
                 message.Add(UTCTime.ToString() + " UTC");
+
+                message.Add(sydTime + " " + "Sydney Time");
 
             }
 
