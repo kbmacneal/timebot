@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="discord.net" Version="1.0.2" />
     <PackageReference Include="microsoft.extensions.dependencyinjection" Version="2.0.0" />
+    <PackageReference Include="nodatime" Version="2.3.0" />
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
     <PackageReference Include="System.IO.FileSystem.AccessControl" Version="4.4.0" />
     <PackageReference Include="JsonFlatFileDataStore" Version="1.8.0" />
