@@ -21,7 +21,7 @@ namespace timebot.Modules.Commands
         [Command("postmeeting")]
         [RequireBotPermission(GuildPermission.Administrator)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task PostmeetingAsync(string title, string date, string time, string timezone)
+        public async Task PostmeetingAsync(string title, string datetime)
         {
             timebot.Classes.Meeting.notice notice = new timebot.Classes.Meeting.notice ();
 
@@ -29,7 +29,7 @@ namespace timebot.Modules.Commands
 
             if (!(user.Roles.ToList().Select(e => e.Name).Contains("Representative"))) return;
 
-            notice.text = Classes.Meeting.gen_text(title, date, time, timezone);
+            notice.text = Classes.Meeting.gen_text(title, datetime);
 
             if(notice.text == string.Empty)
             {
@@ -40,11 +40,16 @@ namespace timebot.Modules.Commands
 
             await Classes.Meeting.insert_notice(notice);
 
+            Classes.Meeting.notice rtn = Classes.Meeting.get_notice().GetAwaiter().GetResult().OrderByDescending(e=>e.ID).First();
+
+            rtn.text = rtn.text.Insert(0,"ID: " + rtn.ID.ToString() + System.Environment.NewLine);
+            Classes.Meeting.update_text(rtn.ID, rtn.text);
+
             ulong channel_id = 477209571509796866;
 
             ISocketMessageChannel chnl = Context.Guild.GetChannel(channel_id) as ISocketMessageChannel;
 
-            await chnl.SendMessageAsync(notice.text);
+            await chnl.SendMessageAsync(rtn.text);
 
             await ReplyAsync("Meeting proposal posted.");
 
@@ -66,9 +71,11 @@ namespace timebot.Modules.Commands
 
             ISocketMessageChannel chnl = Context.Guild.GetChannel(channel_id) as ISocketMessageChannel;
 
-            SocketUserMessage message = chnl.GetMessagesAsync(Int32.MaxValue,CacheMode.AllowDownload,null).Flatten().GetAwaiter().GetResult().FirstOrDefault(e=>e.Content.Contains(note.title)) as SocketUserMessage;
+            IMessage message = chnl.GetMessagesAsync(Int32.MaxValue).Flatten().GetAwaiter().GetResult().ToList().FirstOrDefault(e=>e.Content.Split(System.Environment.NewLine)[0] == new string("ID: " + note.ID.ToString()));
 
-            if(message != null) await message.ModifyAsync(e=>e.Content = note.text);
+            await message.DeleteAsync();
+
+            await chnl.SendMessageAsync(note.text,false,null,null);
 
             await ReplyAsync("Meeting acknowledged.");
 
@@ -89,11 +96,13 @@ namespace timebot.Modules.Commands
 
             ulong channel_id = 477209571509796866;
 
-            ISocketMessageChannel chnl = Context.Guild.GetChannel(channel_id) as ISocketMessageChannel;
+             ISocketMessageChannel chnl = Context.Guild.GetChannel(channel_id) as ISocketMessageChannel;
 
-            SocketUserMessage message = chnl.GetMessagesAsync(Int32.MaxValue,CacheMode.AllowDownload,null).Flatten().GetAwaiter().GetResult().FirstOrDefault(e=>e.Content.Contains(note.title)) as SocketUserMessage;
+            IMessage message = chnl.GetMessagesAsync(Int32.MaxValue).Flatten().GetAwaiter().GetResult().ToList().FirstOrDefault(e=>e.Content.Split(System.Environment.NewLine)[0] == new string("ID: " + note.ID.ToString()));
 
-            if(message != null) await message.ModifyAsync(e=>e.Content = note.text);
+            await message.DeleteAsync();
+
+            await chnl.SendMessageAsync(note.text,false,null,null);
 
             await ReplyAsync("Meeting attendance acknowledged.");
         }

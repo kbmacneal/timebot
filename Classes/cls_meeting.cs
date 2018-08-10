@@ -60,6 +60,20 @@ namespace timebot.Classes
             return note;
         }
 
+        public static async Task<List<notice>> get_notice()
+        {
+            var store = new DataStore("data.json");
+
+            // Get employee collection
+            var collection = store.GetCollection<notice>();
+
+            List<notice> note = store.GetCollection<notice>().AsQueryable().ToList();
+
+            store.Dispose();
+
+            return note;
+        }
+
         public static void add_acknowledged(int id, string ack)
         {
             var store = new DataStore("data.json");
@@ -69,19 +83,22 @@ namespace timebot.Classes
 
             notice note = get_notice(id).GetAwaiter().GetResult();
 
+            if(note.acknowledged == null)
+            {
+                note.acknowledged = new List<string>();
+            }
+
             note.acknowledged.Add(ack);
 
             dynamic source = new ExpandoObject();
             source.acknowledged = note.acknowledged;
-            collection.UpdateOne(e => e.ID == note.ID, source as object);
+            collection.UpdateOneAsync(e => e.ID == note.ID, source as object);
 
             note = get_notice(note.ID).GetAwaiter().GetResult();
 
-            List<string> edited = note.text.Split(System.Environment.NewLine).ToList();
+            string check = "<:white_check_mark:477266462109728770>";
 
-            edited.ForEach(e => e = e.Contains(ack) ? e + @" \:white_check_mark:" : e);
-
-            note.text = String.Join(System.Environment.NewLine, edited);
+            note.text = note.text.Replace(ack, ack + " " + check);
 
             source = new ExpandoObject();
             source.text = note.text;
@@ -97,19 +114,24 @@ namespace timebot.Classes
 
             notice note = get_notice(id).GetAwaiter().GetResult();
 
+            if(note.attendees == null)
+            {
+                note.attendees = new List<string>();
+            }
+
             note.attendees.Add(att);
 
             dynamic source = new ExpandoObject();
             source.attendees = note.attendees;
-            collection.UpdateOne(e => e.ID == note.ID, source as object);
+            collection.UpdateOneAsync(e => e.ID == note.ID, source as object);
 
             note = get_notice(note.ID).GetAwaiter().GetResult();
 
             List<string> edited = note.text.Split(System.Environment.NewLine).ToList();
 
-            edited.ForEach(e => e = e.Contains(att) ? e + @" \:speaker:" : e);
+            string speaker = "<:speaker:477266361882640404>";
 
-            note.text = String.Join(System.Environment.NewLine, edited);
+            note.text = note.text.Replace(att, att + " " + speaker);
 
             source = new ExpandoObject();
             source.text = note.text;
@@ -134,7 +156,7 @@ namespace timebot.Classes
 
         }
 
-        public static string gen_text(string title, string date, string time, string timezone)
+        public static string gen_text(string title, string datetime)
         {
             List<string> message = new List<string>();
 
@@ -142,29 +164,43 @@ namespace timebot.Classes
 
             DateTime test = DateTime.MinValue;
 
-            if (!(DateTime.TryParse(date + " " + time + " " + timezone, out test)))
+            string[] split = datetime.Split(" ");
+
+            string[] date = split[0].Split("/");
+
+            string[] time = split[1].Split(":");
+
+            DateTime dt = new DateTime(Convert.ToInt32(date[2]),Convert.ToInt32(date[0]),Convert.ToInt32(date[1]),Convert.ToInt32(time[0]),Convert.ToInt32(time[1]),Convert.ToInt32(time[2]));
+
+            DateTime adjusted = TimeZoneInfo.ConvertTimeFromUtc(dt, TimeZoneInfo.Local);
+
+
+            // DateTime adjusted = TimeZoneInfo.ConvertTime(dt,TimeZoneInfo.Utc);
+
+            if (!(DateTime.TryParse(datetime, out test)))
             {
                 return string.Empty;
             }
             else
             {
-                DateTime UTCTime = test.ToUniversalTime();
+                DateTime UTCTime = adjusted.ToUniversalTime();
 
                 TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
                 DateTime cstTime = TimeZoneInfo.ConvertTimeFromUtc(UTCTime, cstZone);
-                message.Add(cstTime + (cstZone.IsDaylightSavingTime(cstTime) ? cstZone.DaylightName : cstZone.StandardName).ToString());
+                message.Add(cstTime + " " + (cstZone.IsDaylightSavingTime(cstTime) ? cstZone.DaylightName : cstZone.StandardName).ToString());
 
-                TimeZoneInfo gmtZone = TimeZoneInfo.FindSystemTimeZoneById("Greenwich Mean Time");
-                DateTime gmtTime = TimeZoneInfo.ConvertTimeFromUtc(UTCTime, gmtZone);
-                message.Add(gmtTime + (gmtZone.IsDaylightSavingTime(gmtTime) ? gmtZone.DaylightName : gmtZone.StandardName).ToString());
+                message.Add(UTCTime.ToString() + " UTC");
 
             }
 
             message.Add("Confirmation of Attendees");
             factions.ToList().ForEach(e => message.Add(e));
 
-            message.Add(@"\:white_check_mark: <- Indicates Confirmation");
-            message.Add(@"\:speaker: <- Indicates Attendance");
+            string check = "<:white_check_mark:477266462109728770>";
+            string speaker = "<:speaker:477266361882640404>";
+
+            message.Add(check + "<- Indicates Confirmation");
+            message.Add(speaker + "<- Indicates Attendance");
 
             return string.Join(System.Environment.NewLine, message);
         }
