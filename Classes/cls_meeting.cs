@@ -170,8 +170,6 @@ namespace timebot.Classes {
             } else {
                 DateTime UTCTime = adjusted.ToUniversalTime ();
 
-                NodaTime.ZonedDateTime zdt = new ZonedDateTime (Instant.FromDateTimeUtc (UTCTime), DateTimeZone.Utc, CalendarSystem.Julian);
-
                 var easternTimeZone = DateTimeZoneProviders.Tzdb["America/New_York"];
                 DateTime cstTime = Instant.FromDateTimeUtc(UTCTime)
                   .InZone(easternTimeZone)
