@@ -38,6 +38,8 @@ namespace timebot.Modules.Commands
 
             }
 
+            notice.title = title;
+
             await Classes.Meeting.insert_notice(notice);
 
             Classes.Meeting.notice rtn = Classes.Meeting.get_notice().GetAwaiter().GetResult().OrderByDescending(e=>e.ID).First();
