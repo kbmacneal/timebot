@@ -183,7 +183,10 @@ namespace timebot
                 "badbot",
                 "churchapproved",
                 "propose",
-                "archivechannel"
+                "archivechannel",
+                "attend",
+                "acknowledge",
+                "postmeeting"
             });
 
             //main diplo server
