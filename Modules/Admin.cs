@@ -19,6 +19,7 @@ namespace timebot.Modules.Commands {
         {
             Dictionary<string,List<string>> rtn = new Dictionary<string, List<string>>();
 
+            //IFDS
             rtn.Add(
                 "465538179978756096", new List<string>()
                 {
@@ -44,6 +45,7 @@ namespace timebot.Modules.Commands {
                 }
             );
 
+            //Meeting Room 1
             rtn.Add(
                 "476147072526188546", new List<string>()
                 {
@@ -71,6 +73,7 @@ namespace timebot.Modules.Commands {
                 }
             );
 
+            //Church Diplo Server
             rtn.Add(
                 "435921918152146945", new List<string>()
                 {
