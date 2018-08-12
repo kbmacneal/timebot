@@ -29,6 +29,7 @@ namespace timebot.Classes
         public class notice
         {
             public int ID { get; set; }
+            public NodaTime.ZonedDateTime EventDate {get;set;}
             public string title { get; set; }
             public string text { get; set; }
             public List<string> acknowledged { get; set; }
@@ -157,14 +158,8 @@ namespace timebot.Classes
 
         }
 
-        public static string gen_text(string title, string datetime)
+        public static async Task<DateTime> gen_datetime(string datetime)
         {
-            List<string> message = new List<string>();
-
-            message.Add(title);
-
-            DateTime test = DateTime.MinValue;
-
             string[] split = datetime.Split(" ");
 
             string[] date = split[0].Split("/");
@@ -173,7 +168,18 @@ namespace timebot.Classes
 
             DateTime dt = new DateTime(Convert.ToInt32(date[2]), Convert.ToInt32(date[0]), Convert.ToInt32(date[1]), Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), Convert.ToInt32(time[2]));
 
-            DateTime adjusted = TimeZoneInfo.ConvertTimeFromUtc(dt, TimeZoneInfo.Local);
+            return TimeZoneInfo.ConvertTimeFromUtc(dt, TimeZoneInfo.Local);
+        }
+
+        public static string gen_text(string title, string datetime)
+        {
+            List<string> message = new List<string>();
+
+            message.Add(title);
+
+            DateTime test = DateTime.MinValue;
+
+            DateTime adjusted = gen_datetime(datetime).GetAwaiter().GetResult();
 
             if (!(DateTime.TryParse(datetime, out test)))
             {
