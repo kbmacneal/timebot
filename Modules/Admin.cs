@@ -15,30 +15,6 @@ namespace timebot.Modules.Commands {
 
     public class Admin : ModuleBase<SocketCommandContext> {
 
-        public string[] valid_requests { get; } = {
-            "\"House\" Vagrant",
-            "14 Red Dogs Triad",
-            "ACRE",
-            "Church of Humanity Repentant",
-            "High Church of the Messiah-as-Emperox",
-            "House Aquila",
-            "House Crux",
-            "House Eridanus",
-            "House Fornax",
-            "House Lyra",
-            "House Pyxis",
-            "House Reticulum",
-            "House Serpens",
-            "House Triangulum",
-            "House Vela",
-            "PRISM",
-            "The Deathless",
-            "The Trilliant Ring",
-            "Unified People's Collective",
-            "Speaker",
-            "Observer"
-        };
-
         private Dictionary<string,List<string>> gen_access_lists()
         {
             Dictionary<string,List<string>> rtn = new Dictionary<string, List<string>>();
@@ -125,7 +101,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("listfaction")]
         public async Task ListfactionAsync () {
-            List<string> valid_requests = this.valid_requests.ToList ();
+            List<string> valid_requests = gen_access_lists().FirstOrDefault(e=>e.Key == Context.Guild.Id.ToString()).Value;
 
             List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
