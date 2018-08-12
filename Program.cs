@@ -112,11 +112,9 @@ namespace timebot
                     var result = await _commands.ExecuteAsync(context, argPosition, _services);
                     if (!result.IsSuccess)
                     {
-                        ulong channel_id = 465549356074795010;
-
-                        var channel = context.Client.Guilds.FirstOrDefault(e=>e.Id == 465538179978756096).GetChannel(channel_id) as ISocketMessageChannel;
+                        var channel = context.Guild.Channels.FirstOrDefault(e=>e.Name=="bot-commands") as ISocketMessageChannel;
                         
-                        await channel.SendMessageAsync(result.ErrorReason);
+                        if(channel != null) await channel.SendMessageAsync(result.ErrorReason);
 
                         Console.WriteLine(result.ErrorReason);
                     }
