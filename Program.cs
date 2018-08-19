@@ -226,6 +226,27 @@ namespace timebot
                 "roll"
             });
 
+            //new room
+            rtn.Add("480767825368186911",new List<string>(){
+                "ping",
+                "commands",
+                "changedefaults",
+                "setbotusername",
+                "starttimer",
+                "listfaction",
+                "addfaction",
+                "playbingo",
+                "clearspeakers",
+                "clearchannel",
+                "removefaction",
+                "setcolors",
+                "cactus",
+                "badbot",
+                "churchapproved",
+                "archivechannel",
+                "roll"
+            });
+
             return rtn;
         }
     }
