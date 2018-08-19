@@ -24,7 +24,7 @@ namespace timebot.Modules.Commands {
             rtn.Add(
                 "480767825368186911", new List<string>()
                 {
-                    "\"House\" Vagrant",
+                    "\\\"House\\\" Vagrant",
                     "14 Red Dogs Triad",
                     "ACRE",
                     "Church of Humanity Repentant",
@@ -53,7 +53,7 @@ namespace timebot.Modules.Commands {
             rtn.Add(
                 "465538179978756096", new List<string>()
                 {
-                    "\"House\" Vagrant",
+                    "\\\"House\\\" Vagrant",
                     "14 Red Dogs Triad",
                     "ACRE",
                     "Church of Humanity Repentant",
@@ -81,7 +81,7 @@ namespace timebot.Modules.Commands {
             rtn.Add(
                 "476147072526188546", new List<string>()
                 {
-                    "\"House\" Vagrant",
+                    "\\\"House\\\" Vagrant",
                     "14 Red Dogs Triad",
                     "ACRE",
                     "Church of Humanity Repentant",
@@ -109,7 +109,7 @@ namespace timebot.Modules.Commands {
             rtn.Add(
                 "435921918152146945", new List<string>()
                 {
-                    "\"House\" Vagrant",
+                    "\\\"House\\\" Vagrant",
                     "14 Red Dogs Triad",
                     "ACRE",
                     "Church of Humanity Repentant",
