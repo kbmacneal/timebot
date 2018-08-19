@@ -184,7 +184,8 @@ namespace timebot
                 "archivechannel",
                 "attend",
                 "acknowledge",
-                "postmeeting"
+                "postmeeting",
+                "roll"
             });
 
             //main diplo server
@@ -200,7 +201,8 @@ namespace timebot
                 "cactus",
                 "badbot",
                 "churchapproved",
-                "archivechannel"
+                "archivechannel",
+                "roll"
             });
 
             //meeting room 1
@@ -220,7 +222,8 @@ namespace timebot
                 "cactus",
                 "badbot",
                 "churchapproved",
-                "archivechannel"
+                "archivechannel",
+                "roll"
             });
 
             return rtn;
