@@ -24,7 +24,7 @@ namespace timebot.Modules.Commands {
             rtn.Add(
                 "480767825368186911", new List<string>()
                 {
-                    "\\\"House\\\" Vagrant",
+                    "House Vagrant",
                     "14 Red Dogs Triad",
                     "ACRE",
                     "Church of Humanity Repentant",
