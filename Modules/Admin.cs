@@ -19,6 +19,33 @@ namespace timebot.Modules.Commands {
         {
             Dictionary<string,List<string>> rtn = new Dictionary<string, List<string>>();
 
+
+            //New Room
+            rtn.Add(
+                "480767825368186911", new List<string>()
+                {
+                    "\"House\" Vagrant",
+                    "14 Red Dogs Triad",
+                    "ACRE",
+                    "Church of Humanity Repentant",
+                    "High Church of the Messiah-as-Emperox",
+                    "House Aquila",
+                    "House Crux",
+                    "House Eridanus",
+                    "House Fornax",
+                    "House Lyra",
+                    "House Pyxis",
+                    "House Reticulum",
+                    "House Serpens",
+                    "House Triangulum",
+                    "House Vela",
+                    "PRISM",
+                    "The Deathless",
+                    "The Trilliant Ring",
+                    "Unified People's Collective"
+                }
+            );
+
             //IFDS
             rtn.Add(
                 "465538179978756096", new List<string>()
