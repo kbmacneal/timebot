@@ -43,7 +43,9 @@ namespace timebot.Modules.Commands {
                     "The Deathless",
                     "The Trilliant Ring",
                     "Unified People's Collective",
-                    "War Room"
+                    "War Room",
+                    "Speaker",
+                    "Observer"
                 }
             );
 
@@ -69,7 +71,9 @@ namespace timebot.Modules.Commands {
                     "PRISM",
                     "The Deathless",
                     "The Trilliant Ring",
-                    "Unified People's Collective"
+                    "Unified People's Collective",
+                    "Speaker",
+                    "Observer"
                 }
             );
 
