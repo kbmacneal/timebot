@@ -305,7 +305,7 @@ namespace timebot.Modules.Commands
         }
 
         [Command("roll")]
-        private async Task RollAsync(string roll, string optional_add = "+0")
+        private async Task RollAsync(string roll, string optional_plus = "+", string optional_add = "0")
         {
             int rtn = 0;
             int test = 0;
@@ -320,8 +320,9 @@ namespace timebot.Modules.Commands
                 Random rand = new Random();
                 rtn += rand.Next(1,Int32.Parse(dice_array[1]));
             }
-
-            rtn += Int32.Parse(optional_add);
+            if(optional_plus == "+")rtn += Int32.Parse(optional_add);
+            if(optional_plus == "-")rtn -= Int32.Parse(optional_add);
+            
 
             await ReplyAsync("You rolled " + rtn.ToString());
         }
