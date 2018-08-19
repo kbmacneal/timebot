@@ -42,7 +42,8 @@ namespace timebot.Modules.Commands {
                     "PRISM",
                     "The Deathless",
                     "The Trilliant Ring",
-                    "Unified People's Collective"
+                    "Unified People's Collective",
+                    "War Room"
                 }
             );
 
