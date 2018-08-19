@@ -257,6 +257,12 @@ namespace timebot.Modules.Commands {
             Context.Client.Dispose ();
         }
 
+        [Command("tracker")]
+        public async Task TrackerAsync()
+        {
+            await ReplyAsync("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");
+        }
+
         [Command ("archivechannel")]
         [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
