@@ -304,6 +304,28 @@ namespace timebot.Modules.Commands
             }
         }
 
+        [Command("roll")]
+        private async Task RollAsync(string roll, string optional_add = "+0")
+        {
+            int rtn = 0;
+            int test = 0;
+
+            string[] dice_array = roll.Split("d");
+
+            if(!Int32.TryParse(dice_array[0],out test)) await ReplyAsync("Invalid number of dice.");
+            if(!Int32.TryParse(dice_array[1],out test)) await ReplyAsync("Invalid number of dice sides.");
+
+            for (int i = 0; i < Convert.ToInt32(dice_array[0]); i++)
+            {
+                Random rand = new Random();
+                rtn += rand.Next(1,Int32.Parse(dice_array[1]));
+            }
+
+            rtn += Int32.Parse(optional_add);
+
+            await ReplyAsync("You rolled " + rtn.ToString());
+        }
+
         private Boolean validate_vote(SocketUser user, vote vote)
         {
             Nacho nacho = new Nacho();
