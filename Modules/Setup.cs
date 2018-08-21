@@ -56,6 +56,24 @@ namespace timebot.Modules.Commands {
                     await Context.Guild.CreateRoleAsync (Faction.Item1, null, new Discord.Color (colorhex.R, colorhex.G, colorhex.B), false, null);
                 }
 
+                var channel = await Context.Guild.CreateTextChannelAsync(Faction.Item1,null);
+
+                SocketTextChannel chn = Context.Guild.GetChannel(channel.Id) as SocketTextChannel;
+
+                IRole everyone = Context.Guild.EveryoneRole as IRole;
+
+                IRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name==Faction.Item1) as IRole;
+
+                OverwritePermissions everyone_perms = new OverwritePermissions();
+
+                everyone_perms.Modify(PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,null,null,null,null,PermValue.Deny,null,PermValue.Deny,PermValue.Deny);
+
+                OverwritePermissions roleperms = new OverwritePermissions();
+
+                roleperms.Modify(PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,null,null,null,null,PermValue.Deny,null,PermValue.Deny,PermValue.Deny);
+
+                await chn.AddPermissionOverwriteAsync(everyone,everyone_perms,null);
+                await chn.AddPermissionOverwriteAsync(role,roleperms,null);
             }
 
             await ReplyAsync ("Faction colors normalized.");
