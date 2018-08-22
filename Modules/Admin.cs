@@ -260,7 +260,12 @@ namespace timebot.Modules.Commands {
         [Command("tracker")]
         public async Task TrackerAsync()
         {
-            await ReplyAsync("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");
+            await ReplyAsync("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");}
+
+        [Command("rulings")]
+        public async Task RulingsAsync()
+        {
+            await ReplyAsync("https://docs.google.com/document/d/1I34PlRnkl5Pzq9av9xWGXwY2Tzp7f5O9LQdlj0O0drc/edit");
         }
 
         [Command ("archivechannel")]
