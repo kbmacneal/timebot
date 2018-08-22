@@ -63,7 +63,22 @@ namespace timebot.Modules.Commands {
                     role = Context.Guild.GetRole(id);
                 }
 
-                var channel = await Context.Guild.CreateTextChannelAsync(Faction.Item1,null);
+                
+            }
+
+            await ReplyAsync ("Faction colors normalized.");
+        }
+
+        private async Task setup_channels_Async()
+        {
+            List<string> facs = new List<string>();
+            Factions.ToList().ForEach(e=>facs.Add(e.Item1));
+
+            foreach(string fac in facs)
+            {
+
+                var role = Context.Guild.Roles.Where(e=>e.Name==fac);
+                var channel = await Context.Guild.CreateTextChannelAsync(fac,null);
 
                 IRole everyone = Context.Guild.EveryoneRole as IRole;
 
@@ -76,10 +91,12 @@ namespace timebot.Modules.Commands {
                 roleperms.Modify(PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,null,null,null,null,PermValue.Deny,null,PermValue.Deny,PermValue.Deny);
 
                 await channel.AddPermissionOverwriteAsync(everyone,everyone_perms,null);
-                await channel.AddPermissionOverwriteAsync(role,roleperms,null);
+                // await channel.AddPermissionOverwriteAsync(role,roleperms,null);
             }
 
-            await ReplyAsync ("Faction colors normalized.");
+
+
+            
         }
 
         [Command ("setbotusername")]
