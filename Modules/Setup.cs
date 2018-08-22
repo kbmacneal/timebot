@@ -42,6 +42,8 @@ namespace timebot.Modules.Commands {
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task SetcolorsAsync () {
 
+            SocketRole role = null;
+
             List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
             System.Drawing.ColorConverter converter = new System.Drawing.ColorConverter ();
@@ -52,17 +54,18 @@ namespace timebot.Modules.Commands {
                 if (roles.Select (e => e.Name).Contains (Faction.Item1)) {
 
                     await roles.Where (e => e.Name == Faction.Item1).FirstOrDefault ().ModifyAsync (r => r.Color = new Discord.Color (colorhex.R, colorhex.G, colorhex.B)).ConfigureAwait (false);
+
+                    role = Context.Guild.GetRole(roles.FirstOrDefault (e => e.Name == Faction.Item1).Id);
+
                 } else {
-                    await Context.Guild.CreateRoleAsync (Faction.Item1, null, new Discord.Color (colorhex.R, colorhex.G, colorhex.B), false, null);
+                    ulong id = (await Context.Guild.CreateRoleAsync (Faction.Item1, null, new Discord.Color (colorhex.R, colorhex.G, colorhex.B), false, null)).Id;
+
+                    role = Context.Guild.GetRole(id);
                 }
 
                 var channel = await Context.Guild.CreateTextChannelAsync(Faction.Item1,null);
 
-                SocketTextChannel chn = Context.Guild.GetChannel(channel.Id) as SocketTextChannel;
-
                 IRole everyone = Context.Guild.EveryoneRole as IRole;
-
-                IRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name==Faction.Item1) as IRole;
 
                 OverwritePermissions everyone_perms = new OverwritePermissions();
 
@@ -72,8 +75,8 @@ namespace timebot.Modules.Commands {
 
                 roleperms.Modify(PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,null,null,null,null,PermValue.Deny,null,PermValue.Deny,PermValue.Deny);
 
-                await chn.AddPermissionOverwriteAsync(everyone,everyone_perms,null);
-                await chn.AddPermissionOverwriteAsync(role,roleperms,null);
+                await channel.AddPermissionOverwriteAsync(everyone,everyone_perms,null);
+                await channel.AddPermissionOverwriteAsync(role,roleperms,null);
             }
 
             await ReplyAsync ("Faction colors normalized.");
