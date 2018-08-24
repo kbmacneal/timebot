@@ -149,7 +149,18 @@ namespace timebot.Modules.Commands
         public async Task ClearchannelAsync()
         {
             var messages = await this.Context.Channel.GetMessagesAsync(int.MaxValue).Flatten();
-            await this.Context.Channel.DeleteMessagesAsync(messages);
+            
+            RequestOptions opt = new RequestOptions();
+
+            opt.RetryMode = RetryMode.RetryRatelimit;
+
+            foreach(var message in messages)
+            {
+                message.DeleteAsync(opt);
+                System.Threading.Thread.Sleep(2500);
+            }
+            
+            // await this.Context.Channel.DeleteMessagesAsync(messages);
 
         }
 
