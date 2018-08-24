@@ -146,9 +146,9 @@ namespace timebot.Modules.Commands
         [Command("clearchannel")]
         [RequireBotPermission(GuildPermission.Administrator)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task ClearchannelAsync()
+        public async Task ClearchannelAsync(int count)
         {
-            var messages = await this.Context.Channel.GetMessagesAsync(int.MaxValue).Flatten();
+            var messages = await this.Context.Channel.GetMessagesAsync(count).Flatten();
             
             RequestOptions opt = new RequestOptions();
 
@@ -156,7 +156,8 @@ namespace timebot.Modules.Commands
 
             foreach(var message in messages)
             {
-                message.DeleteAsync(opt);
+                await message.DeleteAsync(opt);
+
                 System.Threading.Thread.Sleep(2500);
             }
             
