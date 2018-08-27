@@ -165,6 +165,19 @@ namespace timebot.Modules.Commands
 
         }
 
+        [Command("clearchannel")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task ClearchannelAsync()
+        {
+            var messages = await this.Context.Channel.GetMessagesAsync(Int32.MaxValue).Flatten();
+            
+            await Context.Channel.DeleteMessagesAsync(messages);
+            
+            // await this.Context.Channel.DeleteMessagesAsync(messages);
+
+        }
+
         [Command("cactus")]
         public async Task CactusAsync()
         {
