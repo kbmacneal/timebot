@@ -1,13 +1,13 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Net.Http;
+
 namespace timebot.Classes
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-    using System.Net.Http;
-
     public static class SwnbotResponseGet
     {
         public static SwnbotResponse GetResponse(uint ID)
@@ -24,14 +24,14 @@ namespace timebot.Classes
 
             HttpClient client = new HttpClient();
 
-            client.DefaultRequestHeaders.Add("Authorization",key);
+            client.DefaultRequestHeaders.Add("Authorization", key);
 
             HttpResponseMessage res = client.GetAsync(url).GetAwaiter().GetResult();
 
             HttpContent content = res.Content;
 
             string data = content.ReadAsStringAsync().GetAwaiter().GetResult();
-            
+
             return SwnbotResponse.FromJson(data);
         }
     }
@@ -50,7 +50,7 @@ namespace timebot.Classes
         [JsonProperty("userRoles")]
         public UserRole[] UserRoles { get; set; }
 
-        
+
     }
 
     public partial class UserRole
