@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using static System.Console;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,19 +12,12 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using timebot.Classes;
-using Microsoft.Extensions.Configuration;
+
 
 namespace timebot
 {
-    public static class SwnBotSecret
-    {
-
-    }
     internal class Program
     {
-        private static IConfigurationRoot Configuration;
-        const string ConnectionSecretName = "SWNBotToken";
-
         private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();
 
         private DiscordSocketClient _client;

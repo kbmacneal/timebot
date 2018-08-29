@@ -2,13 +2,16 @@ namespace timebot.Classes
 {
     using System;
     using System.Collections.Generic;
-
+    using Microsoft.Extensions.Configuration;
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
     public partial class SwnbotResponse
     {
+        private static IConfigurationRoot Configuration;
+        const string ConnectionSecretName = "SWNBotToken";
+
         [JsonProperty("userID")]
         public string UserId { get; set; }
 
@@ -20,6 +23,15 @@ namespace timebot.Classes
 
         [JsonProperty("userRoles")]
         public UserRole[] UserRoles { get; set; }
+
+        public static SwnbotResponse Get_Response(uint ID)
+        {
+            SwnbotResponse rtn = new SwnbotResponse();
+
+            
+
+            return rtn;
+        }
     }
 
     public partial class UserRole
@@ -51,5 +63,6 @@ namespace timebot.Classes
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };
-    }
+    }  
+    
 }
