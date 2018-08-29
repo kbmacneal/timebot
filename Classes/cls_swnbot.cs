@@ -1,17 +1,15 @@
 namespace timebot.Classes
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using Microsoft.Extensions.Configuration;
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using System.Net.Http;
 
     public partial class SwnbotResponse
     {
-        private static IConfigurationRoot Configuration;
-        const string ConnectionSecretName = "SWNBotToken";
-
         [JsonProperty("userID")]
         public string UserId { get; set; }
 
@@ -26,11 +24,27 @@ namespace timebot.Classes
 
         public static SwnbotResponse Get_Response(uint ID)
         {
-            SwnbotResponse rtn = new SwnbotResponse();
+            string file = "swnbot.json";
 
+            Dictionary<string, string> secrets = new Dictionary<string, string>();
+
+            secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(file));
+
+            string key = secrets["token"];
+
+            string url = string.Concat("https://swnbot.itmebot.com/api/user/", ID.ToString());
+
+            HttpClient client = new HttpClient();
+
+            client.DefaultRequestHeaders.Add("Authorization",key);
+
+            HttpResponseMessage res = client.GetAsync(url).GetAwaiter().GetResult();
+
+            HttpContent content = res.Content;
+
+            string data = content.ReadAsStringAsync().GetAwaiter().GetResult();
             
-
-            return rtn;
+            return SwnbotResponse.FromJson(data);
         }
     }
 
@@ -63,6 +77,6 @@ namespace timebot.Classes
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };
-    }  
-    
+    }
+
 }
