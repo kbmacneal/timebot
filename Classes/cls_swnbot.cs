@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Net.Http;
+using RestSharp;
 
 namespace timebot.Classes
 {
@@ -20,19 +20,18 @@ namespace timebot.Classes
 
             string key = secrets["token"];
 
-            string url = string.Concat("https://swnbot.itmebot.com/api/user/", ID.ToString());
+            string baseurl = string.Concat("https://swnbot.itmebot.com/api/");
 
-            HttpClient client = new HttpClient();
+            var client = new RestClient(baseurl);
 
-            client.DefaultRequestHeaders.Add("Authorization", key);
+            var request = new RestRequest("user/{id}", Method.GET);
+            request.AddParameter("name", "value");
+            request.AddUrlSegment("id", ID);
 
-            HttpResponseMessage res = client.GetAsync(url).GetAwaiter().GetResult();
+            IRestResponse response = client.Execute(request);
+            var content = response.Content;
 
-            HttpContent content = res.Content;
-
-            string data = content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-            return SwnbotResponse.FromJson(data);
+            return SwnbotResponse.FromJson(content);
         }
     }
 
