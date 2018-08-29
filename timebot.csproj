@@ -4,10 +4,13 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RuntimeIdentifiers>win10-x64;ubuntu.16.04-x64</RuntimeIdentifiers>
+    <UserSecretsId>6d4de0b7-2c58-4b79-8d6d-db492754b83e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="discord.net" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.1.1" />
     <PackageReference Include="microsoft.extensions.dependencyinjection" Version="2.0.0" />
     <PackageReference Include="nodatime" Version="2.3.0" />
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
@@ -21,5 +24,9 @@
   <ItemGroup>
   <None Include="Cactus_Pius_seal.png" CopyToPublishDirectory="Always" />
 </ItemGroup>
+
+ <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+  </ItemGroup>
 
 </Project>
