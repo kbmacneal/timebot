@@ -8,21 +8,9 @@ namespace timebot.Classes
     using Newtonsoft.Json.Converters;
     using System.Net.Http;
 
-    public partial class SwnbotResponse
+    public static class SwnbotResponseGet
     {
-        [JsonProperty("userID")]
-        public string UserId { get; set; }
-
-        [JsonProperty("userName")]
-        public string UserName { get; set; }
-
-        [JsonProperty("userNick")]
-        public object UserNick { get; set; }
-
-        [JsonProperty("userRoles")]
-        public UserRole[] UserRoles { get; set; }
-
-        public static SwnbotResponse Get_Response(uint ID)
+        public static SwnbotResponse GetResponse(uint ID)
         {
             string file = "swnbot.json";
 
@@ -46,6 +34,23 @@ namespace timebot.Classes
             
             return SwnbotResponse.FromJson(data);
         }
+    }
+
+    public partial class SwnbotResponse
+    {
+        [JsonProperty("userID")]
+        public string UserId { get; set; }
+
+        [JsonProperty("userName")]
+        public string UserName { get; set; }
+
+        [JsonProperty("userNick")]
+        public object UserNick { get; set; }
+
+        [JsonProperty("userRoles")]
+        public UserRole[] UserRoles { get; set; }
+
+        
     }
 
     public partial class UserRole
