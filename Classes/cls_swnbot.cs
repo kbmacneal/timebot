@@ -26,7 +26,7 @@ namespace timebot.Classes
 
             var request = new RestRequest("user/{id}", Method.GET);
             request.AddParameter("name", "value");
-            request.AddUrlSegment("user", ID);
+            request.AddUrlSegment("id", ID);
 
             IRestResponse response = client.Execute(request);
             var content = response.Content;
