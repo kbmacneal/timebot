@@ -48,7 +48,7 @@ namespace timebot.Modules.Commands
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task CleanfaclistsAsync()
         {
-            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
+            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             List<string> infractions = new List<string>();
 
@@ -78,7 +78,7 @@ namespace timebot.Modules.Commands
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
-            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
+            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             string rtn_message = String.Join(System.Environment.NewLine, roles.Where(e => official_factions.Contains(e.Name)).OrderBy(e => e.Name));
 
@@ -91,7 +91,7 @@ namespace timebot.Modules.Commands
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
 
-            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
+            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
             {
@@ -132,7 +132,7 @@ namespace timebot.Modules.Commands
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
 
-            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
+            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
             {
@@ -171,7 +171,7 @@ namespace timebot.Modules.Commands
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
 
-            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
+            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
             {
@@ -211,7 +211,7 @@ namespace timebot.Modules.Commands
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
 
-            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
+            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
             {

@@ -18,7 +18,7 @@ namespace timebot.Modules.Commands {
         private Tuple<string, string>[] Factions = new Tuple<string, string>[] {
             Tuple.Create ("14 Red Dogs Triad", "#AD4641"),
             Tuple.Create ("ACRE", "#915A2D"),
-            Tuple.Create ("Church of Humanity, Repentant", "#227F97"),
+            Tuple.Create ("The Church of Humanity, Repentant", "#227F97"),
             Tuple.Create ("The High Church of the Messiah-as-Emperor", "#F1C40F"),
             Tuple.Create ("House Aquila", "#C2A77A"),
             Tuple.Create ("House Crux", "#7851A9"),
@@ -30,7 +30,7 @@ namespace timebot.Modules.Commands {
             Tuple.Create ("House Serpens", "#009115"),
             Tuple.Create ("House Triangulum", "#7DB6FF"),
             Tuple.Create ("House Vela", "#1B75BC"),
-            Tuple.Create ("PRISM", "#AB99B6"),
+            Tuple.Create ("The Prism Network", "#AB99B6"),
             Tuple.Create ("The Trilliant Ring", "#BBBBBB"),
             Tuple.Create ("The Deathless", "#8F5C5C"),
             Tuple.Create ("The Unified People's Collective", "#89B951"),
