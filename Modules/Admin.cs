@@ -10,35 +10,15 @@ using Discord.Net;
 using Discord.WebSocket;
 using Newtonsoft.Json;
 using timebot.Classes;
+using RestSharp;
 
 namespace timebot.Modules.Commands
 {
 
+
+
     public class Admin : ModuleBase<SocketCommandContext>
     {
-
-        private static readonly string[] official_factions = {
-                    "House Crux",
-                    "House Fornax",
-                    "House Vela",
-                    "House Vagrant",
-                    "14 Red Dogs Triad",
-                    "The Deathless",
-                    "The High Church of Messiah-as-Emperox",
-                    "The Church of Humanity, Repentant",
-                    "The Prism Network",
-                    "The Unified People's Collective",
-                    "ACRE",
-                    "The Trilliant Ring",
-                    "House Aquila",
-                    "House Eridanus",
-                    "House Lyra",
-                    "House Pyxis",
-                    "House Reticulum",
-                    "House Serpens",
-                    "House Triangulum"
-        };
-
         private static readonly string[] optional_tags = {
                     "Speaker",
                     "Observer",
@@ -63,12 +43,42 @@ namespace timebot.Modules.Commands
 
         }
 
+        [Command("cleanfaclists")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        public async Task CleanfaclistsAsync()
+        {
+            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
+
+            List<string> infractions = new List<string>();
+
+            List<SocketGuildUser> users = Context.Guild.Users.ToList();
+
+            foreach (var user in users)
+            {
+                foreach(var role in user.Roles)
+                {
+                    if(!official_factions.Contains(role.Name))continue;
+
+                    if(!security_check(role.Name,user.Id))
+                    {
+                        infractions.Add(user.Nickname);
+                        await user.RemoveRoleAsync(role,null);
+                    }
+                }
+            }
+
+            await ReplyAsync("users removed from a role" + System.Environment.NewLine + string.Join(System.Environment.NewLine,infractions));
+        }
+
         [Command("listfaction")]
         public async Task ListfactionAsync()
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
+
+            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
 
             string rtn_message = String.Join(System.Environment.NewLine, roles.Where(e => official_factions.Contains(e.Name)).OrderBy(e => e.Name));
 
@@ -80,6 +90,8 @@ namespace timebot.Modules.Commands
         public async Task AddfactionAsync(string faction)
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
+
+            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
             {
@@ -120,6 +132,8 @@ namespace timebot.Modules.Commands
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
 
+            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
+
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
             {
                 await ReplyAsync("Invalid Request");
@@ -156,6 +170,8 @@ namespace timebot.Modules.Commands
         public async Task RemovefactionAsync(string faction)
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
+
+            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
             {
@@ -194,6 +210,8 @@ namespace timebot.Modules.Commands
         public async Task RemovefactionAsync(SocketUser user, string faction)
         {
             // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
+
+            List<string> official_factions = Classes.faction.get_factions().Select(e => e.factionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
             {

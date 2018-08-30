@@ -8,7 +8,6 @@ using Newtonsoft.Json.Converters;
 
 namespace timebot.Classes
 {
-
     public static class SwnbotFactionResponse {
         public static SwnbotResponse GetResponse (ulong ID) {
             string file = "swnbot.json";
