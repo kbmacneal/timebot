@@ -8,7 +8,7 @@ using RestSharp;
 
 namespace timebot.Classes {
     public static class SwnbotResponseGet {
-        public static SwnbotResponse GetResponse (uint ID) {
+        public static SwnbotResponse GetResponse (ulong ID) {
             string file = "swnbot.json";
 
             Dictionary<string, string> secrets = new Dictionary<string, string> ();
