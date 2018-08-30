@@ -24,7 +24,7 @@ namespace timebot.Modules.Commands
                     "House Vagrant",
                     "14 Red Dogs Triad",
                     "The Deathless",
-                    "The High Church of Messiah-as-Emperor",
+                    "The High Church of Messiah-as-Emperox",
                     "The Church of Humanity, Repentant",
                     "The Prism Network",
                     "The Unified People's Collective",
