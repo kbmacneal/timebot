@@ -14,9 +14,6 @@ using RestSharp;
 
 namespace timebot.Modules.Commands
 {
-
-
-
     public class Admin : ModuleBase<SocketCommandContext>
     {
         private static readonly string[] optional_tags = {
@@ -56,6 +53,7 @@ namespace timebot.Modules.Commands
 
             foreach (var user in users)
             {
+                if(user.IsBot)continue;
                 foreach(var role in user.Roles)
                 {
                     if(!official_factions.Contains(role.Name))continue;
@@ -74,8 +72,6 @@ namespace timebot.Modules.Commands
         [Command("listfaction")]
         public async Task ListfactionAsync()
         {
-            // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
-
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
             List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
@@ -89,8 +85,6 @@ namespace timebot.Modules.Commands
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task AddfactionAsync(string faction)
         {
-            // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
-
             List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
@@ -130,8 +124,6 @@ namespace timebot.Modules.Commands
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task AddfactionAsync(SocketUser user, string faction)
         {
-            // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
-
             List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
@@ -142,9 +134,9 @@ namespace timebot.Modules.Commands
 
             if (!optional_tags.Contains(faction))
             {
-                if (!security_check(faction, Context.Message.Author.Id))
+                if (!security_check(faction, user.Id))
                 {
-                    await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
+                    await ReplyAsync("Target user not a member of this faction. Please select the faction they are a part of on the main Far Verona Discord.");
                     return;
                 }
             }
@@ -169,8 +161,6 @@ namespace timebot.Modules.Commands
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task RemovefactionAsync(string faction)
         {
-            // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
-
             List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
 
             if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
@@ -209,24 +199,7 @@ namespace timebot.Modules.Commands
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task RemovefactionAsync(SocketUser user, string faction)
         {
-            // List<string> valid_requests = gen_access_lists().FirstOrDefault(e => e.Key == Context.Guild.Id.ToString()).Value;
-
             List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
-
-            if (!official_factions.Any(faction.Contains) && !optional_tags.Any(faction.Contains))
-            {
-                await ReplyAsync("Invalid Request");
-                return;
-            }
-
-            if (!optional_tags.Contains(faction))
-            {
-                if (!security_check(faction, Context.Message.Author.Id))
-                {
-                    await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
-                    return;
-                }
-            }
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
@@ -242,18 +215,6 @@ namespace timebot.Modules.Commands
 
             await ReplyAsync("Role Removed");
             return;
-        }
-
-        [Command("stopbot")]
-        [RequireBotPermission(GuildPermission.Administrator)]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task StopbotAsync()
-        {
-            ;
-            await ReplyAsync("The bot is shutting down.");
-            Context.Client.LogoutAsync().GetAwaiter().GetResult();
-            Context.Client.StopAsync().GetAwaiter().GetResult();
-            Context.Client.Dispose();
         }
 
         [Command("tracker")]
