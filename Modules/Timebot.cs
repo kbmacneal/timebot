@@ -334,6 +334,7 @@ namespace timebot.Modules.Commands
         {
             int rtn = 0;
             int test = 0;
+            List<int> fluff = new List<int>();
 
             string[] dice_array = roll.Split("d");
 
@@ -343,13 +344,17 @@ namespace timebot.Modules.Commands
             for (int i = 0; i < Convert.ToInt32(dice_array[0]); i++)
             {
                 Random rand = new Random();
-                rtn += rand.Next(1,Int32.Parse(dice_array[1]));
+                fluff.Add(rand.Next(1,Int32.Parse(dice_array[1])));
             }
+
+            rtn = fluff.Sum();
+
             if(optional_plus == "+")rtn += Int32.Parse(optional_add);
             if(optional_plus == "-")rtn -= Int32.Parse(optional_add);
             
+            String fluff_add = String.Concat("(",string.Join(", ",fluff),")");
 
-            await ReplyAsync("You rolled " + rtn.ToString());
+            await ReplyAsync("You rolled " + rtn.ToString() + " " + fluff_add);
         }
 
         private Boolean validate_vote(SocketUser user, vote vote)
