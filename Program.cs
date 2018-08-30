@@ -210,7 +210,8 @@ namespace timebot
                 "archivechannel",
                 "roll",
                 "tracker",
-                "getfactioncount"
+                "getfactioncount",
+                "sendfactionblast"
             });
 
             //meeting room 1
@@ -288,7 +289,8 @@ namespace timebot
                 "postmeeting",
                 "roll",
                 "tracker",
-                "getfactioncount"
+                "getfactioncount",
+                "sendfactionblast"
             });
 
 
