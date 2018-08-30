@@ -19,7 +19,7 @@ namespace timebot.Modules.Commands {
             Tuple.Create ("14 Red Dogs Triad", "#AD4641"),
             Tuple.Create ("ACRE", "#915A2D"),
             Tuple.Create ("The Church of Humanity, Repentant", "#227F97"),
-            Tuple.Create ("The High Church of the Messiah-as-Emperor", "#F1C40F"),
+            Tuple.Create ("The High Church of Messiah-as-Emperox", "#F1C40F"),
             Tuple.Create ("House Aquila", "#C2A77A"),
             Tuple.Create ("House Crux", "#7851A9"),
             Tuple.Create ("House Eridanus", "#070000"),
