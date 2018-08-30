@@ -23,7 +23,12 @@ namespace timebot.Modules.Commands
                     "Houses Major",
                     "Houses Minor",
                     "Churches",
-                    "Moderator"
+                    "Moderator",
+                    "Representative (Mods)",
+                    "Bots",
+                    "Corporates",
+                    "NACHO",
+                    "TrilliantMeeting"
         };
 
         private static Boolean security_check(string faction, ulong id)
