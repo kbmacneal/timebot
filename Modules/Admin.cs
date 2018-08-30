@@ -42,7 +42,11 @@ namespace timebot.Modules.Commands
         private static readonly string[] optional_tags = {
                     "Speaker",
                     "Observer",
-                    "War Room"
+                    "War Room",
+                    "Houses Major",
+                    "Houses Minor",
+                    "Churches",
+                    "Moderator"
         };
 
         private static Boolean security_check(string faction, ulong id)
@@ -51,132 +55,13 @@ namespace timebot.Modules.Commands
 
             Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse(id);
 
-            List<string> member_of = response.UserRoles.Select(e=>e.RoleName).ToList();
+            List<string> member_of = response.UserRoles.Select(e => e.RoleName).ToList();
 
-            if(member_of.Contains(faction))rtn=true;
+            if (member_of.Contains(faction)) rtn = true;
 
             return rtn;
 
         }
-
-        // private Dictionary<string, List<string>> gen_access_lists()
-        // {
-        //     Dictionary<string, List<string>> rtn = new Dictionary<string, List<string>>();
-
-
-        //     //New Room
-        //     rtn.Add(
-        //         "480767825368186911", new List<string>()
-        //         {
-        //             "House Vagrant",
-        //             "14 Red Dogs Triad",
-        //             "ACRE",
-        //             "Church of Humanity Repentant",
-        //             "High Church of the Messiah-as-Emperox",
-        //             "House Aquila",
-        //             "House Crux",
-        //             "House Eridanus",
-        //             "House Fornax",
-        //             "House Lyra",
-        //             "House Pyxis",
-        //             "House Reticulum",
-        //             "House Serpens",
-        //             "House Triangulum",
-        //             "House Vela",
-        //             "PRISM",
-        //             "The Deathless",
-        //             "The Trilliant Ring",
-        //             "Unified People's Collective",
-        //             "War Room",
-        //             "Speaker",
-        //             "Observer"
-        //         }
-        //     );
-
-        //     //IFDS
-        //     rtn.Add(
-        //         "465538179978756096", new List<string>()
-        //         {
-        //             "House Vagrant",
-        //             "14 Red Dogs Triad",
-        //             "ACRE",
-        //             "Church of Humanity Repentant",
-        //             "High Church of the Messiah-as-Emperox",
-        //             "House Aquila",
-        //             "House Crux",
-        //             "House Eridanus",
-        //             "House Fornax",
-        //             "House Lyra",
-        //             "House Pyxis",
-        //             "House Reticulum",
-        //             "House Serpens",
-        //             "House Triangulum",
-        //             "House Vela",
-        //             "PRISM",
-        //             "The Deathless",
-        //             "The Trilliant Ring",
-        //             "Unified People's Collective",
-        //             "Speaker",
-        //             "Observer"
-        //         }
-        //     );
-
-        //     //Meeting Room 1
-        //     rtn.Add(
-        //         "476147072526188546", new List<string>()
-        //         {
-        //             "House Vagrant",
-        //             "14 Red Dogs Triad",
-        //             "ACRE",
-        //             "Church of Humanity Repentant",
-        //             "High Church of the Messiah-as-Emperox",
-        //             "House Aquila",
-        //             "House Crux",
-        //             "House Eridanus",
-        //             "House Fornax",
-        //             "House Lyra",
-        //             "House Pyxis",
-        //             "House Reticulum",
-        //             "House Serpens",
-        //             "House Triangulum",
-        //             "House Vela",
-        //             "PRISM",
-        //             "The Deathless",
-        //             "The Trilliant Ring",
-        //             "Unified People's Collective",
-        //             "Speaker",
-        //             "Observer"
-        //         }
-        //     );
-
-        //     //Church Diplo Server
-        //     rtn.Add(
-        //         "435921918152146945", new List<string>()
-        //         {
-        //             "House Vagrant",
-        //             "14 Red Dogs Triad",
-        //             "ACRE",
-        //             "Church of Humanity Repentant",
-        //             "High Church of the Messiah-as-Emperox",
-        //             "House Aquila",
-        //             "House Crux",
-        //             "House Eridanus",
-        //             "House Fornax",
-        //             "House Lyra",
-        //             "House Pyxis",
-        //             "House Reticulum",
-        //             "House Serpens",
-        //             "House Triangulum",
-        //             "House Vela",
-        //             "PRISM",
-        //             "The Deathless",
-        //             "The Trilliant Ring",
-        //             "Unified People's Collective"
-        //         }
-        //     );
-
-        //     return rtn;
-        // }
 
         [Command("listfaction")]
         public async Task ListfactionAsync()
@@ -202,11 +87,15 @@ namespace timebot.Modules.Commands
                 return;
             }
 
-            if (!security_check(faction, Context.Message.Author.Id))
+            if (!optional_tags.Contains(faction))
             {
-                await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
-                return;
+                if (!security_check(faction, Context.Message.Author.Id))
+                {
+                    await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
+                    return;
+                }
             }
+
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
 
@@ -237,10 +126,13 @@ namespace timebot.Modules.Commands
                 return;
             }
 
-            if (!security_check(faction, Context.Message.Author.Id))
+            if (!optional_tags.Contains(faction))
             {
-                await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
-                return;
+                if (!security_check(faction, Context.Message.Author.Id))
+                {
+                    await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
+                    return;
+                }
             }
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
@@ -271,10 +163,13 @@ namespace timebot.Modules.Commands
                 return;
             }
 
-            if (!security_check(faction, Context.Message.Author.Id))
+            if (!optional_tags.Contains(faction))
             {
-                await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
-                return;
+                if (!security_check(faction, Context.Message.Author.Id))
+                {
+                    await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
+                    return;
+                }
             }
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();
@@ -306,10 +201,13 @@ namespace timebot.Modules.Commands
                 return;
             }
 
-            if (!security_check(faction, Context.Message.Author.Id))
+            if (!optional_tags.Contains(faction))
             {
-                await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
-                return;
+                if (!security_check(faction, Context.Message.Author.Id))
+                {
+                    await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
+                    return;
+                }
             }
 
             List<SocketRole> roles = Context.Guild.Roles.ToList();

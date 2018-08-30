@@ -11,9 +11,7 @@ namespace timebot.Classes {
         public static SwnbotResponse GetResponse (ulong ID) {
             string file = "swnbot.json";
 
-            Dictionary<string, string> secrets = new Dictionary<string, string> ();
-
-            secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (file));
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (file));
 
             string key = secrets["token"];
 
