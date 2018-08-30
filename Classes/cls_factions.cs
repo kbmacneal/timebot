@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using RestSharp;
@@ -21,7 +20,9 @@ namespace timebot.Classes
 
             var request = new RestRequest("faction", Method.GET);
 
-            string content = client.Execute(request).Content;
+            var complete = client.Execute(request);
+
+            string content = complete.Content;
 
             return Factions.FromJson(content);
         }

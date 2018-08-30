@@ -58,20 +58,20 @@ namespace timebot.Modules.Commands
 
             foreach (var user in users)
             {
-                if(user.IsBot)continue;
-                foreach(var role in user.Roles)
+                if (user.IsBot) continue;
+                foreach (var role in user.Roles)
                 {
-                    if(!official_factions.Contains(role.Name))continue;
+                    if (!official_factions.Contains(role.Name)) continue;
 
-                    if(!security_check(role.Name,user.Id))
+                    if (!security_check(role.Name, user.Id))
                     {
                         infractions.Add(user.Nickname);
-                        await user.RemoveRoleAsync(role,null);
+                        await user.RemoveRoleAsync(role, null);
                     }
                 }
             }
 
-            await ReplyAsync("users removed from a role" + System.Environment.NewLine + string.Join(System.Environment.NewLine,infractions));
+            await ReplyAsync("users removed from a role" + System.Environment.NewLine + string.Join(System.Environment.NewLine, infractions));
         }
 
         [Command("listfaction")]
