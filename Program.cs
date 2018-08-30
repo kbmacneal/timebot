@@ -18,7 +18,7 @@ namespace timebot
 {
     internal class Program
     {
-        private static void Main(string[] args) => new Program().RunBotAsync(args[0].ToString()).GetAwaiter().GetResult();
+        private static void Main(string[] args) => new Program().RunBotAsync().GetAwaiter().GetResult();
 
         private DiscordSocketClient _client;
         private CommandService _commands;
@@ -27,7 +27,7 @@ namespace timebot
             "tb!"
         };
 
-        public async Task RunBotAsync(string botToken)
+        public async Task RunBotAsync()
         {
             //initialize the default admin
 
@@ -41,6 +41,10 @@ namespace timebot
                 Data.insert_user(usr);
             }
 
+            string file = "swnbot.json";
+
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (file));
+
             _client = new DiscordSocketClient();
             _commands = new CommandService();
             _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
@@ -50,7 +54,7 @@ namespace timebot
 
             await RegisterCommandAsync();
 
-            await _client.LoginAsync(TokenType.Bot, botToken);
+            await _client.LoginAsync(TokenType.Bot, secrets["bot_code"]);
 
             await _client.StartAsync();
 
