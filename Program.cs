@@ -186,7 +186,8 @@ namespace timebot
                 "acknowledge",
                 "postmeeting",
                 "roll",
-                "tracker"
+                "tracker",
+                "getfactioncount"
             });
 
             //main diplo server
@@ -204,7 +205,8 @@ namespace timebot
                 "churchapproved",
                 "archivechannel",
                 "roll",
-                "tracker"
+                "tracker",
+                "getfactioncount"
             });
 
             //meeting room 1
@@ -226,7 +228,8 @@ namespace timebot
                 "churchapproved",
                 "archivechannel",
                 "roll",
-                "tracker"
+                "tracker",
+                "getfactioncount"
             });
 
             //new room
@@ -248,7 +251,8 @@ namespace timebot
                 "churchapproved",
                 "archivechannel",
                 "roll",
-                "tracker"
+                "tracker",
+                "getfactioncount"
             });
 
             //Testing Server
@@ -279,7 +283,8 @@ namespace timebot
                 "acknowledge",
                 "postmeeting",
                 "roll",
-                "tracker"
+                "tracker",
+                "getfactioncount"
             });
 
 
