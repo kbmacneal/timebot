@@ -45,6 +45,26 @@ namespace timebot.Modules.Commands
 
         }
 
+        [Command("getfactioncount")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        public async Task GetfactioncountAsync()
+        {
+            List<Classes.Faction> official_factions = Classes.Factions.get_factions().apiFactions.ToList();
+
+            List<string> rtn = new List<string>();
+
+            Dictionary<string,string> holder = new Dictionary<string,string>();
+
+            official_factions.ForEach(e=>holder.Add(e.FactionName,Classes.FactionCount.FactionCountGet.GetCount(e.FactionShortName).Members.Count().ToString()));
+
+            rtn.Add("Here are the counts of active members for each faction");
+            rtn.Add("---------------");
+            holder.AsEnumerable().ToList().ForEach(e=>rtn.Add(string.Concat(e.Key, ": ",e.Value)));
+            
+            await ReplyAsync(string.Join(System.Environment.NewLine,rtn));
+        }
+
         [Command("cleanfaclists")]
         [RequireUserPermission(GuildPermission.Administrator)]
         [RequireBotPermission(GuildPermission.Administrator)]
