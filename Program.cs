@@ -191,7 +191,8 @@ namespace timebot
                 "postmeeting",
                 "roll",
                 "tracker",
-                "getfactioncount"
+                "getfactioncount",
+                "cleanfaclists"
             });
 
             //main diplo server
@@ -211,7 +212,8 @@ namespace timebot
                 "roll",
                 "tracker",
                 "getfactioncount",
-                "sendfactionblast"
+                "sendfactionblast",
+                "cleanfaclists"
             });
 
             //meeting room 1
@@ -234,7 +236,8 @@ namespace timebot
                 "archivechannel",
                 "roll",
                 "tracker",
-                "getfactioncount"
+                "getfactioncount",
+                "cleanfaclists"
             });
 
             //new room
@@ -257,7 +260,8 @@ namespace timebot
                 "archivechannel",
                 "roll",
                 "tracker",
-                "getfactioncount"
+                "getfactioncount",
+                "cleanfaclists"
             });
 
             //Testing Server
@@ -290,7 +294,8 @@ namespace timebot
                 "roll",
                 "tracker",
                 "getfactioncount",
-                "sendfactionblast"
+                "sendfactionblast",
+                "cleanfaclists"
             });
 
 

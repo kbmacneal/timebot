@@ -31,7 +31,7 @@ namespace timebot.Modules.Commands
                     "TrilliantMeeting"
         };
 
-        private static readonly Dictionary<string,string> blasters = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> blasters = new Dictionary<string, string>()
         {
             {"The High Church of Messiah-as-Emperox", "messiah"}
         };
@@ -55,7 +55,7 @@ namespace timebot.Modules.Commands
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task SendfactionblastAsync(string faction, string message)
         {
-            if(!(blasters.Keys.ToList().Contains(faction))) 
+            if (!(blasters.Keys.ToList().Contains(faction)))
             {
                 await ReplyAsync("Your faction is not configured to receive bot blasts. Consult for rep.");
 
@@ -64,13 +64,13 @@ namespace timebot.Modules.Commands
 
             var users = Classes.FactionCount.FactionCountGet.GetCount(blasters[faction]).Members;
 
-            foreach(var user in users)
+            foreach (var user in users)
             {
                 RequestOptions opt = new RequestOptions();
                 opt.RetryMode = RetryMode.RetryRatelimit;
                 var send = Context.Client.GetUser(Convert.ToUInt64(user.User.Id));
 
-                if(send != null) await send.SendMessageAsync(message,false,null,opt);
+                if (send != null) await send.SendMessageAsync(message, false, null, opt);
             }
 
             await ReplyAsync("Messages Sent");
@@ -85,15 +85,15 @@ namespace timebot.Modules.Commands
 
             List<string> rtn = new List<string>();
 
-            Dictionary<string,string> holder = new Dictionary<string,string>();
+            Dictionary<string, string> holder = new Dictionary<string, string>();
 
-            official_factions.ForEach(e=>holder.Add(e.FactionName,Classes.FactionCount.FactionCountGet.GetCount(e.FactionShortName).Members.Count().ToString()));
+            official_factions.ForEach(e => holder.Add(e.FactionName, Classes.FactionCount.FactionCountGet.GetCount(e.FactionShortName).Members.Count().ToString()));
 
             rtn.Add("Here are the counts of active members for each faction");
             rtn.Add("---------------");
-            holder.AsEnumerable().ToList().ForEach(e=>rtn.Add(string.Concat(e.Key, ": ",e.Value)));
-            
-            await ReplyAsync(string.Join(System.Environment.NewLine,rtn));
+            holder.AsEnumerable().ToList().ForEach(e => rtn.Add(string.Concat(e.Key, ": ", e.Value)));
+
+            await ReplyAsync(string.Join(System.Environment.NewLine, rtn));
         }
 
         [Command("cleanfaclists")]
@@ -116,11 +116,37 @@ namespace timebot.Modules.Commands
 
                     if (!security_check(role.Name, user.Id))
                     {
-                        infractions.Add(user.Nickname);
+                        infractions.Add(String.Concat(user.Username,"|",role.Name));
                         await user.RemoveRoleAsync(role, null);
                     }
                 }
             }
+
+            await ReplyAsync("users removed from a role" + System.Environment.NewLine + string.Join(System.Environment.NewLine, infractions));
+        }
+
+        [Command("cleanfaclists")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        public async Task CleanfaclistsAsync(SocketUser user)
+        {
+            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+
+            List<string> infractions = new List<string>();
+
+            if (user.IsBot) return;
+
+            foreach (var role in ((SocketGuildUser)user).Roles)
+            {
+                if (!official_factions.Contains(role.Name)) continue;
+
+                if (!security_check(role.Name, user.Id))
+                {
+                    infractions.Add(String.Concat(user.Username,"|",role.Name));
+                    await ((SocketGuildUser)user).RemoveRoleAsync(role, null);
+                }
+            }
+
 
             await ReplyAsync("users removed from a role" + System.Environment.NewLine + string.Join(System.Environment.NewLine, infractions));
         }
