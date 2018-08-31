@@ -214,6 +214,9 @@ namespace timebot
                 "getfactioncount",
                 "sendfactionblast",
                 "cleanfaclists"
+                "listfaction",
+                "addfaction",
+                "removefaction"
             });
 
             //meeting room 1
