@@ -213,7 +213,7 @@ namespace timebot
                 "tracker",
                 "getfactioncount",
                 "sendfactionblast",
-                "cleanfaclists"
+                "cleanfaclists",
                 "listfaction",
                 "addfaction",
                 "removefaction"
