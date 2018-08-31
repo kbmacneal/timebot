@@ -35,22 +35,7 @@ namespace timebot.Modules.Commands
 
             List<string> rtn_message = new List<string>();
 
-            rtn_message.Add("```");
-            rtn_message.Add("Here are the commands available");
-            rtn_message.Add("tb!ping : Make sure the bot is alive");
-            rtn_message.Add("tb!commands: you're using it right now!");
-            rtn_message.Add("tb!listfaction: List the factions available to be added to");
-            rtn_message.Add("tb!addfaction \"Faction Name with Spaces\": adds a user to the faction");
-            rtn_message.Add("tb!playbingo: starts a game of bingo, hosted by the bot.");
-            rtn_message.Add("tb!removefaction: removes a user from a faction");
-            rtn_message.Add("tb!addrepresentative \"HOUSE NAME WITH SPACES\": adds you as the representative for your faction");
-            rtn_message.Add("tb!removerepresentative \"HOUSE NAME WITH SPACES\": removes you as the representative for your faction");
-            rtn_message.Add("tb!vote \"Faction name with spaces\" question# selection#: casts your factions vote for a specified option of a specified question");
-            rtn_message.Add("tb!tally #: Tallies the votes cast for a specified question.");
-            rtn_message.Add("tb!deletequestion #: Deletes the votes for the question specified.");
-            rtn_message.Add("tb!setcolors: normalizes the server's faction colors.");
-            rtn_message.Add("tb!badbot: only bot-haters would use this.");
-            rtn_message.Add("```");
+            rtn_message.Add("For complete instructions, go to https://highchurch.space/Bot");
 
             await ReplyAsync(String.Join(System.Environment.NewLine, rtn_message));
         }
