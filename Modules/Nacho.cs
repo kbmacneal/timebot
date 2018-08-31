@@ -22,7 +22,7 @@ namespace timebot.Modules.Commands
             "House Vela",
             "House Fornax",
             "The Houses Minor",
-            "High Church of the Messiah-as-Emperox",
+            "The High Church of Messiah-as-Emperox",
             "Moderator"
 
         };
