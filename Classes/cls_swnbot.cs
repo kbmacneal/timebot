@@ -5,10 +5,11 @@ using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using RestSharp;
+using System.Threading.Tasks;
 
 namespace timebot.Classes {
     public static class SwnbotResponseGet {
-        public static SwnbotResponse GetResponse (ulong ID) {
+        public static async Task<SwnbotResponse> GetResponse (ulong ID) {
             string file = "swnbot.json";
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (file));
@@ -25,7 +26,13 @@ namespace timebot.Classes {
 
             request.AddHeader ("Authorization", key);
 
-            return SwnbotResponse.FromJson (client.Execute (request).Content);
+            var response = client.Execute (request);
+
+            if(!response.IsSuccessful)return null;
+
+            var content = response.Content.Replace('’','\'');
+
+            return SwnbotResponse.FromJson (content);
         }
     }
 
