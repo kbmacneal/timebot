@@ -55,48 +55,42 @@ namespace timebot.Modules.Commands {
 
                     await roles.Where (e => e.Name == Faction.Item1).FirstOrDefault ().ModifyAsync (r => r.Color = new Discord.Color (colorhex.R, colorhex.G, colorhex.B)).ConfigureAwait (false);
 
-                    role = Context.Guild.GetRole(roles.FirstOrDefault (e => e.Name == Faction.Item1).Id);
+                    role = Context.Guild.GetRole (roles.FirstOrDefault (e => e.Name == Faction.Item1).Id);
 
                 } else {
                     ulong id = (await Context.Guild.CreateRoleAsync (Faction.Item1, null, new Discord.Color (colorhex.R, colorhex.G, colorhex.B), false, null)).Id;
 
-                    role = Context.Guild.GetRole(id);
+                    role = Context.Guild.GetRole (id);
                 }
 
-                
             }
 
             await ReplyAsync ("Faction colors normalized.");
         }
 
-        private async Task setup_channels_Async()
-        {
-            List<string> facs = new List<string>();
-            Factions.ToList().ForEach(e=>facs.Add(e.Item1));
+        private async Task setup_channels_Async () {
+            List<string> facs = new List<string> ();
+            Factions.ToList ().ForEach (e => facs.Add (e.Item1));
 
-            foreach(string fac in facs)
-            {
+            foreach (string fac in facs) {
 
-                var role = Context.Guild.Roles.Where(e=>e.Name==fac);
-                var channel = await Context.Guild.CreateTextChannelAsync(fac,null);
+                var role = Context.Guild.Roles.Where (e => e.Name == fac);
+                var channel = await Context.Guild.CreateTextChannelAsync (fac, null);
 
                 IRole everyone = Context.Guild.EveryoneRole as IRole;
 
-                OverwritePermissions everyone_perms = new OverwritePermissions();
+                OverwritePermissions everyone_perms = new OverwritePermissions ();
 
-                everyone_perms.Modify(PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,null,null,null,null,PermValue.Deny,null,PermValue.Deny,PermValue.Deny);
+                everyone_perms.Modify (PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, null, null, null, null, PermValue.Deny, null, PermValue.Deny, PermValue.Deny);
 
-                OverwritePermissions roleperms = new OverwritePermissions();
+                OverwritePermissions roleperms = new OverwritePermissions ();
 
-                roleperms.Modify(PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,null,null,null,null,PermValue.Deny,null,PermValue.Deny,PermValue.Deny);
+                roleperms.Modify (PermValue.Deny, PermValue.Deny, PermValue.Allow, PermValue.Allow, PermValue.Allow, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Allow, PermValue.Allow, PermValue.Deny, PermValue.Deny, null, null, null, null, PermValue.Deny, null, PermValue.Deny, PermValue.Deny);
 
-                await channel.AddPermissionOverwriteAsync(everyone,everyone_perms,null);
+                await channel.AddPermissionOverwriteAsync (everyone, everyone_perms, null);
                 // await channel.AddPermissionOverwriteAsync(role,roleperms,null);
             }
 
-
-
-            
         }
 
         [Command ("setbotusername")]

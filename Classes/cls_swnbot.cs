@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using RestSharp;
-using System.Threading.Tasks;
 
 namespace timebot.Classes {
     public static class SwnbotResponseGet {
@@ -28,9 +28,9 @@ namespace timebot.Classes {
 
             var response = client.Execute (request);
 
-            if(!response.IsSuccessful)return null;
+            if (!response.IsSuccessful) return null;
 
-            var content = response.Content.Replace('’','\'');
+            var content = response.Content.Replace ('’', '\'');
 
             return SwnbotResponse.FromJson (content);
         }

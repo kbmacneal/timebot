@@ -80,7 +80,7 @@ namespace timebot.Classes {
             // Get employee collection
             var collection = store.GetCollection<representative> ();
 
-            await collection.DeleteManyAsync (e => e.name == user.Username && e.discriminator.ToString() == user.Discriminator);
+            await collection.DeleteManyAsync (e => e.name == user.Username && e.discriminator.ToString () == user.Discriminator);
 
             store.Dispose ();
         }

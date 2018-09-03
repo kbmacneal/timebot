@@ -33,7 +33,7 @@ namespace timebot.Modules.Commands {
 
             }
 
-            notice.EventDate = new NodaTime.ZonedDateTime (NodaTime.Instant.FromDateTimeUtc(Classes.Meeting.gen_datetime (datetime).GetAwaiter ().GetResult ().ToUniversalTime ()), NodaTime.DateTimeZone.Utc, NodaTime.CalendarSystem.Julian);
+            notice.EventDate = new NodaTime.ZonedDateTime (NodaTime.Instant.FromDateTimeUtc (Classes.Meeting.gen_datetime (datetime).GetAwaiter ().GetResult ().ToUniversalTime ()), NodaTime.DateTimeZone.Utc, NodaTime.CalendarSystem.Julian);
 
             notice.title = title;
 
@@ -108,16 +108,15 @@ namespace timebot.Modules.Commands {
         public async Task TimetillAsync (int id) {
             string timetill = string.Empty;
 
-            NodaTime.Instant now = NodaTime.Instant.FromDateTimeUtc(DateTime.Now.ToUniversalTime());
+            NodaTime.Instant now = NodaTime.Instant.FromDateTimeUtc (DateTime.Now.ToUniversalTime ());
 
-            Classes.Meeting.notice note = Classes.Meeting.get_notice(id).GetAwaiter().GetResult();
+            Classes.Meeting.notice note = Classes.Meeting.get_notice (id).GetAwaiter ().GetResult ();
 
-            var hours = (note.EventDate.ToInstant().ToDateTimeUtc() - now.ToDateTimeUtc()).TotalHours;
+            var hours = (note.EventDate.ToInstant ().ToDateTimeUtc () - now.ToDateTimeUtc ()).TotalHours;
 
-            timetill = "Designated meeting will be in " + hours.ToString() + " hours.";
+            timetill = "Designated meeting will be in " + hours.ToString () + " hours.";
 
-
-            await ReplyAsync(timetill);
+            await ReplyAsync (timetill);
         }
     }
 

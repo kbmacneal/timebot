@@ -59,7 +59,7 @@ namespace timebot.Classes {
 
             var store = new DataStore ("data.json");
 
-            await store.GetCollection<vote> ().DeleteManyAsync(e=>e.vote_id == question_id);
+            await store.GetCollection<vote> ().DeleteManyAsync (e => e.vote_id == question_id);
         }
 
         public async Task add_vote (vote vote) {
@@ -75,7 +75,7 @@ namespace timebot.Classes {
 
             var store = new DataStore ("data.json");
 
-            return store.GetCollection<vote> ().AsQueryable ().Where(e=> e.vote_id == question_id).ToList ();
+            return store.GetCollection<vote> ().AsQueryable ().Where (e => e.vote_id == question_id).ToList ();
         }
     }
 
