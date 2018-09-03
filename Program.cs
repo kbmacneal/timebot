@@ -172,7 +172,9 @@ namespace timebot {
                 "tracker",
                 "getfactioncount",
                 "cleanfaclists",
-                "addtorightfaction"
+                "addtorightfaction",
+                "iwanttoplay",
+                "playwinner"
             });
 
             //main diplo server
@@ -197,7 +199,9 @@ namespace timebot {
                 "listfaction",
                 "addfaction",
                 "removefaction",
-                "addtorightfaction"
+                "addtorightfaction",
+                "iwanttoplay",
+                "playwinner"
             });
 
             //meeting room 1
@@ -222,7 +226,9 @@ namespace timebot {
                 "tracker",
                 "getfactioncount",
                 "cleanfaclists",
-                "addtorightfaction"
+                "addtorightfaction",
+                "iwanttoplay",
+                "playwinner"
             });
 
             //new room
@@ -247,7 +253,9 @@ namespace timebot {
                 "tracker",
                 "getfactioncount",
                 "cleanfaclists",
-                "addtorightfaction"
+                "addtorightfaction",
+                "iwanttoplay",
+                "playwinner"
             });
 
             //Testing Server
@@ -282,7 +290,9 @@ namespace timebot {
                 "getfactioncount",
                 "sendfactionblast",
                 "cleanfaclists",
-                "addtorightfaction"
+                "addtorightfaction",
+                "iwanttoplay",
+                "playwinner"
             });
 
             return rtn;
