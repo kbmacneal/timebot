@@ -284,7 +284,7 @@ namespace timebot.Modules.Commands
 
             for (int i = 0; i < num_dice; i++)
             {
-               result += rand.Next(1,diceSize); 
+               result += rand.Next(1,diceSize)+1; 
             }
             return result;
         }
