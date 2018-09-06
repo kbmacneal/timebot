@@ -290,9 +290,10 @@ namespace timebot.Modules.Commands
         }
 
         [Command("roll")]
-        private async Task RollAsync(string roll, string optional_plus = "+", string optional_add = "0")
+        private async Task RollAsync(string[] args)
         {
             int rtn = 0;
+            string roll = string.Join("",args);
             string[] parts = Regex.Matches(roll, @"?=[+-]").Cast<Match>().Select(m => m.Value).ToArray();
             foreach (String partOfRoll in parts)
             { //roll each dice specified
