@@ -293,13 +293,19 @@ namespace timebot.Modules.Commands
         private async Task RollAsync(params string[] args)
         {
             int rtn = 0;
-            string roll = string.Join("",args);
-            string[] parts = Regex.Matches(roll, @"?=[+-]").Cast<Match>().Select(m => m.Value).ToArray();
+            string roll = string.Join("",args).Replace(" ","");
+            char[] splits = new char[] {'+','-'};
+            string[] parts = roll.Split(splits);
             foreach (String partOfRoll in parts)
             { //roll each dice specified
                 rtn += singleRoll(partOfRoll);
             }
-            await ReplyAsync("You rolled a " + rtn.ToString()) ;
+
+            SocketGuildUser usr = Context.Guild.GetUser(Context.Message.Author.Id) as SocketGuildUser;
+
+            string rtn_name = usr.Nickname == null ? usr.Username : usr.Nickname;
+
+            await ReplyAsync(rtn_name + " rolled a " + rtn.ToString()) ;
         }
 
         private Boolean validate_vote(SocketUser user, vote vote)
