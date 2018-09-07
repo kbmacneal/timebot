@@ -290,7 +290,7 @@ namespace timebot.Modules.Commands
         }
 
         [Command("roll")]
-        private async Task RollAsync(string[] args)
+        private async Task RollAsync(params string[] args)
         {
             int rtn = 0;
             string roll = string.Join("",args);
