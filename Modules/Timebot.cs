@@ -18,7 +18,6 @@ namespace timebot.Modules.Commands
 
     public class commands : ModuleBase<SocketCommandContext>
     {
-        private Random rand = new Random();
 
         private async Task SendPMAsync(string message, SocketUser user)
         {
@@ -284,7 +283,7 @@ namespace timebot.Modules.Commands
 
             for (int i = 0; i < num_dice; i++)
             {
-               result += rand.Next(0,diceSize)+1; 
+               result += Program.rand.Next(0,diceSize)+1; 
             }
             return result;
         }

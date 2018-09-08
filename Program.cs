@@ -16,6 +16,7 @@ using timebot.Classes;
 namespace timebot {
     internal class Program {
         private static void Main (string[] args) => new Program ().RunBotAsync ().GetAwaiter ().GetResult ();
+        public static Random rand = new Random();
 
         private DiscordSocketClient _client;
         private CommandService _commands;
