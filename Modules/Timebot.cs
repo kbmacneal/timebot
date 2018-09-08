@@ -267,7 +267,7 @@ namespace timebot.Modules.Commands
 
             Random rnd = new Random();
 
-            int selection = rnd.Next(1, results.Keys.Max());
+            int selection = rnd.Next(0, results.Keys.Max())+1;
 
             await ReplyAsync(results.Where(e => e.Key == selection).First().Value);
         }
