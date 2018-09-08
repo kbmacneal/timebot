@@ -307,6 +307,12 @@ namespace timebot.Modules.Commands
             await ReplyAsync(rtn_name + " rolled a " + rtn.ToString()) ;
         }
 
+        [Command("sector")]
+        private async Task SectorAsync()
+        {
+            await ReplyAsync("https://sectorswithoutnumber.com/sector/m11ZXBOt6xiJGo21EKio");
+        }
+
         private Boolean validate_vote(SocketUser user, vote vote)
         {
             Nacho nacho = new Nacho();
