@@ -36,7 +36,7 @@ namespace timebot {
                 Data.insert_user (usr);
             }
 
-            string file = "swnbot.json";
+            string file = "timebot.json";
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (file));
 
