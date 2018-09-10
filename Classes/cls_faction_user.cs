@@ -8,9 +8,8 @@ namespace timebot.Classes.FactionCount {
 
     public static class FactionCountGet {
         public static FactionCount GetCount (string short_name) {
-            string file = "swnbot.json";
 
-            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (file));
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
             string key = secrets["token"];
 

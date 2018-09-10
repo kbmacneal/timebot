@@ -21,6 +21,7 @@ namespace timebot {
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
+        public static string secrets_file = "timebot.json";
         public static readonly string[] prefixes = {
             "tb!"
         };
@@ -37,9 +38,7 @@ namespace timebot {
                 Data.insert_user (usr);
             }
 
-            string file = "timebot.json";
-
-            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (file));
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (secrets_file));
 
             _client = new DiscordSocketClient ();
             _commands = new CommandService ();

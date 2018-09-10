@@ -200,7 +200,9 @@ namespace timebot.Modules.Commands {
 
         [Command ("addfaction")]
         [RequireBotPermission (GuildPermission.Administrator)]
-        public async Task AddfactionAsync (string faction) {
+        public async Task AddfactionAsync (params string[] args) {
+
+            string faction = string.Join(" ", args);
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
             if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
@@ -233,7 +235,8 @@ namespace timebot.Modules.Commands {
         [Command ("addfaction")]
         [RequireUserPermission (GuildPermission.Administrator)]
         [RequireBotPermission (GuildPermission.Administrator)]
-        public async Task AddfactionAsync (SocketUser user, string faction) {
+        public async Task AddfactionAsync (SocketUser user, params string[] args) {
+            string faction = string.Join(" ", args);
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
             if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
