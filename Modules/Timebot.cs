@@ -18,7 +18,6 @@ namespace timebot.Modules.Commands
 
     public class commands : ModuleBase<SocketCommandContext>
     {
-        private Random rand = new Random();
 
         private async Task SendPMAsync(string message, SocketUser user)
         {
@@ -268,7 +267,7 @@ namespace timebot.Modules.Commands
 
             Random rnd = new Random();
 
-            int selection = rnd.Next(1, results.Keys.Max());
+            int selection = rnd.Next(0, results.Keys.Max())+1;
 
             await ReplyAsync(results.Where(e => e.Key == selection).First().Value);
         }
@@ -284,7 +283,7 @@ namespace timebot.Modules.Commands
 
             for (int i = 0; i < num_dice; i++)
             {
-               result += rand.Next(0,diceSize)+1; 
+               result += Program.rand.Next(0,diceSize)+1; 
             }
             return result;
         }
@@ -306,6 +305,12 @@ namespace timebot.Modules.Commands
             string rtn_name = usr.Nickname == null ? usr.Username : usr.Nickname;
 
             await ReplyAsync(rtn_name + " rolled a " + rtn.ToString()) ;
+        }
+
+        [Command("sector")]
+        private async Task SectorAsync()
+        {
+            await ReplyAsync("https://sectorswithoutnumber.com/sector/m11ZXBOt6xiJGo21EKio");
         }
 
         private Boolean validate_vote(SocketUser user, vote vote)
