@@ -22,7 +22,7 @@
 
   <ItemGroup>
   <None Include="Cactus_Pius_seal.png" CopyToPublishDirectory="Always" />
-  <None Include="swnbot.json" CopyToPublishDirectory="Always" />
+  <None Include="timebot.json" CopyToPublishDirectory="Always" />
 </ItemGroup>
 
 </Project>
