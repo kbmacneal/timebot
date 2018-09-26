@@ -340,7 +340,10 @@ namespace timebot.Modules.Commands {
 
             List<SocketGuildUser> users = Context.Guild.Users.Where(e=>e.Roles.Contains(role)).ToList();
 
-            users.ForEach(e=>e.KickAsync(null,opt));
+            foreach(var user in users)
+            {
+                await user.KickAsync(null,opt);
+            }
 
             await ReplyAsync ("Users Removed");
             return;
