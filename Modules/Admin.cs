@@ -319,6 +319,31 @@ namespace timebot.Modules.Commands {
             return;
         }
 
+        [Command ("removeentirefaction")]
+        [RequireBotPermission (GuildPermission.Administrator)]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task RemoveentirefactionAsync (string faction) {
+            
+            SocketRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name == faction);
+
+            if(role == null)
+            {
+                await ReplyAsync("Selection invalid");
+                return;
+            }
+
+            RequestOptions opt = new RequestOptions{
+                RetryMode = RetryMode.RetryRatelimit
+            };
+
+            List<SocketGuildUser> users = Context.Guild.Users.Where(e=>e.Roles.Contains(role)).ToList();
+
+            users.ForEach(e=>e.KickAsync(null,opt));
+
+            await ReplyAsync ("Users Removed");
+            return;
+        }
+
         [Command ("tracker")]
         public async Task TrackerAsync () {
             await ReplyAsync ("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");
