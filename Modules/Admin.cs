@@ -322,7 +322,9 @@ namespace timebot.Modules.Commands {
         [Command ("removeentirefaction")]
         [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task RemoveentirefactionAsync (string faction) {
+        public async Task RemoveentirefactionAsync (params string[] args) {
+
+            string faction = string.Join(" ",args);
             
             SocketRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name == faction);
 

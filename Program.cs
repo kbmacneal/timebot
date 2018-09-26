@@ -175,7 +175,8 @@ namespace timebot {
                 "addtorightfaction",
                 "iwanttoplay",
                 "playwinner",
-                "sector"
+                "sector",
+                "removeentirefaction"
             });
 
             //main diplo server
@@ -203,7 +204,8 @@ namespace timebot {
                 "addtorightfaction",
                 "iwanttoplay",
                 "playwinner",
-                "sector"
+                "sector",
+                "removeentirefaction"
             });
 
             //meeting room 1
@@ -231,10 +233,11 @@ namespace timebot {
                 "addtorightfaction",
                 "iwanttoplay",
                 "playwinner",
-                "sector"
+                "sector",
+                "removeentirefaction"
             });
 
-            //new room
+            //war room
             rtn.Add ("480767825368186911", new List<string> () {
                 "ping",
                 "commands",
@@ -259,7 +262,8 @@ namespace timebot {
                 "addtorightfaction",
                 "iwanttoplay",
                 "playwinner",
-                "sector"
+                "sector",
+                "removeentirefaction"
             });
 
             //Testing Server
@@ -297,7 +301,8 @@ namespace timebot {
                 "addtorightfaction",
                 "iwanttoplay",
                 "playwinner",
-                "sector"
+                "sector",
+                "removeentirefaction"
             });
 
             return rtn;
