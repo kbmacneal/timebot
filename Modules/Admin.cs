@@ -105,6 +105,15 @@ namespace timebot.Modules.Commands {
             await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
         }
 
+        [Command("monthlychanges")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [RequireBotPermission (GuildPermission.Administrator)]
+        public async Task Addtorightfaction () {
+
+            await CleanfaclistsAsync();
+            await Addtorightfaction();
+        }
+
         [Command ("addtorightfaction")]
         [RequireUserPermission (GuildPermission.Administrator)]
         [RequireBotPermission (GuildPermission.Administrator)]
