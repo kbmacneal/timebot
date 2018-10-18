@@ -108,7 +108,7 @@ namespace timebot.Modules.Commands {
         [Command("monthlychanges")]
         [RequireUserPermission (GuildPermission.Administrator)]
         [RequireBotPermission (GuildPermission.Administrator)]
-        public async Task Addtorightfaction () {
+        public async Task MonthlychangesAsync () {
 
             await CleanfaclistsAsync();
             await Addtorightfaction();
