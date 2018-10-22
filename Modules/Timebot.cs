@@ -263,8 +263,10 @@ namespace timebot.Modules.Commands
             string name = usr.Nickname.ToString() == "" ? usr.Username : usr.Nickname;
 
             int synth_id = Program.rand.Next(0, Int32.MaxValue - 5);
+
+            string new_nick = "A Synth, ID " + synth_id.ToString();
             
-            await usr.ModifyAsync(e=> e.Nickname = e.Nickname + " the synth, ID " + synth_id.ToString());
+            await usr.ModifyAsync(e=> e.Nickname = new_nick);
 
             await ReplyAsync("I knew it! " + name + " is a synth!");
         }
