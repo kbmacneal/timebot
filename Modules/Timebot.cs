@@ -187,6 +187,14 @@ namespace timebot.Modules.Commands
             return;
         }
 
+        [Command("savior")]
+        public async Task SaviorAsync()
+        {
+            await Context.Channel.SendFileAsync("TINMTTOS.png", null, false, null);
+
+            return;
+        }
+
         [Command("vote")]
         public async Task vote(string faction, int question, int selection)
         {
