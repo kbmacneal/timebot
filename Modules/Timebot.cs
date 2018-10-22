@@ -253,6 +253,22 @@ namespace timebot.Modules.Commands
             await ReplyAsync("Votes for the question have been removed");
         }
 
+        [Command("synth")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SynthAsync(SocketUser user)
+        {
+            SocketGuildUser usr = Context.Guild.GetUser(user.Id);
+
+            string name = usr.Nickname.ToString() == "" ? usr.Username : usr.Nickname;
+
+            int synth_id = Program.rand.Next(0, Int32.MaxValue - 5);
+            
+            await usr.ModifyAsync(e=> e.Nickname = e.Nickname + " the synth, ID " + synth_id.ToString());
+
+            await ReplyAsync("I knew it! " + name + " is a synth!");
+        }
+
         [Command("badbot")]
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task BadbotAsync()
