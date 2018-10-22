@@ -205,7 +205,8 @@ namespace timebot {
                 "iwanttoplay",
                 "playwinner",
                 "sector",
-                "removeentirefaction"
+                "removeentirefaction",
+                "synth"
             });
 
             //meeting room 1
@@ -302,7 +303,8 @@ namespace timebot {
                 "iwanttoplay",
                 "playwinner",
                 "sector",
-                "removeentirefaction"
+                "removeentirefaction",
+                "synth"
             });
 
             return rtn;
