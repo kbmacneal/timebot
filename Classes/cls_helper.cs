@@ -22,10 +22,15 @@ namespace timebot.Classes
             var properties = obj.GetType().GetProperties().Select(e => e.Name).ToArray();
             var embed = new EmbedBuilder();
 
+            embed.WithTitle(Helper.GetPropValue(obj, title_property_name).ToString());
+
             foreach (var property in properties)
             {
-                embed.WithTitle(Helper.GetPropValue(obj, title_property_name).ToString());
-                embed.AddInlineField(property, Helper.GetPropValue(obj, property));
+                if(property != title_property_name)
+                {
+                    embed.AddInlineField(property, Helper.GetPropValue(obj, property));
+                }               
+                
             }
 
             return embed.Build();
