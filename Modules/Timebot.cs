@@ -279,6 +279,24 @@ namespace timebot.Modules.Commands
             await ReplyAsync("I knew it! " + name + " is a synth!");
         }
 
+        [Command("asset")]
+        public async Task AssetAsync(params string[] collection)
+        {
+            string asset_name = String.Join(" ", collection);
+
+            var assets = JsonConvert.DeserializeObject<List<Classes.Assets.Asset>>(System.IO.File.ReadAllText("assets.json"));
+
+            if(assets.FirstOrDefault(e=>e.Name == asset_name) == null)
+            {
+                await ReplyAsync("Invalid asset selection.");
+                return;
+            }
+
+            Embed emb = Helper.ObjToEmbed(assets.FirstOrDefault(e=>e.Name == asset_name),"Name");
+
+            await ReplyAsync("",false,emb,null);
+        }
+
         [Command("badbot")]
         [RequireBotPermission(GuildPermission.Administrator)]
         public async Task BadbotAsync()

@@ -177,7 +177,8 @@ namespace timebot {
                 "playwinner",
                 "sector",
                 "removeentirefaction",
-                "savior"
+                "savior",
+                "asset"
             });
 
             //main diplo server
@@ -208,7 +209,8 @@ namespace timebot {
                 "sector",
                 "removeentirefaction",
                 "synth",
-                "savior"
+                "savior",
+                "asset"
             });
 
             //meeting room 1
@@ -238,7 +240,8 @@ namespace timebot {
                 "playwinner",
                 "sector",
                 "removeentirefaction",
-                "savior"
+                "savior",
+                "asset"
             });
 
             //war room
@@ -268,7 +271,8 @@ namespace timebot {
                 "playwinner",
                 "sector",
                 "removeentirefaction",
-                "savior"
+                "savior",
+                "asset"
             });
 
             //Testing Server
@@ -309,7 +313,8 @@ namespace timebot {
                 "sector",
                 "removeentirefaction",
                 "synth",
-                "savior"
+                "savior",
+                "asset"
             });
 
             return rtn;
