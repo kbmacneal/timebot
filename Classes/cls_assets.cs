@@ -28,6 +28,15 @@ namespace timebot.Classes.Assets
 
         [JsonProperty("Type")]
         public string Type { get; set; }
+
+        [JsonProperty("Tier")]
+        public string Tier { get; set; }
+
+        [JsonProperty("TechLevel")]
+        public string TechLevel { get; set; }
+
+        [JsonProperty("Cost")]
+        public string Cost { get; set; }
     }
 
     public enum TypeEnum { Cunning, Force, Special, Wealth };
