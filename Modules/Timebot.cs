@@ -284,15 +284,13 @@ namespace timebot.Modules.Commands
         {
             string asset_name = String.Join(" ", collection);
 
-            var assets = JsonConvert.DeserializeObject<List<Classes.Assets.Asset>>(System.IO.File.ReadAllText("assets.json"));
-
-            if(assets.FirstOrDefault(e=>e.Name == asset_name) == null)
+            if(Program.assets.FirstOrDefault(e=>e.Name == asset_name) == null)
             {
                 await ReplyAsync("Invalid asset selection.");
                 return;
             }
 
-            Embed emb = Helper.ObjToEmbed(assets.FirstOrDefault(e=>e.Name == asset_name),"Name");
+            Embed emb = Helper.ObjToEmbed(Program.assets.FirstOrDefault(e=>e.Name == asset_name),"Name");
 
             await ReplyAsync("",false,emb,null);
         }

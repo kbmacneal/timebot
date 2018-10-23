@@ -18,6 +18,8 @@ namespace timebot {
         private static void Main (string[] args) => new Program ().RunBotAsync ().GetAwaiter ().GetResult ();
         public static Random rand = new Random();
 
+        public static List<Classes.Assets.Asset> assets = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Classes.Assets.Asset>>(System.IO.File.ReadAllText("assets.json"));
+
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
