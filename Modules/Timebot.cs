@@ -195,6 +195,14 @@ namespace timebot.Modules.Commands
             return;
         }
 
+        [Command("opensource")]
+        public async Task OpensourceAsync()
+        {
+            await ReplyAsync("This bot is open sourced and permissively licensed. You can find all source code in the github repo at https://github.com/kbmacneal/timebot");
+
+            return;
+        }
+
         [Command("vote")]
         public async Task vote(string faction, int question, int selection)
         {
