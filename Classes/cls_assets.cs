@@ -15,6 +15,7 @@ namespace timebot.Classes.Assets
         public string Name { get; set; }
 
         [JsonProperty("HP")]
+        [JsonConverter(typeof(ParseStringConverter))]
         public long Hp { get; set; }
 
         [JsonProperty("Attack")]
@@ -37,6 +38,9 @@ namespace timebot.Classes.Assets
 
         [JsonProperty("Cost")]
         public string Cost { get; set; }
+
+        [JsonProperty("AssetType")]
+        public string AssetType { get; set; }
     }
 
     public enum TypeEnum { Cunning, Force, Special, Wealth };

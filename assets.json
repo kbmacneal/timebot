@@ -8,7 +8,8 @@
     "Type": "Wealth",
     "Tier": "1",
     "TechLevel": "2",
-    "Cost": "2"
+    "Cost": "2",
+    "AssetType": "Facility"
   },
   {
     "Name": "Harvesters",
@@ -19,7 +20,8 @@
     "Type": "Wealth",
     "Tier": "1",
     "TechLevel": "0",
-    "Cost": "2"
+    "Cost": "2",
+    "AssetType": "Facility"
   },
   {
     "Name": "Local Investments",
@@ -30,7 +32,8 @@
     "Type": "Wealth",
     "Tier": "1",
     "TechLevel": "2",
-    "Cost": "1"
+    "Cost": "1",
+    "AssetType": "Facility"
   },
   {
     "Name": "Base Of Influence",
@@ -41,7 +44,8 @@
     "Type": "Special",
     "Tier": "1",
     "TechLevel": "0",
-    "Cost": "*"
+    "Cost": "*",
+    "AssetType": "Special"
   },
   {
     "Name": "Freighter Contract",
@@ -52,7 +56,8 @@
     "Type": "Wealth",
     "Tier": "2",
     "TechLevel": "4",
-    "Cost": "5"
+    "Cost": "5",
+    "AssetType": "Starship"
   },
   {
     "Name": "Lawyers",
@@ -63,7 +68,8 @@
     "Type": "Wealth",
     "Tier": "2",
     "TechLevel": "0",
-    "Cost": "6"
+    "Cost": "6",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Union Toughs",
@@ -74,7 +80,8 @@
     "Type": "Wealth",
     "Tier": "2",
     "TechLevel": "0",
-    "Cost": "4"
+    "Cost": "4",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Surveyors",
@@ -85,7 +92,8 @@
     "Type": "Wealth",
     "Tier": "2",
     "TechLevel": "4",
-    "Cost": "4"
+    "Cost": "4",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Postech Industry",
@@ -96,7 +104,8 @@
     "Type": "Wealth",
     "Tier": "3",
     "TechLevel": "4",
-    "Cost": "8"
+    "Cost": "8",
+    "AssetType": "Facility"
   },
   {
     "Name": "Laboratory",
@@ -107,7 +116,8 @@
     "Type": "Wealth",
     "Tier": "3",
     "TechLevel": "0",
-    "Cost": "6"
+    "Cost": "6",
+    "AssetType": "Facility"
   },
   {
     "Name": "Mercenaries",
@@ -118,7 +128,8 @@
     "Type": "Wealth",
     "Tier": "3",
     "TechLevel": "4",
-    "Cost": "8"
+    "Cost": "8",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Shipping Combine",
@@ -129,7 +140,8 @@
     "Type": "Wealth",
     "Tier": "4",
     "TechLevel": "4",
-    "Cost": "10"
+    "Cost": "10",
+    "AssetType": "Facility"
   },
   {
     "Name": "Monopoly",
@@ -140,7 +152,8 @@
     "Type": "Wealth",
     "Tier": "4",
     "TechLevel": "3",
-    "Cost": "8"
+    "Cost": "8",
+    "AssetType": "Facility"
   },
   {
     "Name": "Medical Center",
@@ -151,7 +164,8 @@
     "Type": "Wealth",
     "Tier": "4",
     "TechLevel": "4",
-    "Cost": "12"
+    "Cost": "12",
+    "AssetType": "Facility"
   },
   {
     "Name": "Bank",
@@ -162,7 +176,8 @@
     "Type": "Wealth",
     "Tier": "4",
     "TechLevel": "3",
-    "Cost": "12"
+    "Cost": "12",
+    "AssetType": "Facility"
   },
   {
     "Name": "Marketers",
@@ -173,7 +188,8 @@
     "Type": "Wealth",
     "Tier": "5",
     "TechLevel": "0",
-    "Cost": "10"
+    "Cost": "10",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Pretech Researchers",
@@ -184,7 +200,8 @@
     "Type": "Wealth",
     "Tier": "5",
     "TechLevel": "4",
-    "Cost": "14"
+    "Cost": "14",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Blockade Runners",
@@ -195,7 +212,8 @@
     "Type": "Wealth",
     "Tier": "5",
     "TechLevel": "4",
-    "Cost": "12"
+    "Cost": "12",
+    "AssetType": "Starship"
   },
   {
     "Name": "Venture Capital",
@@ -206,7 +224,8 @@
     "Type": "Wealth",
     "Tier": "6",
     "TechLevel": "4",
-    "Cost": "15"
+    "Cost": "15",
+    "AssetType": "Facility"
   },
   {
     "Name": "R&D Department",
@@ -217,7 +236,8 @@
     "Type": "Wealth",
     "Tier": "6",
     "TechLevel": "4",
-    "Cost": "18"
+    "Cost": "18",
+    "AssetType": "Facility"
   },
   {
     "Name": "Commodities Broker",
@@ -228,7 +248,8 @@
     "Type": "Wealth",
     "Tier": "6",
     "TechLevel": "0",
-    "Cost": "20"
+    "Cost": "20",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Pretech Manufactory",
@@ -239,7 +260,8 @@
     "Type": "Wealth",
     "Tier": "7",
     "TechLevel": "5",
-    "Cost": "25"
+    "Cost": "25",
+    "AssetType": "Facility"
   },
   {
     "Name": "Hostile Takeover",
@@ -250,7 +272,8 @@
     "Type": "Wealth",
     "Tier": "7",
     "TechLevel": "4",
-    "Cost": "20"
+    "Cost": "20",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Transit Web",
@@ -261,7 +284,8 @@
     "Type": "Wealth",
     "Tier": "7",
     "TechLevel": "5",
-    "Cost": "15"
+    "Cost": "15",
+    "AssetType": "Facility"
   },
   {
     "Name": "Scavenger Fleet",
@@ -272,7 +296,8 @@
     "Type": "Wealth",
     "Tier": "8",
     "TechLevel": "5",
-    "Cost": "30"
+    "Cost": "30",
+    "AssetType": "Starship"
   },
   {
     "Name": "Smugglers",
@@ -283,7 +308,8 @@
     "Type": "Cunning",
     "Tier": "1",
     "TechLevel": "4",
-    "Cost": "2"
+    "Cost": "2",
+    "AssetType": "Starship"
   },
   {
     "Name": "Informers",
@@ -294,7 +320,8 @@
     "Type": "Cunning",
     "Tier": "1",
     "TechLevel": "0",
-    "Cost": "2"
+    "Cost": "2",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "False Front",
@@ -305,7 +332,8 @@
     "Type": "Cunning",
     "Tier": "1",
     "TechLevel": "0",
-    "Cost": "1"
+    "Cost": "1",
+    "AssetType": " Logistics Facility"
   },
   {
     "Name": "Base Of Influence",
@@ -316,7 +344,8 @@
     "Type": "Special",
     "Tier": "",
     "TechLevel": "",
-    "Cost": null
+    "Cost": null,
+    "AssetType": ""
   },
   {
     "Name": "Lobbyists",
@@ -327,7 +356,8 @@
     "Type": "Cunning",
     "Tier": "2",
     "TechLevel": "0",
-    "Cost": "4"
+    "Cost": "4",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Saboteurs",
@@ -338,7 +368,8 @@
     "Type": "Cunning",
     "Tier": "2",
     "TechLevel": "0",
-    "Cost": "5"
+    "Cost": "5",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Blackmail",
@@ -349,7 +380,8 @@
     "Type": "Cunning",
     "Tier": "2",
     "TechLevel": "0",
-    "Cost": "4"
+    "Cost": "4",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Seductress",
@@ -360,7 +392,8 @@
     "Type": "Cunning",
     "Tier": "2",
     "TechLevel": "0",
-    "Cost": "4"
+    "Cost": "4",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Cyberninjas",
@@ -371,7 +404,8 @@
     "Type": "Cunning",
     "Tier": "3",
     "TechLevel": "4",
-    "Cost": "6"
+    "Cost": "6",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Stealth",
@@ -382,7 +416,8 @@
     "Type": "Cunning",
     "Tier": "3",
     "TechLevel": "0",
-    "Cost": "2"
+    "Cost": "2",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Covert Shipping",
@@ -393,7 +428,8 @@
     "Type": "Cunning",
     "Tier": "3",
     "TechLevel": "4",
-    "Cost": "8"
+    "Cost": "8",
+    "AssetType": "Logistics Facility"
   },
   {
     "Name": "Party Machine",
@@ -404,7 +440,8 @@
     "Type": "Cunning",
     "Tier": "4",
     "TechLevel": "0",
-    "Cost": "8"
+    "Cost": "8",
+    "AssetType": "Logistics Facility"
   },
   {
     "Name": "Vanguard Cadres",
@@ -415,7 +452,8 @@
     "Type": "Cunning",
     "Tier": "4",
     "TechLevel": "3",
-    "Cost": "8"
+    "Cost": "8",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Tripwire Cells",
@@ -426,7 +464,8 @@
     "Type": "Cunning",
     "Tier": "4",
     "TechLevel": "4",
-    "Cost": "12"
+    "Cost": "12",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Seditionists",
@@ -437,7 +476,8 @@
     "Type": "Cunning",
     "Tier": "4",
     "TechLevel": "0",
-    "Cost": "12"
+    "Cost": "12",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Organization Moles",
@@ -448,7 +488,8 @@
     "Type": "Cunning",
     "Tier": "5",
     "TechLevel": "0",
-    "Cost": "10"
+    "Cost": "10",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Cracked Comms",
@@ -459,7 +500,8 @@
     "Type": "Cunning",
     "Tier": "5",
     "TechLevel": "0",
-    "Cost": "14"
+    "Cost": "14",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Boltholes",
@@ -470,7 +512,8 @@
     "Type": "Cunning",
     "Tier": "5",
     "TechLevel": "4",
-    "Cost": "12"
+    "Cost": "12",
+    "AssetType": "Logistics Facility"
   },
   {
     "Name": "Transport Lockdown",
@@ -481,7 +524,8 @@
     "Type": "Cunning",
     "Tier": "6",
     "TechLevel": "4",
-    "Cost": "20"
+    "Cost": "20",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Covert Transit Net",
@@ -492,7 +536,8 @@
     "Type": "Cunning",
     "Tier": "6",
     "TechLevel": "4",
-    "Cost": "18"
+    "Cost": "18",
+    "AssetType": "Logistics Facility"
   },
   {
     "Name": "Demagogue",
@@ -503,7 +548,8 @@
     "Type": "Cunning",
     "Tier": "6",
     "TechLevel": "0",
-    "Cost": "20"
+    "Cost": "20",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Popular Movement",
@@ -514,7 +560,8 @@
     "Type": "Cunning",
     "Tier": "7",
     "TechLevel": "4",
-    "Cost": "25"
+    "Cost": "25",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Book Of Secrets",
@@ -525,7 +572,8 @@
     "Type": "Cunning",
     "Tier": "7",
     "TechLevel": "4",
-    "Cost": "20"
+    "Cost": "20",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Treachery",
@@ -536,7 +584,8 @@
     "Type": "Cunning",
     "Tier": "7",
     "TechLevel": "0",
-    "Cost": "10"
+    "Cost": "10",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Panopticon Matrix",
@@ -547,7 +596,8 @@
     "Type": "Cunning",
     "Tier": "8",
     "TechLevel": "5",
-    "Cost": "30"
+    "Cost": "30",
+    "AssetType": "Logistics Facility"
   },
   {
     "Name": "Security Personnel",
@@ -558,7 +608,8 @@
     "Type": "Force",
     "Tier": "1",
     "TechLevel": "0",
-    "Cost": "2"
+    "Cost": "2",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Hitmen",
@@ -569,7 +620,8 @@
     "Type": "Force",
     "Tier": "1",
     "TechLevel": "0",
-    "Cost": "2"
+    "Cost": "2",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Militia Unit",
@@ -580,7 +632,8 @@
     "Type": "Force",
     "Tier": "1",
     "TechLevel": "3",
-    "Cost": "4"
+    "Cost": "4",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Base Of Influence",
@@ -591,7 +644,8 @@
     "Type": "Special",
     "Tier": "",
     "TechLevel": "",
-    "Cost": null
+    "Cost": null,
+    "AssetType": ""
   },
   {
     "Name": "Heavy Drop Assets",
@@ -602,7 +656,8 @@
     "Type": "Force",
     "Tier": "2",
     "TechLevel": "4",
-    "Cost": "4"
+    "Cost": "4",
+    "AssetType": "Facility"
   },
   {
     "Name": "Elite Skirmishers",
@@ -613,7 +668,8 @@
     "Type": "Force",
     "Tier": "2",
     "TechLevel": "4",
-    "Cost": "5"
+    "Cost": "5",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Hardened Personnel",
@@ -624,7 +680,8 @@
     "Type": "Force",
     "Tier": "2",
     "TechLevel": "3",
-    "Cost": "4"
+    "Cost": "4",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Guerilla Populace",
@@ -635,7 +692,8 @@
     "Type": "Force",
     "Tier": "",
     "TechLevel": "",
-    "Cost": null
+    "Cost": null,
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Zealots",
@@ -646,7 +704,8 @@
     "Type": "Force",
     "Tier": "3",
     "TechLevel": "0",
-    "Cost": "6"
+    "Cost": "6",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Cunning Trap",
@@ -657,7 +716,8 @@
     "Type": "Force",
     "Tier": "3",
     "TechLevel": "0",
-    "Cost": "5"
+    "Cost": "5",
+    "AssetType": "Tactic"
   },
   {
     "Name": "Counterintel Unit",
@@ -668,7 +728,8 @@
     "Type": "Force",
     "Tier": "3",
     "TechLevel": "4",
-    "Cost": "6"
+    "Cost": "6",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Beachhead Landers",
@@ -679,7 +740,8 @@
     "Type": "Force",
     "Tier": "4",
     "TechLevel": "4",
-    "Cost": "10"
+    "Cost": "10",
+    "AssetType": "Facility"
   },
   {
     "Name": "Extended Theater",
@@ -690,7 +752,8 @@
     "Type": "Force",
     "Tier": "4",
     "TechLevel": "4",
-    "Cost": "10"
+    "Cost": "10",
+    "AssetType": "Facility"
   },
   {
     "Name": "Strike Fleet",
@@ -701,7 +764,8 @@
     "Type": "Force",
     "Tier": "4",
     "TechLevel": "4",
-    "Cost": "12"
+    "Cost": "12",
+    "AssetType": "Starship"
   },
   {
     "Name": "Postech Infantry",
@@ -712,7 +776,8 @@
     "Type": "Force",
     "Tier": "4",
     "TechLevel": "4",
-    "Cost": "8"
+    "Cost": "8",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Blockade Fleet",
@@ -723,7 +788,8 @@
     "Type": "Force",
     "Tier": "5",
     "TechLevel": "4",
-    "Cost": "10"
+    "Cost": "10",
+    "AssetType": "Starship"
   },
   {
     "Name": "Pretech Logistics",
@@ -734,7 +800,8 @@
     "Type": "Force",
     "Tier": "5",
     "TechLevel": "0",
-    "Cost": "14"
+    "Cost": "14",
+    "AssetType": "Facility"
   },
   {
     "Name": "Psychic Assassins",
@@ -745,7 +812,8 @@
     "Type": "Force",
     "Tier": "5",
     "TechLevel": "4",
-    "Cost": "12"
+    "Cost": "12",
+    "AssetType": "Special Forces"
   },
   {
     "Name": "Pretech Infantry",
@@ -756,7 +824,8 @@
     "Type": "Force",
     "Tier": "6",
     "TechLevel": "5",
-    "Cost": "20"
+    "Cost": "20",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Planetary Defenses",
@@ -767,7 +836,8 @@
     "Type": "Force",
     "Tier": "6",
     "TechLevel": "4",
-    "Cost": "18"
+    "Cost": "18",
+    "AssetType": "Facility"
   },
   {
     "Name": "Gravtank Formation",
@@ -778,7 +848,8 @@
     "Type": "Force",
     "Tier": "6",
     "TechLevel": "4",
-    "Cost": "25"
+    "Cost": "25",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Deep Strike Landers",
@@ -789,7 +860,8 @@
     "Type": "Force",
     "Tier": "7",
     "TechLevel": "4",
-    "Cost": "25"
+    "Cost": "25",
+    "AssetType": "Facility"
   },
   {
     "Name": "Integral Protocols",
@@ -800,7 +872,8 @@
     "Type": "Force",
     "Tier": "7",
     "TechLevel": "5",
-    "Cost": "20"
+    "Cost": "20",
+    "AssetType": "Facility"
   },
   {
     "Name": "Space Marines",
@@ -811,7 +884,8 @@
     "Type": "Force",
     "Tier": "7",
     "TechLevel": "4",
-    "Cost": "30"
+    "Cost": "30",
+    "AssetType": "Military Unit"
   },
   {
     "Name": "Capital Fleet",
@@ -822,6 +896,7 @@
     "Type": "Force",
     "Tier": "8",
     "TechLevel": "4",
-    "Cost": "40"
+    "Cost": "40",
+    "AssetType": "Spaceship"
   }
 ]
