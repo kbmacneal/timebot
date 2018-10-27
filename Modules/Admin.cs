@@ -86,6 +86,11 @@ namespace timebot.Modules.Commands {
             await ReplyAsync ("Messages Sent");
         }
 
+        public class stats{
+            public string membershipstring {get;set;}
+            public string api_key {get;set;}
+        }
+
         [Command ("getfactioncount")]
         [RequireUserPermission (GuildPermission.Administrator)]
         [RequireBotPermission (GuildPermission.Administrator)]
@@ -101,6 +106,27 @@ namespace timebot.Modules.Commands {
             rtn.Add ("Here are the counts of active members for each faction");
             rtn.Add ("---------------");
             holder.AsEnumerable ().ToList ().ForEach (e => rtn.Add (string.Concat (e.Key, ": ", e.Value)));
+
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
+
+            string key = secrets["api_key"];
+
+            stats s = new stats{
+                membershipstring = string.Join (System.Environment.NewLine, rtn),
+                api_key = key
+            };            
+
+            string baseurl = string.Concat ("https://highchurch.space/api/UpdateMemCount");
+            // string baseurl = string.Concat ("http://localhost:5000/api/UpdateMemCount");
+
+            var client = new RestClient (baseurl);
+
+            var request = new RestRequest(Method.POST);
+            request.AddParameter("text/json", JsonConvert.SerializeObject(s), ParameterType.RequestBody);
+
+            request.AddHeader ("Content-Type", "text/json");
+
+            var response = client.Execute (request);
 
             await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
         }
