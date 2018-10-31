@@ -181,7 +181,8 @@ namespace timebot {
                 "removeentirefaction",
                 "savior",
                 "asset",
-                "opensource"
+                "opensource",
+                "monthlychanges"
             });
 
             //main diplo server
@@ -214,7 +215,8 @@ namespace timebot {
                 "synth",
                 "savior",
                 "asset",
-                "opensource"
+                "opensource",
+                "monthlychanges"
             });
 
             //meeting room 1
@@ -246,7 +248,8 @@ namespace timebot {
                 "removeentirefaction",
                 "savior",
                 "asset",
-                "opensource"
+                "opensource",
+                "monthlychanges"
             });
 
             //war room
@@ -322,6 +325,37 @@ namespace timebot {
                 "savior",
                 "asset",
                 "opensource"
+            });
+
+            //AS
+            rtn.Add ("438849609952002050", new List<string> () {
+                "ping",
+                "commands",
+                "setbotusername",
+                "stopbot",
+                "listfaction",
+                "playbingo",
+                "cactus",
+                "badbot",
+                "churchapproved",
+                "archivechannel",
+                "roll",
+                "tracker",
+                "getfactioncount",
+                "cleanfaclists",
+                "listfaction",
+                "addfaction",
+                "removefaction",
+                "addtorightfaction",
+                "iwanttoplay",
+                "playwinner",
+                "sector",
+                "removeentirefaction",
+                "synth",
+                "savior",
+                "asset",
+                "opensource",
+                "monthlychanges"
             });
 
             return rtn;
