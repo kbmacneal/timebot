@@ -281,7 +281,8 @@ namespace timebot {
                 "removeentirefaction",
                 "savior",
                 "asset",
-                "opensource"
+                "opensource",
+                "monthlychanges"
             });
 
             //Testing Server
