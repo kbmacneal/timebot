@@ -20,6 +20,8 @@ namespace timebot {
 
         public static List<Classes.Assets.Asset> assets = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Classes.Assets.Asset>>(System.IO.File.ReadAllText("assets.json"));
 
+        public static List<Classes.Tags.Tag> tags = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Classes.Tags.Tag>>(System.IO.File.ReadAllText("tags.json"));
+
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
@@ -183,7 +185,8 @@ namespace timebot {
                 "asset",
                 "opensource",
                 "monthlychanges",
-                "virtues"
+                "virtues",
+                "tag"
             });
 
             //main diplo server
@@ -218,7 +221,8 @@ namespace timebot {
                 "asset",
                 "opensource",
                 "monthlychanges",
-                "virtues"
+                "virtues",
+                "tag"
             });
 
             //meeting room 1
@@ -252,7 +256,8 @@ namespace timebot {
                 "asset",
                 "opensource",
                 "monthlychanges",
-                "virtues"
+                "virtues",
+                "tag"
             });
 
             //war room
@@ -286,7 +291,8 @@ namespace timebot {
                 "asset",
                 "opensource",
                 "monthlychanges",
-                "virtues"
+                "virtues",
+                "tag"
             });
 
             //Testing Server
@@ -330,7 +336,8 @@ namespace timebot {
                 "savior",
                 "asset",
                 "opensource",
-                "virtues"
+                "virtues",
+                "tag"
             });
 
             //AS
@@ -362,7 +369,8 @@ namespace timebot {
                 "asset",
                 "opensource",
                 "monthlychanges",
-                "virtues"
+                "virtues",
+                "tag"
             });
 
             return rtn;
