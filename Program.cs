@@ -182,7 +182,8 @@ namespace timebot {
                 "savior",
                 "asset",
                 "opensource",
-                "monthlychanges"
+                "monthlychanges",
+                "virtues"
             });
 
             //main diplo server
@@ -216,7 +217,8 @@ namespace timebot {
                 "savior",
                 "asset",
                 "opensource",
-                "monthlychanges"
+                "monthlychanges",
+                "virtues"
             });
 
             //meeting room 1
@@ -249,7 +251,8 @@ namespace timebot {
                 "savior",
                 "asset",
                 "opensource",
-                "monthlychanges"
+                "monthlychanges",
+                "virtues"
             });
 
             //war room
@@ -282,7 +285,8 @@ namespace timebot {
                 "savior",
                 "asset",
                 "opensource",
-                "monthlychanges"
+                "monthlychanges",
+                "virtues"
             });
 
             //Testing Server
@@ -325,7 +329,8 @@ namespace timebot {
                 "synth",
                 "savior",
                 "asset",
-                "opensource"
+                "opensource",
+                "virtues"
             });
 
             //AS
@@ -356,7 +361,8 @@ namespace timebot {
                 "savior",
                 "asset",
                 "opensource",
-                "monthlychanges"
+                "monthlychanges",
+                "virtues"
             });
 
             return rtn;
