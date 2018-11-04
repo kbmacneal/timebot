@@ -25,7 +25,7 @@
   <None Include="TINMTTOS.png" CopyToPublishDirectory="Always" />
   <None Include="assets.json" CopyToPublishDirectory="Always" />
   <None Include="timebot.json" CopyToPublishDirectory="Always" />
-    <None Include="tags.json" CopyToPublishDirectory="Always" />
+  <None Include="tags.json" CopyToPublishDirectory="Always" />
 
 </ItemGroup>
 
