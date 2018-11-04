@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -287,6 +288,9 @@ namespace timebot.Modules.Commands {
         public async Task TagAsync (params string[] collection) {
             string tag_name = String.Join (" ", collection);
 
+            TextInfo UsaTextInfo = new CultureInfo ("en - US", false).TextInfo;
+            tag_name = UsaTextInfo.ToTitleCase (tag_name);
+
             if (Program.tags.FirstOrDefault (e => e.Name == tag_name) == null) {
                 await ReplyAsync ("Invalid tag selection.");
                 return;
@@ -300,6 +304,9 @@ namespace timebot.Modules.Commands {
         [Command ("asset")]
         public async Task AssetAsync (params string[] collection) {
             string asset_name = String.Join (" ", collection);
+
+            TextInfo UsaTextInfo = new CultureInfo ("en - US", false).TextInfo;
+            asset_name = UsaTextInfo.ToTitleCase (asset_name);
 
             if (Program.assets.FirstOrDefault (e => e.Name == asset_name) == null) {
                 await ReplyAsync ("Invalid asset selection.");
