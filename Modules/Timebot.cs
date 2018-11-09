@@ -14,6 +14,7 @@ using Discord.WebSocket;
 using Newtonsoft.Json;
 using timebot.Classes;
 using timebot.Classes.Utilities;
+using RestSharp;
 
 namespace timebot.Modules.Commands {
 
@@ -411,6 +412,45 @@ namespace timebot.Modules.Commands {
         [Command ("sector")]
         private async Task SectorAsync () {
             await ReplyAsync ("https://sectorswithoutnumber.com/sector/m11ZXBOt6xiJGo21EKio");
+        }
+
+        [Command("xkcd")]
+        private async Task XkcdAsync()
+        {
+            int comic_number = Program.rand.Next(0,(Program.latest_xkcd + 1));
+
+            string baseurl = string.Concat ("https://xkcd.com/" + comic_number.ToString() + "/info.0.json");
+
+            var client = new RestClient (baseurl);
+
+            var request = new RestRequest (Method.GET);
+
+            var response = client.Execute (request);
+
+            if (!response.IsSuccessful) return;
+
+            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.Content);
+
+            await ReplyAsync(content.Img.ToString(),false,null,null);
+        }
+
+        [Command("xkcd")]
+        private async Task XkcdAsync(int comic_number)
+        {
+
+            string baseurl = string.Concat ("https://xkcd.com/" + comic_number.ToString() + "/info.0.json");
+
+            var client = new RestClient (baseurl);
+
+            var request = new RestRequest (Method.GET);
+
+            var response = client.Execute (request);
+
+            if (!response.IsSuccessful) return;
+
+            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.Content);
+
+            await ReplyAsync(content.Img.ToString(),false,null,null);
         }
 
         private Boolean validate_vote (SocketUser user, vote vote) {
