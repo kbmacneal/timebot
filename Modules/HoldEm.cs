@@ -60,6 +60,9 @@ namespace timebot.Commands
             Game.players.Add(player);
 
             string message = generate_name(Context.Guild.GetUser(Context.Message.Author.Id)) + " has joined the game.";
+            
+
+            await ReplyAsync(message,false,null,_opt);
         }
 
         [Command("startround")]
@@ -314,7 +317,7 @@ namespace timebot.Commands
 
         private static string generate_name(SocketGuildUser usr)
         {
-            return usr.Nickname == null ? usr.Username : usr.Nickname;
+            return usr.Nickname == null || usr.Nickname == "" ? usr.Username : usr.Nickname;
         }
         private async Task send_cards(UInt64 id)
         {

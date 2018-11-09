@@ -344,6 +344,21 @@ namespace timebot
                 "xkcd"
             });
 
+            //prix server
+            rtn.Add("483670916266590208", new List<string>() {
+                "ping",
+                "xkcd",
+                "startholdem",
+                "joinholdem",
+                "startround",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold"});
+
             //Testing Server
             rtn.Add("481856668519366656", new List<string>() {
                 "ping",
@@ -391,7 +406,14 @@ namespace timebot
                 "xkcd",
                 "startholdem",
                 "joinholdem",
-                "startround"
+                "startround",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold"
             });
 
             //AS
