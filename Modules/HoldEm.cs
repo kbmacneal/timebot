@@ -73,8 +73,8 @@ namespace timebot.Commands
 
             //perform the small and big blinds
 
-            int small_index = game.dealer_index + 1;
-            int big_index = game.dealer_index + 2;
+            int small_index = (game.dealer_index + 1) % game.players.Count();
+            int big_index = (game.dealer_index + 2) % game.players.Count();
 
             game.players[small_index].cash_pool = game.players[small_index].cash_pool - game.small_blind;
 
@@ -142,7 +142,7 @@ namespace timebot.Commands
             
             do
             {
-                game.current_round.call_position++;
+                game.current_round.call_position = game.current_round.call_position + 1  % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count = 0;
@@ -157,7 +157,7 @@ namespace timebot.Commands
 
             do
             {
-                game.current_round.call_position++;
+                game.current_round.call_position = game.current_round.call_position + 1  % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count++;
@@ -186,7 +186,7 @@ namespace timebot.Commands
 
             do
             {
-                game.current_round.call_position++;
+                game.current_round.call_position = game.current_round.call_position + 1  % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count++;
@@ -215,7 +215,7 @@ namespace timebot.Commands
 
             do
             {
-                game.current_round.call_position++;
+                game.current_round.call_position = game.current_round.call_position + 1  % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count = 0;
@@ -232,7 +232,7 @@ namespace timebot.Commands
 
             do
             {
-                game.current_round.call_position++;
+                game.current_round.call_position = game.current_round.call_position + 1  % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count++;
