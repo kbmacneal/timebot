@@ -357,7 +357,8 @@ namespace timebot
                 "holdemcheck",
                 "holdemcall",
                 "holdemraise",
-                "holdemfold"});
+                "holdemfold",
+                "holdemleave"});
 
             //Testing Server
             rtn.Add("481856668519366656", new List<string>() {
@@ -413,7 +414,8 @@ namespace timebot
                 "holdemcheck",
                 "holdemcall",
                 "holdemraise",
-                "holdemfold"
+                "holdemfold",
+                "holdemleave"
             });
 
             //AS
