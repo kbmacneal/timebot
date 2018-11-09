@@ -26,6 +26,8 @@ namespace timebot
 
         public static List<Classes.Tags.Tag> tags = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Classes.Tags.Tag>>(System.IO.File.ReadAllText("tags.json"));
 
+        public static Dictionary<ulong,Classes.HoldEm> HoldEm = new Dictionary<ulong, Classes.HoldEm>();
+
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
@@ -386,7 +388,10 @@ namespace timebot
                 "virtues",
                 "tag",
                 "rulings",
-                "xkcd"
+                "xkcd",
+                "startholdem",
+                "joinholdem",
+                "startround"
             });
 
             //AS
