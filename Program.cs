@@ -229,7 +229,8 @@ namespace timebot
                 "virtues",
                 "tag",
                 "rulings",
-                "xkcd"
+                "xkcd",
+                "trilljoke"
             });
 
             //main diplo server
@@ -267,7 +268,8 @@ namespace timebot
                 "virtues",
                 "tag",
                 "rulings",
-                "xkcd"
+                "xkcd",
+                "trilljoke"
             });
 
             //meeting room 1
@@ -304,7 +306,8 @@ namespace timebot
                 "virtues",
                 "tag",
                 "rulings",
-                "xkcd"
+                "xkcd",
+                "trilljoke"
             });
 
             //war room
@@ -341,7 +344,8 @@ namespace timebot
                 "virtues",
                 "tag",
                 "rulings",
-                "xkcd"
+                "xkcd",
+                "trilljoke"
             });
 
             //prix server
@@ -415,7 +419,8 @@ namespace timebot
                 "holdemcall",
                 "holdemraise",
                 "holdemfold",
-                "holdemleave"
+                "holdemleave",
+                "trilljoke"
             });
 
             //AS
@@ -450,7 +455,8 @@ namespace timebot
                 "virtues",
                 "tag",
                 "rulings",
-                "xkcd"
+                "xkcd",
+                "trilljoke"
             });
 
             return rtn;

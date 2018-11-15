@@ -13,13 +13,15 @@ using Discord.WebSocket;
 using Newtonsoft.Json;
 using timebot.Classes;
 
+//TODO: add the new logic in the call method to the bet and raise methods to make them all work the same way
 namespace timebot.Commands
 {
     public class PlayHoldem : ModuleBase<SocketCommandContext>
     {
-        private RequestOptions _opt = new RequestOptions{
-                RetryMode = RetryMode.RetryRatelimit
-            };
+        private RequestOptions _opt = new RequestOptions
+        {
+            RetryMode = RetryMode.RetryRatelimit
+        };
 
 
         [Command("startholdem")]
@@ -44,7 +46,7 @@ namespace timebot.Commands
                 return;
             }
 
-            if(Game.players.Select(e=>e.ID).Contains(Context.Message.Author.Id))
+            if (Game.players.Select(e => e.ID).Contains(Context.Message.Author.Id))
             {
                 await ReplyAsync("You have already joined this game.");
 
@@ -60,15 +62,15 @@ namespace timebot.Commands
             Game.players.Add(player);
 
             string message = generate_name(Context.Guild.GetUser(Context.Message.Author.Id)) + " has joined the game.";
-            
 
-            await ReplyAsync(message,false,null,_opt);
+
+            await ReplyAsync(message, false, null, _opt);
         }
 
         [Command("startround")]
         public async Task StartroundAsync()
         {
-            
+
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
             //perform the small and big blinds
@@ -83,9 +85,9 @@ namespace timebot.Commands
             SocketGuildUser small_user = Context.Guild.GetUser(game.players[small_index].ID);
             SocketGuildUser big_user = Context.Guild.GetUser(game.players[big_index].ID);
 
-            await ReplyAsync(generate_name(small_user) + " has been debited the small blind.",false,null,_opt);
+            await ReplyAsync(generate_name(small_user) + " has been debited the small blind.", false, null, _opt);
 
-            await ReplyAsync(generate_name(big_user) + " has been debited the big blind.",false,null,_opt);
+            await ReplyAsync(generate_name(big_user) + " has been debited the big blind.", false, null, _opt);
 
             game.current_round = new betting_round();
 
@@ -110,11 +112,11 @@ namespace timebot.Commands
 
             game.players.ForEach(e => send_cards(e.ID));
 
-            await ReplyAsync("Cards Dealt.",false,null,_opt);
+            await ReplyAsync("Cards Dealt.", false, null, _opt);
 
             game.current_round.call_position = game.dealer_index + 1;
 
-            await ReplyAsync("Bet goes to " + generate_name(get_usr_from_index(Context, game.current_round.call_position)),false,null,_opt);
+            await ReplyAsync("Bet goes to " + generate_name(get_usr_from_index(Context, game.current_round.call_position)), false, null, _opt);
         }
 
         [Command("holdemtable")]
@@ -147,10 +149,10 @@ namespace timebot.Commands
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
             game.current_round.pot += amount;
-            
+
             do
             {
-                game.current_round.call_position = (game.current_round.call_position + 1)  % game.players.Count();
+                game.current_round.call_position = (game.current_round.call_position + 1) % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count = 0;
@@ -165,12 +167,12 @@ namespace timebot.Commands
 
             do
             {
-                game.current_round.call_position = (game.current_round.call_position + 1)  % game.players.Count();
+                game.current_round.call_position = (game.current_round.call_position + 1) % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count++;
 
-            if(game.current_round.call_count == game.players.Count() - 1)
+            if (game.current_round.call_count == game.players.Count() - 1)
             {
                 await lay_down_next(Context);
                 return;
@@ -183,25 +185,45 @@ namespace timebot.Commands
         public async Task HoldemcallAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
+            int last_player_bet_amount = 0;
 
-            int last_player_bet_amount = game.current_round.bets.Last(e => e.player_id == Context.Message.Author.Id).amount;
+            if (game.current_round.bets.LastOrDefault(e => e.player_id == Context.Message.Author.Id) == null)
+            {
+                last_player_bet_amount = 0;
+            }
+            else
+            {
+                last_player_bet_amount = game.current_round.bets.LastOrDefault(e => e.player_id == Context.Message.Author.Id).amount;
+            }
 
-            int last_bet_amount = game.current_round.bets.Last().amount;
+            int last_bet_amount = 0;
+
+            if (game.current_round.bets.Count == 0)
+            {
+                last_bet_amount = 0;
+            }
+            else
+            {
+                last_bet_amount = game.current_round.bets.Last().amount;
+            }
 
             game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool -= last_bet_amount - last_player_bet_amount;
 
             game.current_round.pot += last_bet_amount - last_player_bet_amount;
 
-            do
-            {
-                game.current_round.call_position = (game.current_round.call_position + 1)  % game.players.Count();
-            } while (!game.players[game.current_round.call_position].fold);
+            game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
 
             game.current_round.call_count++;
 
-            if(game.current_round.call_count == game.players.Count() - 1)
+            if (game.current_round.call_count >= game.players.Count())
             {
                 await lay_down_next(Context);
+                game.current_round.call_position = game.dealer_index + 1;
+            }
+
+            if(game.current_round.stop)
+            {
+                game.current_round = null;
                 return;
             }
 
@@ -223,7 +245,7 @@ namespace timebot.Commands
 
             do
             {
-                game.current_round.call_position = (game.current_round.call_position + 1)  % game.players.Count();
+                game.current_round.call_position = (game.current_round.call_position + 1) % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count = 0;
@@ -240,12 +262,12 @@ namespace timebot.Commands
 
             do
             {
-                game.current_round.call_position = (game.current_round.call_position + 1)  % game.players.Count();
+                game.current_round.call_position = (game.current_round.call_position + 1) % game.players.Count();
             } while (!game.players[game.current_round.call_position].fold);
 
             game.current_round.call_count++;
 
-            if(game.current_round.call_count == game.players.Count() - 1)
+            if (game.current_round.call_count == game.players.Count() - 1)
             {
                 await lay_down_next(Context);
                 return;
@@ -259,15 +281,16 @@ namespace timebot.Commands
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
-            
-            game.players.Remove(game.players.First(e=>e.ID == Context.Message.Author.Id));
 
-            await ReplyAsync(generate_name(Context.Guild.GetUser(Context.Message.Author.Id)) + " has removed themself from the game",false,null,_opt);
+            game.players.Remove(game.players.First(e => e.ID == Context.Message.Author.Id));
+
+            await ReplyAsync(generate_name(Context.Guild.GetUser(Context.Message.Author.Id)) + " has removed themself from the game", false, null, _opt);
         }
 
-        private static async Task lay_down_next(SocketCommandContext context)
+        private async Task lay_down_next(SocketCommandContext context)
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == context.Channel.Id).Value;
+            game.current_round.call_count = 0;
 
             if (game.current_round.flop == null)
             {
@@ -323,6 +346,27 @@ namespace timebot.Commands
 
                 return;
             }
+
+            //if we get here, that means that all three rounds of betting have been completed and its time to calculate the hands and determine a winner
+
+            foreach(var player in game.players)
+            {
+                List<StandardCard> cumulative_hand = new List<StandardCard>();
+
+                player.hole.ForEach(e=>cumulative_hand.Add(e));
+
+                game.current_round.flop.ForEach(e=>cumulative_hand.Add(e));
+
+                cumulative_hand.Add(game.current_round.turn);
+
+                cumulative_hand.Add(game.current_round.river);
+
+                player.hand_weight = Classes.StandardCard.eval_hand(cumulative_hand);
+            }
+
+            var winner = game.players.OrderByDescending(e=>e.hand_weight).First();
+
+            we_have_a_winner(winner, Context);
         }
 
         private static SocketGuildUser get_usr_from_index(SocketCommandContext context, int index)
@@ -351,6 +395,39 @@ namespace timebot.Commands
             player.hole.ForEach(e => message.Add(StandardCard.value_to_output[e.value].ToString() + " of " + StandardCard.suit_to_output[e.suit].ToString()));
 
             usr.SendMessageAsync(string.Join(System.Environment.NewLine, message), false, null, _opt).GetAwaiter().GetResult();
+        }
+
+        private static int determine_next_call_index (int current_index, List<Player> players)
+        {
+            int rtn = 0;
+
+            rtn = players.FindIndex(current_index,players.Count -1, e=> e.fold == false);
+
+            if(rtn == -1)
+            {
+                rtn = players.FindIndex(0,players.Count-1, e=> e.fold == false);
+            }
+
+
+            return rtn;
+        }
+
+        private static void we_have_a_winner(Player player, SocketCommandContext con)
+        {
+            SocketCommandContext cont = con;
+            HoldEm game = Program.HoldEm.First(e => e.Key == cont.Channel.Id).Value;
+
+            SocketGuildUser usr = cont.Guild.GetUser(player.ID);
+
+            List<string> hole_cards = new List<string>();
+
+            player.hole.ForEach(e => hole_cards.Add(StandardCard.value_to_output[e.value].ToString() + " of " + StandardCard.suit_to_output[e.suit].ToString()));
+
+            string msg = generate_name(usr) + " has won the round, pot size " + game.current_round.pot.ToString() + " imperial credits. Hole Cards were " + System.Environment.NewLine + string.Join(System.Environment.NewLine, hole_cards) + System.Environment.NewLine + "Use tb!startround to begin another round.";
+
+            player.cash_pool += game.current_round.pot;
+
+            cont.Channel.SendMessageAsync(msg,false,null,null).GetAwaiter().GetResult();
         }
 
 

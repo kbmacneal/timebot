@@ -414,6 +414,14 @@ namespace timebot.Modules.Commands {
             await ReplyAsync ("https://sectorswithoutnumber.com/sector/m11ZXBOt6xiJGo21EKio");
         }
 
+        [Command("trilljoke")]
+        private async Task TrilljokeAsync()
+        {
+            string msg = "What do you call a group of Trills?" + System.Environment.NewLine + "A Party" + System.Environment.NewLine + "👈😎👉";
+
+            await ReplyAsync(msg,false,null,null);
+        }
+
         [Command("xkcd")]
         private async Task XkcdAsync()
         {
@@ -430,6 +438,8 @@ namespace timebot.Modules.Commands {
             if (!response.IsSuccessful) return;
 
             var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.Content);
+
+            await ReplyAsync(content.Alt,false,null,null);
 
             await ReplyAsync(content.Img.ToString(),false,null,null);
         }
