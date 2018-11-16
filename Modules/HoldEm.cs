@@ -13,7 +13,8 @@ using Discord.WebSocket;
 using Newtonsoft.Json;
 using timebot.Classes;
 
-//TODO: add the new logic in the call method to the bet and raise methods to make them all work the same way
+//TODO: 
+// allin logic
 namespace timebot.Commands
 {
     public class PlayHoldem : ModuleBase<SocketCommandContext>
@@ -78,6 +79,8 @@ namespace timebot.Commands
         {
 
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
+
+            game.players.ForEach(e=>e.hole = new List<StandardCard>());
 
             //perform the small and big blinds
 
@@ -364,6 +367,40 @@ namespace timebot.Commands
             await ReplyAsync("Bet goes to " + generate_name(get_usr_from_index(Context, game.current_round.call_position)), false, null, _opt);
         }
 
+        [Command("holdemallin")]
+        private async Task AllinAsync()
+        {
+            HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
+
+            if(!(in_bet_position(Context, Context.Message.Author.Id)))
+            {
+                await ReplyAsync("You are not in a position to bet, please wait.",false,null,_opt);
+                return;
+            }
+
+            game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool = 0;
+
+            game.current_round.pot += (int)game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool;
+
+            game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
+
+            game.current_round.call_count++;
+
+            if (game.current_round.call_count >= game.players.Count())
+            {
+                await lay_down_next(Context);
+                game.current_round.call_position = game.dealer_index + 1;
+            }
+
+            if (game.current_round.stop)
+            {
+                game.current_round = null;
+                return;
+            }
+
+            await ReplyAsync("Bet goes to " + generate_name(get_usr_from_index(Context, game.current_round.call_position)), false, null, _opt);
+        }
+
         [Command("holdemfold")]
         public async Task HoldemfoldAsync()
         {
@@ -492,7 +529,28 @@ namespace timebot.Commands
                 player.hand_weight = Classes.StandardCard.eval_hand(cumulative_hand);
             }
 
-            var winner = game.players.OrderByDescending(e => e.hand_weight).First();
+            Player winner = null;
+
+            if(game.players.OrderByDescending(e => e.hand_weight).ToArray()[0].hand_weight == game.players.OrderByDescending(e => e.hand_weight).ToArray()[1].hand_weight)
+            {
+                int first_max = game.players.OrderByDescending(e => e.hand_weight).ToArray()[0].hole.OrderByDescending(e=>e.value).First().value;
+
+                int second_max = game.players.OrderByDescending(e => e.hand_weight).ToArray()[1].hole.OrderByDescending(e=>e.value).First().value;
+
+                if(first_max>second_max)
+                {
+                    winner = game.players.OrderByDescending(e => e.hand_weight).ToArray()[0];
+                }
+                else
+                {
+                    winner = game.players.OrderByDescending(e => e.hand_weight).ToArray()[1];
+                }
+            }
+            else{
+                winner = game.players.OrderByDescending(e => e.hand_weight).First();
+            }
+
+            
 
             we_have_a_winner(winner, Context);
         }
@@ -529,7 +587,7 @@ namespace timebot.Commands
         {
             int rtn = 0;
 
-            rtn = players.FindIndex(current_index, players.Count - 1, e => e.fold == false);
+            rtn = players.FindIndex(current_index, players.Count - 1, e => !e.fold && !e.allin);
 
             if (rtn == -1)
             {
@@ -548,6 +606,8 @@ namespace timebot.Commands
             SocketGuildUser usr = cont.Guild.GetUser(player.ID);
 
             List<string> hole_cards = new List<string>();
+
+            game.current_round.stop = true;
 
             game.dealer_index = (game.dealer_index + 1) % game.players.Count();
 

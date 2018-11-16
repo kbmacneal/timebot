@@ -230,7 +230,20 @@ namespace timebot
                 "tag",
                 "rulings",
                 "xkcd",
-                "trilljoke"
+                "trilljoke",
+                "startholdem",
+                "joinholdem",
+                "startround",
+                "holdemtable",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold",
+                "holdemleave",
+                "holdemallin"
             });
 
             //main diplo server
@@ -269,7 +282,20 @@ namespace timebot
                 "tag",
                 "rulings",
                 "xkcd",
-                "trilljoke"
+                "trilljoke",
+                "startholdem",
+                "joinholdem",
+                "startround",
+                "holdemtable",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold",
+                "holdemleave",
+                "holdemallin"
             });
 
             //meeting room 1
@@ -307,7 +333,21 @@ namespace timebot
                 "tag",
                 "rulings",
                 "xkcd",
-                "trilljoke"
+                "trilljoke",
+                "startholdem",
+                "joinholdem",
+                "startround",
+                "holdemtable",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold",
+                "holdemleave",
+                "holdemallin"
+                
             });
 
             //war room
@@ -345,7 +385,20 @@ namespace timebot
                 "tag",
                 "rulings",
                 "xkcd",
-                "trilljoke"
+                "trilljoke",
+                "startholdem",
+                "joinholdem",
+                "startround",
+                "holdemtable",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold",
+                "holdemleave",
+                "holdemallin"
             });
 
             //prix server
@@ -355,6 +408,7 @@ namespace timebot
                 "startholdem",
                 "joinholdem",
                 "startround",
+                "holdemtable",
                 "holdemchips",
                 "holdempot",
                 "holdembet",
@@ -362,7 +416,8 @@ namespace timebot
                 "holdemcall",
                 "holdemraise",
                 "holdemfold",
-                "holdemleave"});
+                "holdemleave",
+                "holdemallin"});
 
             //Testing Server
             rtn.Add("481856668519366656", new List<string>() {
@@ -412,6 +467,7 @@ namespace timebot
                 "startholdem",
                 "joinholdem",
                 "startround",
+                "holdemtable",
                 "holdemchips",
                 "holdempot",
                 "holdembet",
@@ -420,6 +476,7 @@ namespace timebot
                 "holdemraise",
                 "holdemfold",
                 "holdemleave",
+                "holdemallin",
                 "trilljoke"
             });
 
@@ -456,7 +513,20 @@ namespace timebot
                 "tag",
                 "rulings",
                 "xkcd",
-                "trilljoke"
+                "trilljoke",
+                "startholdem",
+                "joinholdem",
+                "startround",
+                "holdemtable",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold",
+                "holdemleave",
+                "holdemallin"
             });
 
             return rtn;
