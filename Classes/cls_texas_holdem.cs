@@ -93,27 +93,27 @@ namespace timebot.Classes
             this.small_blind = this.big_blind / 2;
             this.min_bet = small_blind;
 
-            this.players.Add(new Player
-            {
-                ID = 111259937123897344,
-                cash_pool = 100000
-            });
+            // this.players.Add(new Player
+            // {
+            //     ID = 111259937123897344,
+            //     cash_pool = 100000
+            // });
 
-            this.players.Add(new Player
-            {
-                ID = 111259937123897344,
-                cash_pool = 100000
-            });
-            this.players.Add(new Player
-            {
-                ID = 111259937123897344,
-                cash_pool = 100000
-            });
-            this.players.Add(new Player
-            {
-                ID = 111259937123897344,
-                cash_pool = 100000
-            });
+            // this.players.Add(new Player
+            // {
+            //     ID = 111259937123897344,
+            //     cash_pool = 100000
+            // });
+            // this.players.Add(new Player
+            // {
+            //     ID = 111259937123897344,
+            //     cash_pool = 100000
+            // });
+            // this.players.Add(new Player
+            // {
+            //     ID = 111259937123897344,
+            //     cash_pool = 100000
+            // });
 
         }
     }
