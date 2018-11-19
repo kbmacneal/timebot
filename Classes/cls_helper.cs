@@ -7,6 +7,8 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Linq;
+using Westwind.Utilities;
+using System.Security.Cryptography;
 
 namespace timebot.Classes
 {
@@ -26,14 +28,37 @@ namespace timebot.Classes
 
             foreach (var property in properties)
             {
-                if(property != title_property_name)
+                if (property != title_property_name)
                 {
                     embed.AddInlineField(property, Helper.GetPropValue(obj, property));
-                }               
-                
+                }
+
             }
 
             return embed.Build();
+        }
+
+        public static string calc_salt()
+        {
+            var random = new RNGCryptoServiceProvider();
+
+            // Maximum length of salt
+            int max_length = 8;
+
+            // Empty salt array
+            byte[] salt = new byte[max_length];
+
+            // Build the random bytes
+            random.GetNonZeroBytes(salt);
+
+            // Return the string encoded salt
+            return Convert.ToBase64String(salt);
+        }
+
+        public static string compute_hash(string plaintext, string salt, string algorithm = "HMACSHA512")
+        {
+            if (salt == null || salt == "") salt = calc_salt();
+            return Westwind.Utilities.Encryption.ComputeHash(plaintext, salt, algorithm, false);
         }
     }
 }
