@@ -39,6 +39,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("commands")]
+        [Summary("Pastes a link to the help page in the chat.")]
         public async Task CommandsAsync () {
 
             List<string> rtn_message = new List<string> ();
@@ -49,6 +50,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("addspeaker")]
+        [Summary("Adds the user as a speaker for meeting purposes.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task AddspeakerAsync (IGuildUser user) {
             Data.speaker spkr = Data.GuilduserToSpeaker (user);
@@ -58,7 +60,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("changedefaults")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Changes the default speaking time, if needed.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ChangedefaultsAsync (int minutes) {
             Data.reset_speaking_time (minutes);
@@ -67,7 +69,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("starttimer")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Starts the timer against a user.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task StarttimerAsync (IGuildUser user) {
 
@@ -107,7 +109,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("clearspeakers")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Resets the speaker list.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ClearspeakersAsync () {
             List<ulong> roles = Context.Guild.Roles.Where (e => e.Name == "Speaker" || e.Name == "Observer" || e.Name == "NACHO").Select (e => e.Id).ToList ();
@@ -126,7 +128,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("clearchannel")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Clears the channel of chat messages.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ClearchannelAsync (int count) {
             var messages = await this.Context.Channel.GetMessagesAsync (count).Flatten ();
@@ -146,7 +148,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("clearchannel")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Clears the channel of chat messages.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ClearchannelAsync () {
             var messages = await this.Context.Channel.GetMessagesAsync (Int32.MaxValue).Flatten ();
@@ -158,6 +160,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("cactus")]
+        [Summary("You should use this wherever possible.")]
         public async Task CactusAsync () {
             GuildEmote cactus = Context.Guild.Emotes.Where (e => e.Name == "cactusemo").First ();
 
@@ -171,6 +174,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("virtues")]
+        [Summary("Ten Blessings yall.")]
         public async Task VirtuesAsync () {
             List<string> rtner = new List<string> ();
 
@@ -196,6 +200,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("churchapproved")]
+        [Summary("The only way to express approval.")]
         public async Task ChurchapprovedAsync () {
             await Context.Channel.SendFileAsync ("Cactus_Pius_seal.png", "Officially Approved by the High Church", false, null);
 
@@ -203,6 +208,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("savior")]
+        [Summary("Answers that age-old question.")]
         public async Task SaviorAsync () {
             await Context.Channel.SendFileAsync ("TINMTTOS.png", null, false, null);
 
@@ -210,6 +216,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("opensource")]
+        [Summary("Pastes a link to the github repo in the chat.")]
         public async Task OpensourceAsync () {
             await ReplyAsync ("This bot is open sourced and permissively licensed. You can find all source code in the github repo at https://github.com/kbmacneal/timebot");
 
@@ -217,6 +224,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("vote")]
+        [Summary("Handles multifation voting.")]
         public async Task vote (string faction, int question, int selection) {
 
             vote vote = new vote ();
@@ -246,6 +254,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("tally")]
+        [Summary("Tallies the votes.")]
         public async Task tally (int question_id) {
             List<string> results = new List<string> ();
             results.Add ("```");
@@ -266,7 +275,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("deletequestion")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Removes a question from the database.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task DeletequestionAsync (int question_id) {
             factionvoting voting = new factionvoting ();
@@ -277,7 +286,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("synth")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Determines whether or not someone is a synth.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task SynthAsync (SocketUser user) {
             SocketGuildUser usr = Context.Guild.GetUser (user.Id);
@@ -294,6 +303,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("tag")]
+        [Summary("Searches for a tag and displays the summary in chat.")]
         public async Task TagAsync (params string[] collection) {
             string tag_name = String.Join (" ", collection);
 
@@ -311,6 +321,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("asset")]
+        [Summary("Search for an asset and display it in chat.")]
         public async Task AssetAsync (params string[] collection) {
             string asset_name = String.Join (" ", collection);
 
@@ -328,6 +339,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("badbot")]
+        [Summary("At this point, I'm pretty sure the bot likes it.")]
         [RequireBotPermission (GuildPermission.Administrator)]
         public async Task BadbotAsync () {
             Dictionary<int, string> results = new Dictionary<int, string> ();
@@ -361,6 +373,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("roll")]
+        [Summary("Rolls some dice.")]
         public async Task RollAsync (params string[] args) {
             string roll = string.Join ("", args).Replace (" ", "");
             List<int> dice_results = new List<int> ();
@@ -418,11 +431,13 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("sector")]
+        [Summary("Pastes the link to the sectorswithoutnumber page in chat.")]
         private async Task SectorAsync () {
             await ReplyAsync ("https://sectorswithoutnumber.com/sector/m11ZXBOt6xiJGo21EKio");
         }
 
         [Command("trilljoke")]
+        [Summary("Nuff said.")]
         private async Task TrilljokeAsync()
         {
             string msg = "What do you call a group of Trills?" + System.Environment.NewLine + "A Party" + System.Environment.NewLine + "👈😎👉";
@@ -431,6 +446,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command("xkcd")]
+        [Summary("Random web comic anyone?")]
         private async Task XkcdAsync()
         {
             int comic_number = Program.rand.Next(0,(Program.latest_xkcd + 1));
@@ -453,6 +469,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command("xkcd")]
+        [Summary("Random web comic anyone?")]
         private async Task XkcdAsync(int comic_number)
         {
 
@@ -472,6 +489,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command("dumpcommands")]
+        [Summary("Updates the command help page.")]
         [RequireUserPermission(GuildPermission.Administrator)]
         private async Task DumpcommandsAsync()
         {

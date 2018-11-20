@@ -18,6 +18,7 @@ namespace timebot.Modules.Commands {
         private static Bingo bingo { get; set; } = new Bingo ();
 
         [Command ("playbingo")]
+        [Summary("Starts the bingo game.")]
         public async Task PlaybingoAsync () {
             bingotimer tmr = new bingotimer ();
             tmr.Context = Context;
@@ -30,11 +31,13 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("playwinner")]
+        [Summary("Indicates to the bot that you have BINGO.")]
         public async Task PlaywinnerAsync () {
             bingo.make_winner ((SocketGuildUser) Context.Message.Author);
         }
 
         [Command ("iwanttoplay")]
+        [Summary("Indicates to the bot that you wish to play in the bingo game.")]
         public async Task Iwanttoplay () {
             participant part = new participant ();
             part.channel_id = Context.Message.Channel.Id;

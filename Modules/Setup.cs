@@ -40,6 +40,7 @@ namespace timebot.Modules.Commands {
         [Command ("setcolors")]
         [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary("Initializes the factions with their correct, official colors.")]
         public async Task SetcolorsAsync () {
 
             SocketRole role = null;
@@ -94,7 +95,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("setbotusername")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Makes the bot all fancy")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task SetBotUserName () {
             var guild = Context.Client.GetGuild (Context.Guild.Id);

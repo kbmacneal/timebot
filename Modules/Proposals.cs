@@ -17,6 +17,7 @@ namespace timebot.Modules.Commands {
     public class Proposals : ModuleBase<SocketCommandContext> {
 
         [Command ("propose")]
+        [Summary("Propose a topic for a meeting to the other representatives.")]
         [RequireBotPermission (GuildPermission.Administrator)]
         public async Task ProposeAsync (String text) {
 

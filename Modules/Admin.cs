@@ -65,7 +65,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("sendfactionblast")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Sends a message to every member of a faction that the bot can see.")]
         public async Task SendfactionblastAsync (string faction, string message) {
             if (!(blasters.Keys.ToList ().Contains (faction))) {
                 await ReplyAsync ("Your faction is not configured to receive bot blasts. Consult for rep.");
@@ -93,7 +93,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("getfactioncount")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Gets the realtime count of all members of a faction from the SWNBot API.")]
         public async Task GetfactioncountAsync () {
             List<Classes.Faction> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ();
 
@@ -133,7 +133,7 @@ namespace timebot.Modules.Commands {
 
         [Command("monthlychanges")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("A command that runs both the cleanfaclists command and the addtorightfaction commands one after the other")]
         public async Task MonthlychangesAsync () {
 
             await CleanfaclistsAsync();
@@ -142,7 +142,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("addtorightfaction")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Adds a user to the faction they are a part of in the main server.")]
         public async Task Addtorightfaction () {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -177,7 +177,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("cleanfaclists")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
         public async Task CleanfaclistsAsync () {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -202,7 +202,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("cleanfaclists")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
         public async Task CleanfaclistsAsync (SocketUser user) {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -223,6 +223,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("listfaction")]
+        [Summary("Returns the list of all factions available to the addfaction command.")]
         public async Task ListfactionAsync () {
             List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
@@ -234,7 +235,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("addfaction")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Adds the sender to the selected faction. Administrators can at an individual then specify the faction and the bot will add the user to the faction. This is the preferred way to add, since the bot with check with the FV server to make sure that the user is a part of that faction.")]
         public async Task AddfactionAsync (params string[] args) {
 
             string faction = string.Join(" ", args);
@@ -269,7 +270,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("addfaction")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Adds a user to the selected faction.")]
         public async Task AddfactionAsync (SocketUser user, params string[] args) {
             string faction = string.Join(" ", args);
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
@@ -302,7 +303,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("removefaction")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Exactly like the addfaction command, but removes. Has the same at user overload.")]
         public async Task RemovefactionAsync (string faction) {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -334,7 +335,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("removefaction")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Exactly like the addfaction command, but removes. Has the same at user overload.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task RemovefactionAsync (SocketUser user, string faction) {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
@@ -355,7 +356,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("removeentirefaction")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Kicks and entire faction from the server")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task RemoveentirefactionAsync (params string[] args) {
 
@@ -385,17 +386,19 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("tracker")]
+        [Summary("Pastes the link to the faction tracker in chat.")]
         public async Task TrackerAsync () {
             await ReplyAsync ("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");
         }
 
         [Command ("rulings")]
+        [Summary("Pastes the link to the rulings doc in chat.")]
         public async Task RulingsAsync () {
             await ReplyAsync ("https://docs.google.com/document/d/1I34PlRnkl5Pzq9av9xWGXwY2Tzp7f5O9LQdlj0O0drc/edit");
         }
 
         [Command ("archivechannel")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Dumps a json log of the channel into chat.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ArchivechannelAsync () {
             string date_archived = DateTime.Now.ToString ("yyyy-dd-M--HH-mm-ss");

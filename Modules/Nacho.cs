@@ -25,6 +25,7 @@ namespace timebot.Modules.Commands {
         };
 
         [Command ("addrepresentative")]
+        [Summary("Adds a user as the representative of a faction.")]
         [RequireBotPermission (GuildPermission.Administrator)]
         public async Task AddrepresentativeAsync (string faction) {
             if (!(factions.Contains (faction))) {
@@ -77,6 +78,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("addrepresentative")]
         [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Adds a user as the representative of a faction.")]
         public async Task AddrepresentativeAsync (SocketUser usr, string faction) {
             if (!(factions.Contains (faction))) {
                 await ReplyAsync ("Invalid Request");
@@ -128,6 +130,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("removerepresentative")]
         [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Removes a user as a faction representative.")]
         public async Task RemoverepresentativeAsync () {
             Nacho nacho = new Nacho ();
 
@@ -140,7 +143,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("removerepresentative")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Removes a user as a faction representative.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task RemoverepresentativeAsync (SocketUser user) {
 

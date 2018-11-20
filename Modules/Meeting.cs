@@ -16,7 +16,7 @@ namespace timebot.Modules.Commands {
     public class Meeting : ModuleBase<SocketCommandContext> {
 
         [Command ("postmeeting")]
-        [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Posts a meeting in the right channel indicating the date time and agenda.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task PostmeetingAsync (string title, string datetime) {
             timebot.Classes.Meeting.notice notice = new timebot.Classes.Meeting.notice ();
@@ -56,6 +56,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("acknowledge")]
         [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("For representatives, indicates that your faction knows that the meeting was called.")]
         public async Task AcknowledgeAsync (int id, string faction) {
             SocketGuildUser user = Context.Guild.GetUser (Context.Message.Author.Id);
 
@@ -81,6 +82,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("attend")]
         [RequireBotPermission (GuildPermission.Administrator)]
+        [Summary("Indicates that your faction will attend the meeting.")]
         public async Task AttendAsync (int id, string faction) {
             SocketGuildUser user = Context.Guild.GetUser (Context.Message.Author.Id);
 
@@ -104,6 +106,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("timetill")]
+        [Summary("Calculates the time til a meeting in hours.")]
         [RequireBotPermission (GuildPermission.Administrator)]
         public async Task TimetillAsync (int id) {
             string timetill = string.Empty;

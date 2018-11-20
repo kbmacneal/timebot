@@ -26,6 +26,7 @@ namespace timebot.Commands
 
 
         [Command("startholdem")]
+        [Summary("Starts a holdem game in the channel.")]
         public async Task StartholdemAsync()
         {
             HoldEm game = new HoldEm();
@@ -36,6 +37,7 @@ namespace timebot.Commands
         }
 
         [Command("joinholdem")]
+        [Summary("Adds your user id to the list of players at the holdem table.")]
         public async Task JoinholdemAsync()
         {
             HoldEm Game = Program.HoldEm.FirstOrDefault(e => e.Key == Context.Channel.Id).Value;
@@ -75,6 +77,7 @@ namespace timebot.Commands
         }
 
         [Command("startround")]
+        [Summary("Once the players are all gathered, starts the holdem round.")]
         public async Task StartroundAsync()
         {
 
@@ -129,6 +132,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemtable")]
+        [Summary("Lists the players at the table.")]
         public async Task HoldemtableAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -143,6 +147,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemchips")]
+        [Summary("Shows the amount of chips you have.")]
         public async Task HoldemchipsAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -151,6 +156,7 @@ namespace timebot.Commands
         }
 
         [Command("holdempot")]
+        [Summary("How many chips are in the pot right now.")]
         public async Task HoldempotAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -159,6 +165,7 @@ namespace timebot.Commands
         }
 
         [Command("holdembet")]
+        [Summary("Starts the betting")]
         public async Task HoldembetAsync(int amount)
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -210,6 +217,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemcheck")]
+        [Summary("Advances betting without betting chips. Can only be used at the start of a round or after a check.")]
         public async Task HoldemcheckAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -257,6 +265,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemcall")]
+        [Summary("Calls the last bet made.")]
         public async Task HoldemcallAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -312,6 +321,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemraise")]
+        [Summary("Raises the previous bet by the amount indicated.")]
         public async Task HoldemraiseAsync(int amount)
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -368,6 +378,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemallin")]
+        [Summary("For the truly brave.")]
         private async Task AllinAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -402,6 +413,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemfold")]
+        [Summary("For lily-livered pole-cats.")]
         public async Task HoldemfoldAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -434,6 +446,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemleave")]
+        [Summary("Indicate to the bot that you cant take it anymore.")]
         public async Task HoldemleaveAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
