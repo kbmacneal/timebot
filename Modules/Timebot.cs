@@ -33,6 +33,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("ping")]
+        [Summary("Test whether or no the bot is awake.")]
         public async Task PingAsync () {
             await ReplyAsync ("Pong!");
         }
@@ -48,7 +49,6 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("addspeaker")]
-        [RequireBotPermission (GuildPermission.Administrator)]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task AddspeakerAsync (IGuildUser user) {
             Data.speaker spkr = Data.GuilduserToSpeaker (user);
