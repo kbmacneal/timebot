@@ -1,0 +1,273 @@
+[{
+    "name": "startholdem",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "joinholdem",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "startround",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdemtable",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdemchips",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdempot",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdembet",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdemcheck",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdemcall",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdemraise",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdemallin",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdemfold",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "holdemleave",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "sendfactionblast",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "getfactioncount",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "monthlychanges",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "addtorightfaction",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "cleanfaclists",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "cleanfaclists",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "listfaction",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "addfaction",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "addfaction",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "removefaction",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "removefaction",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "removeentirefaction",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "tracker",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "rulings",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "archivechannel",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "playbingo",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "playwinner",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "iwanttoplay",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "postmeeting",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "acknowledge",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "attend",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "timetill",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "addrepresentative",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "addrepresentative",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "removerepresentative",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "removerepresentative",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "propose",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "setcolors",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "setbotusername",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "ping",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "commands",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "addspeaker",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "changedefaults",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "starttimer",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "clearspeakers",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "clearchannel",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "clearchannel",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "cactus",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "virtues",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "churchapproved",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "savior",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "opensource",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "vote",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "tally",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "deletequestion",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "synth",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "tag",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "asset",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "badbot",
+    "summary": null,
+    "admin_required": true
+}, {
+    "name": "roll",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "sector",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "trilljoke",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "xkcd",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "xkcd",
+    "summary": null,
+    "admin_required": false
+}, {
+    "name": "dumpcommands",
+    "summary": null,
+    "admin_required": true
+}]

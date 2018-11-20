@@ -28,9 +28,9 @@ namespace timebot
 
         public static Dictionary<ulong,Classes.HoldEm> HoldEm = new Dictionary<ulong, Classes.HoldEm>();
 
-        private DiscordSocketClient _client;
-        private CommandService _commands;
-        private IServiceProvider _services;
+        public static DiscordSocketClient _client = new DiscordSocketClient();
+        public static CommandService _commands = new CommandService();
+        public static IServiceProvider _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
         public static string secrets_file = "timebot.json";
         public static int latest_xkcd = get_latest_xkcd();
         public static readonly string[] prefixes = {
@@ -70,9 +70,9 @@ namespace timebot
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(secrets_file));
 
-            _client = new DiscordSocketClient();
-            _commands = new CommandService();
-            _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
+            // _client = new DiscordSocketClient();
+            // _commands = new CommandService();
+            // _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
 
             //event subscriptions
             _client.Log += Log;
@@ -300,7 +300,8 @@ namespace timebot
                 "holdemraise",
                 "holdemfold",
                 "holdemleave",
-                "holdemallin"
+                "holdemallin",
+                "dumpcommands"
             });
 
             //meeting room 1
@@ -482,7 +483,8 @@ namespace timebot
                 "holdemfold",
                 "holdemleave",
                 "holdemallin",
-                "trilljoke"
+                "trilljoke",
+                "dumpcommands"
             });
 
             //AS

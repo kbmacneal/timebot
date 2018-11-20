@@ -18,6 +18,14 @@ using RestSharp;
 
 namespace timebot.Modules.Commands {
 
+
+    public class command_help
+    {
+        public string name {get;set;}
+        public string summary {get;set;}
+        public bool admin_required {get;set;}
+    }
+
     public class commands : ModuleBase<SocketCommandContext> {
 
         private async Task SendPMAsync (string message, SocketUser user) {
@@ -461,6 +469,36 @@ namespace timebot.Modules.Commands {
             var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.Content);
 
             await ReplyAsync(content.Img.ToString(),false,null,null);
+        }
+
+        [Command("dumpcommands")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        private async Task DumpcommandsAsync()
+        {
+            List<command_help> commands = new List<command_help>();
+
+            foreach(var command in Program._commands.Commands.ToList())
+            {
+                command_help c = new command_help
+                {
+                    name = command.Name,
+                    summary = command.Summary,
+                    admin_required = command.Preconditions.Count()>0
+                };
+
+                commands.Add(c);
+            }
+            
+            var output = JsonConvert.SerializeObject(commands,Formatting.Indented);
+            string path = "commands.json";
+            if(System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+            
+            await System.IO.File.WriteAllTextAsync(path,output);
+
+            await Context.Channel.SendFileAsync(path,null,false,null);
         }
 
         private Boolean validate_vote (SocketUser user, vote vote) {
