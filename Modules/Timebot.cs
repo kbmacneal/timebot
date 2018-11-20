@@ -490,15 +490,24 @@ namespace timebot.Modules.Commands {
             }
             
             var output = JsonConvert.SerializeObject(commands,Formatting.Indented);
-            string path = "commands.json";
-            if(System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-            }
             
-            await System.IO.File.WriteAllTextAsync(path,output);
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
-            await Context.Channel.SendFileAsync(path,null,false,null);
+            string key = secrets["api_key"];    
+
+            string baseurl = string.Concat ("https://highchurch.space/api/update_commands");
+            // string baseurl = string.Concat ("http://localhost:5000/api/UpdateMemCount");
+
+            var client = new RestClient (baseurl);
+
+            var request = new RestRequest(Method.POST);
+            request.AddParameter("text/json", output, ParameterType.RequestBody);
+
+            request.AddHeader ("Content-Type", "text/json");
+
+            var response = client.Execute (request);
+
+            await ReplyAsync ("Commands Updated");
         }
 
         private Boolean validate_vote (SocketUser user, vote vote) {
