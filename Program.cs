@@ -175,6 +175,11 @@ namespace timebot
                 cmd = command;
             }
 
+            if (cmd.Contains("!"))
+            {
+                cmd = cmd.Split("!")[1];
+            }
+
             List<string> commands_available = generate_server_command_list().Where(e => e.Key == server_id).Select(e => e.Value).FirstOrDefault().ToList();
 
             rtn = commands_available.Contains(cmd) ? true : false;
