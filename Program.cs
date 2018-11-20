@@ -118,7 +118,7 @@ namespace timebot
             string msg_prefix = message.Content.ToString().Substring(0, 3);
 
             //if the prefix is in the list of valid prefixes, continue
-            if (prefixes.Any(msg_prefix.Contains))
+            if (prefixes.Where(e => String.Equals(e, msg_prefix, StringComparison.OrdinalIgnoreCase)).Count() > 0)
             {
                 //log that we have a command sent
                 string logmessage = String.Concat(message.Author, " sent command ", message.Content);
@@ -126,7 +126,7 @@ namespace timebot
                 await Log(new LogMessage(LogSeverity.Info, "VERBOSE", logmessage));
 
                 int argPosition = 0;
-                if (message.HasStringPrefix("tb!", ref argPosition) || message.HasMentionPrefix(_client.CurrentUser, ref argPosition))
+                if (message.HasStringPrefix(msg_prefix, ref argPosition) || message.HasMentionPrefix(_client.CurrentUser, ref argPosition))
                 {
                     var context = new SocketCommandContext(_client, message);
 
