@@ -132,7 +132,7 @@ namespace timebot
 
                     string server_id = context.Guild.Id.ToString();
 
-                    if (!(check_command(server_id, message.Content.Replace("tb!", ""))))
+                    if (!(check_command(server_id, message.Content)))
                     {
                         await context.Channel.SendMessageAsync(message.Content + " not allowed on this server.");
                         return;
