@@ -519,7 +519,7 @@ namespace timebot.Modules.Commands {
             string key = secrets["api_key"];    
 
             string baseurl = string.Concat ("https://highchurch.space/api/update_commands");
-            // string baseurl = string.Concat ("http://localhost:5000/api/UpdateMemCount");
+            // string baseurl = string.Concat ("http://localhost:5000/api/update_commands");
 
             var client = new RestClient (baseurl);
 
