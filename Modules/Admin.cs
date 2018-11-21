@@ -348,7 +348,7 @@ namespace timebot.Modules.Commands {
 
             await user.RemoveRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
-            await ReplyAsync ("Role Added");
+            await ReplyAsync ("Role Removed");
             return;
         }
 
@@ -387,7 +387,7 @@ namespace timebot.Modules.Commands {
 
             await usr.AddRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
-            await ReplyAsync ("Role Added");
+            await ReplyAsync ("Role Removed");
             return;
         }
 
