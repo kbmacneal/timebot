@@ -248,7 +248,8 @@ namespace timebot
                 "holdemraise",
                 "holdemfold",
                 "holdemleave",
-                "holdemallin"
+                "holdemallin",
+                "summary"
             });
 
             //main diplo server
@@ -301,7 +302,8 @@ namespace timebot
                 "holdemfold",
                 "holdemleave",
                 "holdemallin",
-                "dumpcommands"
+                "dumpcommands",
+                "summary"
             });
 
             //meeting room 1
@@ -352,7 +354,8 @@ namespace timebot
                 "holdemraise",
                 "holdemfold",
                 "holdemleave",
-                "holdemallin"
+                "holdemallin",
+                "summary"
                 
             });
 
@@ -404,7 +407,8 @@ namespace timebot
                 "holdemraise",
                 "holdemfold",
                 "holdemleave",
-                "holdemallin"
+                "holdemallin",
+                "summary"
             });
 
             //prix server
@@ -423,7 +427,8 @@ namespace timebot
                 "holdemraise",
                 "holdemfold",
                 "holdemleave",
-                "holdemallin"});
+                "holdemallin",
+                "summary"});
 
             //Testing Server
             rtn.Add("481856668519366656", new List<string>() {
@@ -484,7 +489,8 @@ namespace timebot
                 "holdemleave",
                 "holdemallin",
                 "trilljoke",
-                "dumpcommands"
+                "dumpcommands",
+                "summary"
             });
 
             //AS
@@ -533,7 +539,8 @@ namespace timebot
                 "holdemraise",
                 "holdemfold",
                 "holdemleave",
-                "holdemallin"
+                "holdemallin",
+                "summary"
             });
 
             return rtn;

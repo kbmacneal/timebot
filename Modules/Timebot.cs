@@ -537,6 +537,25 @@ namespace timebot.Modules.Commands {
             await ReplyAsync ("Commands Updated");
         }
 
+        [Command("summary")]
+        [Summary("Lets you know what a command is. I'm sensing a recursion here.")]
+        public async Task SummaryAsync(params string[] commands)
+        {
+            string rtn = "";
+
+            var command = Program._commands.Commands.FirstOrDefault(e=>e.Name == String.Join(" ",commands));
+
+            if(command == null)
+            {
+                rtn = "Command doesn't exist.";
+            }
+            else{
+                rtn = command.Summary;
+            }
+
+            await ReplyAsync(rtn);
+        }
+
         private Boolean validate_vote (SocketUser user, vote vote) {
             Nacho nacho = new Nacho ();
 
