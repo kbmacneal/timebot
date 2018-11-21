@@ -40,7 +40,9 @@ namespace timebot.Modules.Commands {
             if (response == null) { rtn = true; } else {
                 List<string> member_of = response.UserRoles.Select (e => e.RoleName).ToList ();
 
-                if (member_of.Contains (faction)) rtn = true;
+                // if (member_of.Contains (faction)) rtn = true;
+
+                if (member_of.Where (e => String.Compare (faction, e, true) == 0).Count () > 0) rtn = true;
             }
 
             return rtn;
@@ -65,7 +67,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("sendfactionblast")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [Summary("Sends a message to every member of a faction that the bot can see.")]
+        [Summary ("Sends a message to every member of a faction that the bot can see.")]
         public async Task SendfactionblastAsync (string faction, string message) {
             if (!(blasters.Keys.ToList ().Contains (faction))) {
                 await ReplyAsync ("Your faction is not configured to receive bot blasts. Consult for rep.");
@@ -86,14 +88,14 @@ namespace timebot.Modules.Commands {
             await ReplyAsync ("Messages Sent");
         }
 
-        public class stats{
-            public string membershipstring {get;set;}
-            public string api_key {get;set;}
+        public class stats {
+            public string membershipstring { get; set; }
+            public string api_key { get; set; }
         }
 
         [Command ("getfactioncount")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [Summary("Gets the realtime count of all members of a faction from the SWNBot API.")]
+        [Summary ("Gets the realtime count of all members of a faction from the SWNBot API.")]
         public async Task GetfactioncountAsync () {
             List<Classes.Faction> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ();
 
@@ -111,18 +113,18 @@ namespace timebot.Modules.Commands {
 
             string key = secrets["api_key"];
 
-            stats s = new stats{
+            stats s = new stats {
                 membershipstring = string.Join (System.Environment.NewLine, rtn),
                 api_key = key
-            };            
+            };
 
             string baseurl = string.Concat ("https://highchurch.space/api/UpdateMemCount");
             // string baseurl = string.Concat ("http://localhost:5000/api/UpdateMemCount");
 
             var client = new RestClient (baseurl);
 
-            var request = new RestRequest(Method.POST);
-            request.AddParameter("text/json", JsonConvert.SerializeObject(s), ParameterType.RequestBody);
+            var request = new RestRequest (Method.POST);
+            request.AddParameter ("text/json", JsonConvert.SerializeObject (s), ParameterType.RequestBody);
 
             request.AddHeader ("Content-Type", "text/json");
 
@@ -131,18 +133,18 @@ namespace timebot.Modules.Commands {
             await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
         }
 
-        [Command("monthlychanges")]
+        [Command ("monthlychanges")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [Summary("A command that runs both the cleanfaclists command and the addtorightfaction commands one after the other")]
+        [Summary ("A command that runs both the cleanfaclists command and the addtorightfaction commands one after the other")]
         public async Task MonthlychangesAsync () {
 
-            await CleanfaclistsAsync();
-            await Addtorightfaction();
+            await CleanfaclistsAsync ();
+            await Addtorightfaction ();
         }
 
         [Command ("addtorightfaction")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [Summary("Adds a user to the faction they are a part of in the main server.")]
+        [Summary ("Adds a user to the faction they are a part of in the main server.")]
         public async Task Addtorightfaction () {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -177,7 +179,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("cleanfaclists")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [Summary("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
+        [Summary ("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
         public async Task CleanfaclistsAsync () {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -202,7 +204,7 @@ namespace timebot.Modules.Commands {
 
         [Command ("cleanfaclists")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [Summary("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
+        [Summary ("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
         public async Task CleanfaclistsAsync (SocketUser user) {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -223,7 +225,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("listfaction")]
-        [Summary("Returns the list of all factions available to the addfaction command.")]
+        [Summary ("Returns the list of all factions available to the addfaction command.")]
         public async Task ListfactionAsync () {
             List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
@@ -235,13 +237,18 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("addfaction")]
-        [Summary("Adds the sender to the selected faction. Administrators can at an individual then specify the faction and the bot will add the user to the faction. This is the preferred way to add, since the bot with check with the FV server to make sure that the user is a part of that faction.")]
+        [Summary ("Adds the sender to the selected faction. Administrators can at an individual then specify the faction and the bot will add the user to the faction. This is the preferred way to add, since the bot with check with the FV server to make sure that the user is a part of that faction.")]
         public async Task AddfactionAsync (params string[] args) {
 
-            string faction = string.Join(" ", args);
+            string faction = string.Join (" ", args);
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
+            // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
+            //     await ReplyAsync ("Invalid Request");
+            //     return;
+            // }
+
+            if (official_factions.Where (e => String.Compare (faction, e, true) == 0).Count () == 0 && optional_tags.Where (e => String.Compare (faction, e, true) == 0).Count () != 0) {
                 await ReplyAsync ("Invalid Request");
                 return;
             }
@@ -257,12 +264,12 @@ namespace timebot.Modules.Commands {
 
             SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (roles.FirstOrDefault (e => e.Name == faction) == null) {
+            if (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0) == null) {
                 await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await user.AddRoleAsync (roles.FirstOrDefault (e => e.Name == faction), null);
+            await user.AddRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
             await ReplyAsync ("Role Added");
             return;
@@ -270,12 +277,17 @@ namespace timebot.Modules.Commands {
 
         [Command ("addfaction")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        [Summary("Adds a user to the selected faction.")]
+        [Summary ("Adds a user to the selected faction.")]
         public async Task AddfactionAsync (SocketUser user, params string[] args) {
-            string faction = string.Join(" ", args);
+            string faction = string.Join (" ", args);
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
+            // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
+            //     await ReplyAsync ("Invalid Request");
+            //     return;
+            // }
+
+            if (official_factions.Where (e => String.Compare (faction, e, true) == 0).Count () == 0 && optional_tags.Where (e => String.Compare (faction, e, true) == 0).Count () != 0) {
                 await ReplyAsync ("Invalid Request");
                 return;
             }
@@ -291,19 +303,19 @@ namespace timebot.Modules.Commands {
 
             SocketGuildUser usr = (SocketGuildUser) user;
 
-            if (roles.FirstOrDefault (e => e.Name == faction) == null) {
+            if (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0) == null) {
                 await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await usr.AddRoleAsync (roles.FirstOrDefault (e => e.Name == faction), null);
+            await usr.AddRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
             await ReplyAsync ("Role Added");
             return;
         }
 
         [Command ("removefaction")]
-        [Summary("Exactly like the addfaction command, but removes. Has the same at user overload.")]
+        [Summary ("Exactly like the addfaction command, but removes. Has the same at user overload.")]
         public async Task RemovefactionAsync (string faction) {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -335,7 +347,7 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("removefaction")]
-        [Summary("Exactly like the addfaction command, but removes. Has the same at user overload.")]
+        [Summary ("Exactly like the addfaction command, but removes. Has the same at user overload.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task RemovefactionAsync (SocketUser user, string faction) {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
@@ -356,29 +368,27 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("removeentirefaction")]
-        [Summary("Kicks and entire faction from the server")]
+        [Summary ("Kicks and entire faction from the server")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task RemoveentirefactionAsync (params string[] args) {
 
-            string faction = string.Join(" ",args);
-            
-            SocketRole role = Context.Guild.Roles.FirstOrDefault(e=>e.Name == faction);
+            string faction = string.Join (" ", args);
 
-            if(role == null)
-            {
-                await ReplyAsync("Selection invalid");
+            SocketRole role = Context.Guild.Roles.FirstOrDefault (e => e.Name == faction);
+
+            if (role == null) {
+                await ReplyAsync ("Selection invalid");
                 return;
             }
 
-            RequestOptions opt = new RequestOptions{
+            RequestOptions opt = new RequestOptions {
                 RetryMode = RetryMode.RetryRatelimit
             };
 
-            List<SocketGuildUser> users = Context.Guild.Users.Where(e=>e.Roles.Contains(role)).ToList();
+            List<SocketGuildUser> users = Context.Guild.Users.Where (e => e.Roles.Contains (role)).ToList ();
 
-            foreach(var user in users)
-            {
-                await user.KickAsync(null,opt);
+            foreach (var user in users) {
+                await user.KickAsync (null, opt);
             }
 
             await ReplyAsync ("Users Removed");
@@ -386,19 +396,19 @@ namespace timebot.Modules.Commands {
         }
 
         [Command ("tracker")]
-        [Summary("Pastes the link to the faction tracker in chat.")]
+        [Summary ("Pastes the link to the faction tracker in chat.")]
         public async Task TrackerAsync () {
             await ReplyAsync ("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");
         }
 
         [Command ("rulings")]
-        [Summary("Pastes the link to the rulings doc in chat.")]
+        [Summary ("Pastes the link to the rulings doc in chat.")]
         public async Task RulingsAsync () {
             await ReplyAsync ("https://docs.google.com/document/d/1I34PlRnkl5Pzq9av9xWGXwY2Tzp7f5O9LQdlj0O0drc/edit");
         }
 
         [Command ("archivechannel")]
-        [Summary("Dumps a json log of the channel into chat.")]
+        [Summary ("Dumps a json log of the channel into chat.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task ArchivechannelAsync () {
             string date_archived = DateTime.Now.ToString ("yyyy-dd-M--HH-mm-ss");
