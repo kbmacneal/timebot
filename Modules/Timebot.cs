@@ -512,7 +512,7 @@ namespace timebot.Modules.Commands {
                 commands.Add(c);
             }
             
-            var output = JsonConvert.SerializeObject(commands,Formatting.Indented);
+            var output = JsonConvert.SerializeObject(commands.OrderBy(e=>e.name),Formatting.Indented);
             
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
