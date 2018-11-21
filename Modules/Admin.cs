@@ -317,9 +317,15 @@ namespace timebot.Modules.Commands {
         [Command ("removefaction")]
         [Summary ("Exactly like the addfaction command, but removes. Has the same at user overload.")]
         public async Task RemovefactionAsync (string faction) {
+            
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
+            // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
+            //     await ReplyAsync ("Invalid Request");
+            //     return;
+            // }
+
+            if (official_factions.Where (e => String.Compare (faction, e, true) == 0).Count () == 0 && optional_tags.Where (e => String.Compare (faction, e, true) == 0).Count () != 0) {
                 await ReplyAsync ("Invalid Request");
                 return;
             }
@@ -335,14 +341,14 @@ namespace timebot.Modules.Commands {
 
             SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (roles.FirstOrDefault (e => e.Name == faction) == null) {
+            if (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0) == null) {
                 await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await user.RemoveRoleAsync (roles.FirstOrDefault (e => e.Name == faction), null);
+            await user.RemoveRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
-            await ReplyAsync ("Role Removed");
+            await ReplyAsync ("Role Added");
             return;
         }
 
@@ -350,20 +356,38 @@ namespace timebot.Modules.Commands {
         [Summary ("Exactly like the addfaction command, but removes. Has the same at user overload.")]
         [RequireUserPermission (GuildPermission.Administrator)]
         public async Task RemovefactionAsync (SocketUser user, string faction) {
+            
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
+
+            // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
+            //     await ReplyAsync ("Invalid Request");
+            //     return;
+            // }
+
+            if (official_factions.Where (e => String.Compare (faction, e, true) == 0).Count () == 0 && optional_tags.Where (e => String.Compare (faction, e, true) == 0).Count () != 0) {
+                await ReplyAsync ("Invalid Request");
+                return;
+            }
+
+            if (!optional_tags.Contains (faction)) {
+                if (!security_check (faction, user.Id)) {
+                    await ReplyAsync ("Target user not a member of this faction. Please select the faction they are a part of on the main Far Verona Discord.");
+                    return;
+                }
+            }
 
             List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
             SocketGuildUser usr = (SocketGuildUser) user;
 
-            if (roles.FirstOrDefault (e => e.Name == faction) == null) {
+            if (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0) == null) {
                 await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await usr.RemoveRoleAsync (roles.FirstOrDefault (e => e.Name == faction), null);
+            await usr.AddRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
-            await ReplyAsync ("Role Removed");
+            await ReplyAsync ("Role Added");
             return;
         }
 
