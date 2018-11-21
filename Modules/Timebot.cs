@@ -488,6 +488,11 @@ namespace timebot.Modules.Commands {
             await ReplyAsync(content.Img.ToString(),false,null,null);
         }
 
+        public class commands_json {
+            public string api_key {get;set;}
+            public string json_text{get;set;}
+        }
+
         [Command("dumpcommands")]
         [Summary("Updates the command help page.")]
         [RequireUserPermission(GuildPermission.Administrator)]
@@ -518,8 +523,12 @@ namespace timebot.Modules.Commands {
 
             var client = new RestClient (baseurl);
 
+            var s = new commands_json();
+            s.api_key = key;
+            s.json_text = output;
+
             var request = new RestRequest(Method.POST);
-            request.AddParameter("text/json", output, ParameterType.RequestBody);
+            request.AddParameter("text/json", JsonConvert.SerializeObject(s), ParameterType.RequestBody);
 
             request.AddHeader ("Content-Type", "text/json");
 
