@@ -316,8 +316,8 @@ namespace timebot.Modules.Commands {
 
         [Command ("removefaction")]
         [Summary ("Exactly like the addfaction command, but removes. Has the same at user overload.")]
-        public async Task RemovefactionAsync (string faction) {
-            
+        public async Task RemovefactionAsync (params string[] args) {
+            string faction = string.Join (" ", args);
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
             // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
@@ -355,8 +355,8 @@ namespace timebot.Modules.Commands {
         [Command ("removefaction")]
         [Summary ("Exactly like the addfaction command, but removes. Has the same at user overload.")]
         [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task RemovefactionAsync (SocketUser user, string faction) {
-            
+        public async Task RemovefactionAsync (SocketUser user, params string[] args) {
+            string faction = string.Join (" ", args);
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
             // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
