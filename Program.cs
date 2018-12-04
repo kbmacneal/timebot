@@ -490,7 +490,8 @@ namespace timebot
                 "holdemallin",
                 "trilljoke",
                 "dumpcommands",
-                "summary"
+                "summary",
+                "dumpserverchat"
             });
 
             //AS
@@ -541,6 +542,14 @@ namespace timebot
                 "holdemleave",
                 "holdemallin",
                 "summary"
+            });
+
+            //Tertiary admin-only server
+            rtn.Add("251229629153673216", new List<string>() {
+                "ping",
+                "commands",
+                "setbotusername",
+                "dumpserverchat"
             });
 
             return rtn;
