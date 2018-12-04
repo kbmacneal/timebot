@@ -546,6 +546,9 @@ namespace timebot.Modules.Commands
             System.IO.Compression.ZipFile.CreateFromDirectory(path,path+".zip");
             await Context.Channel.SendMessageAsync("Here is the archived file.");
             await Context.Channel.SendFileAsync(path + ".zip");
+
+            System.IO.Directory.Delete(path, true);
+            System.IO.File.Delete(path + ".zip");
         }
 
     }
