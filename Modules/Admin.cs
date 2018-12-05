@@ -512,6 +512,7 @@ namespace timebot.Modules.Commands
 
         [Command("dumpserverchat")]
         [Summary("Gets the chat of every channel in the server in a separate json file and spits out the result")]
+        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task DumpserverchatAsync()
         {
             if (!System.IO.Directory.Exists(Context.Guild.Name))
