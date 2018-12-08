@@ -165,6 +165,7 @@ namespace timebot.Modules.Commands {
                 foreach (var item in member_of) {
                     if (official_factions.Contains (item)) {
                         var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == item);
+                        if(role == null)continue;
                         if (!user.Roles.Select (e => e.Name).Contains (role.Name)) {
                             await user.AddRoleAsync (role, opt);
                             additions.Add (string.Concat (user.Username, "|", item));
@@ -197,6 +198,7 @@ namespace timebot.Modules.Commands {
             foreach (var item in member_of) {
                 if (official_factions.Contains (item)) {
                     var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == item);
+                    if(role == null)continue;
                     if (!user.Roles.Select (e => e.Name).Contains (role.Name)) {
                         await user.AddRoleAsync (role, opt);
                         additions.Add (string.Concat (user.Username, "|", item));
