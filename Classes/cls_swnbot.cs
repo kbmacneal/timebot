@@ -34,48 +34,52 @@ namespace timebot.Classes {
         }
     }
 
-    public partial class SwnbotResponse {
-        [JsonProperty ("userID")]
+    public partial class SwnbotResponse
+    {
+        [JsonProperty("userID")]
         public string UserId { get; set; }
 
-        [JsonProperty ("userName")]
+        [JsonProperty("userName")]
         public string UserName { get; set; }
 
-        [JsonProperty ("userNick")]
-        public object UserNick { get; set; }
+        [JsonProperty("userNick")]
+        public string UserNick { get; set; }
 
-        [JsonProperty ("userRoles")]
+        [JsonProperty("userRoles")]
         public UserRole[] UserRoles { get; set; }
-
     }
 
-    public partial class UserRole {
-        [JsonProperty ("roleID")]
+    public partial class UserRole
+    {
+        [JsonProperty("roleID")]
         public string RoleId { get; set; }
 
-        [JsonProperty ("roleName")]
-        public string RoleName { get; set; }
-
-        [JsonProperty ("factionName")]
+        [JsonProperty("factionName")]
         public string FactionName { get; set; }
+
+        [JsonProperty("roleName")]
+        public string RoleName { get; set; }
     }
 
-    public partial class SwnbotResponse {
-        public static SwnbotResponse FromJson (string json) => JsonConvert.DeserializeObject<SwnbotResponse> (json, timebot.Classes.Converter.Settings);
+    public partial class SwnbotResponse
+    {
+        public static SwnbotResponse FromJson(string json) => JsonConvert.DeserializeObject<SwnbotResponse>(json, Converter.Settings);
     }
 
-    public static class Serialize {
-        public static string ToJson (this SwnbotResponse self) => JsonConvert.SerializeObject (self, timebot.Classes.Converter.Settings);
+    public static class Serialize
+    {
+        public static string ToJson(this SwnbotResponse self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 
-    internal static class Converter {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
+    internal static class Converter
+    {
+        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters = {
-            new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };
     }
-
 }

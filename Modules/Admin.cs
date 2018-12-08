@@ -56,7 +56,7 @@ namespace timebot.Modules.Commands {
 
             if (response == null) { rtn = null; } else {
 
-                List<string> member_of = response.UserRoles.Select (e => e.RoleName).ToList ();
+                List<string> member_of = response.UserRoles.Select (e => e.FactionName).ToList ();
 
                 rtn = member_of;
             }
