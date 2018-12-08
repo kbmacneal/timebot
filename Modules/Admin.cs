@@ -12,10 +12,8 @@ using Newtonsoft.Json;
 using RestSharp;
 using timebot.Classes;
 
-namespace timebot.Modules.Commands
-{
-    public class Admin : ModuleBase<SocketCommandContext>
-    {
+namespace timebot.Modules.Commands {
+    public class Admin : ModuleBase<SocketCommandContext> {
         private static readonly string[] optional_tags = {
             "Speaker",
             "Observer",
@@ -31,40 +29,34 @@ namespace timebot.Modules.Commands
             "TrilliantMeeting"
         };
 
-        private static readonly Dictionary<string, string> blasters = new Dictionary<string, string>() { { "The High Church of Messiah-as-Emperox", "messiah" }
+        private static readonly Dictionary<string, string> blasters = new Dictionary<string, string> () { { "The High Church of Messiah-as-Emperox", "messiah" }
         };
 
-        private static Boolean security_check(string faction, ulong id)
-        {
+        private static Boolean security_check (string faction, ulong id) {
             Boolean rtn = false;
 
-            Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse(id).GetAwaiter().GetResult();
+            Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse (id).GetAwaiter ().GetResult ();
 
-            if (response == null) { rtn = true; }
-            else
-            {
-                List<string> member_of = response.UserRoles.Select(e => e.RoleName).ToList();
+            if (response == null) { rtn = true; } else {
+                List<string> member_of = response.UserRoles.Select (e => e.FactionName).ToList ();
 
                 // if (member_of.Contains (faction)) rtn = true;
 
-                if (member_of.Where(e => String.Compare(faction, e, true) == 0).Count() > 0) rtn = true;
+                if (member_of.Where (e => String.Compare (faction, e, true) == 0).Count () > 0) rtn = true;
             }
 
             return rtn;
 
         }
 
-        private static async Task<List<string>> faction_check(ulong id)
-        {
+        private static async Task<List<string>> faction_check (ulong id) {
             List<string> rtn = null;
 
-            Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse(id).GetAwaiter().GetResult();
+            Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse (id).GetAwaiter ().GetResult ();
 
-            if (response == null) { rtn = null; }
-            else
-            {
+            if (response == null) { rtn = null; } else {
 
-                List<string> member_of = response.UserRoles.Select(e => e.RoleName).ToList();
+                List<string> member_of = response.UserRoles.Select (e => e.RoleName).ToList ();
 
                 rtn = member_of;
             }
@@ -73,483 +65,463 @@ namespace timebot.Modules.Commands
 
         }
 
-        [Command("sendfactionblast")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Sends a message to every member of a faction that the bot can see.")]
-        public async Task SendfactionblastAsync(string faction, string message)
-        {
-            if (!(blasters.Keys.ToList().Contains(faction)))
-            {
-                await ReplyAsync("Your faction is not configured to receive bot blasts. Consult for rep.");
+        [Command ("sendfactionblast")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary ("Sends a message to every member of a faction that the bot can see.")]
+        public async Task SendfactionblastAsync (string faction, string message) {
+            if (!(blasters.Keys.ToList ().Contains (faction))) {
+                await ReplyAsync ("Your faction is not configured to receive bot blasts. Consult for rep.");
 
                 return;
             }
 
-            var users = Classes.FactionCount.FactionCountGet.GetCount(blasters[faction]).Members;
+            var users = Classes.FactionCount.FactionCountGet.GetCount (blasters[faction]).Members;
 
-            foreach (var user in users)
-            {
-                RequestOptions opt = new RequestOptions();
+            foreach (var user in users) {
+                RequestOptions opt = new RequestOptions ();
                 opt.RetryMode = RetryMode.RetryRatelimit;
-                var send = Context.Client.GetUser(Convert.ToUInt64(user.User.Id));
+                var send = Context.Client.GetUser (Convert.ToUInt64 (user.User.Id));
 
-                if (send != null) await send.SendMessageAsync(message, false, null, opt);
+                if (send != null) await send.SendMessageAsync (message, false, null, opt);
             }
 
-            await ReplyAsync("Messages Sent");
+            await ReplyAsync ("Messages Sent");
         }
 
-        public class stats
-        {
+        public class stats {
             public string membershipstring { get; set; }
             public string api_key { get; set; }
         }
 
-        [Command("getfactioncount")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Gets the realtime count of all members of a faction from the SWNBot API.")]
-        public async Task GetfactioncountAsync()
-        {
-            List<Classes.Faction> official_factions = Classes.Factions.get_factions().apiFactions.ToList();
+        [Command ("getfactioncount")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary ("Gets the realtime count of all members of a faction from the SWNBot API.")]
+        public async Task GetfactioncountAsync () {
+            List<Classes.Faction> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ();
 
-            List<string> rtn = new List<string>();
+            List<string> rtn = new List<string> ();
 
-            Dictionary<string, string> holder = new Dictionary<string, string>();
+            Dictionary<string, string> holder = new Dictionary<string, string> ();
 
-            official_factions.ForEach(e => holder.Add(e.FactionName, Classes.FactionCount.FactionCountGet.GetCount(e.FactionShortName).Members.Count().ToString()));
+            official_factions.ForEach (e => holder.Add (e.FactionName, Classes.FactionCount.FactionCountGet.GetCount (e.FactionShortName).Members.Count ().ToString ()));
 
-            rtn.Add("Here are the counts of active members for each faction");
-            rtn.Add("---------------");
-            holder.AsEnumerable().ToList().ForEach(e => rtn.Add(string.Concat(e.Key, ": ", e.Value)));
+            rtn.Add ("Here are the counts of active members for each faction");
+            rtn.Add ("---------------");
+            holder.AsEnumerable ().ToList ().ForEach (e => rtn.Add (string.Concat (e.Key, ": ", e.Value)));
 
-            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(Program.secrets_file));
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
             string key = secrets["api_key"];
 
-            stats s = new stats
-            {
-                membershipstring = string.Join(System.Environment.NewLine, rtn),
+            stats s = new stats {
+                membershipstring = string.Join (System.Environment.NewLine, rtn),
                 api_key = key
             };
 
-            string baseurl = string.Concat("https://highchurch.space/api/UpdateMemCount");
+            string baseurl = string.Concat ("https://highchurch.space/api/UpdateMemCount");
             // string baseurl = string.Concat ("http://localhost:5000/api/UpdateMemCount");
 
-            var client = new RestClient(baseurl);
+            var client = new RestClient (baseurl);
 
-            var request = new RestRequest(Method.POST);
-            request.AddParameter("text/json", JsonConvert.SerializeObject(s), ParameterType.RequestBody);
+            var request = new RestRequest (Method.POST);
+            request.AddParameter ("text/json", JsonConvert.SerializeObject (s), ParameterType.RequestBody);
 
-            request.AddHeader("Content-Type", "text/json");
+            request.AddHeader ("Content-Type", "text/json");
 
-            var response = client.Execute(request);
+            var response = client.Execute (request);
 
-            await ReplyAsync(string.Join(System.Environment.NewLine, rtn));
+            await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
         }
 
-        [Command("monthlychanges")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("A command that runs both the cleanfaclists command and the addtorightfaction commands one after the other")]
-        public async Task MonthlychangesAsync()
-        {
+        [Command ("monthlychanges")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary ("A command that runs both the cleanfaclists command and the addtorightfaction commands one after the other")]
+        public async Task MonthlychangesAsync () {
 
-            await CleanfaclistsAsync();
-            await Addtorightfaction();
+            await CleanfaclistsAsync ();
+            await Addtorightfaction ();
         }
 
-        [Command("addtorightfaction")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Adds a user to the faction they are a part of in the main server.")]
-        public async Task Addtorightfaction()
-        {
-            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+        [Command ("addtorightfaction")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary ("Adds a user to the faction they are a part of in the main server.")]
+        public async Task Addtorightfaction () {
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            List<string> additions = new List<string>();
+            List<string> additions = new List<string> ();
 
-            List<SocketGuildUser> users = Context.Guild.Users.ToList();
+            List<SocketGuildUser> users = Context.Guild.Users.ToList ();
 
-            RequestOptions opt = new RequestOptions();
+            RequestOptions opt = new RequestOptions ();
             opt.RetryMode = RetryMode.RetryRatelimit;
 
-            foreach (var user in users)
-            {
+            foreach (var user in users) {
                 if (user.IsBot) continue;
 
-                List<string> member_of = faction_check(user.Id).GetAwaiter().GetResult();
+                List<string> member_of = faction_check (user.Id).GetAwaiter ().GetResult ();
 
                 if (member_of == null) continue;
 
-                foreach (var item in member_of)
-                {
-                    if (official_factions.Contains(item))
-                    {
-                        var role = Context.Guild.Roles.FirstOrDefault(e => e.Name == item);
-                        if (!user.Roles.Select(e => e.Name).Contains(role.Name))
-                        {
-                            await user.AddRoleAsync(role, opt);
-                            additions.Add(string.Concat(user.Username, "|", item));
+                foreach (var item in member_of) {
+                    if (official_factions.Contains (item)) {
+                        var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == item);
+                        if (!user.Roles.Select (e => e.Name).Contains (role.Name)) {
+                            await user.AddRoleAsync (role, opt);
+                            additions.Add (string.Concat (user.Username, "|", item));
                         }
                     }
                 }
 
             }
 
-            await ReplyAsync("users added to a role" + System.Environment.NewLine + string.Join(System.Environment.NewLine, additions));
+            await ReplyAsync ("users added to a role" + System.Environment.NewLine + string.Join (System.Environment.NewLine, additions));
         }
 
-        [Command("cleanfaclists")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
-        public async Task CleanfaclistsAsync()
-        {
-            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+        [Command ("addtorightfaction")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary ("Adds a user to the faction they are a part of in the main server.")]
+        public async Task Addtorightfaction (SocketGuildUser user) {
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            List<string> infractions = new List<string>();
+            List<string> additions = new List<string> ();
 
-            List<SocketGuildUser> users = Context.Guild.Users.ToList();
+            RequestOptions opt = new RequestOptions ();
+            opt.RetryMode = RetryMode.RetryRatelimit;
 
-            foreach (var user in users)
-            {
-                if (user.IsBot) continue;
-                foreach (var role in user.Roles)
-                {
-                    if (!official_factions.Contains(role.Name)) continue;
+            if (user.IsBot) return;
 
-                    if (!security_check(role.Name, user.Id))
-                    {
-                        infractions.Add(String.Concat(user.Username, "|", role.Name));
-                        await user.RemoveRoleAsync(role, null);
+            List<string> member_of = faction_check (user.Id).GetAwaiter ().GetResult ();
+
+            if (member_of == null) return;
+
+            foreach (var item in member_of) {
+                if (official_factions.Contains (item)) {
+                    var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == item);
+                    if (!user.Roles.Select (e => e.Name).Contains (role.Name)) {
+                        await user.AddRoleAsync (role, opt);
+                        additions.Add (string.Concat (user.Username, "|", item));
                     }
                 }
             }
 
-            await ReplyAsync("users removed from a role" + System.Environment.NewLine + string.Join(System.Environment.NewLine, infractions));
+            await ReplyAsync ("users added to a role" + System.Environment.NewLine + string.Join (System.Environment.NewLine, additions));
         }
 
-        [Command("cleanfaclists")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
-        public async Task CleanfaclistsAsync(SocketUser user)
-        {
-            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+        [Command ("cleanfaclists")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary ("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
+        public async Task CleanfaclistsAsync () {
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            List<string> infractions = new List<string>();
+            List<string> infractions = new List<string> ();
+
+            List<SocketGuildUser> users = Context.Guild.Users.ToList ();
+
+            foreach (var user in users) {
+                if (user.IsBot) continue;
+                foreach (var role in user.Roles) {
+                    if (!official_factions.Contains (role.Name)) continue;
+
+                    if (!security_check (role.Name, user.Id)) {
+                        infractions.Add (String.Concat (user.Username, "|", role.Name));
+                        await user.RemoveRoleAsync (role, null);
+                    }
+                }
+            }
+
+            await ReplyAsync ("users removed from a role" + System.Environment.NewLine + string.Join (System.Environment.NewLine, infractions));
+        }
+
+        [Command ("cleanfaclists")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary ("Can be run either against everyone on a server or against a specific user (at the user as a parameter to use the latter). Will check and make sure the faction roles match with the main FV server.")]
+        public async Task CleanfaclistsAsync (SocketUser user) {
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
+
+            List<string> infractions = new List<string> ();
 
             if (user.IsBot) return;
 
-            foreach (var role in ((SocketGuildUser)user).Roles)
-            {
-                if (!official_factions.Contains(role.Name)) continue;
+            foreach (var role in ((SocketGuildUser) user).Roles) {
+                if (!official_factions.Contains (role.Name)) continue;
 
-                if (!security_check(role.Name, user.Id))
-                {
-                    infractions.Add(String.Concat(user.Username, "|", role.Name));
-                    await ((SocketGuildUser)user).RemoveRoleAsync(role, null);
+                if (!security_check (role.Name, user.Id)) {
+                    infractions.Add (String.Concat (user.Username, "|", role.Name));
+                    await ((SocketGuildUser) user).RemoveRoleAsync (role, null);
                 }
             }
 
-            await ReplyAsync("users removed from a role" + System.Environment.NewLine + string.Join(System.Environment.NewLine, infractions));
+            await ReplyAsync ("users removed from a role" + System.Environment.NewLine + string.Join (System.Environment.NewLine, infractions));
         }
 
-        [Command("listfaction")]
-        [Summary("Returns the list of all factions available to the addfaction command.")]
-        public async Task ListfactionAsync()
-        {
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
+        [Command ("listfaction")]
+        [Summary ("Returns the list of all factions available to the addfaction command.")]
+        public async Task ListfactionAsync () {
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            string rtn_message = String.Join(System.Environment.NewLine, roles.Where(e => official_factions.Contains(e.Name)).OrderBy(e => e.Name));
+            string rtn_message = String.Join (System.Environment.NewLine, roles.Where (e => official_factions.Contains (e.Name)).OrderBy (e => e.Name));
 
-            await ReplyAsync(rtn_message);
+            await ReplyAsync (rtn_message);
         }
 
-        [Command("addfaction")]
-        [Summary("Adds the sender to the selected faction. Administrators can at an individual then specify the faction and the bot will add the user to the faction. This is the preferred way to add, since the bot with check with the FV server to make sure that the user is a part of that faction.")]
-        public async Task AddfactionAsync(params string[] args)
-        {
+        [Command ("addfaction")]
+        [Summary ("Adds the sender to the selected faction. Administrators can at an individual then specify the faction and the bot will add the user to the faction. This is the preferred way to add, since the bot with check with the FV server to make sure that the user is a part of that faction.")]
+        public async Task AddfactionAsync (params string[] args) {
 
-            string faction = string.Join(" ", args);
-            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+            string faction = string.Join (" ", args);
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
             // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
             //     await ReplyAsync ("Invalid Request");
             //     return;
             // }
 
-            if (official_factions.Where(e => String.Compare(faction, e, true) == 0).Count() == 0 && optional_tags.Where(e => String.Compare(faction, e, true) == 0).Count() != 0)
-            {
-                await ReplyAsync("Invalid Request");
+            if (official_factions.Where (e => String.Compare (faction, e, true) == 0).Count () == 0 && optional_tags.Where (e => String.Compare (faction, e, true) == 0).Count () != 0) {
+                await ReplyAsync ("Invalid Request");
                 return;
             }
 
-            if (!optional_tags.Contains(faction))
-            {
-                if (!security_check(faction, Context.Message.Author.Id))
-                {
-                    await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
+            if (!optional_tags.Contains (faction)) {
+                if (!security_check (faction, Context.Message.Author.Id)) {
+                    await ReplyAsync ("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
                     return;
                 }
             }
 
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            SocketGuildUser user = (SocketGuildUser)Context.User;
+            SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (roles.FirstOrDefault(e => String.Compare(faction, e.Name, true) == 0) == null)
-            {
-                await ReplyAsync("Faction selection not valid");
+            if (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0) == null) {
+                await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await user.AddRoleAsync(roles.FirstOrDefault(e => String.Compare(faction, e.Name, true) == 0), null);
+            await user.AddRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
-            await ReplyAsync("Role Added");
+            await ReplyAsync ("Role Added");
             return;
         }
 
-        [Command("addfaction")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Adds a user to the selected faction.")]
-        public async Task AddfactionAsync(SocketUser user, params string[] args)
-        {
-            string faction = string.Join(" ", args);
-            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+        [Command ("addfaction")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        [Summary ("Adds a user to the selected faction.")]
+        public async Task AddfactionAsync (SocketUser user, params string[] args) {
+            string faction = string.Join (" ", args);
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
             // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
             //     await ReplyAsync ("Invalid Request");
             //     return;
             // }
 
-            if (official_factions.Where(e => String.Compare(faction, e, true) == 0).Count() == 0 && optional_tags.Where(e => String.Compare(faction, e, true) == 0).Count() != 0)
-            {
-                await ReplyAsync("Invalid Request");
+            if (official_factions.Where (e => String.Compare (faction, e, true) == 0).Count () == 0 && optional_tags.Where (e => String.Compare (faction, e, true) == 0).Count () != 0) {
+                await ReplyAsync ("Invalid Request");
                 return;
             }
 
-            if (!optional_tags.Contains(faction))
-            {
-                if (!security_check(faction, user.Id))
-                {
-                    await ReplyAsync("Target user not a member of this faction. Please select the faction they are a part of on the main Far Verona Discord.");
+            if (!optional_tags.Contains (faction)) {
+                if (!security_check (faction, user.Id)) {
+                    await ReplyAsync ("Target user not a member of this faction. Please select the faction they are a part of on the main Far Verona Discord.");
                     return;
                 }
             }
 
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            SocketGuildUser usr = (SocketGuildUser)user;
+            SocketGuildUser usr = (SocketGuildUser) user;
 
-            if (roles.FirstOrDefault(e => String.Compare(faction, e.Name, true) == 0) == null)
-            {
-                await ReplyAsync("Faction selection not valid");
+            if (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0) == null) {
+                await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await usr.AddRoleAsync(roles.FirstOrDefault(e => String.Compare(faction, e.Name, true) == 0), null);
+            await usr.AddRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
-            await ReplyAsync("Role Added");
+            await ReplyAsync ("Role Added");
             return;
         }
 
-        [Command("removefaction")]
-        [Summary("Exactly like the addfaction command, but removes. Has the same at user overload.")]
-        public async Task RemovefactionAsync(params string[] args)
-        {
-            string faction = string.Join(" ", args);
-            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+        [Command ("removefaction")]
+        [Summary ("Exactly like the addfaction command, but removes. Has the same at user overload.")]
+        public async Task RemovefactionAsync (params string[] args) {
+            string faction = string.Join (" ", args);
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
             // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
             //     await ReplyAsync ("Invalid Request");
             //     return;
             // }
 
-            if (official_factions.Where(e => String.Compare(faction, e, true) == 0).Count() == 0 && optional_tags.Where(e => String.Compare(faction, e, true) == 0).Count() != 0)
-            {
-                await ReplyAsync("Invalid Request");
+            if (official_factions.Where (e => String.Compare (faction, e, true) == 0).Count () == 0 && optional_tags.Where (e => String.Compare (faction, e, true) == 0).Count () != 0) {
+                await ReplyAsync ("Invalid Request");
                 return;
             }
 
-            if (!optional_tags.Contains(faction))
-            {
-                if (!security_check(faction, Context.Message.Author.Id))
-                {
-                    await ReplyAsync("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
+            if (!optional_tags.Contains (faction)) {
+                if (!security_check (faction, Context.Message.Author.Id)) {
+                    await ReplyAsync ("You are not a member of this faction. Please select the faction you are a part of on the main Far Verona Discord.");
                     return;
                 }
             }
 
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            SocketGuildUser user = (SocketGuildUser)Context.User;
+            SocketGuildUser user = (SocketGuildUser) Context.User;
 
-            if (roles.FirstOrDefault(e => String.Compare(faction, e.Name, true) == 0) == null)
-            {
-                await ReplyAsync("Faction selection not valid");
+            if (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0) == null) {
+                await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await user.RemoveRoleAsync(roles.FirstOrDefault(e => String.Compare(faction, e.Name, true) == 0), null);
+            await user.RemoveRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
-            await ReplyAsync("Role Removed");
+            await ReplyAsync ("Role Removed");
             return;
         }
 
-        [Command("removefaction")]
-        [Summary("Exactly like the addfaction command, but removes. Has the same at user overload.")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task RemovefactionAsync(SocketUser user, params string[] args)
-        {
-            string faction = string.Join(" ", args);
-            List<string> official_factions = Classes.Factions.get_factions().apiFactions.ToList().Select(e => e.FactionName).ToList();
+        [Command ("removefaction")]
+        [Summary ("Exactly like the addfaction command, but removes. Has the same at user overload.")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task RemovefactionAsync (SocketUser user, params string[] args) {
+            string faction = string.Join (" ", args);
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
             // if (!official_factions.Any (faction.Contains) && !optional_tags.Any (faction.Contains)) {
             //     await ReplyAsync ("Invalid Request");
             //     return;
             // }
 
-            if (official_factions.Where(e => String.Compare(faction, e, true) == 0).Count() == 0 && optional_tags.Where(e => String.Compare(faction, e, true) == 0).Count() != 0)
-            {
-                await ReplyAsync("Invalid Request");
+            if (official_factions.Where (e => String.Compare (faction, e, true) == 0).Count () == 0 && optional_tags.Where (e => String.Compare (faction, e, true) == 0).Count () != 0) {
+                await ReplyAsync ("Invalid Request");
                 return;
             }
 
-            if (!optional_tags.Contains(faction))
-            {
-                if (!security_check(faction, user.Id))
-                {
-                    await ReplyAsync("Target user not a member of this faction. Please select the faction they are a part of on the main Far Verona Discord.");
+            if (!optional_tags.Contains (faction)) {
+                if (!security_check (faction, user.Id)) {
+                    await ReplyAsync ("Target user not a member of this faction. Please select the faction they are a part of on the main Far Verona Discord.");
                     return;
                 }
             }
 
-            List<SocketRole> roles = Context.Guild.Roles.ToList();
+            List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
-            SocketGuildUser usr = (SocketGuildUser)user;
+            SocketGuildUser usr = (SocketGuildUser) user;
 
-            if (roles.FirstOrDefault(e => String.Compare(faction, e.Name, true) == 0) == null)
-            {
-                await ReplyAsync("Faction selection not valid");
+            if (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0) == null) {
+                await ReplyAsync ("Faction selection not valid");
                 return;
             }
 
-            await usr.AddRoleAsync(roles.FirstOrDefault(e => String.Compare(faction, e.Name, true) == 0), null);
+            await usr.AddRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
 
-            await ReplyAsync("Role Removed");
+            await ReplyAsync ("Role Removed");
             return;
         }
 
-        [Command("removeentirefaction")]
-        [Summary("Kicks and entire faction from the server")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task RemoveentirefactionAsync(params string[] args)
-        {
+        [Command ("removeentirefaction")]
+        [Summary ("Kicks and entire faction from the server")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task RemoveentirefactionAsync (params string[] args) {
 
-            string faction = string.Join(" ", args);
+            string faction = string.Join (" ", args);
 
-            SocketRole role = Context.Guild.Roles.FirstOrDefault(e => e.Name == faction);
+            SocketRole role = Context.Guild.Roles.FirstOrDefault (e => e.Name == faction);
 
-            if (role == null)
-            {
-                await ReplyAsync("Selection invalid");
+            if (role == null) {
+                await ReplyAsync ("Selection invalid");
                 return;
             }
 
-            RequestOptions opt = new RequestOptions
-            {
+            RequestOptions opt = new RequestOptions {
                 RetryMode = RetryMode.RetryRatelimit
             };
 
-            List<SocketGuildUser> users = Context.Guild.Users.Where(e => e.Roles.Contains(role)).ToList();
+            List<SocketGuildUser> users = Context.Guild.Users.Where (e => e.Roles.Contains (role)).ToList ();
 
-            foreach (var user in users)
-            {
-                await user.KickAsync(null, opt);
+            foreach (var user in users) {
+                await user.KickAsync (null, opt);
             }
 
-            await ReplyAsync("Users Removed");
+            await ReplyAsync ("Users Removed");
             return;
         }
 
-        [Command("tracker")]
-        [Summary("Pastes the link to the faction tracker in chat.")]
-        public async Task TrackerAsync()
-        {
-            await ReplyAsync("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");
+        [Command ("tracker")]
+        [Summary ("Pastes the link to the faction tracker in chat.")]
+        public async Task TrackerAsync () {
+            await ReplyAsync ("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");
         }
 
-        [Command("rulings")]
-        [Summary("Pastes the link to the rulings doc in chat.")]
-        public async Task RulingsAsync()
-        {
-            await ReplyAsync("https://docs.google.com/document/d/1I34PlRnkl5Pzq9av9xWGXwY2Tzp7f5O9LQdlj0O0drc/edit");
+        [Command ("rulings")]
+        [Summary ("Pastes the link to the rulings doc in chat.")]
+        public async Task RulingsAsync () {
+            await ReplyAsync ("https://docs.google.com/document/d/1I34PlRnkl5Pzq9av9xWGXwY2Tzp7f5O9LQdlj0O0drc/edit");
         }
 
-        [Command("archivechannel")]
-        [Summary("Dumps a json log of the channel into chat.")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task ArchivechannelAsync()
-        {
-            string date_archived = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
+        [Command ("archivechannel")]
+        [Summary ("Dumps a json log of the channel into chat.")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task ArchivechannelAsync () {
+            string date_archived = DateTime.Now.ToString ("yyyy-dd-M--HH-mm-ss");
 
-            IEnumerable<IMessage> archive = await Context.Channel.GetMessagesAsync(Int32.MaxValue).Flatten();
+            IEnumerable<IMessage> archive = await Context.Channel.GetMessagesAsync (Int32.MaxValue).Flatten ();
 
             var query =
                 from msg in archive
-                select new { msg.Author.Username, msg.Author.Discriminator, msg.Content, msg.CreatedAt, msg.EditedTimestamp, msg.Id, msg.Source, msg.Timestamp, msg.Attachments };
+            select new { msg.Author.Username, msg.Author.Discriminator, msg.Content, msg.CreatedAt, msg.EditedTimestamp, msg.Id, msg.Source, msg.Timestamp, msg.Attachments };
 
-            string serialized = JsonConvert.SerializeObject(query);
+            string serialized = JsonConvert.SerializeObject (query);
 
             string path = Context.Channel.Name + " " + date_archived;
 
-            System.IO.File.WriteAllText(path + ".json", serialized);
+            System.IO.File.WriteAllText (path + ".json", serialized);
 
-            await ReplyAsync("Channel archived");
+            await ReplyAsync ("Channel archived");
 
-            await Context.Channel.SendMessageAsync("Here is the archived file.");
-            await Context.Channel.SendFileAsync(path + ".json");
+            await Context.Channel.SendMessageAsync ("Here is the archived file.");
+            await Context.Channel.SendFileAsync (path + ".json");
         }
 
-        [Command("dumpserverchat")]
-        [Summary("Gets the chat of every channel in the server in a separate json file and spits out the result")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task DumpserverchatAsync()
-        {
-            if (!System.IO.Directory.Exists(Context.Guild.Name))
-            {
-                System.IO.Directory.CreateDirectory(Context.Guild.Name);
+        [Command ("dumpserverchat")]
+        [Summary ("Gets the chat of every channel in the server in a separate json file and spits out the result")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task DumpserverchatAsync () {
+            if (!System.IO.Directory.Exists (Context.Guild.Name)) {
+                System.IO.Directory.CreateDirectory (Context.Guild.Name);
             }
 
             var path = Context.Guild.Name;
 
-            foreach (var item in Context.Guild.TextChannels)
-            {
-                string date_archived = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
+            foreach (var item in Context.Guild.TextChannels) {
+                string date_archived = DateTime.Now.ToString ("yyyy-dd-M--HH-mm-ss");
 
                 // SocketTextChannel temp = Context.Guild.GetTextChannel(item.Id);
                 // if(temp == null)continue;
 
-                IEnumerable<IMessage> archive = await item.GetMessagesAsync(Int32.MaxValue).Flatten();
+                IEnumerable<IMessage> archive = await item.GetMessagesAsync (Int32.MaxValue).Flatten ();
 
                 // IEnumerable<IMessage> archive = await Context.Channel.GetMessagesAsync(Int32.MaxValue).Flatten();
 
                 var query =
                     from msg in archive
-                    select new { msg.Author.Username, msg.Author.Discriminator, msg.Content, msg.CreatedAt, msg.EditedTimestamp, msg.Id, msg.Source, msg.Timestamp, msg.Attachments };
+                select new { msg.Author.Username, msg.Author.Discriminator, msg.Content, msg.CreatedAt, msg.EditedTimestamp, msg.Id, msg.Source, msg.Timestamp, msg.Attachments };
 
-                string serialized = JsonConvert.SerializeObject(query);
+                string serialized = JsonConvert.SerializeObject (query);
 
-                string filepath = System.IO.Path.Join(path,item.Name+ " " + date_archived + ".json");
+                string filepath = System.IO.Path.Join (path, item.Name + " " + date_archived + ".json");
 
-                System.IO.File.WriteAllText(filepath, serialized);
+                System.IO.File.WriteAllText (filepath, serialized);
             }
 
-            System.IO.Compression.ZipFile.CreateFromDirectory(path,path+".zip");
-            await Context.Channel.SendMessageAsync("Here is the archived file.");
-            await Context.Channel.SendFileAsync(path + ".zip");
+            System.IO.Compression.ZipFile.CreateFromDirectory (path, path + ".zip");
+            await Context.Channel.SendMessageAsync ("Here is the archived file.");
+            await Context.Channel.SendFileAsync (path + ".zip");
 
-            System.IO.Directory.Delete(path, true);
-            System.IO.File.Delete(path + ".zip");
+            System.IO.Directory.Delete (path, true);
+            System.IO.File.Delete (path + ".zip");
         }
 
     }

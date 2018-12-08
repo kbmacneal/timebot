@@ -115,6 +115,8 @@ namespace timebot
                 await message.ModifyAsync(e => e.Content = msg);
             }
 
+            if(message.Content.Length < 3 || !message.Content.Contains("!")) return;
+
             string msg_prefix = message.Content.ToString().Substring(0, 3);
 
             //if the prefix is in the list of valid prefixes, continue

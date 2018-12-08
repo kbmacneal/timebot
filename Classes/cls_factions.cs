@@ -34,6 +34,8 @@ namespace timebot.Classes {
 
         [JsonProperty ("factionBotID")]
         public string FactionBotId { get; set; }
+        [JsonProperty ("factionDiscordID")]
+        public string FactionDiscordID { get; set; }
     }
 
     public partial class Factions {

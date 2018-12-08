@@ -55,6 +55,9 @@ namespace timebot.Classes {
 
         [JsonProperty ("roleName")]
         public string RoleName { get; set; }
+
+        [JsonProperty ("factionName")]
+        public string FactionName { get; set; }
     }
 
     public partial class SwnbotResponse {

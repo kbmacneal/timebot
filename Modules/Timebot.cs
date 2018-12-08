@@ -325,7 +325,7 @@ namespace timebot.Modules.Commands {
         public async Task AssetAsync (params string[] collection) {
             string asset_name = String.Join (" ", collection);
 
-            TextInfo UsaTextInfo = new CultureInfo ("en - US", false).TextInfo;
+            TextInfo UsaTextInfo = new CultureInfo ("en", false).TextInfo;
             asset_name = UsaTextInfo.ToTitleCase (asset_name);
 
             if (Program.assets.FirstOrDefault (e => e.Name == asset_name) == null) {
