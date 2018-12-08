@@ -13,6 +13,11 @@ using RestSharp;
 using timebot.Classes;
 
 namespace timebot.Modules.Commands {
+
+    public class infractions {
+        public string name { get; set; }
+        public string faction { get; set; }
+    }
     public class Admin : ModuleBase<SocketCommandContext> {
         private static readonly string[] optional_tags = {
             "Speaker",
@@ -148,7 +153,7 @@ namespace timebot.Modules.Commands {
         public async Task Addtorightfaction () {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            List<string> additions = new List<string> ();
+            List<infractions> additions = new List<infractions> ();
 
             List<SocketGuildUser> users = Context.Guild.Users.ToList ();
 
@@ -165,17 +170,17 @@ namespace timebot.Modules.Commands {
                 foreach (var item in member_of) {
                     if (official_factions.Contains (item)) {
                         var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == item);
-                        if(role == null)continue;
+                        if (role == null) continue;
                         if (!user.Roles.Select (e => e.Name).Contains (role.Name)) {
                             await user.AddRoleAsync (role, opt);
-                            additions.Add (string.Concat (user.Username, "|", item));
+                            additions.Add (new Modules.Commands.infractions {name = user.Username, faction = role.Name});
                         }
                     }
                 }
 
             }
 
-            await ReplyAsync ("users added to a role" + System.Environment.NewLine + string.Join (System.Environment.NewLine, additions));
+            await ReplyAsync ("users added to a role" + System.Environment.NewLine + additions.ToStringTable(new[] {"Name", "Faction"}, a => a.name, a => a.faction));
         }
 
         [Command ("addtorightfaction")]
@@ -184,7 +189,7 @@ namespace timebot.Modules.Commands {
         public async Task Addtorightfaction (SocketGuildUser user) {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            List<string> additions = new List<string> ();
+            List<infractions> additions = new List<infractions> ();
 
             RequestOptions opt = new RequestOptions ();
             opt.RetryMode = RetryMode.RetryRatelimit;
@@ -198,15 +203,15 @@ namespace timebot.Modules.Commands {
             foreach (var item in member_of) {
                 if (official_factions.Contains (item)) {
                     var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == item);
-                    if(role == null)continue;
+                    if (role == null) continue;
                     if (!user.Roles.Select (e => e.Name).Contains (role.Name)) {
                         await user.AddRoleAsync (role, opt);
-                        additions.Add (string.Concat (user.Username, "|", item));
+                        additions.Add (new Modules.Commands.infractions {name = user.Username, faction = role.Name});
                     }
                 }
             }
 
-            await ReplyAsync ("users added to a role" + System.Environment.NewLine + string.Join (System.Environment.NewLine, additions));
+            await ReplyAsync ("users added to a role" + System.Environment.NewLine + additions.ToStringTable(new[] {"Name", "Faction"}, a => a.name, a => a.faction));
         }
 
         [Command ("cleanfaclists")]
@@ -215,7 +220,7 @@ namespace timebot.Modules.Commands {
         public async Task CleanfaclistsAsync () {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            List<string> infractions = new List<string> ();
+            List<infractions> infractions = new List<infractions> ();
 
             List<SocketGuildUser> users = Context.Guild.Users.ToList ();
 
@@ -225,13 +230,13 @@ namespace timebot.Modules.Commands {
                     if (!official_factions.Contains (role.Name)) continue;
 
                     if (!security_check (role.Name, user.Id)) {
-                        infractions.Add (String.Concat (user.Username, "|", role.Name));
+                        infractions.Add (new Modules.Commands.infractions {name = user.Username, faction = role.Name});
                         await user.RemoveRoleAsync (role, null);
                     }
                 }
             }
 
-            await ReplyAsync ("users removed from a role" + System.Environment.NewLine + string.Join (System.Environment.NewLine, infractions));
+            await ReplyAsync ("users removed from a role" + System.Environment.NewLine + infractions.ToStringTable(new[] {"Name", "Faction"}, a => a.name, a => a.faction));
         }
 
         [Command ("cleanfaclists")]
@@ -240,7 +245,7 @@ namespace timebot.Modules.Commands {
         public async Task CleanfaclistsAsync (SocketUser user) {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
-            List<string> infractions = new List<string> ();
+            List<infractions> infractions = new List<infractions> ();
 
             if (user.IsBot) return;
 
@@ -248,12 +253,12 @@ namespace timebot.Modules.Commands {
                 if (!official_factions.Contains (role.Name)) continue;
 
                 if (!security_check (role.Name, user.Id)) {
-                    infractions.Add (String.Concat (user.Username, "|", role.Name));
+                    infractions.Add (new Modules.Commands.infractions {name = user.Username, faction = role.Name});
                     await ((SocketGuildUser) user).RemoveRoleAsync (role, null);
                 }
             }
 
-            await ReplyAsync ("users removed from a role" + System.Environment.NewLine + string.Join (System.Environment.NewLine, infractions));
+            await ReplyAsync ("users removed from a role" + System.Environment.NewLine + infractions.ToStringTable(new[] {"Name", "Faction"}, a => a.name, a => a.faction));
         }
 
         [Command ("listfaction")]
