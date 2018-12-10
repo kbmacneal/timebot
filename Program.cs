@@ -493,7 +493,8 @@ namespace timebot
                 "trilljoke",
                 "dumpcommands",
                 "summary",
-                "dumpserverchat"
+                "dumpserverchat",
+                "startnewyearscountdown"
             });
 
             //AS

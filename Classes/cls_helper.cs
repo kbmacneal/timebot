@@ -24,6 +24,11 @@ namespace timebot.Classes
             var properties = obj.GetType().GetProperties().Select(e => e.Name).ToArray();
             var embed = new EmbedBuilder();
 
+            if (title_property_name != "")
+            {
+                embed.WithTitle(Helper.GetPropValue(obj, title_property_name).ToString());
+            }
+
             embed.WithTitle(Helper.GetPropValue(obj, title_property_name).ToString());
 
             foreach (var property in properties)

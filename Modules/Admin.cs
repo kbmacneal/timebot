@@ -531,6 +531,15 @@ namespace timebot.Modules.Commands {
             System.IO.File.Delete (path + ".zip");
         }
 
+        [Command ("startnewyearscountdown")]
+        [Summary ("Starts the around-the-world new years countdown")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task StartnewyearscountdownAsync () {
+           var paste= await Classes.new_years.schedule_times(Context);
+
+           await ReplyAsync(String.Join(System.Environment.NewLine,paste),false,null,null);
+        }
+
     }
 
 }
