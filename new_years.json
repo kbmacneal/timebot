@@ -1,0 +1,192 @@
+[
+  {
+    "Central_Standard_Time": "1/1/2019 4:00 am",
+    "Countries": "Samoa and Christmas Island/Kiribati",
+    "Cities": "Kiritimati, Apia, Salelologa (Savai'i)"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 4:15 am",
+    "Countries": "Chatham Islands/New Zealand",
+    "Cities": "Chatham Islands"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 5:00 am",
+    "Countries": "New Zealand with exceptions and 5 more",
+    "Cities": "Auckland, Suva, Wellington, Nukualofa"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 6:00 am",
+    "Countries": "Small region of Russia and 6 more",
+    "Cities": "Anadyr, Funafuti, Yaren, Tarawa, Majuro"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 7:00 am",
+    "Countries": "Much of Australia and 8 more",
+    "Cities": "Melbourne, Sydney, Canberra, Honiara"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 7:30 am",
+    "Countries": "Small region of Australia",
+    "Cities": "Adelaide, Broken Hill, Ceduna"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 8:00 am",
+    "Countries": "Queensland/Australia and 6 more",
+    "Cities": "Brisbane, Port Moresby, Hagåtña"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 8:30 am",
+    "Countries": "Northern Territory/Australia",
+    "Cities": "Darwin, Alice Springs, Tennant Creek"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 9:00 am",
+    "Countries": "Japan, South Korea and 5 more",
+    "Cities": "Tokyo, Seoul, Pyongyang, Dili, Ngerulmud"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 9:15 am",
+    "Countries": "Western Australia/Australia",
+    "Cities": "Eucla"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 10:00 am",
+    "Countries": "China, Philippines and 10 more",
+    "Cities": "Beijing, Hong Kong, Manila, Singapore"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 11:00 am",
+    "Countries": "Much of Indonesia, Thailand and 7 more",
+    "Cities": "Jakarta, Bangkok, Hanoi, Phnom Penh"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 11:30 am",
+    "Countries": "Myanmar and Cocos Islands",
+    "Cities": "Yangon, Naypyidaw, Mandalay, Bantam"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 12:00 noon",
+    "Countries": "Bangladesh and 6 more",
+    "Cities": "Dhaka, Almaty, Bishkek, Thimphu, Astana"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 12:15 pm",
+    "Countries": "Nepal",
+    "Cities": "Kathmandu, Pokhara, Biratnagar, Dharan"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 12:30 pm",
+    "Countries": "India and Sri Lanka",
+    "Cities": "New Delhi, Mumbai, Kolkata, Bangalore"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 1:00 pm",
+    "Countries": "Pakistan and 8 more",
+    "Cities": "Tashkent, Islamabad, Lahore, Karachi"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 1:30 pm",
+    "Countries": "Afghanistan",
+    "Cities": "Kabul, Kandahar, Mazari Sharif, Herat"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 2:00 pm",
+    "Countries": "Azerbaijan and 8 more",
+    "Cities": "Dubai, Abu Dhabi, Muscat, Port Louis"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 2:30 pm",
+    "Countries": "Iran",
+    "Cities": "Tehran, Rasht, Esfahãn, Mashhad, Tabriz"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 3:00 pm",
+    "Countries": "Moscow/Russia and 22 more",
+    "Cities": "Moscow, Ankara, Baghdad, Nairobi"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 4:00 pm",
+    "Countries": "Greece and 31 more",
+    "Cities": "Cairo, Athens, Bucharest, Johannesburg"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 5:00 pm",
+    "Countries": "Germany and 46 more",
+    "Cities": "Brussels, Madrid, Paris, Rome, Algiers"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 6:00 pm",
+    "Countries": "United Kingdom and 23 more",
+    "Cities": "London, Dublin, Lisbon, Accra, Reykjavik"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 7:00 pm",
+    "Countries": "Cabo Verde and 2 more",
+    "Cities": "Praia, Ponta Delgada, Ittoqqortoormiit"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 8:00 pm",
+    "Countries": "Regions of Brazil and South Georgia/Sandwich Is.",
+    "Cities": "Rio de Janeiro, São Paulo, Brasilia"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 9:00 pm",
+    "Countries": "Argentina, regions of Brazil and 9 more",
+    "Cities": "Buenos Aires, Santiago, Asuncion"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 9:30 pm",
+    "Countries": "Newfoundland and Labrador/Canada",
+    "Cities": "St. John's, Mary's Harbour"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 10:00 pm",
+    "Countries": "Some regions of Canada and 28 more",
+    "Cities": "Caracas, La Paz, San Juan, Santo Domingo"
+  },
+  {
+    "Central_Standard_Time": "1/1/2019 11:00 pm",
+    "Countries": "Regions of USA and 14 more",
+    "Cities": "New York, Washington DC, Detroit, Havana"
+  },
+  {
+    "Central_Standard_Time": "1/2/2019 12:00 midnight",
+    "Countries": "Regions of USA and 9 more",
+    "Cities": "Mexico City, Chicago, Guatemala City"
+  },
+  {
+    "Central_Standard_Time": "1/2/2019 1:00 am",
+    "Countries": "Some regions of USA and 2 more",
+    "Cities": "Calgary, Denver, Ed1/1/2019ton, Phoenix"
+  },
+  {
+    "Central_Standard_Time": "1/2/2019 2:00 am",
+    "Countries": "Regions of USA and 4 more",
+    "Cities": "Los Angeles, San Francisco, Las Vegas"
+  },
+  {
+    "Central_Standard_Time": "1/2/2019 3:00 am",
+    "Countries": "Alaska/USA and regions of French Polynesia",
+    "Cities": "Anchorage, Fairbanks, Juneau, Unalaska"
+  },
+  {
+    "Central_Standard_Time": "1/2/2019 3:30 am",
+    "Countries": "Marquesas Islands/French Polynesia",
+    "Cities": "Taiohae"
+  },
+  {
+    "Central_Standard_Time": "1/2/2019 4:00 am",
+    "Countries": "Small region of USA and 2 more",
+    "Cities": "Honolulu, Rarotonga, Adak, Papeete"
+  },
+  {
+    "Central_Standard_Time": "1/2/2019 5:00 am",
+    "Countries": "American Samoa and 2 more",
+    "Cities": "Alofi, Midway, Pago Pago"
+  },
+  {
+    "Central_Standard_Time": "1/2/2019 6:00 am",
+    "Countries": "Much of US Minor Outlying Islands",
+    "Cities": "Baker Island, Howland Island"
+  }
+]
