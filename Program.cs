@@ -305,7 +305,8 @@ namespace timebot
                 "holdemleave",
                 "holdemallin",
                 "dumpcommands",
-                "summary"
+                "summary",
+                "startnewyearscountdown"
             });
 
             //meeting room 1
