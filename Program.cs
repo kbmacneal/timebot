@@ -583,7 +583,8 @@ namespace timebot
                 "badbot",
                 "churchapproved",
                 "summary",
-                "startnewyearscountdown"
+                "startnewyearscountdown",
+                "setcolors"
             });
 
             return rtn;
