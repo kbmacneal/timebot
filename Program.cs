@@ -556,6 +556,36 @@ namespace timebot
                 "dumpserverchat"
             });
 
+            //HC Event 3 Server
+             rtn.Add("452809440715079681", new List<string>(){
+                "ping",
+                "commands",
+                "setbotusername",
+                "xkcd",
+                "trilljoke",
+                "startholdem",
+                "joinholdem",
+                "startround",
+                "holdemtable",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold",
+                "holdemleave",
+                "holdemallin",
+                "listfaction",
+                "addfaction",
+                "removefaction",
+                "cactus",
+                "badbot",
+                "churchapproved",
+                "summary",
+                "startnewyearscountdown"
+            });
+
             return rtn;
         }
     }
