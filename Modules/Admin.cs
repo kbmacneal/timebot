@@ -619,7 +619,7 @@ namespace timebot.Modules.Commands
                 if (!(Int32.TryParse(long_interval.ToString(), out int_test)))
                 {
                     await ReplyAsync("Cannot schedule now, number of milliseconds until timer conclusion too large.");
-                    break;
+                    return;
                 }
             }
 
