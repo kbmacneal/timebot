@@ -898,5 +898,17 @@
     "TechLevel": "4",
     "Cost": "40",
     "AssetType": "Spaceship"
+  },
+  {
+    "Name": "Gengineered Slave",
+    "HP": "6",
+    "Attack": "FvF, 1d6",
+    "Counterattack": "1d4",
+    "Description": "Once per turn, the Eugenics Cult can roll an extra d10 on an attack or defense by a Gengineered Slaves asset, regardless of the stat being used. Gengineered Slaves can count as either a Military Unit or Special Forces, determined when the cult first creates a specific asset.",
+    "Type": "Force",
+    "Tier": "1S",
+    "TechLevel": "4",
+    "Cost": "2",
+    "AssetType": "Military Unit/Special Forces"
   }
 ]
