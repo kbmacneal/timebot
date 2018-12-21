@@ -84,19 +84,20 @@ namespace timebot.Classes
             return shuffled;
         }
 
-        public static int eval_hand (List<StandardCard> eval)
+        public static int eval_hand(List<StandardCard> eval)
         {
             int weight = 0;
-            
-            weight = ContainsPairOrTwoPair(eval);
-            weight = ContainsStraightFlush(eval);
-            weight = ContainsThreeOfAKind(eval);
-            weight = ContainsStraight(eval);
-            weight = ContainsFlush(eval);
-            weight = ContainsFullHouse(eval);
-            weight = ContainsFourOfAKind(eval);
-            weight = ContainsStraightFlush(eval);
-            weight = ContainsRoyalFlush(eval);
+            var temp = 0;
+
+            if (ContainsPairOrTwoPair(eval) > 0) return ContainsPairOrTwoPair(eval);
+            if (ContainsStraightFlush(eval) > 0) return ContainsStraightFlush(eval);
+            if (ContainsThreeOfAKind(eval) > 0) return ContainsThreeOfAKind(eval);
+            if (ContainsStraight(eval) > 0) return ContainsStraight(eval);
+            if (ContainsFlush(eval) > 0) return ContainsFlush(eval);
+            if (ContainsFullHouse(eval) > 0) return ContainsFullHouse(eval);
+            if (ContainsFourOfAKind(eval) > 0) return ContainsFourOfAKind(eval);
+            if (ContainsStraightFlush(eval) > 0) return ContainsStraightFlush(eval);
+            if (ContainsRoyalFlush(eval) > 0) return ContainsStraightFlush(eval);
 
             return weight;
         }
@@ -117,7 +118,7 @@ namespace timebot.Classes
         {
             int weight = 0;
 
-            if(contains_all_same_suit(eval) && contains_five_sequential(eval.ToArray()) && eval.OrderBy(e=>e.value).Last().value ==14) weight = 10;
+            if (contains_all_same_suit(eval) && contains_five_sequential(eval.ToArray()) && eval.OrderBy(e => e.value).Last().value == 14) weight = 10;
 
             return weight;
         }
@@ -126,7 +127,7 @@ namespace timebot.Classes
         {
             int weight = 0;
 
-            if(contains_all_same_suit(eval) && contains_five_sequential(eval.ToArray())) weight = 9;
+            if (contains_all_same_suit(eval) && contains_five_sequential(eval.ToArray())) weight = 9;
 
             return weight;
         }
@@ -135,9 +136,9 @@ namespace timebot.Classes
         {
             int weight = 0;
 
-            foreach(StandardCard card in eval)
+            foreach (StandardCard card in eval)
             {
-                if(eval.Count(e=>e.value == card.value) == 4)
+                if (eval.Count(e => e.value == card.value) == 4)
                 {
                     weight = 8;
                     return weight;
@@ -153,19 +154,19 @@ namespace timebot.Classes
             bool threes = false;
             bool pair = false;
 
-            foreach(StandardCard card in eval)
+            foreach (StandardCard card in eval)
             {
-                if(eval.Count(e=>e.value == card.value) == 3)
+                if (eval.Count(e => e.value == card.value) == 3)
                 {
                     threes = true;
                 }
-                if(eval.Count(e=>e.value == card.value) == 2)
+                if (eval.Count(e => e.value == card.value) == 2)
                 {
                     pair = true;
                 }
             }
 
-            if(threes && pair)
+            if (threes && pair)
             {
                 weight = 7;
             }
@@ -177,7 +178,7 @@ namespace timebot.Classes
         {
             int weight = 0;
 
-            if(contains_all_same_suit(eval)) weight = 6;
+            if (contains_all_same_suit(eval)) weight = 6;
 
             return weight;
         }
@@ -186,7 +187,7 @@ namespace timebot.Classes
         {
             int weight = 0;
 
-            if(contains_five_sequential(eval.ToArray())) weight = 5;
+            if (contains_five_sequential(eval.ToArray())) weight = 5;
 
             return weight;
         }
@@ -196,15 +197,15 @@ namespace timebot.Classes
             int weight = 0;
             bool threes = false;
 
-            foreach(StandardCard card in eval)
+            foreach (StandardCard card in eval)
             {
-                if(eval.Count(e=>e.value == card.value) == 3)
+                if (eval.Count(e => e.value == card.value) == 3)
                 {
                     threes = true;
                 }
             }
 
-            if(threes) weight = 4;
+            if (threes) weight = 4;
 
             return weight;
 
@@ -216,11 +217,11 @@ namespace timebot.Classes
             int paircount = 0;
             int firstpair_val = 0;
 
-            foreach(StandardCard card in eval)
+            foreach (StandardCard card in eval)
             {
-                if(eval.Count(e=>e.value == card.value) == 2)
+                if (eval.Count(e => e.value == card.value) == 2)
                 {
-                    if(card.value != firstpair_val)
+                    if (card.value != firstpair_val)
                     {
                         firstpair_val = card.value;
                         paircount++;
@@ -228,9 +229,9 @@ namespace timebot.Classes
                 }
             }
 
-            if(paircount == 2) weight = 3;
+            if (paircount == 2) weight = 3;
 
-            if(paircount == 1) weight = 2;
+            if (paircount == 1) weight = 2;
 
             return weight;
 
