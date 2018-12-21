@@ -703,8 +703,22 @@ namespace timebot.Commands
             game.dealer_index = (game.dealer_index + 1) % game.players.Count();
 
             player.hole.ForEach(e => hole_cards.Add(StandardCard.value_to_output[e.value].ToString() + " of " + StandardCard.suit_to_output[e.suit].ToString()));
+            
+            
 
             string msg = generate_name(usr) + " has won the round, pot size " + game.current_round.pot.ToString() + " imperial credits. Hole Cards were " + System.Environment.NewLine + string.Join(System.Environment.NewLine, hole_cards) + System.Environment.NewLine + "Use tb!startround to begin another round.";
+
+            msg+= System.Environment.NewLine + "The Flop";
+
+            game.current_round.flop.ForEach(e=> msg+= System.Environment.NewLine + StandardCard.value_to_output[e.value].ToString() + " of " + StandardCard.suit_to_output[e.suit].ToString());
+
+            msg+= System.Environment.NewLine + "The Turn";
+
+            msg+= System.Environment.NewLine + StandardCard.value_to_output[game.current_round.turn.value].ToString() + " of " + StandardCard.suit_to_output[game.current_round.turn.suit].ToString();
+
+            msg+= System.Environment.NewLine + "The River";
+
+            msg+= System.Environment.NewLine + StandardCard.value_to_output[game.current_round.river.value].ToString() + " of " + StandardCard.suit_to_output[game.current_round.river.suit].ToString();
 
             player.cash_pool += game.current_round.pot;
 
