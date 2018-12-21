@@ -199,6 +199,8 @@ namespace timebot.Commands
 
             game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
 
+            game.current_round.call_count = 0;
+
             game.current_round.call_count++;
 
             if (game.current_round.call_count >= game.players.Count())
@@ -303,6 +305,8 @@ namespace timebot.Commands
 
             game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
 
+            game.current_round.call_count = 0;
+
             game.current_round.call_count++;
 
             if (game.current_round.call_count >= game.players.Count())
@@ -362,6 +366,8 @@ namespace timebot.Commands
 
             game.current_round.call_count++;
 
+            game.current_round.call_count = 0;
+
             if (game.current_round.call_count >= game.players.Count())
             {
                 await lay_down_next(Context);
@@ -394,6 +400,8 @@ namespace timebot.Commands
             game.current_round.pot += (int)game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool;
 
             game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
+
+            game.current_round.call_count = 0;
 
             game.current_round.call_count++;
 
@@ -612,15 +620,51 @@ namespace timebot.Commands
         {
             int rtn = 0;
 
-            rtn = players.FindIndex(current_index, players.Count - 1, e => !e.fold && !e.allin);
+            // rtn = players.FindIndex(current_index, players.Count - 1, e => !e.fold && !e.allin);
 
-            if (rtn == -1)
+            Player[] eligible = new Player[players.Count()];
+
+            players.CopyTo(eligible);
+
+            eligible[current_index] = null;
+
+            for (int i = current_index + 1; i < eligible.Length - 1; i++)
             {
-                rtn = players.FindIndex(0, players.Count - 1, e => e.fold == false);
+                if (!eligible[i].fold && !eligible[i].allin)
+                {
+                    rtn = i;
+
+                    return rtn;
+                }
             }
 
+            if (rtn == 0)
+            {
+                for (int i = 0; i < eligible.Length - 1; i++)
+                {
+                    if (eligible[i] != null)
+                    {
+                        if (!eligible[i].fold && !eligible[i].allin)
+                        {
+                            rtn = i;
+
+                            return rtn;
+                        }
+                    }
+                }
+
+            }
 
             return rtn;
+
+
+            // if (rtn == -1)
+            // {
+            //     rtn = players.FindIndex(0, players.Count - 1, e => e.fold == false);
+            // }
+
+
+            // return rtn;
         }
 
         private static void we_have_a_winner(Player player, SocketCommandContext con)

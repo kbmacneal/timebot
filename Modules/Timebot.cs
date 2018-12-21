@@ -485,6 +485,8 @@ namespace timebot.Modules.Commands {
 
             var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.Content);
 
+            await ReplyAsync(content.Alt,false,null,null);
+
             await ReplyAsync(content.Img.ToString(),false,null,null);
         }
 
