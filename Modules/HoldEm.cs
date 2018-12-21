@@ -83,7 +83,7 @@ namespace timebot.Commands
 
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
-            game.players.ForEach(e=>e.hole = new List<StandardCard>());
+            game.players.ForEach(e => e.hole = new List<StandardCard>());
 
             //perform the small and big blinds
 
@@ -170,9 +170,9 @@ namespace timebot.Commands
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
-            if(!(in_bet_position(Context, Context.Message.Author.Id)))
+            if (!(in_bet_position(Context, Context.Message.Author.Id)))
             {
-                await ReplyAsync("You are not in a position to bet, please wait.",false,null,_opt);
+                await ReplyAsync("You are not in a position to bet, please wait.", false, null, _opt);
                 return;
             }
 
@@ -222,9 +222,9 @@ namespace timebot.Commands
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
-            if(!(in_bet_position(Context, Context.Message.Author.Id)))
+            if (!(in_bet_position(Context, Context.Message.Author.Id)))
             {
-                await ReplyAsync("You are not in a position to bet, please wait.",false,null,_opt);
+                await ReplyAsync("You are not in a position to bet, please wait.", false, null, _opt);
                 return;
             }
 
@@ -269,9 +269,9 @@ namespace timebot.Commands
         public async Task HoldemcallAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
-            if(!(in_bet_position(Context, Context.Message.Author.Id)))
+            if (!(in_bet_position(Context, Context.Message.Author.Id)))
             {
-                await ReplyAsync("You are not in a position to bet, please wait.",false,null,_opt);
+                await ReplyAsync("You are not in a position to bet, please wait.", false, null, _opt);
                 return;
             }
 
@@ -326,9 +326,9 @@ namespace timebot.Commands
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
-            if(!(in_bet_position(Context, Context.Message.Author.Id)))
+            if (!(in_bet_position(Context, Context.Message.Author.Id)))
             {
-                await ReplyAsync("You are not in a position to bet, please wait.",false,null,_opt);
+                await ReplyAsync("You are not in a position to bet, please wait.", false, null, _opt);
                 return;
             }
 
@@ -383,9 +383,9 @@ namespace timebot.Commands
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
-            if(!(in_bet_position(Context, Context.Message.Author.Id)))
+            if (!(in_bet_position(Context, Context.Message.Author.Id)))
             {
-                await ReplyAsync("You are not in a position to bet, please wait.",false,null,_opt);
+                await ReplyAsync("You are not in a position to bet, please wait.", false, null, _opt);
                 return;
             }
 
@@ -418,12 +418,12 @@ namespace timebot.Commands
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
-            if(!(in_bet_position(Context, Context.Message.Author.Id)))
+            if (!(in_bet_position(Context, Context.Message.Author.Id)))
             {
-                await ReplyAsync("You are not in a position to bet, please wait.",false,null,_opt);
+                await ReplyAsync("You are not in a position to bet, please wait.", false, null, _opt);
                 return;
             }
-            
+
             game.players.First(e => e.ID == Context.Message.Author.Id).fold = true;
 
             game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
@@ -462,6 +462,17 @@ namespace timebot.Commands
             game.players.Remove(game.players.First(e => e.ID == Context.Message.Author.Id));
 
             await ReplyAsync(generate_name(Context.Guild.GetUser(Context.Message.Author.Id)) + " has removed themselves from the game", false, null, _opt);
+        }
+
+        [Command("holdemestop")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task HoldemestopAsync()
+        {
+            Program.HoldEm.Remove(Program.HoldEm.First(e => e.Key == Context.Channel.Id).Key);
+            ;
+
+            await ReplyAsync("Game halted.");
+
         }
 
         private async Task lay_down_next(SocketCommandContext context)
@@ -544,13 +555,13 @@ namespace timebot.Commands
 
             Player winner = null;
 
-            if(game.players.OrderByDescending(e => e.hand_weight).ToArray()[0].hand_weight == game.players.OrderByDescending(e => e.hand_weight).ToArray()[1].hand_weight)
+            if (game.players.OrderByDescending(e => e.hand_weight).ToArray()[0].hand_weight == game.players.OrderByDescending(e => e.hand_weight).ToArray()[1].hand_weight)
             {
-                int first_max = game.players.OrderByDescending(e => e.hand_weight).ToArray()[0].hole.OrderByDescending(e=>e.value).First().value;
+                int first_max = game.players.OrderByDescending(e => e.hand_weight).ToArray()[0].hole.OrderByDescending(e => e.value).First().value;
 
-                int second_max = game.players.OrderByDescending(e => e.hand_weight).ToArray()[1].hole.OrderByDescending(e=>e.value).First().value;
+                int second_max = game.players.OrderByDescending(e => e.hand_weight).ToArray()[1].hole.OrderByDescending(e => e.value).First().value;
 
-                if(first_max>second_max)
+                if (first_max > second_max)
                 {
                     winner = game.players.OrderByDescending(e => e.hand_weight).ToArray()[0];
                 }
@@ -559,11 +570,12 @@ namespace timebot.Commands
                     winner = game.players.OrderByDescending(e => e.hand_weight).ToArray()[1];
                 }
             }
-            else{
+            else
+            {
                 winner = game.players.OrderByDescending(e => e.hand_weight).First();
             }
 
-            
+
 
             we_have_a_winner(winner, Context);
         }
@@ -639,9 +651,9 @@ namespace timebot.Commands
             SocketCommandContext cont = con;
             HoldEm game = Program.HoldEm.First(e => e.Key == cont.Channel.Id).Value;
 
-            if(get_usr_from_index(con,game.current_round.call_position).Id == ID)
+            if (get_usr_from_index(con, game.current_round.call_position).Id == ID)
             {
-                rtn=true;
+                rtn = true;
             }
 
 

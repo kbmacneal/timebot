@@ -576,6 +576,7 @@ namespace timebot
                 "holdemfold",
                 "holdemleave",
                 "holdemallin",
+                "holdemestop",
                 "listfaction",
                 "addfaction",
                 "removefaction",
