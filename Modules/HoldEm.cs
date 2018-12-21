@@ -399,6 +399,11 @@ namespace timebot.Commands
 
             game.current_round.pot += (int)game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool;
 
+            if(game.players.Where(e=>!e.fold && !e.allin).Count() == 0)
+            {
+                determine_winner(Context);
+            }
+
             game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
 
             game.current_round.call_count = 0;
@@ -434,6 +439,17 @@ namespace timebot.Commands
 
             game.players.First(e => e.ID == Context.Message.Author.Id).fold = true;
 
+            if(game.players.Where(e=>!e.fold).Count() == 1)
+            {
+                we_have_a_winner(game.players.First(e=>!e.fold), Context);
+            }
+
+            if(game.players.Where(e=>!e.fold && !e.allin).Count() == 0)
+            {
+                determine_winner(Context);
+            }
+
+
             game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
 
             game.current_round.call_count++;
@@ -454,7 +470,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemleave")]
-        [Summary("Indicate to the bot that you cant take it anymore.")]
+        
         public async Task HoldemleaveAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -473,6 +489,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemestop")]
+        [Summary("For Administrators. Immediately stops the game currently going on.")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task HoldemestopAsync()
         {
@@ -546,6 +563,13 @@ namespace timebot.Commands
 
             //if we get here, that means that all three rounds of betting have been completed and its time to calculate the hands and determine a winner
 
+            determine_winner(context);
+        }
+
+        private static void determine_winner(SocketCommandContext context)
+        {
+            HoldEm game = Program.HoldEm.First(e => e.Key == context.Channel.Id).Value;
+
             foreach (var player in game.players)
             {
                 List<StandardCard> cumulative_hand = new List<StandardCard>();
@@ -585,7 +609,7 @@ namespace timebot.Commands
 
 
 
-            we_have_a_winner(winner, Context);
+            we_have_a_winner(winner, context);
         }
 
         private static SocketGuildUser get_usr_from_index(SocketCommandContext context, int index)
@@ -628,7 +652,7 @@ namespace timebot.Commands
 
             eligible[current_index] = null;
 
-            for (int i = current_index + 1; i < eligible.Length - 1; i++)
+            for (int i = current_index + 1; i < eligible.Length; i++)
             {
                 if (!eligible[i].fold && !eligible[i].allin)
                 {
@@ -640,7 +664,7 @@ namespace timebot.Commands
 
             if (rtn == 0)
             {
-                for (int i = 0; i < eligible.Length - 1; i++)
+                for (int i = 0; i < eligible.Length; i++)
                 {
                     if (eligible[i] != null)
                     {
