@@ -395,10 +395,10 @@ namespace timebot.Commands
                 return;
             }
 
-            game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool = 0;
-
             game.current_round.pot += (int)game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool;
 
+            game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool = 0;
+            
             if(game.players.Where(e=>!e.fold && !e.allin).Count() == 0)
             {
                 determine_winner(Context);
