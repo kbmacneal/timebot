@@ -63,7 +63,7 @@ namespace timebot.Commands
             {
                 Player = new Player
                 {
-                    cash_pool = 10000,
+                    cash_pool = 100000,
                     ID = Context.Message.Author.Id
                 };
             }
