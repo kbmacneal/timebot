@@ -12,6 +12,44 @@ using System.Security.Cryptography;
 
 namespace timebot.Classes
 {
+
+    public static class ListExtensions{
+        public static int FindNext<T>(this List<T> list, int StartAt, Predicate<T> p)
+        {
+            int rtn = 0;
+
+            rtn = list.FindIndex(StartAt, list.Count()-StartAt, p);
+
+            if(rtn == -1)
+            {
+                rtn = list.FindIndex(0, list.Count(), p);
+            }
+
+            return rtn;
+        }
+
+        public static T SkipWhileWrap<T>(this IEnumerable<T> list, int StartAt, Predicate<T> p)
+        {
+            int index = StartAt;
+            
+            while (true)
+            {
+                if(p.Invoke(list.ToArray()[index]))
+                {
+                    index = (index + 1) % list.Count();
+                }
+                else if(index>list.Count())
+                {
+                    throw new KeyNotFoundException();
+                }
+                else{
+                    return list.ToArray()[index];
+                }
+
+                
+            }
+        }
+    }
     public class Helper
     {
 

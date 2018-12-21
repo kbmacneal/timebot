@@ -305,8 +305,6 @@ namespace timebot.Commands
 
             game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
 
-            game.current_round.call_count = 0;
-
             game.current_round.call_count++;
 
             if (game.current_round.call_count >= game.players.Count())
@@ -398,7 +396,7 @@ namespace timebot.Commands
             game.current_round.pot += (int)game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool;
 
             game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool = 0;
-            
+
             if(game.players.Where(e=>!e.fold && !e.allin).Count() == 0)
             {
                 determine_winner(Context);
