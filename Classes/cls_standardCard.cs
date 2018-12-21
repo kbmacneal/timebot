@@ -86,9 +86,6 @@ namespace timebot.Classes
 
         public static int eval_hand(List<StandardCard> eval)
         {
-            int weight = 0;
-            var temp = 0;
-
             if (ContainsPairOrTwoPair(eval) > 0) return ContainsPairOrTwoPair(eval);
             if (ContainsStraightFlush(eval) > 0) return ContainsStraightFlush(eval);
             if (ContainsThreeOfAKind(eval) > 0) return ContainsThreeOfAKind(eval);
@@ -99,7 +96,7 @@ namespace timebot.Classes
             if (ContainsStraightFlush(eval) > 0) return ContainsStraightFlush(eval);
             if (ContainsRoyalFlush(eval) > 0) return ContainsStraightFlush(eval);
 
-            return weight;
+            return 0;
         }
 
         public static bool contains_all_same_suit(List<StandardCard> eval)
