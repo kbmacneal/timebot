@@ -108,8 +108,13 @@ namespace timebot.Modules.Commands
 
         public class stats
         {
-            public string membershipstring { get; set; }
+            public List<faction_stat> membershipstring { get; set; }
             public string api_key { get; set; }
+        }
+        public class faction_stat
+        {
+            public string name {get;set;}
+            public int count{get;set;}
         }
 
         [Command("getfactioncount")]
@@ -133,9 +138,13 @@ namespace timebot.Modules.Commands
 
             string key = secrets["api_key"];
 
+            List<faction_stat> sender = new List<faction_stat>();
+
+            holder.ToList().ForEach(e=>sender.Add(new faction_stat(){name = e.Key, count = Int32.Parse(e.Value)}));
+
             stats s = new stats
             {
-                membershipstring = string.Join(System.Environment.NewLine, rtn),
+                membershipstring = sender,
                 api_key = key
             };
 
