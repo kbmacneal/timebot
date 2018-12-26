@@ -144,7 +144,7 @@ namespace timebot.Modules.Commands
 
             stats s = new stats
             {
-                membershipstring = sender.OrderBy(e=>e.count).ToList(),
+                membershipstring = sender.OrderByDescending(e=>e.count).ToList(),
                 api_key = key
             };
 
