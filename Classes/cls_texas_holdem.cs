@@ -29,7 +29,7 @@ namespace timebot.Classes
 
         public static Player GetPlayer(ulong ID)
         {
-            var store = new DataStore("player.json");
+            var store = new DataStore("data.json");
 
             // Get employee collection
             var collection = store.GetCollection<Player>();
@@ -43,7 +43,7 @@ namespace timebot.Classes
 
         public async Task Save()
         {
-            var store = new DataStore("player.json");
+            var store = new DataStore("data.json");
 
             // Get employee collection
             var collection = store.GetCollection<Player>();

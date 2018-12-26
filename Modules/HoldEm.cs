@@ -1,20 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Newtonsoft.Json;
 using timebot.Classes;
 
-//TODO: 
-// allin logic
 namespace timebot.Commands
 {
     public class PlayHoldem : ModuleBase<SocketCommandContext>
@@ -468,7 +461,7 @@ namespace timebot.Commands
         }
 
         [Command("holdemleave")]
-        
+        [Summary("Pick up your chips and leave the table.")]
         public async Task HoldemleaveAsync()
         {
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
@@ -483,7 +476,7 @@ namespace timebot.Commands
 
             game.players.Remove(game.players.First(e => e.ID == Context.Message.Author.Id));
 
-            await ReplyAsync(generate_name(Context.Guild.GetUser(Context.Message.Author.Id)) + " has removed themselves from the game", false, null, _opt);
+            await ReplyAsync(generate_name(Context.Guild.GetUser(Context.Message.Author.Id)) + " has been removed from the game", false, null, _opt);
         }
 
         [Command("holdemestop")]
@@ -491,6 +484,8 @@ namespace timebot.Commands
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task HoldemestopAsync()
         {
+            Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value.players.ForEach(async e => await e.Save());
+            
             Program.HoldEm.Remove(Program.HoldEm.First(e => e.Key == Context.Channel.Id).Key);
             ;
 
