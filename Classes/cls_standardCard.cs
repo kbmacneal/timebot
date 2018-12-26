@@ -59,7 +59,7 @@ namespace timebot.Classes
             return value_to_output[value] + suit_to_output[suit];
         }
 
-        public static List<StandardCard> straightDeck()
+        public static Stack<StandardCard> straightDeck()
         {
             List<StandardCard> cards = new List<StandardCard>();
             for (int i = 1; i < 5; i++)
@@ -69,19 +69,21 @@ namespace timebot.Classes
                     cards.Add(new StandardCard(k, i));
                 }
             }
-            return cards;
+            return new Stack<StandardCard>(cards);
         }
 
-        public static Stack<StandardCard> shuffleDeck(List<StandardCard> deck)
+        public static Stack<StandardCard> shuffleDeck(Stack<StandardCard> deck)
         {
-            Stack<StandardCard> shuffled = new Stack<StandardCard>();
-            while (deck.Count > 0)
+            List<StandardCard> temp = deck.ToList();
+            for (int n = deck.Count() - 1; n > 0; --n)
             {
-                var card = deck[Program.rand.Next(deck.Count)];
-                shuffled.Push(card);
-                deck.Remove(card);
+                int k = Program.rand.Next(n + 1);
+                StandardCard i = temp[n];
+                temp[n] = temp[k];
+                temp[k] = i;
             }
-            return shuffled;
+
+            return new Stack<StandardCard>(temp);
         }
 
         public static int eval_hand(List<StandardCard> eval)
