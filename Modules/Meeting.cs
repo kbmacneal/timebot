@@ -70,7 +70,7 @@ namespace timebot.Modules.Commands {
 
             ISocketMessageChannel chnl = Context.Guild.GetChannel (channel_id) as ISocketMessageChannel;
 
-            IMessage message = chnl.GetMessagesAsync (Int32.MaxValue).Flatten ().GetAwaiter ().GetResult ().ToList ().FirstOrDefault (e => e.Content.Split (System.Environment.NewLine) [0] == new string ("ID: " + note.ID.ToString ()));
+            IMessage message = (chnl.GetMessagesAsync (Int32.MaxValue).Flatten ()).FirstOrDefault (e => e.Content.Split (System.Environment.NewLine) [0] == new string ("ID: " + note.ID.ToString ())).GetAwaiter().GetResult();
 
             await message.DeleteAsync ();
 
@@ -96,7 +96,7 @@ namespace timebot.Modules.Commands {
 
             ISocketMessageChannel chnl = Context.Guild.GetChannel (channel_id) as ISocketMessageChannel;
 
-            IMessage message = chnl.GetMessagesAsync (Int32.MaxValue).Flatten ().GetAwaiter ().GetResult ().ToList ().FirstOrDefault (e => e.Content.Split (System.Environment.NewLine) [0] == new string ("ID: " + note.ID.ToString ()));
+            IMessage message = await chnl.GetMessagesAsync (Int32.MaxValue).Flatten ().FirstOrDefault (e => e.Content.Split (System.Environment.NewLine) [0] == new string ("ID: " + note.ID.ToString ()));
 
             await message.DeleteAsync ();
 

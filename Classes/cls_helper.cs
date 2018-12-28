@@ -73,7 +73,7 @@ namespace timebot.Classes
             {
                 if (property != title_property_name)
                 {
-                    embed.AddInlineField(property, Helper.GetPropValue(obj, property));
+                    embed.AddField(property, Helper.GetPropValue(obj, property));
                 }
 
             }

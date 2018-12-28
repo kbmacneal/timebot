@@ -106,7 +106,7 @@ namespace timebot.Modules.Commands {
 
             await Context.Client.SetStatusAsync (UserStatus.Online);
 
-            await Context.Client.SetGameAsync ("World Domination", null, StreamType.NotStreaming);
+            await Context.Client.SetGameAsync ("World Domination", null, ActivityType.Playing);
 
             await ReplyAsync ("Username changed");
         }

@@ -544,7 +544,7 @@ namespace timebot.Modules.Commands
         {
             string date_archived = DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss");
 
-            IEnumerable<IMessage> archive = await Context.Channel.GetMessagesAsync(Int32.MaxValue).Flatten();
+            IEnumerable<IMessage> archive =  (Context.Channel.GetMessagesAsync(Int32.MaxValue).Flatten()).ToEnumerable();
 
             var query =
                 from msg in archive
@@ -581,7 +581,7 @@ namespace timebot.Modules.Commands
                 // SocketTextChannel temp = Context.Guild.GetTextChannel(item.Id);
                 // if(temp == null)continue;
 
-                IEnumerable<IMessage> archive = await item.GetMessagesAsync(Int32.MaxValue).Flatten();
+                IEnumerable<IMessage> archive = item.GetMessagesAsync(Int32.MaxValue).Flatten().ToEnumerable();
 
                 // IEnumerable<IMessage> archive = await Context.Channel.GetMessagesAsync(Int32.MaxValue).Flatten();
 

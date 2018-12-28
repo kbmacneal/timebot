@@ -52,15 +52,6 @@ namespace timebot.Classes
 
         public static async Task ScheduleAction(SocketCommandContext con, Times e)
         {
-
-
-            e = new Times()
-            {
-                CentralStandardTime = DateTime.Now.ToString(),
-                Cities = "test",
-                Countries = "test"
-            };
-
             var t = CreateTimer(con, e);
 
             Instant now = SystemClock.Instance.GetCurrentInstant();

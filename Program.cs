@@ -95,8 +95,8 @@ namespace timebot
         public async Task RegisterCommandAsync()
         {
             _client.MessageReceived += HandleCommandAsync;
-            await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
 
+            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
         }
 
         private async Task HandleCommandAsync(SocketMessage arg)
