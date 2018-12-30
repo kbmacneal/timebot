@@ -38,7 +38,7 @@ namespace timebot.Classes {
                 rtn.Add (e.Countries);
             });
 
-            times.ForEach(e=>Console.WriteLine("Scheduled " + e.ToString()));
+            times.ForEach(e=>Console.WriteLine(e.ToString()));
             Console.WriteLine("Timers Scheduled:");
             Console.WriteLine(timers.Count());
 
