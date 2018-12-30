@@ -38,6 +38,10 @@ namespace timebot.Classes {
                 rtn.Add (e.Countries);
             });
 
+            times.ForEach(e=>Console.WriteLine("Scheduled " + e.ToString()));
+            Console.WriteLine("Timers Scheduled:");
+            Console.WriteLine(timers.Count());
+
             await System.IO.File.WriteAllLinesAsync ("timers_scheduled.txt", times);
             System.IO.File.AppendAllText("timers_scheduled.txt","\nTimers Scheduled:");
             System.IO.File.AppendAllText("timers_scheduled.txt","\n" + timers.Count().ToString());
