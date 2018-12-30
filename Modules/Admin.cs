@@ -632,9 +632,7 @@ namespace timebot.Modules.Commands
                 }
             }
 
-            var paste = await Classes.new_years.schedule_times(Context);
-
-            await ReplyAsync(String.Join(System.Environment.NewLine, paste), false, null, null);
+            await ReplyAsync("Timers created.", false, null, null);
         }
 
     }
