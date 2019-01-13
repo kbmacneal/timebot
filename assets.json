@@ -268,7 +268,7 @@
     "HP": "10",
     "Attack": "WvW, 2d10",
     "Counterattack": "2d8",
-    "Description": "Hostile Takeover assets allow a faction to seize control of damaged and poorly-controlled assets. If a Hostile Takeover does enough damage to destroy a faction, the target is instead reduced to 1 hit point and acquired by the Hostile Takeover’s owning faction.",
+    "Description": "Hostile Takeover assets allow a faction to seize control of damaged and poorly-controlled assets. If a Hostile Takeover does enough damage to destroy an asset, the target is instead reduced to 1 hit point and acquired by the Hostile Takeover’s owning faction.",
     "Type": "Wealth",
     "Tier": "7",
     "TechLevel": "4",
