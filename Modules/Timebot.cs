@@ -708,7 +708,7 @@ namespace timebot.Modules.Commands
             ValueRange cell_resp = cell_request.Execute();
             if(cell_resp.Values == null)
             {
-                rtn = "I'm sorry, I can't do that Dave.";
+                rtn = "I'm sorry Dave, I'm afraid I can't do that.";
                 await ReplyAsync(rtn);
                 return;
             }
@@ -722,7 +722,7 @@ namespace timebot.Modules.Commands
             
             if(cell_val[0][0] == null)
             {
-                rtn = "I'm sorry, I can't do that Dave.";
+                rtn = "I'm sorry Dave, I'm afraid I can't do that.";
                 await ReplyAsync(rtn);
                 return;
             }
