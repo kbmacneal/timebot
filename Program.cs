@@ -252,7 +252,8 @@ namespace timebot
                 "holdemleave",
                 "holdemallin",
                 "summary",
-                "turn"
+                "turn",
+                "turnfactions"
             });
 
             //main diplo server
@@ -308,7 +309,8 @@ namespace timebot
                 "dumpcommands",
                 "summary",
                 "startnewyearscountdown",
-                "turn"
+                "turn",
+                "turnfactions"
             });
 
             //meeting room 1
@@ -361,7 +363,8 @@ namespace timebot
                 "holdemleave",
                 "holdemallin",
                 "summary",
-                "turn"
+                "turn",
+                "turnfactions"
                 
             });
 
@@ -415,7 +418,8 @@ namespace timebot
                 "holdemleave",
                 "holdemallin",
                 "summary",
-                "turn"
+                "turn",
+                "turnfactions"
             });
 
             //Testing Server
@@ -481,7 +485,8 @@ namespace timebot
                 "summary",
                 "dumpserverchat",
                 "startnewyearscountdown",
-                "turn"
+                "turn",
+                "turnfactions"
             });
 
             //AS
@@ -532,7 +537,8 @@ namespace timebot
                 "holdemleave",
                 "holdemallin",
                 "summary",
-                "turn"
+                "turn",
+                "turnfactions"
             });
 
             //HC Event 3 Server
