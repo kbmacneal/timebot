@@ -756,6 +756,62 @@ namespace timebot.Modules.Commands
             
         }
 
+        [Command("turnfactions")]
+        [Summary("Prints a list of the factions in the tracker if you arent sure what to type.")]
+        public async Task TurnFactionsAsync()
+        {
+            ServiceAccountCredential credential;
+            string[] Scopes = { SheetsService.Scope.Spreadsheets };
+            string serviceAccountEmail = "timebot@timebot.iam.gserviceaccount.com";
+            string jsonfile = "Timebot-fc612c6f90aa.json";
+            using (Stream stream = new FileStream(@jsonfile, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                credential = (ServiceAccountCredential)
+                    GoogleCredential.FromStream(stream).UnderlyingCredential;
+
+                var initializer = new ServiceAccountCredential.Initializer(credential.Id)
+                {
+                    User = serviceAccountEmail,
+                    Key = credential.Key,
+                    Scopes = Scopes
+                };
+                credential = new ServiceAccountCredential(initializer);
+            }
+
+            var service = new SheetsService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "timebot",
+            });
+
+            // Define request parameters.
+            String spreadsheetId = "1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ";
+            String range = "\'Faction Turns\'!A2:A14";
+            SpreadsheetsResource.ValuesResource.GetRequest request =
+                    service.Spreadsheets.Values.Get(spreadsheetId, range);
+
+            ValueRange response = request.Execute();
+            IList<IList<Object>> values = response.Values;
+            List<string> factions = new List<string>();
+            if (values != null && values.Count > 0)
+            {
+                for (int i = 0; i < values.Count; i++)
+                {
+                    factions.Add(values[i][0].ToString());
+                }
+
+            }
+            else
+            {
+                throw new KeyNotFoundException();
+            }
+
+            string rtn = String.Join(System.Environment.NewLine,factions);
+
+            await ReplyAsync(rtn);
+            return;  
+        }
+
         private Boolean validate_vote(SocketUser user, vote vote)
         {
             Nacho nacho = new Nacho();
