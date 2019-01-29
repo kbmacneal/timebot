@@ -251,7 +251,8 @@ namespace timebot
                 "holdemfold",
                 "holdemleave",
                 "holdemallin",
-                "summary"
+                "summary",
+                "turn"
             });
 
             //main diplo server
@@ -306,7 +307,8 @@ namespace timebot
                 "holdemallin",
                 "dumpcommands",
                 "summary",
-                "startnewyearscountdown"
+                "startnewyearscountdown",
+                "turn"
             });
 
             //meeting room 1
@@ -358,7 +360,8 @@ namespace timebot
                 "holdemfold",
                 "holdemleave",
                 "holdemallin",
-                "summary"
+                "summary",
+                "turn"
                 
             });
 
@@ -411,27 +414,9 @@ namespace timebot
                 "holdemfold",
                 "holdemleave",
                 "holdemallin",
-                "summary"
+                "summary",
+                "turn"
             });
-
-            //prix server
-            rtn.Add("483670916266590208", new List<string>() {
-                "ping",
-                "xkcd",
-                "startholdem",
-                "joinholdem",
-                "startround",
-                "holdemtable",
-                "holdemchips",
-                "holdempot",
-                "holdembet",
-                "holdemcheck",
-                "holdemcall",
-                "holdemraise",
-                "holdemfold",
-                "holdemleave",
-                "holdemallin",
-                "summary"});
 
             //Testing Server
             rtn.Add("481856668519366656", new List<string>() {
@@ -495,7 +480,8 @@ namespace timebot
                 "dumpcommands",
                 "summary",
                 "dumpserverchat",
-                "startnewyearscountdown"
+                "startnewyearscountdown",
+                "turn"
             });
 
             //AS
@@ -545,15 +531,8 @@ namespace timebot
                 "holdemfold",
                 "holdemleave",
                 "holdemallin",
-                "summary"
-            });
-
-            //Tertiary admin-only server
-            rtn.Add("251229629153673216", new List<string>() {
-                "ping",
-                "commands",
-                "setbotusername",
-                "dumpserverchat"
+                "summary",
+                "turn"
             });
 
             //HC Event 3 Server
