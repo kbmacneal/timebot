@@ -18,7 +18,6 @@
   <None Include="timebot.json" CopyToPublishDirectory="Always" />
   <None Include="tags.json" CopyToPublishDirectory="Always" />
   <None Include="new_years.json" CopyToPublishDirectory="Always" />
-  <None Include="credentials.json" CopyToPublishDirectory="Always" />
   <None Include="Timebot-fc612c6f90aa.json" CopyToPublishDirectory="Always" />
 </ItemGroup>
 
