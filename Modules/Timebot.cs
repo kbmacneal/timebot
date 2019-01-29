@@ -638,7 +638,7 @@ namespace timebot.Modules.Commands
         public async Task TurnAsync(int turn, params string[] faction)
         {
             string faction_name = String.Join(" ", faction);
-
+            string rtn = "";
             ServiceAccountCredential credential;
             string[] Scopes = { SheetsService.Scope.Spreadsheets };
             string serviceAccountEmail = "timebot@timebot.iam.gserviceaccount.com";
@@ -706,6 +706,12 @@ namespace timebot.Modules.Commands
             // Prints the names and majors of students in a sample spreadsheet:
             // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
             ValueRange cell_resp = cell_request.Execute();
+            if(cell_resp.Values == null)
+            {
+                rtn = "I'm sorry, I can't do that Dave.";
+                await ReplyAsync(rtn);
+                return;
+            }
             IList<IList<Object>> cell_val = cell_resp.Values;
 
             if (values == null || values.Count == 0)
@@ -713,7 +719,7 @@ namespace timebot.Modules.Commands
                 throw new KeyNotFoundException();
             }
 
-            string rtn = "";
+            
             if(cell_val[0][0] == null)
             {
                 rtn = "I'm sorry, I can't do that Dave.";
