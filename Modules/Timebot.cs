@@ -713,7 +713,17 @@ namespace timebot.Modules.Commands
                 throw new KeyNotFoundException();
             }
 
-            string rtn = cell_val[0][0].ToString();
+            string rtn = "";
+            if(cell_val[0][0] == null)
+            {
+                rtn = "I'm sorry, I can't do that Dave.";
+                await ReplyAsync(rtn);
+                return;
+            }
+            else
+            {
+                rtn = cell_val[0][0].ToString();
+            }
 
             if(rtn.ToCharArray().Length >=2000)
             {
