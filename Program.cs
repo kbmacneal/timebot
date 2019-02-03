@@ -310,7 +310,8 @@ namespace timebot
                 "summary",
                 "startnewyearscountdown",
                 "turn",
-                "turnfactions"
+                "turnfactions",
+                "josef"
             });
 
             //meeting room 1
@@ -538,7 +539,8 @@ namespace timebot
                 "holdemallin",
                 "summary",
                 "turn",
-                "turnfactions"
+                "turnfactions",
+                "josef"
             });
 
             //HC Event 3 Server
