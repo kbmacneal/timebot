@@ -838,6 +838,13 @@ namespace timebot.Modules.Commands
 
         }
 
+        [Command("josef")]
+        [Summary("A present for the Deathless.")]
+        public async Task JosefAsync()
+        {
+            await ReplyAsync("We have a month, a month is not that long");
+        }
+
     }
 
 }
