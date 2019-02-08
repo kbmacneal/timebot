@@ -846,11 +846,20 @@ namespace timebot.Modules.Commands
         [Summary ("For the geniuses among us")]
         public async Task DoMathsAsync (params string[] input)
         {
-            string formula = string.Join("", input);
-            StringToFormula stf = new StringToFormula ();
-            double result = stf.Eval (formula);
+            try
+            {
+                string formula = string.Join ("", input);
+                StringToFormula stf = new StringToFormula ();
+                double result = stf.Eval (formula);
 
-            await ReplyAsync (result.ToString());
+                await ReplyAsync (result.ToString ());
+            }
+            catch (System.Exception)
+            {
+
+                await ReplyAsync ("Invalid Expression");
+            }
+
         }
     }
 
