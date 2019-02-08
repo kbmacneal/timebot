@@ -253,7 +253,8 @@ namespace timebot
                 "holdemallin",
                 "summary",
                 "turn",
-                "turnfactions"
+                "turnfactions",
+                "domaths"
             });
 
             //main diplo server
@@ -311,7 +312,8 @@ namespace timebot
                 "startnewyearscountdown",
                 "turn",
                 "turnfactions",
-                "josef"
+                "josef",
+                "domaths"
             });
 
             //meeting room 1
@@ -365,7 +367,8 @@ namespace timebot
                 "holdemallin",
                 "summary",
                 "turn",
-                "turnfactions"
+                "turnfactions",
+                "domaths"
                 
             });
 
@@ -420,7 +423,8 @@ namespace timebot
                 "holdemallin",
                 "summary",
                 "turn",
-                "turnfactions"
+                "turnfactions",
+                "domaths"
             });
 
             //Testing Server
@@ -487,7 +491,8 @@ namespace timebot
                 "dumpserverchat",
                 "startnewyearscountdown",
                 "turn",
-                "turnfactions"
+                "turnfactions",
+                "domaths"
             });
 
             //AS
@@ -540,7 +545,8 @@ namespace timebot
                 "summary",
                 "turn",
                 "turnfactions",
-                "josef"
+                "josef",
+                "domaths"
             });
 
             //HC Event 3 Server
@@ -572,7 +578,8 @@ namespace timebot
                 "churchapproved",
                 "summary",
                 "startnewyearscountdown",
-                "setcolors"
+                "setcolors",
+                "domaths"
             });
 
             return rtn;
