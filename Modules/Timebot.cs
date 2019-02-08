@@ -846,19 +846,15 @@ namespace timebot.Modules.Commands
         [Summary ("For the geniuses among us")]
         public async Task DoMathsAsync (params string[] input)
         {
-            try
-            {
-                string formula = string.Join ("", input);
-                StringToFormula stf = new StringToFormula ();
-                double result = stf.Eval (formula);
 
-                await ReplyAsync (result.ToString ());
-            }
-            catch (System.Exception)
-            {
+            var client = new RestClient("http://api.mathjs.org/v4/");
 
-                await ReplyAsync ("Invalid Expression");
-            }
+            var request = new RestRequest();
+            request.AddParameter("expr",string.Join ("", input));
+
+            var response = client.Get(request);
+
+            await ReplyAsync(response.Content.ToString());
 
         }
     }
