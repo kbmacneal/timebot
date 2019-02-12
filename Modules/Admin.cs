@@ -684,18 +684,21 @@ namespace timebot.Modules.Commands
             {
                 await Context.Guild.CreateTextChannelAsync (faction, e => { e.CategoryId = cat.Id; }, null);
 
+            }
+
+            foreach (var faction in official_factions)
+            {
                 var channel = Context.Guild.Channels.FirstOrDefault (e => e.Name == faction);
 
                 var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == faction);
 
                 OverwritePermissions perm = new OverwritePermissions (PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Allow, PermValue.Allow, PermValue.Inherit, PermValue.Deny, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit);
 
-                OverwritePermissions deny = new OverwritePermissions(PermValue.Inherit, PermValue.Inherit, PermValue.Inherit,  PermValue.Deny,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit, PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit, PermValue.Inherit,  PermValue.Inherit, PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit, PermValue.Inherit);
+                OverwritePermissions deny = new OverwritePermissions (PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Deny, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit);
 
                 await channel.AddPermissionOverwriteAsync (role, perm, null);
 
-                await channel.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,deny, null);
-
+                await channel.AddPermissionOverwriteAsync (Context.Guild.EveryoneRole, deny, null);
             }
 
             await ReplyAsync ("Channels created.", false, null, null);
