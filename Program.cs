@@ -492,7 +492,8 @@ namespace timebot
                 "startnewyearscountdown",
                 "turn",
                 "turnfactions",
-                "domaths"
+                "domaths",
+                "createofficialchannels"
             });
 
             //AS
