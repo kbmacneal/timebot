@@ -634,7 +634,8 @@ namespace timebot
                 "turnfactions",
                 "josef",
                 "domaths",
-                "setcolors"
+                "setcolors",
+                "createofficialchannels"
             });
 
             return rtn;

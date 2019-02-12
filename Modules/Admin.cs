@@ -671,6 +671,23 @@ namespace timebot.Modules.Commands
             await ReplyAsync ("Timers created.", false, null, null);
         }
 
+        [Command ("createofficialchannels")]
+        [Summary ("Creates a channel for every faction.")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task CreateOfficialChannelsAsync ()
+        {
+            List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
+
+            foreach (var faction in official_factions)
+            {
+                await Context.Guild.CreateTextChannelAsync(faction, null,null);
+
+
+            }
+
+            await ReplyAsync ("Channels created.", false, null, null);
+        }
+
     }
 
 }
