@@ -582,6 +582,60 @@ namespace timebot
                 "domaths"
             });
 
+            //OHKAN
+            rtn.Add("544692787128565770", new List<string>() {
+                "ping",
+                "commands",
+                "setbotusername",
+                "stopbot",
+                "listfaction",
+                "playbingo",
+                "cactus",
+                "badbot",
+                "churchapproved",
+                "archivechannel",
+                "roll",
+                "tracker",
+                "getfactioncount",
+                "cleanfaclists",
+                "listfaction",
+                "addfaction",
+                "removefaction",
+                "addtorightfaction",
+                "iwanttoplay",
+                "playwinner",
+                "sector",
+                "removeentirefaction",
+                "synth",
+                "savior",
+                "asset",
+                "opensource",
+                "monthlychanges",
+                "virtues",
+                "tag",
+                "rulings",
+                "xkcd",
+                "trilljoke",
+                "startholdem",
+                "joinholdem",
+                "startround",
+                "holdemtable",
+                "holdemchips",
+                "holdempot",
+                "holdembet",
+                "holdemcheck",
+                "holdemcall",
+                "holdemraise",
+                "holdemfold",
+                "holdemleave",
+                "holdemallin",
+                "summary",
+                "turn",
+                "turnfactions",
+                "josef",
+                "domaths"
+            });
+
             return rtn;
         }
     }
