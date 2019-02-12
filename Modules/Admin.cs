@@ -348,7 +348,21 @@ namespace timebot.Modules.Commands
                     return;
                 }
 
-                await user.AddRoleAsync (roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0), null);
+                var adder = roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0);
+                if(adder == null)
+                {
+                    {
+                    await ReplyAsync("Invalid selection.");
+                    return;
+                }
+                }
+                if(adder.Permissions.Administrator)                
+                {
+                    await ReplyAsync("Cannot grant self admin.");
+                    return;
+                }
+
+                await user.AddRoleAsync (adder, null);
 
                 await ReplyAsync ("Role Added");
                 return;
@@ -363,7 +377,7 @@ namespace timebot.Modules.Commands
                         return;
                     }
                 }
-                
+
                 List<SocketRole> roles = Context.Guild.Roles.ToList ();
 
                 SocketGuildUser user = (SocketGuildUser) Context.User;
