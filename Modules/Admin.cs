@@ -349,16 +349,16 @@ namespace timebot.Modules.Commands
                 }
 
                 var adder = roles.FirstOrDefault (e => String.Compare (faction, e.Name, true) == 0);
-                if(adder == null)
+                if (adder == null)
                 {
                     {
-                    await ReplyAsync("Invalid selection.");
-                    return;
+                        await ReplyAsync ("Invalid selection.");
+                        return;
+                    }
                 }
-                }
-                if(adder.Permissions.Administrator)                
+                if (adder.Permissions.Administrator)
                 {
-                    await ReplyAsync("Cannot grant self admin.");
+                    await ReplyAsync ("Cannot grant self admin.");
                     return;
                 }
 
@@ -678,10 +678,23 @@ namespace timebot.Modules.Commands
         {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
+            var cat = await Context.Guild.CreateCategoryChannelAsync ("Official Channels", null, null);
+
             foreach (var faction in official_factions)
             {
-                await Context.Guild.CreateTextChannelAsync(faction, null,null);
+                await Context.Guild.CreateTextChannelAsync (faction, e => { e.CategoryId = cat.Id; }, null);
 
+                var channel = Context.Guild.Channels.FirstOrDefault (e => e.Name == faction);
+
+                var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == faction);
+
+                OverwritePermissions perm = new OverwritePermissions (PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Allow, PermValue.Allow, PermValue.Inherit, PermValue.Deny, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit, PermValue.Inherit);
+
+                OverwritePermissions deny = new OverwritePermissions(PermValue.Inherit, PermValue.Inherit, PermValue.Inherit,  PermValue.Deny,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit, PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit, PermValue.Inherit,  PermValue.Inherit, PermValue.Inherit,  PermValue.Inherit,  PermValue.Inherit, PermValue.Inherit);
+
+                await channel.AddPermissionOverwriteAsync (role, perm, null);
+
+                await channel.AddPermissionOverwriteAsync(Context.Guild.EveryoneRole,deny, null);
 
             }
 
