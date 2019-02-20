@@ -254,7 +254,8 @@ namespace timebot
                 "summary",
                 "turn",
                 "turnfactions",
-                "domaths"
+                "domaths",
+                "wasiyy"
             });
 
             //main diplo server
@@ -313,7 +314,8 @@ namespace timebot
                 "turn",
                 "turnfactions",
                 "josef",
-                "domaths"
+                "domaths",
+                "wasiyy"
             });
 
             //meeting room 1
@@ -368,7 +370,8 @@ namespace timebot
                 "summary",
                 "turn",
                 "turnfactions",
-                "domaths"
+                "domaths",
+                "wasiyy"
                 
             });
 
@@ -424,7 +427,8 @@ namespace timebot
                 "summary",
                 "turn",
                 "turnfactions",
-                "domaths"
+                "domaths",
+                "wasiyy"
             });
 
             //Testing Server
@@ -493,7 +497,8 @@ namespace timebot
                 "turn",
                 "turnfactions",
                 "domaths",
-                "createofficialchannels"
+                "createofficialchannels",
+                "wasiyy"
             });
 
             //AS
@@ -547,7 +552,8 @@ namespace timebot
                 "turn",
                 "turnfactions",
                 "josef",
-                "domaths"
+                "domaths",
+                "wasiyy"
             });
 
             //HC Event 3 Server
@@ -580,7 +586,8 @@ namespace timebot
                 "summary",
                 "startnewyearscountdown",
                 "setcolors",
-                "domaths"
+                "domaths",
+                "wasiyy"
             });
 
             //OHKAN
@@ -636,7 +643,8 @@ namespace timebot
                 "josef",
                 "domaths",
                 "setcolors",
-                "createofficialchannels"
+                "createofficialchannels",
+                "wasiyy"
             });
 
             return rtn;
