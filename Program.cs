@@ -315,7 +315,8 @@ namespace timebot
                 "turnfactions",
                 "josef",
                 "domaths",
-                "wasiyy"
+                "wasiyy",
+                "timetillockin"
             });
 
             //meeting room 1
