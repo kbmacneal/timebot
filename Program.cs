@@ -498,7 +498,8 @@ namespace timebot
                 "turnfactions",
                 "domaths",
                 "createofficialchannels",
-                "wasiyy"
+                "wasiyy",
+                "timetillockin"
             });
 
             //AS
