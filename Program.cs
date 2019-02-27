@@ -557,7 +557,8 @@ namespace timebot
                 "turnfactions",
                 "josef",
                 "domaths",
-                "wasiyy"
+                "wasiyy",
+                "mtgc"
             });
 
             //HC Event 3 Server
