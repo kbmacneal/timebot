@@ -58,6 +58,46 @@ namespace timebot.Modules.Commands
             }
         }
 
+        [Command ("mtga")]
+        [Summary ("Gets the art of an MTG card by name.")]
+        public async Task MtgaAsync (params string[] args)
+        {
+            string cardname = string.Join (" ", args);
+
+            var client = new RestClient ();
+
+            var base_url = "https://api.scryfall.com/cards/named";
+
+            client.BaseUrl = new Uri (base_url);
+
+            var request = new RestRequest ();
+
+            request.AddQueryParameter ("exact", cardname);
+
+            var response = client.Get (request);
+
+            if (response.IsSuccessful)
+            {
+                var value = Classes.MTG.Mtgc.FromJson (response.Content);
+
+                if (value == null)
+                {
+                    await ReplyAsync ("Card Not Found.");
+                    return;
+                }
+                else
+                {
+                    await ReplyAsync (value.ImageUris.ArtCrop.ToString ());
+                    return;
+                }
+            }
+            else
+            {
+                await ReplyAsync ("Card Not Found.");
+                return;
+            }
+        }
+
         public EventHandler<ErrorEventArgs> HandleDeserializationError (object sender, ErrorEventArgs errorArgs)
         {
             var currentError = errorArgs.ToString ();

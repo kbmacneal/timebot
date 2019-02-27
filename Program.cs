@@ -317,7 +317,8 @@ namespace timebot
                 "domaths",
                 "wasiyy",
                 "timetillockin",
-                "mtgc"
+                "mtgc",
+                "mtga"
             });
 
             //meeting room 1
@@ -502,7 +503,8 @@ namespace timebot
                 "createofficialchannels",
                 "wasiyy",
                 "timetillockin",
-                "mtgc"
+                "mtgc",
+                "mtga"
             });
 
             //AS
@@ -558,7 +560,8 @@ namespace timebot
                 "josef",
                 "domaths",
                 "wasiyy",
-                "mtgc"
+                "mtgc",
+                "mtga"
             });
 
             //HC Event 3 Server
