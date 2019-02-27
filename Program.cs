@@ -316,7 +316,8 @@ namespace timebot
                 "josef",
                 "domaths",
                 "wasiyy",
-                "timetillockin"
+                "timetillockin",
+                "mtgc"
             });
 
             //meeting room 1
@@ -500,7 +501,8 @@ namespace timebot
                 "domaths",
                 "createofficialchannels",
                 "wasiyy",
-                "timetillockin"
+                "timetillockin",
+                "mtgc"
             });
 
             //AS
