@@ -926,7 +926,7 @@ namespace timebot.Modules.Commands
             string reason = string.Join (" ", input);
             var token = secrets["post_token"];
 
-            var client = new RestClient ("https://private.highchurch.space/Home/BullyReasons/");
+            var client = new RestClient ("http://localhost:5060/Home/BullyReasons/");
 
             var request = new RestRequest (Method.POST);
 
