@@ -930,7 +930,7 @@ namespace timebot.Modules.Commands
 
             var request = new RestRequest (Method.POST);
 
-            dynamic body = new {reason = reason, token = token};
+            dynamic body = new { reason = reason, token = token };
 
             request.AddParameter ("text/json", JsonConvert.SerializeObject (body), ParameterType.RequestBody);
 
@@ -938,7 +938,19 @@ namespace timebot.Modules.Commands
 
             var response = client.Execute (request);
 
-            await ReplyAsync("Reason Added");
+            await ReplyAsync ("Reason Added");
+        }
+
+        [Command ("goldenrule")]
+        [Summary ("There are many rules in the church. This list them for you.")]
+        public async Task GoldenruleAsync ()
+        {
+            List<string> rtn = new List<string> ();
+            rtn.Add ("```");
+            rtn.Add ("Rule 1: Don't be a dick.");
+            rtn.Add ("Rule 2: See rule one.");
+            rtn.Add ("```");
+            await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
         }
 
         public string GetReadableTimespan (TimeSpan ts)
