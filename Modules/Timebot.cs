@@ -942,7 +942,7 @@ namespace timebot.Modules.Commands
         }
 
         [Command ("goldenrule")]
-        [Summary ("There are many rules in the church. This list them for you.")]
+        [Summary ("There are many rules in the church. This lists them for you.")]
         public async Task GoldenruleAsync ()
         {
             List<string> rtn = new List<string> ();
