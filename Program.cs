@@ -323,7 +323,8 @@ namespace timebot
                 "wasiyy",
                 "timetillockin",
                 "mtgc",
-                "mtga"
+                "mtga",
+                "churchbullies"
             });
 
             //meeting room 1
@@ -509,7 +510,8 @@ namespace timebot
                 "wasiyy",
                 "timetillockin",
                 "mtgc",
-                "mtga"
+                "mtga",
+                "churchbullies"
             });
 
             //AS

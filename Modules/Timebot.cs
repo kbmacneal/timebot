@@ -897,13 +897,46 @@ namespace timebot.Modules.Commands
 
             var response = client.Get (request);
 
-            DateTime lockin_UTC = DateTime.Parse(response.Content.ToString ().Replace("\"",""), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
+            DateTime lockin_UTC = DateTime.Parse (response.Content.ToString ().Replace ("\"", ""), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime ();
 
             TimeSpan span = lockin_UTC - DateTime.UtcNow;
 
-            await ReplyAsync (GetReadableTimespan(span));
+            await ReplyAsync (GetReadableTimespan (span));
+        }
 
+        [Command ("churchbullies")]
+        [Summary ("Returns one of the many reasons the church is a bully.")]
+        public async Task ChurchbulliesAsync ()
+        {
+            var response = await "https://private.highchurch.space"
+                .AppendPathSegment ("Home")
+                .AppendPathSegment ("BullyReasons")
+                .GetAsync ()
+                .ReceiveString ();
 
+            await ReplyAsync (response);
+        }
+
+        [Command ("churchbullies")]
+        [Summary ("Returns one of the many reasons the church is a bully.")]
+        public async Task ChurchbulliesAsync (params string[] input)
+        {
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
+
+            string reason = string.Join (" ", input);
+            var token = secrets["post_token"];
+
+            var client = new RestClient ("http://private.highchurch.space/Home/BullyReasons/");
+
+            var request = new RestRequest (Method.POST);
+
+            dynamic body = new {reason = reason, token = token};
+
+            request.AddParameter ("text/json", JsonConvert.SerializeObject (body), ParameterType.RequestBody);
+
+            request.AddHeader ("Content-Type", "text/json");
+
+            var response = client.Execute (request);
         }
 
         public string GetReadableTimespan (TimeSpan ts)
