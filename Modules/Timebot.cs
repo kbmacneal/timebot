@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Flurl;
+using Flurl.Http;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
@@ -523,17 +525,23 @@ namespace timebot.Modules.Commands
         {
             int comic_number = Program.rand.Next (0, (Program.latest_xkcd + 1));
 
-            string baseurl = string.Concat ("https://xkcd.com/" + comic_number.ToString () + "/info.0.json");
+            // string baseurl = string.Concat ("https://xkcd.com/" + comic_number.ToString () + "/info.0.json");
 
-            var client = new RestClient (baseurl);
+            // var client = new RestClient (baseurl);
 
-            var request = new RestRequest (Method.GET);
+            // var request = new RestRequest (Method.GET);
 
-            var response = client.Execute (request);
+            // var response = client.Execute (request);
 
-            if (!response.IsSuccessful) return;
+            // if (!response.IsSuccessful) return;
 
-            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic> (response.Content);
+            var response = await "https://xkcd.com/"
+                .AppendPathSegment (comic_number)
+                .AppendPathSegment ("info.0.json")
+                .GetAsync ()
+                .ReceiveString ();
+
+            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic> (response);
 
             await ReplyAsync (content.Alt, false, null, null);
 
@@ -545,17 +553,23 @@ namespace timebot.Modules.Commands
         private async Task XkcdAsync (int comic_number)
         {
 
-            string baseurl = string.Concat ("https://xkcd.com/" + comic_number.ToString () + "/info.0.json");
+            // string baseurl = string.Concat ("https://xkcd.com/" + comic_number.ToString () + "/info.0.json");
 
-            var client = new RestClient (baseurl);
+            // var client = new RestClient (baseurl);
 
-            var request = new RestRequest (Method.GET);
+            // var request = new RestRequest (Method.GET);
 
-            var response = client.Execute (request);
+            // var response = client.Execute (request);
 
-            if (!response.IsSuccessful) return;
+            // if (!response.IsSuccessful) return;
 
-            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic> (response.Content);
+            var response = await "https://xkcd.com/"
+                .AppendPathSegment (comic_number)
+                .AppendPathSegment ("info.0.json")
+                .GetAsync ()
+                .ReceiveString ();
+
+            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic> (response);
 
             await ReplyAsync (content.Alt, false, null, null);
 
@@ -601,6 +615,12 @@ namespace timebot.Modules.Commands
             var s = new commands_json ();
             s.api_key = key;
             s.json_text = output;
+
+            // var response = await "http://api.mathjs.org/v4/"
+            //     .AppendPathSegment ("api")
+            //     .AppendPathSegment ("update_commands")
+            //     .WithHeader ("Content-Type", "text/json")
+            //     .PostJsonAsync (JsonConvert.SerializeObject (s));
 
             var request = new RestRequest (Method.POST);
             request.AddParameter ("text/json", JsonConvert.SerializeObject (s), ParameterType.RequestBody);
@@ -847,14 +867,12 @@ namespace timebot.Modules.Commands
         public async Task DoMathsAsync (params string[] input)
         {
 
-            var client = new RestClient ("http://api.mathjs.org/v4/");
+            var response = await "http://api.mathjs.org/v4/"
+                .SetQueryParams (new { expr = input })
+                .GetAsync ()
+                .ReceiveString ();
 
-            var request = new RestRequest ();
-            request.AddParameter ("expr", string.Join ("", input));
-
-            var response = client.Get (request);
-
-            await ReplyAsync (response.Content.ToString ());
+            await ReplyAsync (response);
 
         }
 
@@ -884,6 +902,7 @@ namespace timebot.Modules.Commands
             TimeSpan span = lockin_UTC - DateTime.UtcNow;
 
             await ReplyAsync (GetReadableTimespan(span));
+
 
         }
 

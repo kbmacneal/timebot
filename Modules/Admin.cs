@@ -8,6 +8,8 @@ using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
+using Flurl;
+using Flurl.Http;
 using Newtonsoft.Json;
 using NodaTime;
 using RestSharp;
@@ -160,6 +162,7 @@ namespace timebot.Modules.Commands
             request.AddHeader ("Content-Type", "text/json");
 
             var response = client.Execute (request);
+
 
             await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
         }

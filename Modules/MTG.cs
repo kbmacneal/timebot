@@ -9,9 +9,10 @@ using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
+using Flurl;
+using Flurl.Http;
 using Newtonsoft.Json;
 using NodaTime;
-using RestSharp;
 using timebot.Classes;
 
 namespace timebot.Modules.Commands
@@ -24,36 +25,22 @@ namespace timebot.Modules.Commands
         {
             string cardname = string.Join (" ", args);
 
-            var client = new RestClient ();
+            var response = await "https://api.scryfall.com/cards/"
+                .AppendPathSegment ("named")
+                .SetQueryParams (new { exact = cardname })
+                .GetAsync ()
+                .ReceiveString ();
 
-            var base_url = "https://api.scryfall.com/cards/named";
+            var value = Classes.MTG.Mtgc.FromJson (response);
 
-            client.BaseUrl = new Uri (base_url);
-
-            var request = new RestRequest ();
-
-            request.AddQueryParameter ("exact", cardname);
-
-            var response = client.Get (request);
-
-            if (response.IsSuccessful)
+            if (value == null)
             {
-                var value = Classes.MTG.Mtgc.FromJson (response.Content);
-
-                if (value == null)
-                {
-                    await ReplyAsync ("Card Not Found.");
-                    return;
-                }
-                else
-                {
-                    await ReplyAsync (value.ImageUris.Large.ToString ());
-                    return;
-                }
+                await ReplyAsync ("Card Not Found.");
+                return;
             }
             else
             {
-                await ReplyAsync ("Card Not Found.");
+                await ReplyAsync (value.ImageUris.Large.ToString ());
                 return;
             }
         }
@@ -64,36 +51,22 @@ namespace timebot.Modules.Commands
         {
             string cardname = string.Join (" ", args);
 
-            var client = new RestClient ();
+            var response = await "https://api.scryfall.com/cards/"
+                .AppendPathSegment ("named")
+                .SetQueryParams (new { exact = cardname })
+                .GetAsync ()
+                .ReceiveString ();
 
-            var base_url = "https://api.scryfall.com/cards/named";
+            var value = Classes.MTG.Mtgc.FromJson (response);
 
-            client.BaseUrl = new Uri (base_url);
-
-            var request = new RestRequest ();
-
-            request.AddQueryParameter ("exact", cardname);
-
-            var response = client.Get (request);
-
-            if (response.IsSuccessful)
+            if (value == null)
             {
-                var value = Classes.MTG.Mtgc.FromJson (response.Content);
-
-                if (value == null)
-                {
-                    await ReplyAsync ("Card Not Found.");
-                    return;
-                }
-                else
-                {
-                    await ReplyAsync (value.ImageUris.ArtCrop.ToString ());
-                    return;
-                }
+                await ReplyAsync ("Card Not Found.");
+                return;
             }
             else
             {
-                await ReplyAsync ("Card Not Found.");
+                await ReplyAsync (value.ImageUris.ArtCrop.ToString ());
                 return;
             }
         }

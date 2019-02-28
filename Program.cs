@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Flurl;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using timebot.Classes;
-using RestSharp;
+using Flurl.Http;
 
 namespace timebot
 {
@@ -32,24 +33,28 @@ namespace timebot
         public static CommandService _commands = new CommandService();
         public static IServiceProvider _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
         public static string secrets_file = "timebot.json";
-        public static int latest_xkcd = get_latest_xkcd();
+        public static int latest_xkcd = get_latest_xkcd().GetAwaiter().GetResult();
         public static readonly string[] prefixes = {
             "tb!"
         };
 
-        private static int get_latest_xkcd()
+        private async static Task<int> get_latest_xkcd()
         {
-            string baseurl = string.Concat("https://xkcd.com/info.0.json");
+            // string baseurl = string.Concat("https://xkcd.com/info.0.json");
 
-            var client = new RestClient(baseurl);
+            // var client = new RestClient(baseurl);
 
-            var request = new RestRequest(Method.GET);
+            // var request = new RestRequest(Method.GET);
 
-            var response = client.Execute(request);
+            // var response = client.Execute(request);
 
-            if (!response.IsSuccessful) return 0;
+            // if (!response.IsSuccessful) return 0;
 
-            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.Content);
+            var response = "https://xkcd.com/info.0.json"
+                .GetAsync()
+                .ReceiveString ();
+
+            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.GetAwaiter().GetResult());
 
             return content.Num;
         }
