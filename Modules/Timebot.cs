@@ -937,6 +937,8 @@ namespace timebot.Modules.Commands
             request.AddHeader ("Content-Type", "text/json");
 
             var response = client.Execute (request);
+
+            await ReplyAsync("Reason Added");
         }
 
         public string GetReadableTimespan (TimeSpan ts)
