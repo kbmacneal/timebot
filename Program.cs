@@ -569,7 +569,10 @@ namespace timebot
                 "domaths",
                 "wasiyy",
                 "mtgc",
-                "mtga"
+                "mtga",
+                "churchbullies",
+                "goldenrule"
+                
             });
 
             //HC Event 3 Server
