@@ -676,7 +676,8 @@ namespace timebot
                 "addfaction",
                 "removefaction",
                 "summary",
-                "setcolors"
+                "setcolors",
+                "createofficialchannels"
             });
 
             return rtn;
