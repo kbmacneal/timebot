@@ -849,7 +849,7 @@ namespace timebot.Modules.Commands
                         Attack = values[i][8].ToString (),
                         Counter = values[i][9].ToString (),
                         Notes = values[i][10].ToString (),
-                        Location = values[i][11].ToString (),
+                        Location = values[i][11].ToString ().Split("/")[2].ToString()
 
                         };
                         row_index = i;
@@ -872,15 +872,26 @@ namespace timebot.Modules.Commands
 
             rtn.Add ("Assets for: " + faction_name);
             rtn.Add("```");
-            rtn.Add("Name | HP | Max HP | Attack Dice | Counter Dice | Location");
-            rtn.Add("-----------");
+            var header = new string[6]{"Name", "HP", "Max HP", "Attack Dice", "Counter Dice", "Location"};
 
-            foreach (var asset in assets)
-            {
-                var adder = string.Join (" | ", new List<string> () { asset.Asset, asset.HP, asset.MaxHP, asset.Attack, asset.Counter, asset.Location });
+            
 
-                rtn.Add (adder);
-            }
+            var table = Classes.TableParser.ToStringTable(assets.Select(asset => new {asset.Asset, asset.HP, asset.MaxHP, asset.Attack, asset.Counter, asset.Location}),header, a=>a.Asset, a=>a.HP, a=>a.MaxHP, a=>a.Attack, a=>a.Counter, a=>a.Location);
+
+            rtn.Add(table);
+
+            // rtn.Add(Classes.TableParser.PrintRow(header));
+            // rtn.Add(Classes.TableParser.PrintLine());
+            // rtn.Add("Name | HP | Max HP | Attack Dice | Counter Dice | Location");
+
+            // assets.ForEach(asset=>rtn.Add(Classes.TableParser.PrintRow(new string[6]{asset.Asset, asset.HP, asset.MaxHP, asset.Attack, asset.Counter, asset.Location})));
+
+            // foreach (var asset in assets)
+            // {
+            //     var adder = string.Join (" | ", new List<string> () { asset.Asset, asset.HP, asset.MaxHP, asset.Attack, asset.Counter, asset.Location });l
+
+            //     rtn.Add (adder);
+            // }
 
             rtn.Add("```");
 
