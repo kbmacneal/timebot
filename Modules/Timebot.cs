@@ -779,6 +779,115 @@ namespace timebot.Modules.Commands
 
         }
 
+        [Command ("assets")]
+        [Summary ("Dumps a list of faction assets and their locations into the chat.")]
+        public async Task AssetsAsync (params string[] faction)
+        {
+            string faction_name = String.Join (" ", faction);
+
+            List<string> rtn = new List<string> ();
+
+            ServiceAccountCredential credential;
+
+            string[] Scopes = { SheetsService.Scope.Spreadsheets };
+
+            string serviceAccountEmail = "timebot@timebot.iam.gserviceaccount.com";
+
+            string jsonfile = "Timebot-fc612c6f90aa.json";
+
+            using (Stream stream = new FileStream (@jsonfile, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                credential = (ServiceAccountCredential)
+                GoogleCredential.FromStream (stream).UnderlyingCredential;
+
+                var initializer = new ServiceAccountCredential.Initializer (credential.Id)
+                {
+                    User = serviceAccountEmail,
+                    Key = credential.Key,
+                    Scopes = Scopes
+                };
+                credential = new ServiceAccountCredential (initializer);
+            }
+
+            var service = new SheetsService (new BaseClientService.Initializer ()
+            {
+                HttpClientInitializer = credential,
+                    ApplicationName = "timebot",
+            });
+
+            // Define request parameters.
+            String spreadsheetId = "1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ";
+
+            String range = "AssetTracker!A2:L";
+
+            SpreadsheetsResource.ValuesResource.GetRequest request =
+                service.Spreadsheets.Values.Get (spreadsheetId, range);
+
+            ValueRange response = request.Execute ();
+
+            List<Classes.Assets.TrackerAsset> assets = new List<Classes.Assets.TrackerAsset> ();
+
+            IList<IList<Object>> values = response.Values;
+
+            int row_index = -1;
+
+            if (values != null && values.Count > 0)
+            {
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (values[i][0].ToString () == faction_name)
+                    {
+                        Classes.Assets.TrackerAsset asset = new Classes.Assets.TrackerAsset ()
+                        {
+                        Owner = values[i][0].ToString (),
+                        Asset = values[i][1].ToString (),
+                        Stealthed = values[i][3].ToString (),
+                        Stat = values[i][4].ToString (),
+                        HP = values[i][5].ToString (),
+                        MaxHP = values[i][6].ToString (),
+                        Type = values[i][7].ToString (),
+                        Attack = values[i][8].ToString (),
+                        Counter = values[i][9].ToString (),
+                        Notes = values[i][10].ToString (),
+                        Location = values[i][11].ToString (),
+
+                        };
+                        row_index = i;
+
+                        assets.Add (asset);
+
+                    }
+                }
+
+                if (row_index == -1)
+                {
+                    throw new KeyNotFoundException ();
+                }
+
+            }
+            else
+            {
+                throw new KeyNotFoundException ();
+            }
+
+            rtn.Add ("Assets for: " + faction_name);
+            rtn.Add("```");
+            rtn.Add("Name | HP | Max HP | Attack Dice | Counter Dice | Location");
+            rtn.Add("-----------");
+
+            foreach (var asset in assets)
+            {
+                var adder = string.Join (" | ", new List<string> () { asset.Asset, asset.HP, asset.MaxHP, asset.Attack, asset.Counter, asset.Location });
+
+                rtn.Add (adder);
+            }
+
+            rtn.Add("```");
+
+            await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
+
+        }
+
         [Command ("turnfactions")]
         [Summary ("Prints a list of the factions in the tracker if you arent sure what to type.")]
         public async Task TurnFactionsAsync ()

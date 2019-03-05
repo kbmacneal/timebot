@@ -325,7 +325,8 @@ namespace timebot
                 "mtgc",
                 "mtga",
                 "churchbullies",
-                "goldenrule"
+                "goldenrule",
+                "assets"
             });
 
             //meeting room 1
