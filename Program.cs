@@ -512,7 +512,8 @@ namespace timebot
                 "timetillockin",
                 "mtgc",
                 "mtga",
-                "churchbullies"
+                "churchbullies",
+                "assets"
             });
 
             //AS

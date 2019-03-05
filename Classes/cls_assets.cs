@@ -9,6 +9,21 @@ namespace timebot.Classes.Assets
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    public class TrackerAsset
+    {
+        public string Owner {get;set;}
+        public string Asset {get;set;}
+        public string Stealthed {get;set;}
+        public string Stat {get;set;}
+        public string HP {get;set;}
+        public string MaxHP  {get;set;}
+        public string Type  {get;set;}
+        public string Attack  {get;set;}
+        public string Counter  {get;set;}
+        public string Notes  {get;set;}
+        public string Location  {get;set;}
+    }
+
     public partial class Asset
     {
         [JsonProperty("Name")]
