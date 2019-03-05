@@ -667,6 +667,20 @@ namespace timebot
                 "wasiyy"
             });
 
+            //HC Event 4 Server
+            rtn.Add ("551527358876876810", new List<string> ()
+            {
+                "ping",
+                "commands",
+                "setbotusername",
+                "listfaction",
+                "addfaction",
+                "removefaction",
+                "summary",
+                "setcolors",
+                "createofficialchannels"
+            });
+
             return rtn;
         }
     }
