@@ -845,6 +845,7 @@ namespace timebot.Modules.Commands
                         Stat = values[i][4].ToString (),
                         HP = values[i][5].ToString (),
                         MaxHP = values[i][6].ToString (),
+                        CombinedHP = values[i][5].ToString () + "/" + values[i][6].ToString (),
                         Type = values[i][7].ToString (),
                         Attack = values[i][8].ToString (),
                         Counter = values[i][9].ToString (),
@@ -872,11 +873,11 @@ namespace timebot.Modules.Commands
 
             rtn.Add ("Assets for: " + faction_name);
             rtn.Add("```");
-            var header = new string[6]{"Name", "HP", "Max HP", "Attack Dice", "Counter Dice", "Location"};
+            var header = new string[5]{"Name", "HP", "Attack Dice", "Counter Dice", "Location"};
 
             
 
-            var table = Classes.TableParser.ToStringTable(assets.Select(asset => new {asset.Asset, asset.HP, asset.MaxHP, asset.Attack, asset.Counter, asset.Location}),header, a=>a.Asset, a=>a.HP, a=>a.MaxHP, a=>a.Attack, a=>a.Counter, a=>a.Location);
+            var table = Classes.TableParser.ToStringTable(assets.Select(asset => new {asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location}),header, a=>a.Asset, a=>a.CombinedHP, a=>a.Attack, a=>a.Counter, a=>a.Location);
 
             rtn.Add(table);
 

@@ -17,6 +17,7 @@ namespace timebot.Classes.Assets
         public string Stat {get;set;}
         public string HP {get;set;}
         public string MaxHP  {get;set;}
+        public string CombinedHP  {get;set;}
         public string Type  {get;set;}
         public string Attack  {get;set;}
         public string Counter  {get;set;}
