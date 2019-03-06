@@ -643,36 +643,36 @@ namespace timebot.Modules.Commands
             System.IO.File.Delete (path + ".zip");
         }
 
-        [Command ("startnewyearscountdown")]
-        [Summary ("Starts the around-the-world new years countdown")]
-        [RequireUserPermission (GuildPermission.Administrator)]
-        public async Task StartnewyearscountdownAsync ()
-        {
-            var event_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Times>> (System.IO.File.ReadAllText ("new_years.json"));
+        // [Command ("startnewyearscountdown")]
+        // [Summary ("Starts the around-the-world new years countdown")]
+        // [RequireUserPermission (GuildPermission.Administrator)]
+        // public async Task StartnewyearscountdownAsync ()
+        // {
+        //     var event_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Times>> (System.IO.File.ReadAllText ("new_years.json"));
 
-            int int_test = 0;
+        //     int int_test = 0;
 
-            foreach (var time in event_list)
-            {
-                Instant now = SystemClock.Instance.GetCurrentInstant ();
+        //     foreach (var time in event_list)
+        //     {
+        //         Instant now = SystemClock.Instance.GetCurrentInstant ();
 
-                ZonedDateTime now_zoned = new ZonedDateTime (now, DateTimeZoneProviders.Tzdb.GetSystemDefault ());
+        //         ZonedDateTime now_zoned = new ZonedDateTime (now, DateTimeZoneProviders.Tzdb.GetSystemDefault ());
 
-                NodaTime.ZonedDateTime dt = new NodaTime.ZonedDateTime (Instant.FromDateTimeOffset (new DateTimeOffset (DateTime.Parse (time.CentralStandardTime))), NodaTime.DateTimeZone.ForOffset (NodaTime.Offset.FromHours (-6)), NodaTime.CalendarSystem.Gregorian);
+        //         NodaTime.ZonedDateTime dt = new NodaTime.ZonedDateTime (Instant.FromDateTimeOffset (new DateTimeOffset (DateTime.Parse (time.CentralStandardTime))), NodaTime.DateTimeZone.ForOffset (NodaTime.Offset.FromHours (-6)), NodaTime.CalendarSystem.Gregorian);
 
-                Duration interval = dt - now_zoned;
+        //         Duration interval = dt - now_zoned;
 
-                long long_interval = Convert.ToInt64 (interval.TotalMilliseconds);
+        //         long long_interval = Convert.ToInt64 (interval.TotalMilliseconds);
 
-                if (!(Int32.TryParse (long_interval.ToString (), out int_test)))
-                {
-                    await ReplyAsync ("Cannot schedule now, number of milliseconds until timer conclusion too large.");
-                    return;
-                }
-            }
+        //         if (!(Int32.TryParse (long_interval.ToString (), out int_test)))
+        //         {
+        //             await ReplyAsync ("Cannot schedule now, number of milliseconds until timer conclusion too large.");
+        //             return;
+        //         }
+        //     }
 
-            await ReplyAsync ("Timers created.", false, null, null);
-        }
+        //     await ReplyAsync ("Timers created.", false, null, null);
+        // }
 
         [Command ("createofficialchannels")]
         [Summary ("Creates a channel for every faction.")]
