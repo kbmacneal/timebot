@@ -628,7 +628,7 @@ namespace timebot.Modules.Commands
                     from msg in archive
                 select new { msg.Author.Username, msg.Author.Discriminator, msg.Content, msg.CreatedAt, msg.EditedTimestamp, msg.Id, msg.Source, msg.Timestamp, msg.Attachments };
 
-                string serialized = JsonConvert.SerializeObject (query);
+                string serialized = JsonConvert.SerializeObject (query, Formatting.Indented);
 
                 string filepath = System.IO.Path.Join (path, item.Name + " " + date_archived + ".json");
 
