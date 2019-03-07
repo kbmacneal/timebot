@@ -23,10 +23,6 @@ namespace timebot
 
         public static Random rand = new Random();
 
-        public static List<Classes.Assets.Asset> assets = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Classes.Assets.Asset>>(System.IO.File.ReadAllText("assets.json"));
-
-        public static List<Classes.Tags.Tag> tags = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Classes.Tags.Tag>>(System.IO.File.ReadAllText("tags.json"));
-
         public static Dictionary<ulong,Classes.HoldEm> HoldEm = new Dictionary<ulong, Classes.HoldEm>();
 
         public static DiscordSocketClient _client = new DiscordSocketClient();

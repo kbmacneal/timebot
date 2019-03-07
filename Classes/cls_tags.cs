@@ -2,41 +2,44 @@
 
 namespace timebot.Classes.Tags
 {
-    using System;
     using System.Collections.Generic;
-
     using System.Globalization;
-    using Newtonsoft.Json;
+    using System;
     using Newtonsoft.Json.Converters;
+    using Newtonsoft.Json;
+    using Npgsql;
+    using System.Linq;
 
-    public partial class Tag
+    public class Tag
     {
-        [JsonProperty("Tag")]
         public string Name { get; set; }
-
-        [JsonProperty("Description")]
         public string Description { get; set; }
-    }
 
-    public partial class Tag
-    {
-        public static Tag[] FromJson(string json) => JsonConvert.DeserializeObject<Tag[]>(json, Converter.Settings);
-    }
-
-    public static class Serialize
-    {
-        public static string ToJson(this Tag[] self) => JsonConvert.SerializeObject(self, Converter.Settings);
-    }
-
-    internal static class Converter
-    {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        public static List<Tag> GetTags ()
         {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters = {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
-        };
+            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
+
+            using (var conn = new NpgsqlConnection (connectionstring))
+            {
+                List<Tag> rtn = new List<Tag> ();
+
+                conn.Open ();
+                // Retrieve all rows
+                using (var cmd = new NpgsqlCommand ("SELECT * FROM tags;", conn))
+                using (var reader = cmd.ExecuteReader ())
+
+                while (reader.Read ())
+                {
+                    Tag temp = new Tag ();
+                    for (int i = 0; i < reader.GetColumnSchema ().Count (); i++)
+                    {
+                        Helper.SetPropValue (temp, reader.GetColumnSchema () [i].ColumnName, reader.GetValue (i).ToString ());
+                    }
+                    rtn.Add (temp);
+                }
+
+                return rtn;
+            }
+        }
     }
 }

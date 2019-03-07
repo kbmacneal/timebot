@@ -364,13 +364,13 @@ namespace timebot.Modules.Commands
             TextInfo UsaTextInfo = new CultureInfo ("en - US", false).TextInfo;
             tag_name = UsaTextInfo.ToTitleCase (tag_name);
 
-            if (Program.tags.FirstOrDefault (e => e.Name == tag_name) == null)
+            if (Classes.Assets.Asset.GetAssets().FirstOrDefault (e => e.Name == tag_name) == null)
             {
                 await ReplyAsync ("Invalid tag selection.");
                 return;
             }
 
-            Embed emb = Helper.ObjToEmbed (Program.tags.FirstOrDefault (e => e.Name == tag_name), "Name");
+            Embed emb = Helper.ObjToEmbed (Classes.Tags.Tag.GetTags().FirstOrDefault (e => e.Name == tag_name), "Name");
 
             await ReplyAsync ("", false, emb, null);
         }
@@ -384,13 +384,13 @@ namespace timebot.Modules.Commands
             TextInfo UsaTextInfo = new CultureInfo ("en", false).TextInfo;
             asset_name = UsaTextInfo.ToTitleCase (asset_name);
 
-            if (Program.assets.FirstOrDefault (e => e.Name == asset_name) == null)
+            if (Classes.Assets.Asset.GetAssets().FirstOrDefault (e => e.Name == asset_name) == null)
             {
                 await ReplyAsync ("Invalid asset selection.");
                 return;
             }
 
-            Embed emb = Helper.ObjToEmbed (Program.assets.FirstOrDefault (e => e.Name == asset_name), "Name");
+            Embed emb = Helper.ObjToEmbed (Classes.Assets.Asset.GetAssets().FirstOrDefault (e => e.Name == asset_name), "Name");
 
             await ReplyAsync ("", false, emb, null);
         }

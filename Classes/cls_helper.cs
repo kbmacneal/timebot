@@ -9,6 +9,7 @@ using Discord.WebSocket;
 using System.Linq;
 using Westwind.Utilities;
 using System.Security.Cryptography;
+using System.Reflection;
 
 namespace timebot.Classes
 {
@@ -79,6 +80,27 @@ namespace timebot.Classes
             }
 
             return embed.Build();
+        }
+
+        public static object SetPropValue(object src, string propName, object value)
+        {
+            // src.GetType().GetProperty(propName).SetValue(src, value);
+
+
+            PropertyInfo info = src.GetType().GetProperty(propName);
+            
+            try
+            {
+                value = System.Convert.ChangeType(value,
+                    info.PropertyType);
+            }
+            catch (InvalidCastException)
+            {
+                throw;
+            }
+            info.SetValue(src, value, null);
+
+            return src;
         }
 
         public static string calc_salt()
