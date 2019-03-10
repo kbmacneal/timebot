@@ -44,7 +44,7 @@ namespace timebot.Classes {
             store.Dispose ();
         }
 
-        public static async Task<notice> get_notice (int id) {
+        public static notice get_notice (int id) {
             var store = new DataStore ("data.json");
 
             // Get employee collection
@@ -57,7 +57,7 @@ namespace timebot.Classes {
             return note;
         }
 
-        public static async Task<List<notice>> get_notice () {
+        public static List<notice> get_notice () {
             var store = new DataStore ("data.json");
 
             // Get employee collection
@@ -76,7 +76,7 @@ namespace timebot.Classes {
             // Get employee collection
             var collection = store.GetCollection<notice> ();
 
-            notice note = get_notice (id).GetAwaiter ().GetResult ();
+            notice note = get_notice (id);
 
             if (note.acknowledged == null) {
                 note.acknowledged = new List<string> ();
@@ -88,7 +88,7 @@ namespace timebot.Classes {
             source.acknowledged = note.acknowledged;
             collection.UpdateOneAsync (e => e.ID == note.ID, source as object);
 
-            note = get_notice (note.ID).GetAwaiter ().GetResult ();
+            note = get_notice (note.ID);
 
             string check = "<:white_check_mark:477266462109728770>";
 
@@ -105,7 +105,7 @@ namespace timebot.Classes {
             // Get employee collection
             var collection = store.GetCollection<notice> ();
 
-            notice note = get_notice (id).GetAwaiter ().GetResult ();
+            notice note = get_notice (id);
 
             if (note.attendees == null) {
                 note.attendees = new List<string> ();
@@ -117,7 +117,7 @@ namespace timebot.Classes {
             source.attendees = note.attendees;
             collection.UpdateOneAsync (e => e.ID == note.ID, source as object);
 
-            note = get_notice (note.ID).GetAwaiter ().GetResult ();
+            note = get_notice (note.ID);
 
             List<string> edited = note.text.Split (System.Environment.NewLine).ToList ();
 
@@ -137,7 +137,7 @@ namespace timebot.Classes {
             // Get employee collection
             var collection = store.GetCollection<notice> ();
 
-            notice note = get_notice (id).GetAwaiter ().GetResult ();
+            notice note = get_notice (id);
 
             note.text = text;
 
@@ -147,7 +147,7 @@ namespace timebot.Classes {
 
         }
 
-        public static async Task<DateTime> gen_datetime (string datetime) {
+        public static DateTime gen_datetime (string datetime) {
             string[] split = datetime.Split (" ");
 
             string[] date = split[0].Split ("/");
@@ -166,7 +166,7 @@ namespace timebot.Classes {
 
             DateTime test = DateTime.MinValue;
 
-            DateTime adjusted = gen_datetime (datetime).GetAwaiter ().GetResult ();
+            DateTime adjusted = gen_datetime (datetime);
 
             if (!(DateTime.TryParse (datetime, out test))) {
                 return string.Empty;

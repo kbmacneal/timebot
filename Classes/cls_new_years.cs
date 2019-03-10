@@ -32,8 +32,8 @@ namespace timebot.Classes {
 
             List<string> times = new List<string> ();
 
-            event_list.ForEach (async e => {
-                await ScheduleAction (context, e);
+            event_list.ForEach (e => {
+                ScheduleAction (context, e);
                 times.Add ("Scheduled " + e.ToString());
                 rtn.Add (e.Countries);
             });
@@ -58,7 +58,7 @@ namespace timebot.Classes {
             return tmr;
         }
 
-        public static async Task ScheduleAction (SocketCommandContext con, Times e) {
+        public static void ScheduleAction (SocketCommandContext con, Times e) {
             var t = CreateTimer (con, e);
 
             Instant now = SystemClock.Instance.GetCurrentInstant ();

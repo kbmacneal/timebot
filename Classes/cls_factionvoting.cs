@@ -23,14 +23,14 @@ namespace timebot.Classes {
         public ulong faction_id { get; set; }
     }
     public class factionvoting {
-        public async Task<List<vote>> getvote (string username, ulong discriminator) {
+        public List<vote> getvote (string username, ulong discriminator) {
             List<vote> rtn = new List<vote> ();
 
             var store = new DataStore ("data.json");
 
             return store.GetCollection<vote> ().AsQueryable ().Where (e => e.name == username && e.discriminator == discriminator).ToList ();
         }
-        public async Task<List<vote>> getvote (int ID) {
+        public List<vote> getvote (int ID) {
             List<vote> rtn = new List<vote> ();
 
             var store = new DataStore ("data.json");
@@ -38,7 +38,7 @@ namespace timebot.Classes {
             return store.GetCollection<vote> ().AsQueryable ().Where (e => e.ID == ID).ToList ();
         }
 
-        public async Task<List<vote>> getvote (string faction) {
+        public List<vote> getvote (string faction) {
             List<vote> rtn = new List<vote> ();
 
             var store = new DataStore ("data.json");
@@ -46,7 +46,7 @@ namespace timebot.Classes {
             return store.GetCollection<vote> ().AsQueryable ().Where (e => e.faction_name == faction).ToList ();
         }
 
-        public async Task<List<vote>> getvote () {
+        public List<vote> getvote () {
             List<vote> rtn = new List<vote> ();
 
             var store = new DataStore ("data.json");

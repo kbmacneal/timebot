@@ -9,7 +9,7 @@ using RestSharp;
 
 namespace timebot.Classes {
     public static class SwnbotResponseGet {
-        public static async Task<SwnbotResponse> GetResponse (ulong ID) {
+        public static SwnbotResponse GetResponse (ulong ID) {
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
             string key = secrets["token"];

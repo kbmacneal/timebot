@@ -48,7 +48,7 @@ namespace timebot.Modules.Commands
         {
             Boolean rtn = false;
 
-            Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse (id).GetAwaiter ().GetResult ();
+            Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse (id);
 
             if (response == null) { rtn = true; }
             else
@@ -64,11 +64,11 @@ namespace timebot.Modules.Commands
 
         }
 
-        private static async Task<List<string>> faction_check (ulong id)
+        private static List<string> faction_check (ulong id)
         {
             List<string> rtn = null;
 
-            Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse (id).GetAwaiter ().GetResult ();
+            Classes.SwnbotResponse response = Classes.SwnbotResponseGet.GetResponse (id);
 
             if (response == null) { rtn = null; }
             else
@@ -195,7 +195,7 @@ namespace timebot.Modules.Commands
             {
                 if (user.IsBot) continue;
 
-                List<string> member_of = faction_check (user.Id).GetAwaiter ().GetResult ();
+                List<string> member_of = faction_check (user.Id);
 
                 if (member_of == null) continue;
 
@@ -232,7 +232,7 @@ namespace timebot.Modules.Commands
 
             if (user.IsBot) return;
 
-            List<string> member_of = faction_check (user.Id).GetAwaiter ().GetResult ();
+            List<string> member_of = faction_check (user.Id);
 
             if (member_of == null) return;
 

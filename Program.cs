@@ -29,12 +29,12 @@ namespace timebot
         public static CommandService _commands = new CommandService();
         public static IServiceProvider _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
         public static string secrets_file = "timebot.json";
-        public static int latest_xkcd = get_latest_xkcd().GetAwaiter().GetResult();
+        public static int latest_xkcd = get_latest_xkcd();
         public static readonly string[] prefixes = {
             "tb!"
         };
 
-        private async static Task<int> get_latest_xkcd()
+        private static int get_latest_xkcd()
         {
             // string baseurl = string.Concat("https://xkcd.com/info.0.json");
 
