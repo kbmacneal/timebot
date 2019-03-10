@@ -364,13 +364,13 @@ namespace timebot.Modules.Commands
             TextInfo UsaTextInfo = new CultureInfo ("en - US", false).TextInfo;
             tag_name = UsaTextInfo.ToTitleCase (tag_name);
 
-            if (Classes.Assets.Asset.GetAssets().FirstOrDefault (e => e.Name == tag_name) == null)
+            if (Classes.Assets.Asset.GetAssets ().FirstOrDefault (e => e.Name == tag_name) == null)
             {
                 await ReplyAsync ("Invalid tag selection.");
                 return;
             }
 
-            Embed emb = Helper.ObjToEmbed (Classes.Tags.Tag.GetTags().FirstOrDefault (e => e.Name == tag_name), "Name");
+            Embed emb = Helper.ObjToEmbed (Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name == tag_name), "Name");
 
             await ReplyAsync ("", false, emb, null);
         }
@@ -384,13 +384,13 @@ namespace timebot.Modules.Commands
             TextInfo UsaTextInfo = new CultureInfo ("en", false).TextInfo;
             asset_name = UsaTextInfo.ToTitleCase (asset_name);
 
-            if (Classes.Assets.Asset.GetAssets().FirstOrDefault (e => e.Name == asset_name) == null)
+            if (Classes.Assets.Asset.GetAssets ().FirstOrDefault (e => e.Name == asset_name) == null)
             {
                 await ReplyAsync ("Invalid asset selection.");
                 return;
             }
 
-            Embed emb = Helper.ObjToEmbed (Classes.Assets.Asset.GetAssets().FirstOrDefault (e => e.Name == asset_name), "Name");
+            Embed emb = Helper.ObjToEmbed (Classes.Assets.Asset.GetAssets ().FirstOrDefault (e => e.Name == asset_name), "Name");
 
             await ReplyAsync ("", false, emb, null);
         }
@@ -833,7 +833,7 @@ namespace timebot.Modules.Commands
 
             if (values != null && values.Count > 0)
             {
-                for (int i = 0; i < values.Count; i++)
+                for (int i = 0; i < values.Count-1; i++)
                 {
                     if (values[i][0].ToString () == faction_name)
                     {
@@ -850,7 +850,30 @@ namespace timebot.Modules.Commands
                         Attack = values[i][8].ToString (),
                         Counter = values[i][9].ToString (),
                         Notes = values[i][10].ToString (),
-                        Location = values[i][11].ToString ().Split("/")[2].ToString()
+                        Location = values[i][11].ToString ().Split ("/") [2].ToString ()
+
+                        };
+                        row_index = i;
+
+                        assets.Add (asset);
+                    }
+
+                    if (values[i][11].ToString ().Contains(faction_name))
+                    {
+                        Classes.Assets.TrackerAsset asset = new Classes.Assets.TrackerAsset ()
+                        {
+                        Owner = values[i][0].ToString (),
+                        Asset = values[i][1].ToString (),
+                        Stealthed = values[i][3].ToString (),
+                        Stat = values[i][4].ToString (),
+                        HP = values[i][5].ToString (),
+                        MaxHP = values[i][6].ToString (),
+                        CombinedHP = values[i][5].ToString () + "/" + values[i][6].ToString (),
+                        Type = values[i][7].ToString (),
+                        Attack = values[i][8].ToString (),
+                        Counter = values[i][9].ToString (),
+                        Notes = values[i][10].ToString (),
+                        Location = values[i][11].ToString ().Split ("/") [2].ToString ()
 
                         };
                         row_index = i;
@@ -872,14 +895,12 @@ namespace timebot.Modules.Commands
             }
 
             rtn.Add ("Assets for: " + faction_name);
-            rtn.Add("```");
-            var header = new string[5]{"Name", "HP", "Attack Dice", "Counter Dice", "Location"};
+            rtn.Add ("```");
+            var header = new string[6] {"Owner", "Name", "HP", "Attack Dice", "Counter Dice", "Location" };
 
-            
+            var table = Classes.TableParser.ToStringTable (assets.Select (asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy(e=>e.Owner).ThenBy(e=>e.Location).ThenBy(e=>e.Asset), header, a=>a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
 
-            var table = Classes.TableParser.ToStringTable(assets.Select(asset => new {asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location}),header, a=>a.Asset, a=>a.CombinedHP, a=>a.Attack, a=>a.Counter, a=>a.Location);
-
-            rtn.Add(table);
+            rtn.Add (table);
 
             // rtn.Add(Classes.TableParser.PrintRow(header));
             // rtn.Add(Classes.TableParser.PrintLine());
@@ -894,7 +915,7 @@ namespace timebot.Modules.Commands
             //     rtn.Add (adder);
             // }
 
-            rtn.Add("```");
+            rtn.Add ("```");
 
             await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
 
