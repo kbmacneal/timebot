@@ -894,13 +894,15 @@ namespace timebot.Modules.Commands
                 throw new KeyNotFoundException ();
             }
 
-            rtn.Add ("Assets for: " + faction_name);
-            rtn.Add ("```");
+            await ReplyAsync ("Assets for: " + faction_name);
+
             var header = new string[6] {"Owner", "Name", "HP", "Attack Dice", "Counter Dice", "Location" };
 
             var table = Classes.TableParser.ToStringTable (assets.Select (asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy(e=>e.Owner).ThenBy(e=>e.Location).ThenBy(e=>e.Asset), header, a=>a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
 
-            rtn.Add (table);
+            Helper.SplitToLines(table,1994).ForEach(e => ReplyAsync("```" + e + "```").GetAwaiter().GetResult());
+
+            // rtn.Add (table);
 
             // rtn.Add(Classes.TableParser.PrintRow(header));
             // rtn.Add(Classes.TableParser.PrintLine());
@@ -914,10 +916,6 @@ namespace timebot.Modules.Commands
 
             //     rtn.Add (adder);
             // }
-
-            rtn.Add ("```");
-
-            await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
 
         }
 
