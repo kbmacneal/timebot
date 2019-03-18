@@ -1066,7 +1066,7 @@ namespace timebot.Modules.Commands
             string reason = string.Join (" ", input);
             var token = secrets["post_token"];
 
-            var client = new RestClient ("http://localhost:5060/Home/BullyReasons/");
+            var client = new RestClient ("https://private.highchurch.space/Home/BullyReasons/");
 
             var request = new RestRequest (Method.POST);
 
@@ -1091,6 +1091,44 @@ namespace timebot.Modules.Commands
             rtn.Add ("Rule 2: See rule one.");
             rtn.Add ("```");
             await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
+        }
+
+        [Command ("calblames")]
+        [Summary ("Returns the number of times Cal has been blamed.")]
+        public async Task CalblamesAsync ()
+        {
+            var response = await "http://localhost:5060"
+                .AppendPathSegment ("BlameCal")
+                .AppendPathSegment ("GetCount")
+                .GetAsync ()
+                .ReceiveJson<Dictionary<string,int>> ();
+
+                var rtn = "Cal has been blamed " + response["count"] + " times.";
+
+            await ReplyAsync (rtn);
+        }
+
+        [Command ("blamecal")]
+        [Summary ("Blames Cal.")]
+        public async Task BlamecalAsync ()
+        {
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
+
+            var token = secrets["post_token"];
+
+            var client = new RestClient ("http://localhost:5060/BlameCal/Blame/");
+
+            var request = new RestRequest (Method.POST);
+
+            dynamic body = new { token = token };
+
+            request.AddParameter ("text/json", JsonConvert.SerializeObject (body), ParameterType.RequestBody);
+
+            request.AddHeader ("Content-Type", "text/json");
+
+            var response = client.Execute (request);
+
+            await ReplyAsync ("Cal Blamed");
         }
 
         public string GetReadableTimespan (TimeSpan ts)

@@ -510,7 +510,9 @@ namespace timebot
                 "mtgc",
                 "mtga",
                 "churchbullies",
-                "assets"
+                "assets",
+                "calblames",
+                "blamecal"
             });
 
             //AS
