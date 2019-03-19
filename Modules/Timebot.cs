@@ -1128,7 +1128,15 @@ namespace timebot.Modules.Commands
 
             var response = client.Execute (request);
 
-            await ReplyAsync ("Cal Blamed");
+            var getter = await "http://localhost:5060"
+                .AppendPathSegment ("BlameCal")
+                .AppendPathSegment ("GetCount")
+                .GetAsync ()
+                .ReceiveJson<Dictionary<string,int>> ();
+
+                var rtn = "Cal has been blamed " + getter["count"] + " times.";
+
+            await ReplyAsync (rtn);
         }
 
         public string GetReadableTimespan (TimeSpan ts)
