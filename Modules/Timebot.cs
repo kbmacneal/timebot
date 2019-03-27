@@ -366,13 +366,15 @@ namespace timebot.Modules.Commands
             TextInfo UsaTextInfo = new CultureInfo ("en - US", false).TextInfo;
             tag_name = UsaTextInfo.ToTitleCase (tag_name);
 
-            if (Classes.Assets.Asset.GetAssets ().FirstOrDefault (e => e.Name == tag_name) == null)
+            if (Classes.Tags.Tag.GetTags().FirstOrDefault (e => e.Name == tag_name) == null)
             {
                 await ReplyAsync ("Invalid tag selection.");
                 return;
             }
 
-            Embed emb = Helper.ObjToEmbed (Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name == tag_name), "Name");
+            var tag = Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name == tag_name);
+
+            Embed emb = Helper.ObjToEmbed (tag, "Name");
 
             await ReplyAsync ("", false, emb, null);
         }

@@ -111,6 +111,13 @@ namespace timebot.Classes
             return embed.Build ();
         }
 
+        public static object SetPropValuePlain(object src, string propName, object value)
+        {
+            src.GetType().GetProperty(propName).SetValue(src, value);
+
+            return src;
+        }
+
         public static object SetPropValue (object src, string propName, object value)
         {
             // src.GetType().GetProperty(propName).SetValue(src, value);
