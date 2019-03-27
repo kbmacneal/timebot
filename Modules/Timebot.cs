@@ -20,8 +20,10 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 using Newtonsoft.Json;
+using Npgsql;
 using RestSharp;
 using timebot.Classes;
+using timebot.Classes.Assets;
 using timebot.Classes.Utilities;
 
 namespace timebot.Modules.Commands
@@ -833,7 +835,7 @@ namespace timebot.Modules.Commands
 
             if (values != null && values.Count > 0)
             {
-                for (int i = 0; i < values.Count-1; i++)
+                for (int i = 0; i < values.Count - 1; i++)
                 {
                     if (values[i][0].ToString () == faction_name)
                     {
@@ -858,22 +860,22 @@ namespace timebot.Modules.Commands
                         assets.Add (asset);
                     }
 
-                    if (values[i][11].ToString ().Contains(faction_name))
+                    if (values[i][11].ToString ().Contains (faction_name))
                     {
                         Classes.Assets.TrackerAsset asset = new Classes.Assets.TrackerAsset ()
                         {
-                        Owner = values[i][0].ToString (),
-                        Asset = values[i][1].ToString (),
-                        Stealthed = values[i][3].ToString (),
-                        Stat = values[i][4].ToString (),
-                        HP = values[i][5].ToString (),
-                        MaxHP = values[i][6].ToString (),
-                        CombinedHP = values[i][5].ToString () + "/" + values[i][6].ToString (),
-                        Type = values[i][7].ToString (),
-                        Attack = values[i][8].ToString (),
-                        Counter = values[i][9].ToString (),
-                        Notes = values[i][10].ToString (),
-                        Location = values[i][11].ToString ().Split ("/") [2].ToString ()
+                            Owner = values[i][0].ToString (),
+                            Asset = values[i][1].ToString (),
+                            Stealthed = values[i][3].ToString (),
+                            Stat = values[i][4].ToString (),
+                            HP = values[i][5].ToString (),
+                            MaxHP = values[i][6].ToString (),
+                            CombinedHP = values[i][5].ToString () + "/" + values[i][6].ToString (),
+                            Type = values[i][7].ToString (),
+                            Attack = values[i][8].ToString (),
+                            Counter = values[i][9].ToString (),
+                            Notes = values[i][10].ToString (),
+                            Location = values[i][11].ToString ().Split ("/") [2].ToString ()
 
                         };
                         row_index = i;
@@ -896,11 +898,11 @@ namespace timebot.Modules.Commands
 
             await ReplyAsync ("Assets for: " + faction_name);
 
-            var header = new string[6] {"Owner", "Name", "HP", "Attack Dice", "Counter Dice", "Location" };
+            var header = new string[6] { "Owner", "Name", "HP", "Attack Dice", "Counter Dice", "Location" };
 
-            var table = Classes.TableParser.ToStringTable (assets.Select (asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy(e=>e.Owner).ThenBy(e=>e.Location).ThenBy(e=>e.Asset), header, a=>a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
+            var table = Classes.TableParser.ToStringTable (assets.Select (asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy (e => e.Owner).ThenBy (e => e.Location).ThenBy (e => e.Asset), header, a => a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
 
-            Helper.SplitToLines(table,1994).ForEach(e => ReplyAsync("```" + e + "```").GetAwaiter().GetResult());
+            Helper.SplitToLines (table, 1994).ForEach (e => ReplyAsync ("```" + e + "```").GetAwaiter ().GetResult ());
 
             // rtn.Add (table);
 
@@ -1097,13 +1099,25 @@ namespace timebot.Modules.Commands
         [Summary ("Returns the number of times Cal has been blamed.")]
         public async Task CalblamesAsync ()
         {
-            var response = await "http://localhost:5060"
-                .AppendPathSegment ("BlameCal")
-                .AppendPathSegment ("GetCount")
-                .GetAsync ()
-                .ReceiveJson<Dictionary<string,int>> ();
+            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
 
-                var rtn = "Cal has been blamed " + response["count"] + " times.";
+            var count = 0;
+
+            using (var conn = new NpgsqlConnection (connectionstring))
+            {
+                conn.Open ();
+                // Retrieve all rows
+
+                using (var cmd = new NpgsqlCommand ("SELECT * FROM \"BlameCals\";", conn))
+                using (var reader = cmd.ExecuteReader ())
+
+                while (reader.Read ())
+                {
+                    count ++;
+                }
+            }
+
+            var rtn = "Cal has been blamed " + count + " times.";
 
             await ReplyAsync (rtn);
         }
@@ -1112,29 +1126,29 @@ namespace timebot.Modules.Commands
         [Summary ("Blames Cal.")]
         public async Task BlamecalAsync ()
         {
-            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
+            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
 
-            var token = secrets["post_token"];
+            var count = 0;
 
-            var client = new RestClient ("http://localhost:5060/BlameCal/Blame/");
+            using (var conn = new NpgsqlConnection (connectionstring))
+            {
+                conn.Open ();
+                // Retrieve all rows
 
-            var request = new RestRequest (Method.POST);
+                using (var insert = new NpgsqlCommand("INSERT INTO public.\"BlameCals\" (\"timestamp\") VALUES( CURRENT_TIMESTAMP );", conn))
 
-            dynamic body = new { token = token };
+                insert.ExecuteNonQuery();
 
-            request.AddParameter ("text/json", JsonConvert.SerializeObject (body), ParameterType.RequestBody);
+                using (var cmd = new NpgsqlCommand ("SELECT * FROM \"BlameCals\";", conn))
+                using (var reader = cmd.ExecuteReader ())
 
-            request.AddHeader ("Content-Type", "text/json");
+                while (reader.Read ())
+                {
+                    count ++;
+                }
+            }
 
-            var response = client.Execute (request);
-
-            var getter = await "http://localhost:5060"
-                .AppendPathSegment ("BlameCal")
-                .AppendPathSegment ("GetCount")
-                .GetAsync ()
-                .ReceiveJson<Dictionary<string,int>> ();
-
-                var rtn = "Cal has been blamed " + getter["count"] + " times.";
+            var rtn = "Cal has been blamed " + count + " times.";
 
             await ReplyAsync (rtn);
         }
