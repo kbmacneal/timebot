@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -366,7 +367,7 @@ namespace timebot.Modules.Commands
             TextInfo UsaTextInfo = new CultureInfo ("en - US", false).TextInfo;
             tag_name = UsaTextInfo.ToTitleCase (tag_name);
 
-            if (Classes.Tags.Tag.GetTags().FirstOrDefault (e => e.Name == tag_name) == null)
+            if (Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name == tag_name) == null)
             {
                 await ReplyAsync ("Invalid tag selection.");
                 return;
@@ -1048,39 +1049,67 @@ namespace timebot.Modules.Commands
             await ReplyAsync (GetReadableTimespan (span));
         }
 
+        private class BullyReason
+        {
+            public int ID { get; set; }
+            public string value { get; set; }
+        }
+
         [Command ("churchbullies")]
         [Summary ("Returns one of the many reasons the church is a bully.")]
         public async Task ChurchbulliesAsync ()
         {
-            var response = await "https://private.highchurch.space"
-                .AppendPathSegment ("Home")
-                .AppendPathSegment ("BullyReasons")
-                .GetAsync ()
-                .ReceiveString ();
+            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
 
-            await ReplyAsync (response);
+            List<BullyReason> rtn = new List<BullyReason> ();
+
+            using (var conn = new NpgsqlConnection (connectionstring))
+            {
+                conn.Open ();
+
+                string selectCmd = "SELECT \"ID\", value FROM public.\"BullyReasons\"";
+
+                using (NpgsqlCommand command = new NpgsqlCommand (selectCmd, conn))
+                {
+                    var reader = await command.ExecuteReaderAsync ();
+
+                    while (reader.Read ())
+                    {
+                        BullyReason temp = new BullyReason ();
+                        for (int i = 0; i < reader.GetColumnSchema ().Count (); i++)
+                        {
+                            Helper.SetPropValue (temp, reader.GetColumnSchema () [i].ColumnName, reader.GetValue (i).ToString ());
+                        }
+                        rtn.Add (temp);
+                    }
+                }
+            }
+
+            BullyReason reason = rtn.ElementAt(Program.rand.Next(rtn.Count));
+
+            await ReplyAsync (reason.value);
         }
 
         [Command ("churchbullies")]
         [Summary ("Returns one of the many reasons the church is a bully.")]
         public async Task ChurchbulliesAsync (params string[] input)
         {
-            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
+            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
 
-            string reason = string.Join (" ", input);
-            var token = secrets["post_token"];
+            var reason = String.Join (" ", input);
 
-            var client = new RestClient ("https://private.highchurch.space/Home/BullyReasons/");
+            using (var conn = new NpgsqlConnection (connectionstring))
+            {
+                conn.Open ();
 
-            var request = new RestRequest (Method.POST);
+                string InsertCmd = "INSERT INTO public.\"BullyReasons\" (value) VALUES(@reason);";
 
-            dynamic body = new { reason = reason, token = token };
-
-            request.AddParameter ("text/json", JsonConvert.SerializeObject (body), ParameterType.RequestBody);
-
-            request.AddHeader ("Content-Type", "text/json");
-
-            var response = client.Execute (request);
+                using (NpgsqlCommand command = new NpgsqlCommand (InsertCmd, conn))
+                {
+                    command.Parameters.AddWithValue ("reason", reason);
+                    command.ExecuteNonQuery ();
+                }
+            }
 
             await ReplyAsync ("Reason Added");
         }
@@ -1115,7 +1144,7 @@ namespace timebot.Modules.Commands
 
                 while (reader.Read ())
                 {
-                    count ++;
+                    count++;
                 }
             }
 
@@ -1137,16 +1166,16 @@ namespace timebot.Modules.Commands
                 conn.Open ();
                 // Retrieve all rows
 
-                using (var insert = new NpgsqlCommand("INSERT INTO public.\"BlameCals\" (\"timestamp\") VALUES( CURRENT_TIMESTAMP );", conn))
+                using (var insert = new NpgsqlCommand ("INSERT INTO public.\"BlameCals\" (\"timestamp\") VALUES( CURRENT_TIMESTAMP );", conn))
 
-                insert.ExecuteNonQuery();
+                insert.ExecuteNonQuery ();
 
                 using (var cmd = new NpgsqlCommand ("SELECT * FROM \"BlameCals\";", conn))
                 using (var reader = cmd.ExecuteReader ())
 
                 while (reader.Read ())
                 {
-                    count ++;
+                    count++;
                 }
             }
 
