@@ -18,7 +18,6 @@ namespace timebot.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2l.2.0-rtm-35687");
 
             modelBuilder.Entity<Asset>(entity =>
             {
