@@ -28,8 +28,9 @@ namespace timebot.Classes.Assets
 
     public class Asset
     {
+        public int ID {get;set;}
         public string Name { get; set; }
-        public long HP { get; set; }
+        public string HP { get; set; }
         public string Attack { get; set; }
         public string Counterattack { get; set; }
 
