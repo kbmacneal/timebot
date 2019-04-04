@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using NodaTime;
 using RestSharp;
 using timebot.Classes;
+using timebot.Classes.FactionCount;
 
 namespace timebot.Modules.Commands
 {
@@ -127,23 +128,20 @@ namespace timebot.Modules.Commands
         {
             List<Classes.Faction> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ();
 
-            List<string> rtn = new List<string> ();
+            List<PopCount> rtn = new List<PopCount> ();
 
-            Dictionary<string, string> holder = new Dictionary<string, string> ();
-
-            official_factions.ForEach (e => holder.Add (e.FactionName, Classes.FactionCount.FactionCountGet.GetCount (e.FactionShortName).Members.Count ().ToString ()));
-
-            rtn.Add ("Here are the counts of active members for each faction");
-            rtn.Add ("---------------");
-            holder.AsEnumerable ().ToList ().ForEach (e => rtn.Add (string.Concat (e.Key, ": ", e.Value)));
+            official_factions.ForEach (e => rtn.Add (new PopCount () { FactionID = Convert.ToUInt64 (e.FactionDiscordID), FactionName = e.FactionName, timestamp = DateTime.Now, MemCount = Convert.ToInt32 (FactionCountGet.GetCount (e.FactionShortName).Members.Count ().ToString ()) }));
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
             string key = secrets["api_key"];
 
+            // string baseurl = string.Concat ("https://highchurch.space/api/UpdateMemCount");
+            string baseurl = string.Concat ("http://localhost:5000/api/UpdateMemCount");
+
             List<faction_stat> sender = new List<faction_stat> ();
 
-            holder.ToList ().ForEach (e => sender.Add (new faction_stat () { name = e.Key, count = Int32.Parse (e.Value) }));
+            rtn.ToList ().ForEach (e => sender.Add (new faction_stat () { name = e.FactionName, count = e.MemCount }));
 
             stats s = new stats
             {
@@ -151,20 +149,16 @@ namespace timebot.Modules.Commands
                 api_key = key
             };
 
-            string baseurl = string.Concat ("https://highchurch.space/api/UpdateMemCount");
-            // string baseurl = string.Concat ("http://localhost:5000/api/UpdateMemCount");
+            var request = await baseurl
+                .WithHeader ("Content-Type", "text/json")
+                .PostJsonAsync (s)
+                .ReceiveString ();
 
-            var client = new RestClient (baseurl);
+            var header = new string[2] { "Faction", "Count" };
 
-            var request = new RestRequest (Method.POST);
-            request.AddParameter ("text/json", JsonConvert.SerializeObject (s), ParameterType.RequestBody);
+            var table = Classes.TableParser.ToStringTable (rtn.Select (fac => new { fac.FactionName, fac.MemCount }).OrderBy (e => e.FactionName).ThenBy (e => e.MemCount), header, a => a.FactionName, a => a.MemCount);
 
-            request.AddHeader ("Content-Type", "text/json");
-
-            var response = client.Execute (request);
-
-
-            await ReplyAsync (string.Join (System.Environment.NewLine, rtn));
+            await ReplyAsync ("```" + table + "```");
         }
 
         [Command ("monthlychanges")]
