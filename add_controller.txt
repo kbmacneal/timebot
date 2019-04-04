@@ -1,0 +1,7 @@
+dotnet ef migrations add removingPointlessStuff --context ApplicationUserContext
+
+dotnet ef database update --context Context
+
+dotnet ef migrations remove --context ApplicationUserContext
+
+dotnet ef database update addingStats --context ApplicationUserContext

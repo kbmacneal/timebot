@@ -364,13 +364,13 @@ namespace timebot.Modules.Commands
         {
             string tag_name = String.Join (" ", collection);
 
-            if (Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name.ToUpperInvariant() == tag_name.ToUpperInvariant()) == null)
+            if (Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name.ToUpperInvariant () == tag_name.ToUpperInvariant ()) == null)
             {
                 await ReplyAsync ("Invalid tag selection.");
                 return;
             }
 
-            var tag = Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name.ToUpperInvariant() == tag_name.ToUpperInvariant());
+            var tag = Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name.ToUpperInvariant () == tag_name.ToUpperInvariant ());
 
             Embed emb = Helper.ObjToEmbed (tag, "Name");
 
@@ -1050,14 +1050,14 @@ namespace timebot.Modules.Commands
         [Summary ("Returns one of the many reasons the church is a bully.")]
         public async Task ChurchbulliesAsync ()
         {
-            var bullies = new List<BullyReason>();
+            var bullies = new List<BullyReason> ();
 
-            using(var context = new Context())
+            using (var context = new Context ())
             {
-                bullies = context.BullyReasons.ToList();
+                bullies = context.BullyReasons.ToList ();
             }
 
-            BullyReason reason = bullies.ElementAt(Program.rand.Next(bullies.Count));
+            BullyReason reason = bullies.ElementAt (Program.rand.Next (bullies.Count));
 
             await ReplyAsync (reason.value);
         }
@@ -1066,13 +1066,13 @@ namespace timebot.Modules.Commands
         [Summary ("Returns one of the many reasons the church is a bully.")]
         public async Task ChurchbulliesAsync (params string[] input)
         {
-            using(var context = new Context())
+            using (var context = new Context ())
             {
-                var bully = new BullyReason();
-                bully.value = string.Join(" ", input);
+                var bully = new BullyReason ();
+                bully.value = string.Join (" ", input);
 
-                context.BullyReasons.Add(bully);
-                await context.SaveChangesAsync();
+                context.BullyReasons.Add (bully);
+                await context.SaveChangesAsync ();
             }
 
             await ReplyAsync ("Reason Added");
@@ -1096,11 +1096,11 @@ namespace timebot.Modules.Commands
         {
             var count = 0;
 
-            using(var context = new Context())
+            using (var context = new Context ())
             {
-                var assets = context.BlameCals.ToList();
+                var assets = context.BlameCals.ToList ();
 
-                count = assets.Count();
+                count = assets.Count ();
 
             }
 
@@ -1115,13 +1115,13 @@ namespace timebot.Modules.Commands
         {
             var count = 0;
 
-            using(var context = new Context())
+            using (var context = new Context ())
             {
-                context.BlameCals.Add(new BlameCal(){timestamp=DateTime.Now});
+                context.BlameCals.Add (new BlameCal () { timestamp = DateTime.Now });
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync ();
 
-                count = context.BlameCals.Count();
+                count = context.BlameCals.Count ();
 
             }
 
