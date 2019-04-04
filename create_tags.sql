@@ -3,7 +3,7 @@
 -- DROP TABLE public.tags
 
 CREATE TABLE public."Tags" (
-	"Tag" text NULL,
+	"Name" text NULL,
 	"Description" text NULL
 );
 
