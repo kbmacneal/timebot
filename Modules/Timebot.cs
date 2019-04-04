@@ -21,11 +21,11 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 using Newtonsoft.Json;
-using Npgsql;
 using RestSharp;
 using timebot.Classes;
 using timebot.Classes.Assets;
 using timebot.Classes.Utilities;
+using timebot.Contexts;
 
 namespace timebot.Modules.Commands
 {
@@ -364,16 +364,13 @@ namespace timebot.Modules.Commands
         {
             string tag_name = String.Join (" ", collection);
 
-            TextInfo UsaTextInfo = new CultureInfo ("en - US", false).TextInfo;
-            tag_name = UsaTextInfo.ToTitleCase (tag_name);
-
-            if (Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name == tag_name) == null)
+            if (Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name.ToUpperInvariant() == tag_name.ToUpperInvariant()) == null)
             {
                 await ReplyAsync ("Invalid tag selection.");
                 return;
             }
 
-            var tag = Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name == tag_name);
+            var tag = Classes.Tags.Tag.GetTags ().FirstOrDefault (e => e.Name.ToUpperInvariant() == tag_name.ToUpperInvariant());
 
             Embed emb = Helper.ObjToEmbed (tag, "Name");
 
@@ -1049,43 +1046,18 @@ namespace timebot.Modules.Commands
             await ReplyAsync (GetReadableTimespan (span));
         }
 
-        private class BullyReason
-        {
-            public int ID { get; set; }
-            public string value { get; set; }
-        }
-
         [Command ("churchbullies")]
         [Summary ("Returns one of the many reasons the church is a bully.")]
         public async Task ChurchbulliesAsync ()
         {
-            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
+            var bullies = new List<BullyReason>();
 
-            List<BullyReason> rtn = new List<BullyReason> ();
-
-            using (var conn = new NpgsqlConnection (connectionstring))
+            using(var context = new Context())
             {
-                conn.Open ();
-
-                string selectCmd = "SELECT \"ID\", value FROM public.\"BullyReasons\"";
-
-                using (NpgsqlCommand command = new NpgsqlCommand (selectCmd, conn))
-                {
-                    var reader = await command.ExecuteReaderAsync ();
-
-                    while (reader.Read ())
-                    {
-                        BullyReason temp = new BullyReason ();
-                        for (int i = 0; i < reader.GetColumnSchema ().Count (); i++)
-                        {
-                            Helper.SetPropValue (temp, reader.GetColumnSchema () [i].ColumnName, reader.GetValue (i).ToString ());
-                        }
-                        rtn.Add (temp);
-                    }
-                }
+                bullies = context.BullyReasons.ToList();
             }
 
-            BullyReason reason = rtn.ElementAt(Program.rand.Next(rtn.Count));
+            BullyReason reason = bullies.ElementAt(Program.rand.Next(bullies.Count));
 
             await ReplyAsync (reason.value);
         }
@@ -1094,21 +1066,13 @@ namespace timebot.Modules.Commands
         [Summary ("Returns one of the many reasons the church is a bully.")]
         public async Task ChurchbulliesAsync (params string[] input)
         {
-            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
-
-            var reason = String.Join (" ", input);
-
-            using (var conn = new NpgsqlConnection (connectionstring))
+            using(var context = new Context())
             {
-                conn.Open ();
+                var bully = new BullyReason();
+                bully.value = string.Join(" ", input);
 
-                string InsertCmd = "INSERT INTO public.\"BullyReasons\" (value) VALUES(@reason);";
-
-                using (NpgsqlCommand command = new NpgsqlCommand (InsertCmd, conn))
-                {
-                    command.Parameters.AddWithValue ("reason", reason);
-                    command.ExecuteNonQuery ();
-                }
+                context.BullyReasons.Add(bully);
+                await context.SaveChangesAsync();
             }
 
             await ReplyAsync ("Reason Added");
@@ -1130,22 +1094,14 @@ namespace timebot.Modules.Commands
         [Summary ("Returns the number of times Cal has been blamed.")]
         public async Task CalblamesAsync ()
         {
-            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
-
             var count = 0;
 
-            using (var conn = new NpgsqlConnection (connectionstring))
+            using(var context = new Context())
             {
-                conn.Open ();
-                // Retrieve all rows
+                var assets = context.BlameCals.ToList();
 
-                using (var cmd = new NpgsqlCommand ("SELECT * FROM \"BlameCals\";", conn))
-                using (var reader = cmd.ExecuteReader ())
+                count = assets.Count();
 
-                while (reader.Read ())
-                {
-                    count++;
-                }
             }
 
             var rtn = "Cal has been blamed " + count + " times.";
@@ -1157,26 +1113,16 @@ namespace timebot.Modules.Commands
         [Summary ("Blames Cal.")]
         public async Task BlamecalAsync ()
         {
-            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
-
             var count = 0;
 
-            using (var conn = new NpgsqlConnection (connectionstring))
+            using(var context = new Context())
             {
-                conn.Open ();
-                // Retrieve all rows
+                context.BlameCals.Add(new BlameCal(){timestamp=DateTime.Now});
 
-                using (var insert = new NpgsqlCommand ("INSERT INTO public.\"BlameCals\" (\"timestamp\") VALUES( CURRENT_TIMESTAMP );", conn))
+                await context.SaveChangesAsync();
 
-                insert.ExecuteNonQuery ();
+                count = context.BlameCals.Count();
 
-                using (var cmd = new NpgsqlCommand ("SELECT * FROM \"BlameCals\";", conn))
-                using (var reader = cmd.ExecuteReader ())
-
-                while (reader.Read ())
-                {
-                    count++;
-                }
             }
 
             var rtn = "Cal has been blamed " + count + " times.";

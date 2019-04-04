@@ -1,8 +1,8 @@
 -- Drop table
 
--- DROP TABLE public.assets
+-- DROP TABLE public."Assets"
 
-CREATE TABLE public.assets (
+CREATE TABLE public."Assets" (
 	"Name" varchar(32767) NULL,
 	"HP" varchar(32767) NULL,
 	"Attack" varchar(32767) NULL,
@@ -14,3 +14,7 @@ CREATE TABLE public.assets (
 	"Cost" varchar(32767) NULL,
 	"AssetType" varchar(32767) NULL
 );
+
+
+ALTER TABLE public."Assets" ADD id serial NOT NULL;
+ALTER TABLE public."Assets" ADD CONSTRAINT assets_pk PRIMARY KEY (id);

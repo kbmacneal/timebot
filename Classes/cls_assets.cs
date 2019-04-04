@@ -7,8 +7,8 @@ namespace timebot.Classes.Assets
     using System;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json;
-    using Npgsql;
     using System.Linq;
+    using timebot.Contexts;
 
     public class TrackerAsset
     {
@@ -48,29 +48,12 @@ namespace timebot.Classes.Assets
 
         public static List<Asset> GetAssets ()
         {
-            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
 
-            using (var conn = new NpgsqlConnection (connectionstring))
+            using(var context = new Context())
             {
-                List<Asset> rtn = new List<Asset> ();
+                var assets = context.Assets.ToList();
 
-                conn.Open ();
-                // Retrieve all rows
-                using (var cmd = new NpgsqlCommand ("SELECT * FROM assets;", conn))
-                using (var reader = cmd.ExecuteReader ())
-                
-
-                while (reader.Read ())
-                {
-                    Asset temp = new Asset ();
-                    for (int i = 0; i < reader.GetColumnSchema ().Count (); i++)
-                    {
-                        Helper.SetPropValue (temp, reader.GetColumnSchema () [i].ColumnName, reader.GetValue (i).ToString ());
-                    }
-                    rtn.Add (temp);
-                }
-
-                return rtn;
+                return assets;
             }
         }
     }

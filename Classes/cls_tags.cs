@@ -7,38 +7,23 @@ namespace timebot.Classes.Tags
     using System;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json;
-    using Npgsql;
     using System.Linq;
+    using timebot.Contexts;
 
     public class Tag
     {
+        public int ID {get;set;}
         public string Name { get; set; }
         public string Description { get; set; }
 
         public static List<Tag> GetTags ()
         {
-            string connectionstring = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"];
-
-            using (var conn = new NpgsqlConnection (connectionstring))
+            
+            using(var context = new Context())
             {
-                List<Tag> rtn = new List<Tag> ();
+                var tags = context.Tags.ToList();
 
-                conn.Open ();
-                // Retrieve all rows
-                using (var cmd = new NpgsqlCommand ("SELECT * FROM tags;", conn))
-                using (var reader = cmd.ExecuteReader ())
-
-                while (reader.Read ())
-                {
-                    Tag temp = new Tag ();
-                    for (int i = 0; i < reader.GetColumnSchema ().Count (); i++)
-                    {
-                        Helper.SetPropValue (temp, reader.GetColumnSchema () [i].ColumnName, reader.GetValue (i).ToString ());
-                    }
-                    rtn.Add (temp);
-                }
-
-                return rtn;
+                return tags;
             }
         }
     }

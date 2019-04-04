@@ -2,7 +2,10 @@
 
 -- DROP TABLE public.tags
 
-CREATE TABLE public.tags (
-	"Tag" varchar(32767) NULL,
-	"Description" varchar(32767) NULL
+CREATE TABLE public."Tags" (
+	"Tag" text NULL,
+	"Description" text NULL
 );
+
+ALTER TABLE public."Tags" ADD id serial NOT NULL;
+ALTER TABLE public."Tags" ADD CONSTRAINT tags_pk PRIMARY KEY (id);
