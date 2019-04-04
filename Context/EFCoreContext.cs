@@ -13,6 +13,7 @@ namespace timebot.Contexts
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BullyReason> BullyReasons { get; set; }
         public DbSet<BlameCal> BlameCals { get; set; }
+        public DbSet<PopCount> PopCounts {get;set;}
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         {
@@ -60,6 +61,16 @@ namespace timebot.Contexts
             {
                 entity.HasKey (e => e.ID);
                 entity.Property (e => e.ID).HasColumnName ("ID").ValueGeneratedOnAdd ();
+                entity.Property (e => e.timestamp).HasColumnName ("timestamp");
+            });
+
+            modelBuilder.Entity<PopCount> (entity =>
+            {
+                entity.HasKey (e => e.ID);
+                entity.Property (e => e.ID).HasColumnName ("ID").ValueGeneratedOnAdd ();
+                entity.Property (e => e.FactionID).HasColumnName ("FactionID");
+                entity.Property (e => e.FactionName).HasColumnName ("FactionName");
+                entity.Property (e => e.MemCount).HasColumnName ("MemCount");
                 entity.Property (e => e.timestamp).HasColumnName ("timestamp");
             });
         }

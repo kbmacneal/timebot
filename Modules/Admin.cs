@@ -15,6 +15,7 @@ using NodaTime;
 using RestSharp;
 using timebot.Classes;
 using timebot.Classes.FactionCount;
+using timebot.Contexts;
 
 namespace timebot.Modules.Commands
 {
@@ -126,11 +127,8 @@ namespace timebot.Modules.Commands
         [Summary ("Gets the realtime count of all members of a faction from the SWNBot API.")]
         public async Task GetfactioncountAsync ()
         {
-            List<Classes.Faction> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ();
+            List<PopCount> rtn = await PopCount.GetCounts();
 
-            List<PopCount> rtn = new List<PopCount> ();
-
-            official_factions.ForEach (e => rtn.Add (new PopCount () { FactionID = Convert.ToUInt64 (e.FactionDiscordID), FactionName = e.FactionName, timestamp = DateTime.Now, MemCount = Convert.ToInt32 (FactionCountGet.GetCount (e.FactionShortName).Members.Count ().ToString ()) }));
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
