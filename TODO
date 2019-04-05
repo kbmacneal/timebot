@@ -1,4 +1,2 @@
-Figure out a way to get the database to track the population totals monthly, maybe alongside who moved where
-
 remove all calls to restsharp and replace with flurl, not because its better but because having two different rest solutions is a pain
 
