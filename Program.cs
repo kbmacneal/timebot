@@ -137,7 +137,9 @@ namespace timebot
 
                     if (!(check_command(server_id, message.Content)))
                     {
-                        await context.Channel.SendMessageAsync(message.Content + " not allowed on this server.");
+                        // await context.Channel.SendMessageAsync(message.Content + " not allowed on this server.");
+                        await context.Channel.SendMessageAsync("No.");
+                        await Log(new LogMessage(LogSeverity.Info, "VERBOSE", message.Content + " is an invalid command."));
                         return;
                     }
 
