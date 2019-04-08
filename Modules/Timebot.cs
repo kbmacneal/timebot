@@ -1114,8 +1114,6 @@ namespace timebot.Modules.Commands
         {
             string query = string.Join (" ", input);
 
-            //https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=Stack%20Overflow
-
             var baseurl = "https://en.wikipedia.org/w/api.php";
 
             var response = await baseurl
@@ -1124,17 +1122,27 @@ namespace timebot.Modules.Commands
 
             var deserial = Wiki.FromJson (response);
 
-            if (deserial.Query.Pages.Count == 0)
+            if (deserial.Query.Pages.First().Key == "-1")
             {
                 await ReplyAsync ("No Results.");
                 return;
             }
             else
             {
-                var title = deserial.Query.Pages.First().Value.Title;
-                var content = Helper.GetPlainTextFromHtml(deserial.Query.Pages.First().Value.Extract.Substring (0,1000)) + "...";
 
-                Embed emb = Helper.ObjToEmbed (new { title = title, summary = content }, "title");
+                var info = await baseurl
+                    .SetQueryParams (new { action = "query", prop = "info", format = "json", inprop="url", pageids = deserial.Query.Pages.First ().Key })
+                    .GetStringAsync ();
+
+                    var infodeserial = Info.FromJson(info);
+
+                //https://en.wikipedia.org/w/api.php?action=query&prop=info&format=json&pageids=15573
+
+                var title = deserial.Query.Pages.First ().Value.Title;
+                var link = infodeserial.Query.Pages.First().Value.URL;
+                var content = Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "...";
+
+                Embed emb = Helper.ObjToEmbed (new { title = title, summary = content, url = link }, "title");
 
                 await ReplyAsync ("", false, emb, null);
                 return;
