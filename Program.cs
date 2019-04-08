@@ -326,7 +326,8 @@ namespace timebot
                 "goldenrule",
                 "assets",
                 "calblames",
-                "blamecal"
+                "blamecal",
+                "wiki"
             });
 
             //meeting room 1
@@ -516,7 +517,8 @@ namespace timebot
                 "churchbullies",
                 "assets",
                 "calblames",
-                "blamecal"
+                "blamecal",
+                "wiki"
             });
 
             //AS
