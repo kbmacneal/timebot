@@ -1114,53 +1114,32 @@ namespace timebot.Modules.Commands
         {
             string query = string.Join (" ", input);
 
-            string rtn = "";
             //https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=Stack%20Overflow
 
             var baseurl = "https://en.wikipedia.org/w/api.php";
 
             var response = await baseurl
                 .SetQueryParams (new { action = "query", prop = "extracts", format = "json", exintro = "", titles = query })
-                .GetJsonAsync<IDictionary<String, Object>> ();
+                .GetStringAsync ();
 
-            var extract = "";
-            var title = "";
+            var deserial = Wiki.FromJson (response);
 
-            var obj1 = new object ();
-            var obj2 = new KeyValuePair[]();
-
-            if (response.TryGetValue ("query", out obj1))
+            if (deserial.Query.Pages.Count == 0)
             {
-                if (obj1.First() == null)
-                {
-                    await ReplyAsync ("No Results.");
-                    return;
-                }
-                else
-                {
+                await ReplyAsync ("No Results.");
+                return;
+            }
+            else
+            {
+                var title = deserial.Query.Pages.First().Value.Title;
+                var content = Helper.GetPlainTextFromHtml(deserial.Query.Pages.First().Value.Extract.Substring (0,1000)) + "...";
 
-                    Embed emb = Helper.ObjToEmbed (new { title = title, extract = GetPlainTextFromHtml (extract).Substring (1990) + "..." }, "title");
+                Embed emb = Helper.ObjToEmbed (new { title = title, summary = content }, "title");
 
-                    await ReplyAsync ("", false, emb, null);
-                }
-
+                await ReplyAsync ("", false, emb, null);
+                return;
             }
 
-            await ReplyAsync ("No Results");
-            return;
-
-        }
-
-        private string GetPlainTextFromHtml (string htmlString)
-        {
-            string htmlTagPattern = "<.*?>";
-            var regexCss = new Regex ("(\\<script(.+?)\\)|(\\<style(.+?)\\)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            htmlString = regexCss.Replace (htmlString, string.Empty);
-            htmlString = Regex.Replace (htmlString, htmlTagPattern, string.Empty);
-            htmlString = Regex.Replace (htmlString, @"^\s+$[\r\n]*", "", RegexOptions.Multiline);
-            htmlString = htmlString.Replace (" ", string.Empty);
-
-            return htmlString;
         }
 
         public string GetReadableTimespan (TimeSpan ts)

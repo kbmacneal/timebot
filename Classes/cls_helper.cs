@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -81,6 +82,11 @@ namespace timebot.Classes
 
             return rtn;
 
+        }
+
+        public static string GetPlainTextFromHtml (string htmlString)
+        {
+            return Regex.Replace(htmlString, "<.*?>", String.Empty);
         }
 
         public static object GetPropValue (object src, string propName)
