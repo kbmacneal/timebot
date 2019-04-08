@@ -1140,7 +1140,9 @@ namespace timebot.Modules.Commands
 
                 var title = deserial.Query.Pages.First ().Value.Title;
                 var link = infodeserial.Query.Pages.First().Value.URL;
-                var content = Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "...";
+                // var content = Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "...";
+
+                var content = deserial.Query.Pages.First ().Value.Extract.Length > 1000 ? Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "..." : Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract) + "...";
 
                 Embed emb = Helper.ObjToEmbed (new { title = title, summary = content, url = link }, "title");
 
