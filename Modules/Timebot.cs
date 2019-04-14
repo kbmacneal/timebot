@@ -21,6 +21,7 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 using Newtonsoft.Json;
+using Npgsql;
 using RestSharp;
 using timebot.Classes;
 using timebot.Classes.Assets;
@@ -29,12 +30,6 @@ using timebot.Contexts;
 
 namespace timebot.Modules.Commands
 {
-    public class command_help
-    {
-        public string name { get; set; }
-        public string summary { get; set; }
-        public bool admin_required { get; set; }
-    }
 
     public class commands : ModuleBase<SocketCommandContext>
     {
@@ -573,7 +568,14 @@ namespace timebot.Modules.Commands
         public class commands_json
         {
             public string api_key { get; set; }
-            public string json_text { get; set; }
+            public List<command> commands { get; set; }
+        }
+
+        public class command
+        {
+            public string name { get; set; }
+            public string summary { get; set; }
+            public bool admin_required { get; set; }
         }
 
         [Command ("dumpcommands")]
@@ -581,11 +583,11 @@ namespace timebot.Modules.Commands
         [RequireUserPermission (GuildPermission.Administrator)]
         private async Task DumpcommandsAsync ()
         {
-            List<command_help> commands = new List<command_help> ();
+            List<command> commands = new List<command> ();
 
             foreach (var command in Program._commands.Commands.ToList ())
             {
-                command_help c = new command_help
+                command c = new command
                 {
                     name = command.Name,
                     summary = command.Summary,
@@ -595,33 +597,33 @@ namespace timebot.Modules.Commands
                 commands.Add (c);
             }
 
-            var output = JsonConvert.SerializeObject (commands.OrderBy (e => e.name).Distinct (), Formatting.Indented);
-
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
-            string key = secrets["api_key"];
+            using (Npgsql.NpgsqlConnection conn = new NpgsqlConnection (JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file)) ["connection_string"]))
+            {
+                conn.Open ();
 
-            string baseurl = string.Concat ("https://highchurch.space/api/update_commands");
-            // string baseurl = string.Concat ("http://localhost:5000/api/update_commands");
+                // Insert some data
+                using (var cmd = new NpgsqlCommand ())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "DELETE FROM commands;";
+                    cmd.ExecuteNonQuery ();
+                }
 
-            var client = new RestClient (baseurl);
-
-            var s = new commands_json ();
-            s.api_key = key;
-            s.json_text = output;
-
-            // var response = await "http://api.mathjs.org/v4/"
-            //     .AppendPathSegment ("api")
-            //     .AppendPathSegment ("update_commands")
-            //     .WithHeader ("Content-Type", "text/json")
-            //     .PostJsonAsync (JsonConvert.SerializeObject (s));
-
-            var request = new RestRequest (Method.POST);
-            request.AddParameter ("text/json", JsonConvert.SerializeObject (s), ParameterType.RequestBody);
-
-            request.AddHeader ("Content-Type", "text/json");
-
-            var response = client.Execute (request);
+                foreach (var item in commands)
+                {
+                    using (var cmd = new NpgsqlCommand ())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "INSERT INTO commands (name,summary,admin_required) VALUES (@n,@s,@a)";
+                        cmd.Parameters.AddWithValue ("n", item.name);
+                        cmd.Parameters.AddWithValue ("s", item.summary);
+                        cmd.Parameters.AddWithValue ("a", item.admin_required);
+                        cmd.ExecuteNonQuery ();
+                    }
+                }
+            }
 
             await ReplyAsync ("Commands Updated");
         }
@@ -1122,7 +1124,7 @@ namespace timebot.Modules.Commands
 
             var deserial = Wiki.FromJson (response);
 
-            if (deserial.Query.Pages.First().Key == "-1")
+            if (deserial.Query.Pages.First ().Key == "-1")
             {
                 await ReplyAsync ("No Results.");
                 return;
@@ -1131,18 +1133,23 @@ namespace timebot.Modules.Commands
             {
 
                 var info = await baseurl
-                    .SetQueryParams (new { action = "query", prop = "info", format = "json", inprop="url", pageids = deserial.Query.Pages.First ().Key })
+                    .SetQueryParams (new { action = "query", prop = "info", format = "json", inprop = "url", pageids = deserial.Query.Pages.First ().Key })
                     .GetStringAsync ();
 
-                    var infodeserial = Info.FromJson(info);
+                var infodeserial = Info.FromJson (info);
 
                 //https://en.wikipedia.org/w/api.php?action=query&prop=info&format=json&pageids=15573
 
                 var title = deserial.Query.Pages.First ().Value.Title;
+<<<<<<< HEAD
                 var link = infodeserial.Query.Pages.First().Value.URL;
                 // var content = Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "...";
 
                 var content = deserial.Query.Pages.First ().Value.Extract.Length > 1000 ? Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "..." : Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract) + "...";
+=======
+                var link = infodeserial.Query.Pages.First ().Value.URL;
+                var content = Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "...";
+>>>>>>> development
 
                 Embed emb = Helper.ObjToEmbed (new { title = title, summary = content, url = link }, "title");
 

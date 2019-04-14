@@ -12,6 +12,7 @@ using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
 using NodaTime;
+using Npgsql;
 using RestSharp;
 using timebot.Classes;
 using timebot.Classes.FactionCount;
@@ -111,46 +112,39 @@ namespace timebot.Modules.Commands
             await ReplyAsync ("Messages Sent");
         }
 
-        public class stats
-        {
-            public List<faction_stat> membershipstring { get; set; }
-            public string api_key { get; set; }
-        }
-        public class faction_stat
-        {
-            public string name { get; set; }
-            public int count { get; set; }
-        }
-
         [Command ("getfactioncount")]
         [RequireUserPermission (GuildPermission.Administrator)]
         [Summary ("Gets the realtime count of all members of a faction from the SWNBot API.")]
         public async Task GetfactioncountAsync ()
         {
-            List<PopCount> rtn = await PopCount.GetCounts();
-
+            List<PopCount> rtn = await PopCount.GetCounts ();
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
-            string key = secrets["api_key"];
-
-            // string baseurl = string.Concat ("https://highchurch.space/api/UpdateMemCount");
-            string baseurl = string.Concat ("http://localhost:5000/api/UpdateMemCount");
-
-            List<faction_stat> sender = new List<faction_stat> ();
-
-            rtn.ToList ().ForEach (e => sender.Add (new faction_stat () { name = e.FactionName, count = e.MemCount }));
-
-            stats s = new stats
+            using (Npgsql.NpgsqlConnection conn = new NpgsqlConnection (secrets["connection_string"]))
             {
-                membershipstring = sender.OrderByDescending (e => e.count).ToList (),
-                api_key = key
-            };
+                conn.Open ();
 
-            var request = await baseurl
-                .WithHeader ("Content-Type", "text/json")
-                .PostJsonAsync (s)
-                .ReceiveString ();
+                // Insert some data
+                using (var cmd = new NpgsqlCommand ())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "DELETE FROM latestmemcount;";
+                    cmd.ExecuteNonQuery ();
+                }
+
+                foreach (var item in rtn)
+                {
+                    using (var cmd = new NpgsqlCommand ())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "INSERT INTO latestmemcount (facname,faccount) VALUES (@n,@c)";
+                        cmd.Parameters.AddWithValue ("n", item.FactionName);
+                        cmd.Parameters.AddWithValue ("c", item.MemCount);
+                        cmd.ExecuteNonQuery ();
+                    }
+                }
+            }
 
             var header = new string[2] { "Faction", "Count" };
 
