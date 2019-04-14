@@ -1141,15 +1141,8 @@ namespace timebot.Modules.Commands
                 //https://en.wikipedia.org/w/api.php?action=query&prop=info&format=json&pageids=15573
 
                 var title = deserial.Query.Pages.First ().Value.Title;
-<<<<<<< HEAD
-                var link = infodeserial.Query.Pages.First().Value.URL;
-                // var content = Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "...";
-
-                var content = deserial.Query.Pages.First ().Value.Extract.Length > 1000 ? Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "..." : Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract) + "...";
-=======
                 var link = infodeserial.Query.Pages.First ().Value.URL;
                 var content = Helper.GetPlainTextFromHtml (deserial.Query.Pages.First ().Value.Extract.Substring (0, 1000)) + "...";
->>>>>>> development
 
                 Embed emb = Helper.ObjToEmbed (new { title = title, summary = content, url = link }, "title");
 
