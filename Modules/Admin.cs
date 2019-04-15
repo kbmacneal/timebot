@@ -747,6 +747,27 @@ namespace timebot.Modules.Commands
             await ReplyAsync (string.Join(System.Environment.NewLine,commands), false, null, null);
         }
 
+        [Command ("cleanservercommands")]
+        [Summary ("Cleans the list of server commands.")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task CleanservercommandsAsync ()
+        {
+            using(var context = new Context())
+            {
+                foreach(var item in  context.BotCommands)
+                {
+                    if(!Program._commands.Commands.Select(e=>e.Name).Contains(item.commandname))
+                    {
+                        context.BotCommands.Remove(item);
+                    }
+                }
+
+                await context.SaveChangesAsync();
+            }                
+
+            await ReplyAsync ("Cleaned.", false, null, null);
+        }
+
     }
 
 }
