@@ -729,6 +729,24 @@ namespace timebot.Modules.Commands
             await ReplyAsync ("Command added.", false, null, null);
         }
 
+        [Command ("listservercommand")]
+        [Summary ("Lists commands allowed on the server.")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task ListservercommandAsync ()
+        {
+            var server_id = Context.Guild.Id;
+
+            List<string> commands = new List<string>();
+
+            using(var context = new Context())
+            {
+               
+                commands = context.BotCommands.Where(e=>e.serverid == server_id).Select(e=>e.commandname).OrderBy(e=>e).ToList();
+            }                
+
+            await ReplyAsync (string.Join(System.Environment.NewLine,commands), false, null, null);
+        }
+
     }
 
 }
