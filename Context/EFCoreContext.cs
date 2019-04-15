@@ -14,6 +14,7 @@ namespace timebot.Contexts
         public DbSet<BullyReason> BullyReasons { get; set; }
         public DbSet<BlameCal> BlameCals { get; set; }
         public DbSet<PopCount> PopCounts {get;set;}
+        public DbSet<botcommand> BotCommands {get;set;}
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         {
@@ -72,6 +73,14 @@ namespace timebot.Contexts
                 entity.Property (e => e.FactionName).HasColumnName ("FactionName");
                 entity.Property (e => e.MemCount).HasColumnName ("MemCount");
                 entity.Property (e => e.timestamp).HasColumnName ("timestamp");
+            });
+
+            modelBuilder.Entity<botcommand> (entity =>
+            {
+                entity.HasKey (e => e.id);
+                entity.Property (e => e.id).HasColumnName ("id").ValueGeneratedOnAdd ();
+                entity.Property (e => e.serverid).HasColumnName ("serverid");
+                entity.Property (e => e.commandname).HasColumnName ("commandname");
             });
         }
     }
