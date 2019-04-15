@@ -184,6 +184,11 @@ namespace timebot
                 cmd = cmd.Split ("!") [1];
             }
 
+            if(cmd == "addservercommand")
+            {
+                return true;
+            }
+
             using (var con = new Contexts.Context ())
             {
                 var tester = con.BotCommands.FirstOrDefault (e => e.serverid.ToString() == server_id && e.commandname == cmd);

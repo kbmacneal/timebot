@@ -1,4 +1,4 @@
-dotnet ef migrations add addingbotcommandframework --context Context -o Migrations
+dotnet ef migrations add fixingtyping --context Context -o Migrations
 
 dotnet ef database update --context Context
 

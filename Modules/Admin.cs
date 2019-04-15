@@ -693,6 +693,42 @@ namespace timebot.Modules.Commands
             await ReplyAsync ("Channels created.", false, null, null);
         }
 
+        [Command ("addservercommand")]
+        [Summary ("Adds a command to the list of commands allowed on the server.")]
+        [RequireUserPermission (GuildPermission.Administrator)]
+        public async Task AddservercommandAsync (string command)
+        {
+            var server_id = Context.Guild.Id;
+
+            using(var context = new Context())
+            {
+                var check = context.BotCommands.FirstOrDefault(e=>e.serverid == server_id && e.commandname == command);
+
+                if(check!=null)
+                {
+                    await ReplyAsync("Command already added to this server.");
+                    return;
+                }
+
+                if(!Program._commands.Commands.Select(e=>e.Name).ToList ().Contains(command))
+                {
+                    await ReplyAsync("Invalid command selected.");
+                    return;
+                }
+
+                var cmds = context.BotCommands;
+
+                await cmds.AddAsync(new botcommand(){
+                    serverid = server_id,
+                    commandname = command
+                });
+
+                await context.SaveChangesAsync();
+            }                
+
+            await ReplyAsync ("Command added.", false, null, null);
+        }
+
     }
 
 }
