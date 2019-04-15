@@ -106,49 +106,6 @@ namespace timebot.Modules.Commands
             await ReplyAsync ("Speaking times have been reset");
         }
 
-        // [Command ("starttimer")]
-        // [Summary ("Starts the timer against a user.")]
-        // [RequireUserPermission (GuildPermission.Administrator)]
-        // public async Task StarttimerAsync (IGuildUser user)
-        // {
-        //     Data.speaker spkr = new Data.speaker ();
-
-        //     if (!Data.is_speaker (user))
-        //     {
-        //         await AddspeakerAsync (user);
-
-        //         spkr = Data.get_speakers ().First (s => s.user.Name == user.Username && s.user.Discriminator == user.Discriminator);
-
-        //         spkr.start_time = DateTime.Now;
-
-        //         string msg = String.Concat ("You are now the speaker. You have ", spkr.speaking_time_minutes, " minutes remaining");
-
-        //         await user.SendMessageAsync (msg);
-
-        //         timer tmr = new timer ();
-
-        //         tmr.user = user;
-
-        //         tmr.StartTimer (spkr.speaking_time_minutes * 60 * 1000);
-        //     }
-        //     else
-        //     {
-        //         spkr = Data.get_speakers ().First (s => s.user.Name == user.Username && s.user.Discriminator == user.Discriminator);
-
-        //         spkr.start_time = DateTime.Now;
-
-        //         string msg = String.Concat ("You are now the speaker. You have ", spkr.speaking_time_minutes, " minutes remaining");
-
-        //         await user.SendMessageAsync (msg);
-
-        //         timer tmr = new timer ();
-
-        //         tmr.user = user;
-
-        //         tmr.StartTimer (spkr.speaking_time_minutes * 60 * 1000);
-        //     }
-        // }
-
         [Command ("clearspeakers")]
         [Summary ("Resets the speaker list.")]
         [RequireUserPermission (GuildPermission.Administrator)]
@@ -261,73 +218,6 @@ namespace timebot.Modules.Commands
 
             return;
         }
-
-        // [Command ("vote")]
-        // [Summary ("Handles multifation voting.")]
-        // public async Task vote (string faction, int question, int selection)
-        // {
-        //     vote vote = new vote ();
-
-        //     if (Context.Guild.Roles.Where (e => e.Name == faction).FirstOrDefault () == null)
-        //     {
-        //         await ReplyAsync ("Faction invalid.");
-        //         return;
-        //     }
-
-        //     vote.name = Context.User.Username;
-        //     vote.discriminator = Convert.ToUInt64 (Context.User.Discriminator);
-        //     vote.selection = selection;
-        //     vote.vote_id = question;
-        //     vote.faction_name = faction;
-        //     vote.faction_id = Context.Guild.Roles.Where (e => e.Name == faction).Select (e => e.Id).FirstOrDefault ();
-
-        //     Boolean can_vote = validate_vote (Context.User, vote);
-        //     if (!can_vote)
-        //     {
-        //         await ReplyAsync ("User not authorized to cast a vote for this faction.");
-        //         return;
-        //     }
-
-        //     factionvoting voter = new factionvoting ();
-        //     await voter.add_vote (vote);
-
-        //     await ReplyAsync ("Vote cast");
-        // }
-
-        // [Command ("tally")]
-        // [Summary ("Tallies the votes.")]
-        // public async Task tally (int question_id)
-        // {
-        //     List<string> results = new List<string> ();
-        //     results.Add ("```");
-        //     factionvoting voting = new factionvoting ();
-        //     List<vote> votes = voting.return_tally (question_id);
-        //     List<int> options = votes.Select (e => e.selection).Distinct ().ToList ();
-
-        //     foreach (int option in options)
-        //     {
-        //         results.Add ("The tally for option " + option.ToString () + " is: " + votes.Where (e => e.selection == option).ToList ().Count ().ToString ());
-        //         results.Add ("The factions who voted for this option are:");
-        //         results.Add (String.Join (", ", votes.Select (e => e.faction_name)));
-        //     }
-        //     results.Add ("```");
-
-        //     string rtn = string.Join (System.Environment.NewLine, results);
-
-        //     await ReplyAsync (rtn);
-        // }
-
-        // [Command ("deletequestion")]
-        // [Summary ("Removes a question from the database.")]
-        // [RequireUserPermission (GuildPermission.Administrator)]
-        // public async Task DeletequestionAsync (int question_id)
-        // {
-        //     factionvoting voting = new factionvoting ();
-
-        //     await voting.delete_question (question_id);
-
-        //     await ReplyAsync ("Votes for the question have been removed");
-        // }
 
         [Command ("synth")]
         [Summary ("Determines whether or not someone is a synth.")]
@@ -515,16 +405,6 @@ namespace timebot.Modules.Commands
         {
             int comic_number = Program.rand.Next (0, (Program.latest_xkcd + 1));
 
-            // string baseurl = string.Concat ("https://xkcd.com/" + comic_number.ToString () + "/info.0.json");
-
-            // var client = new RestClient (baseurl);
-
-            // var request = new RestRequest (Method.GET);
-
-            // var response = client.Execute (request);
-
-            // if (!response.IsSuccessful) return;
-
             var response = await "https://xkcd.com/"
                 .AppendPathSegment (comic_number)
                 .AppendPathSegment ("info.0.json")
@@ -542,16 +422,6 @@ namespace timebot.Modules.Commands
         [Summary ("Random web comic anyone?")]
         private async Task XkcdAsync (int comic_number)
         {
-            // string baseurl = string.Concat ("https://xkcd.com/" + comic_number.ToString () + "/info.0.json");
-
-            // var client = new RestClient (baseurl);
-
-            // var request = new RestRequest (Method.GET);
-
-            // var response = client.Execute (request);
-
-            // if (!response.IsSuccessful) return;
-
             var response = await "https://xkcd.com/"
                 .AppendPathSegment (comic_number)
                 .AppendPathSegment ("info.0.json")
@@ -888,24 +758,11 @@ namespace timebot.Modules.Commands
 
             var header = new string[6] { "Owner", "Name", "HP", "Attack Dice", "Counter Dice", "Location" };
 
-            var table = Classes.TableParser.ToStringTable (assets.Select (asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy (e => e.Owner).ThenBy (e => e.Location).ThenBy (e => e.Asset), header, a => a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
+            var table = Classes.TableParser.ToStringTable (assets.Select (asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy (e => e.Owner).ThenBy (e => e.Location).ThenBy (e => e.Asset), header, a => a.Owner.Length > 15 ? a.Owner.Substring(0,15) + "..." : a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
 
             Helper.SplitToLines (table, 1994).ForEach (e => ReplyAsync ("```" + e + "```").GetAwaiter ().GetResult ());
 
-            // rtn.Add (table);
-
-            // rtn.Add(Classes.TableParser.PrintRow(header));
-            // rtn.Add(Classes.TableParser.PrintLine());
-            // rtn.Add("Name | HP | Max HP | Attack Dice | Counter Dice | Location");
-
-            // assets.ForEach(asset=>rtn.Add(Classes.TableParser.PrintRow(new string[6]{asset.Asset, asset.HP, asset.MaxHP, asset.Attack, asset.Counter, asset.Location})));
-
-            // foreach (var asset in assets)
-            // {
-            //     var adder = string.Join (" | ", new List<string> () { asset.Asset, asset.HP, asset.MaxHP, asset.Attack, asset.Counter, asset.Location });l
-
-            //     rtn.Add (adder);
-            // }
+            
         }
 
         [Command ("turnfactions")]
@@ -962,26 +819,6 @@ namespace timebot.Modules.Commands
             await ReplyAsync (rtn);
             return;
         }
-
-        // private Boolean validate_vote (SocketUser user, vote vote)
-        // {
-        //     Nacho nacho = new Nacho ();
-
-        //     if (nacho.get_rep (user.Username, Convert.ToUInt64 (user.Discriminator)).FirstOrDefault () == null)
-        //     {
-        //         return false;
-        //     }
-
-        //     Nacho.representative rep = nacho.get_rep (user.Username, Convert.ToUInt64 (user.Discriminator)).FirstOrDefault ();
-
-        //     if (rep.faction_text != vote.faction_name)
-        //     {
-        //         return false;
-        //     }
-
-        //     return true;
-
-        // }
 
         [Command ("josef")]
         [Summary ("A present for the Deathless.")]
