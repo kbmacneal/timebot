@@ -795,7 +795,7 @@ namespace timebot.Modules.Commands
 
             // Define request parameters.
             String spreadsheetId = "1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ";
-            String range = "\'Faction Turns\'!A2:A14";
+            String range = "\'Faction Turns\'!A2:A";
             SpreadsheetsResource.ValuesResource.GetRequest request =
                 service.Spreadsheets.Values.Get (spreadsheetId, range);
 
