@@ -481,7 +481,7 @@ namespace timebot.Modules.Commands
                     cmd.ExecuteNonQuery ();
                 }
 
-                foreach (var item in commands)
+                foreach (var item in commands.Distinct().OrderBy(e=>e.name).ThenBy(e=>e.admin_required))
                 {
                     using (var cmd = new NpgsqlCommand ())
                     {
