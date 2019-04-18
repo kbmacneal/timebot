@@ -27,6 +27,7 @@ using timebot.Classes;
 using timebot.Classes.Assets;
 using timebot.Classes.Utilities;
 using timebot.Contexts;
+using MoreLinq;
 
 namespace timebot.Modules.Commands
 {
@@ -481,7 +482,7 @@ namespace timebot.Modules.Commands
                     cmd.ExecuteNonQuery ();
                 }
 
-                foreach (var item in commands.Distinct().OrderBy(e=>e.name).ThenBy(e=>e.admin_required))
+                foreach (var item in commands.DistinctBy(e=>e.name.ToString() + e.summary.ToString()).OrderBy(e=>e.name).ThenBy(e=>e.admin_required))
                 {
                     using (var cmd = new NpgsqlCommand ())
                     {
