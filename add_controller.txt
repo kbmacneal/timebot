@@ -1,7 +1,7 @@
-dotnet ef migrations add fixingtyping --context Context -o Migrations
+dotnet ef migrations add fixingtyping -o Migrations
 
-dotnet ef database update --context Context
+dotnet ef database update 
 
-dotnet ef migrations remove --context ApplicationUserContext
+dotnet ef migrations remove 
 
-dotnet ef database update addingStats --context ApplicationUserContext
+dotnet ef database update fixingtyping

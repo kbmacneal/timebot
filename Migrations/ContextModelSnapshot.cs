@@ -88,23 +88,6 @@ namespace timebot.Migrations
                     b.ToTable("BullyReasons");
                 });
 
-            modelBuilder.Entity("timebot.Classes.Faction", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<string>("FactionName")
-                        .HasColumnName("factionname");
-
-                    b.Property<string>("FactionShortName")
-                        .HasColumnName("factionshortname");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Factions");
-                });
-
             modelBuilder.Entity("timebot.Classes.PopCount", b =>
                 {
                     b.Property<int>("ID")
