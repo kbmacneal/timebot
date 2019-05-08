@@ -990,6 +990,26 @@ namespace timebot.Modules.Commands
 
         }
 
+        [Command ("valid")]
+        [Summary ("Figures out if someone is valid.")]
+        public async Task ValidAsync (IGuildUser user)
+        {
+            var role = Context.Guild.Roles.FirstOrDefault(e=>e.Name=="valid");
+            if(role == null)
+            {
+                await ReplyAsync("No valid role available.");
+                return;
+            }
+
+            var mention = user.Mention;
+
+            await user.AddRoleAsync(role);
+
+            await ReplyAsync(mention + " is valid.");
+                return;
+
+        }
+
         public string GetReadableTimespan (TimeSpan ts)
         {
             // formats and its cutoffs based on totalseconds
