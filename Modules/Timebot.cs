@@ -20,6 +20,7 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
+using MoreLinq;
 using Newtonsoft.Json;
 using Npgsql;
 using RestSharp;
@@ -27,7 +28,6 @@ using timebot.Classes;
 using timebot.Classes.Assets;
 using timebot.Classes.Utilities;
 using timebot.Contexts;
-using MoreLinq;
 
 namespace timebot.Modules.Commands
 {
@@ -482,7 +482,7 @@ namespace timebot.Modules.Commands
                     cmd.ExecuteNonQuery ();
                 }
 
-                foreach (var item in commands.DistinctBy(e=>e.name.ToString() + e.summary.ToString()).OrderBy(e=>e.name).ThenBy(e=>e.admin_required))
+                foreach (var item in commands.DistinctBy (e => e.name.ToString () + e.summary.ToString ()).OrderBy (e => e.name).ThenBy (e => e.admin_required))
                 {
                     using (var cmd = new NpgsqlCommand ())
                     {
@@ -759,11 +759,10 @@ namespace timebot.Modules.Commands
 
             var header = new string[6] { "Owner", "Name", "HP", "Attack Dice", "Counter Dice", "Location" };
 
-            var table = Classes.TableParser.ToStringTable (assets.Select (asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy (e => e.Owner).ThenBy (e => e.Location).ThenBy (e => e.Asset), header, a => a.Owner.Length > 15 ? a.Owner.Substring(0,15) + "..." : a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
+            var table = Classes.TableParser.ToStringTable (assets.Select (asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy (e => e.Owner).ThenBy (e => e.Location).ThenBy (e => e.Asset), header, a => a.Owner.Length > 15 ? a.Owner.Substring (0, 15) + "..." : a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
 
             Helper.SplitToLines (table, 1994).ForEach (e => ReplyAsync ("```" + e + "```").GetAwaiter ().GetResult ());
 
-            
         }
 
         [Command ("turnfactions")]
@@ -853,17 +852,53 @@ namespace timebot.Modules.Commands
         [Summary ("Gets the time til the faction turn orders lockin.")]
         public async Task TimetillockinAsync ()
         {
-            var client = new RestClient ("https://private.highchurch.space/Home/GetTurnDateTime");
 
-            var request = new RestRequest ();
+            string lockin_string = await "https://private.highchurch.space"
+                .AppendPathSegment ("Home")
+                .AppendPathSegment ("GetLockinDateTime")
+                .GetStringAsync ();
 
-            var response = client.Get (request);
+            DateTime lockin_time = DateTime.Parse (lockin_string.Replace ("\"", ""), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime ();
 
-            DateTime lockin_UTC = DateTime.Parse (response.Content.ToString ().Replace ("\"", ""), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime ();
+            TimeSpan span = lockin_time - DateTime.UtcNow;
 
-            TimeSpan span = lockin_UTC - DateTime.UtcNow;
+            string rtn = GetReadableTimespan (span);
 
-            await ReplyAsync (GetReadableTimespan (span));
+            if (rtn.StartsWith ('-'))
+            {
+                await ReplyAsync ("0 days");
+            }
+            else
+            {
+                await ReplyAsync (rtn);
+            }
+
+        }
+
+        [Command ("timetilturn")]
+        [Summary ("Gets the time til the faction turn.")]
+        public async Task TimetilturnAsync ()
+        {
+
+            string lockin_string = await "https://private.highchurch.space"
+                .AppendPathSegment ("Home")
+                .AppendPathSegment ("GetTurnDateTime")
+                .GetStringAsync ();
+
+            DateTime lockin_time = DateTime.Parse (lockin_string.Replace ("\"", ""), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime ();
+
+            TimeSpan span = lockin_time - DateTime.UtcNow;
+
+            string rtn = GetReadableTimespan (span);
+
+            if (rtn.StartsWith ('-'))
+            {
+                await ReplyAsync ("0 days");
+            }
+            else
+            {
+                await ReplyAsync (rtn);
+            }
         }
 
         [Command ("churchbullies")]
@@ -994,19 +1029,19 @@ namespace timebot.Modules.Commands
         [Summary ("Figures out if someone is valid.")]
         public async Task ValidAsync (IGuildUser user)
         {
-            var role = Context.Guild.Roles.FirstOrDefault(e=>e.Name=="valid");
-            if(role == null)
+            var role = Context.Guild.Roles.FirstOrDefault (e => e.Name == "valid");
+            if (role == null)
             {
-                await ReplyAsync("No valid role available.");
+                await ReplyAsync ("No valid role available.");
                 return;
             }
 
             var mention = user.Mention;
 
-            await user.AddRoleAsync(role);
+            await user.AddRoleAsync (role);
 
-            await ReplyAsync(mention + " is valid.");
-                return;
+            await ReplyAsync (mention + " is valid.");
+            return;
 
         }
 
