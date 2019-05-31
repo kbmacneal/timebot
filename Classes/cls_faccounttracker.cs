@@ -21,7 +21,18 @@ namespace timebot.Classes
 
             List<PopCount> rtn = new List<PopCount> ();
 
-            official_factions.ForEach (e => rtn.Add (new PopCount () { FactionID = Convert.ToUInt64 (e.FactionDiscordID), FactionName = e.FactionName, timestamp = DateTime.Now, MemCount = Convert.ToInt32 (FactionCountGet.GetCount (e.FactionShortName).Members.Count ().ToString ()) }));
+            foreach (var faction in official_factions)
+            {
+                rtn.Add(new PopCount()
+                {
+                    FactionID = Convert.ToUInt64(faction.FactionDiscordID),
+                    FactionName = faction.FactionName,
+                    timestamp = DateTime.Now,
+                    MemCount = Convert.ToInt32((await FactionCountGet.GetCount(faction.FactionBotId)).Members.Count().ToString())
+                });
+            }
+
+            // official_factions.ForEach (e => rtn.Add (new PopCount () { FactionID = Convert.ToUInt64 (e.FactionDiscordID), FactionName = e.FactionName, timestamp = DateTime.Now, MemCount = Convert.ToInt32 (FactionCountGet.GetCount (e.FactionShortName).Members.Count ().ToString ()) }));
 
             using (var context = new Context ())
             {

@@ -98,7 +98,7 @@ namespace timebot.Modules.Commands
                 return;
             }
 
-            var users = Classes.FactionCount.FactionCountGet.GetCount (blasters[faction]).Members;
+            var users = (await Classes.FactionCount.FactionCountGet.GetCount (blasters[faction])).Members;
 
             foreach (var user in users)
             {

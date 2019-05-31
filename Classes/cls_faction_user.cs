@@ -5,25 +5,36 @@ namespace timebot.Classes.FactionCount {
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json;
     using RestSharp;
+    using Flurl;
+    using Flurl.Http;
+    using System.Threading.Tasks;
 
     public static class FactionCountGet {
-        public static FactionCount GetCount (string short_name) {
+        public async static Task<FactionCount> GetCount (string bot_id) {
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
 
             string key = secrets["token"];
 
-            string baseurl = string.Concat ("https://swnbot.itmebot.com/api/");
+            var result = await "https://swnbot.itmebot.com/api/"
+            .AppendPathSegment("faction")
+            .AppendPathSegment(bot_id)
+            .WithHeader("Authorization", key)
+            .GetJsonAsync<FactionCount>();
 
-            var client = new RestClient (baseurl);
+            return result;
 
-            var request = new RestRequest ("faction/{id}", Method.GET);
-            request.AddParameter ("name", "value");
-            request.AddUrlSegment ("id", short_name);
+            // string baseurl = string.Concat ("https://swnbot.itmebot.com/api/");
 
-            request.AddHeader ("Authorization", key);
+            // var client = new RestClient (baseurl);
 
-            return FactionCount.FromJson (client.Execute (request).Content);
+            // var request = new RestRequest ("faction/{id}", Method.GET);
+            // request.AddParameter ("name", "value");
+            // request.AddUrlSegment ("id", short_name);
+
+            // request.AddHeader ("Authorization", key);
+
+            // return FactionCount.FromJson (client.Execute (request).Content);
         }
     }
 
