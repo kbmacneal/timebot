@@ -160,13 +160,13 @@ namespace timebot.Modules.Commands
         {
 
             await CleanfaclistsAsync ();
-            await Addtorightfaction ();
+            await AddtorightfactionAsync ();
         }
 
         [Command ("addtorightfaction")]
         [RequireUserPermission (GuildPermission.Administrator)]
         [Summary ("Adds a user to the faction they are a part of in the main server.")]
-        public async Task Addtorightfaction ()
+        public async Task AddtorightfactionAsync ()
         {
             List<string> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ().Select (e => e.FactionName).ToList ();
 
@@ -201,7 +201,7 @@ namespace timebot.Modules.Commands
 
             }
 
-            await ReplyAsync ("users added to a role" + System.Environment.NewLine + additions.ToStringTable (new [] { "Name", "Faction" }, a => a.name, a => a.faction));
+            await ReplyAsync ("users added to a role" + System.Environment.NewLine + "```" + additions.ToStringTable (new [] { "Name", "Faction" }, a => a.name, a => a.faction) + "```");
         }
 
         [Command ("addtorightfaction")]
@@ -265,7 +265,7 @@ namespace timebot.Modules.Commands
                 }
             }
 
-            await ReplyAsync ("users removed from a role" + System.Environment.NewLine + infractions.ToStringTable (new [] { "Name", "Faction" }, a => a.name, a => a.faction));
+            await ReplyAsync ("users removed from a role" + System.Environment.NewLine + "```" + infractions.ToStringTable (new [] { "Name", "Faction" }, a => a.name, a => a.faction)+ "```");
         }
 
         [Command ("cleanfaclists")]
