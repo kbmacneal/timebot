@@ -1,20 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.Net;
-using Discord.WebSocket;
-using Newtonsoft.Json;
-using timebot.Classes;
-
-namespace timebot.Modules.Commands {
-
+namespace timebot.Modules.Commands
+{
     // public class BingoBot : ModuleBase<SocketCommandContext> {
-
     //     private static Bingo bingo { get; set; } = new Bingo ();
 
     //     [Command ("playbingo")]
@@ -53,5 +39,4 @@ namespace timebot.Modules.Commands {
     //     }
 
     // }
-
 }

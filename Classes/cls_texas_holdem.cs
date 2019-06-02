@@ -1,23 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
 using JsonFlatFileDataStore;
-using Newtonsoft.Json;
-using timebot.Classes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace timebot.Classes
 {
-
     public class Player
     {
         public List<StandardCard> hole { get; set; } = new List<StandardCard>();
@@ -34,7 +22,7 @@ namespace timebot.Classes
             // Get employee collection
             var collection = store.GetCollection<Player>();
 
-            var rtn = collection.AsQueryable().ToList().FirstOrDefault(e=>e.ID == ID);
+            var rtn = collection.AsQueryable().ToList().FirstOrDefault(e => e.ID == ID);
 
             store.Dispose();
 
@@ -48,7 +36,7 @@ namespace timebot.Classes
             // Get employee collection
             var collection = store.GetCollection<Player>();
 
-            await collection.ReplaceOneAsync(e=>e.ID == this.ID,this,true);
+            await collection.ReplaceOneAsync(e => e.ID == this.ID, this, true);
 
             store.Dispose();
         }
@@ -76,8 +64,10 @@ namespace timebot.Classes
     public class HoldEm
     {
         public Stack<StandardCard> deck { get; set; }
+
         // public int card_round { get; set; } = 0;
         public betting_round current_round { get; set; }
+
         public int big_blind { get; set; } = 500;
         public int small_blind { get; set; }
         public int ante { get; set; } = 50;
@@ -114,10 +104,6 @@ namespace timebot.Classes
             //     ID = 111259937123897344,
             //     cash_pool = 100000
             // });
-
         }
     }
-
-
-
 }

@@ -1,28 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using JsonFlatFileDataStore;
-using Newtonsoft.Json;
-using timebot.Classes;
 
 namespace timebot.Classes
 {
-
     public class StandardCard
     {
-
         //
         public int value { get; set; }
+
         public int suit { get; set; }
 
         public StandardCard(int v, int s)
@@ -207,7 +192,6 @@ namespace timebot.Classes
             if (threes) weight = 4;
 
             return weight;
-
         }
 
         public static int ContainsPairOrTwoPair(List<StandardCard> eval)
@@ -233,8 +217,6 @@ namespace timebot.Classes
             if (paircount == 1) weight = 2;
 
             return weight;
-
         }
-
     }
 }

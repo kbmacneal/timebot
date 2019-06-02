@@ -1,18 +1,18 @@
-namespace timebot.Classes.FactionCount {
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System;
-    using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json;
-    using RestSharp;
+namespace timebot.Classes.FactionCount
+{
     using Flurl;
     using Flurl.Http;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Threading.Tasks;
 
-    public static class FactionCountGet {
-        public async static Task<FactionCount> GetCount (string bot_id) {
-
-            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
+    public static class FactionCountGet
+    {
+        public async static Task<FactionCount> GetCount(string bot_id)
+        {
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(Program.secrets_file));
 
             string key = secrets["token"];
 
@@ -38,85 +38,92 @@ namespace timebot.Classes.FactionCount {
         }
     }
 
-    public partial class FactionCount {
-        [JsonProperty ("factionName")]
+    public partial class FactionCount
+    {
+        [JsonProperty("factionName")]
         public string FactionName { get; set; }
 
-        [JsonProperty ("factionShortName")]
+        [JsonProperty("factionShortName")]
         public string FactionShortName { get; set; }
 
-        [JsonProperty ("factionBotID")]
+        [JsonProperty("factionBotID")]
         public string FactionBotId { get; set; }
 
-        [JsonProperty ("factionDiscordID")]
+        [JsonProperty("factionDiscordID")]
         public string FactionDiscordId { get; set; }
 
-        [JsonProperty ("factionMemberCount")]
+        [JsonProperty("factionMemberCount")]
         public long FactionMemberCount { get; set; }
 
-        [JsonProperty ("members")]
+        [JsonProperty("members")]
         public Member[] Members { get; set; }
     }
 
-    public partial class Member {
-        [JsonProperty ("user")]
+    public partial class Member
+    {
+        [JsonProperty("user")]
         public User User { get; set; }
 
-        [JsonProperty ("nick")]
+        [JsonProperty("nick")]
         public string Nick { get; set; }
 
-        [JsonProperty ("roles")]
+        [JsonProperty("roles")]
         public string[] Roles { get; set; }
 
-        [JsonProperty ("mute")]
+        [JsonProperty("mute")]
         public bool Mute { get; set; }
 
-        [JsonProperty ("joined_at")]
+        [JsonProperty("joined_at")]
         public string JoinedAt { get; set; }
 
-        [JsonProperty ("guild_id")]
+        [JsonProperty("guild_id")]
         public object GuildId { get; set; }
 
-        [JsonProperty ("deaf")]
+        [JsonProperty("deaf")]
         public bool Deaf { get; set; }
     }
 
-    public partial class User {
-        [JsonProperty ("id")]
+    public partial class User
+    {
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty ("username")]
+        [JsonProperty("username")]
         public string Username { get; set; }
 
-        [JsonProperty ("discriminator")]
+        [JsonProperty("discriminator")]
         public string Discriminator { get; set; }
 
-        [JsonProperty ("avatar")]
+        [JsonProperty("avatar")]
         public string Avatar { get; set; }
 
-        [JsonProperty ("bot")]
+        [JsonProperty("bot")]
         public object Bot { get; set; }
 
-        [JsonProperty ("mfa_enabled")]
+        [JsonProperty("mfa_enabled")]
         public object MfaEnabled { get; set; }
 
-        [JsonProperty ("verified")]
+        [JsonProperty("verified")]
         public object Verified { get; set; }
 
-        [JsonProperty ("email")]
+        [JsonProperty("email")]
         public object Email { get; set; }
     }
 
-    public partial class FactionCount {
-        public static FactionCount FromJson (string json) => JsonConvert.DeserializeObject<FactionCount> (json, timebot.Classes.FactionCount.Converter.Settings);
+    public partial class FactionCount
+    {
+        public static FactionCount FromJson(string json) => JsonConvert.DeserializeObject<FactionCount>(json, timebot.Classes.FactionCount.Converter.Settings);
     }
 
-    public static class Serialize {
-        public static string ToJson (this FactionCount self) => JsonConvert.SerializeObject (self, timebot.Classes.FactionCount.Converter.Settings);
+    public static class Serialize
+    {
+        public static string ToJson(this FactionCount self) => JsonConvert.SerializeObject(self, timebot.Classes.FactionCount.Converter.Settings);
     }
 
-    internal static class Converter {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
+    internal static class Converter
+    {
+        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters = {

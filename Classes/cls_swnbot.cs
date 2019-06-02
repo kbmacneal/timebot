@@ -1,36 +1,36 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using RestSharp;
+using System.Collections.Generic;
+using System.Globalization;
 
-namespace timebot.Classes {
-    public static class SwnbotResponseGet {
-        public static SwnbotResponse GetResponse (ulong ID) {
-            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>> (System.IO.File.ReadAllText (Program.secrets_file));
+namespace timebot.Classes
+{
+    public static class SwnbotResponseGet
+    {
+        public static SwnbotResponse GetResponse(ulong ID)
+        {
+            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(Program.secrets_file));
 
             string key = secrets["token"];
 
-            string baseurl = string.Concat ("https://swnbot.itmebot.com/api/");
+            string baseurl = string.Concat("https://swnbot.itmebot.com/api/");
 
-            var client = new RestClient (baseurl);
+            var client = new RestClient(baseurl);
 
-            var request = new RestRequest ("user/{id}", Method.GET);
-            request.AddParameter ("name", "value");
-            request.AddUrlSegment ("id", ID);
+            var request = new RestRequest("user/{id}", Method.GET);
+            request.AddParameter("name", "value");
+            request.AddUrlSegment("id", ID);
 
-            request.AddHeader ("Authorization", key);
+            request.AddHeader("Authorization", key);
 
-            var response = client.Execute (request);
+            var response = client.Execute(request);
 
             if (!response.IsSuccessful) return null;
 
-            var content = response.Content.Replace ('’', '\'');
+            var content = response.Content.Replace('’', '\'');
 
-            return SwnbotResponse.FromJson (content);
+            return SwnbotResponse.FromJson(content);
         }
     }
 

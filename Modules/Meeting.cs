@@ -1,20 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.Net;
-using Discord.WebSocket;
-using Newtonsoft.Json;
-using timebot.Classes;
-
-namespace timebot.Modules.Commands {
-
+namespace timebot.Modules.Commands
+{
     // public class Meeting : ModuleBase<SocketCommandContext> {
-
     //     [Command ("postmeeting")]
     //     [Summary("Posts a meeting in the right channel indicating the date time and agenda.")]
     //     [RequireUserPermission (GuildPermission.Administrator)]
@@ -122,5 +108,4 @@ namespace timebot.Modules.Commands {
     //         await ReplyAsync (timetill);
     //     }
     // }
-
 }

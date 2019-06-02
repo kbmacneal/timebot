@@ -1,63 +1,49 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
-using Discord.Net;
-using Discord.WebSocket;
-using Newtonsoft.Json;
-using timebot.Classes;
 
-namespace timebot.Modules.Commands {
+namespace timebot.Modules.Commands
+{
+    public class Proposals : ModuleBase<SocketCommandContext>
+    {
+        //     [Command ("propose")]
+        //     [Summary("Propose a topic for a meeting to the other representatives.")]
+        //     [RequireBotPermission (GuildPermission.Administrator)]
+        //     public async Task ProposeAsync (String text) {
+        //         ulong channel_id = 476521329122869259;
 
-    public class Proposals : ModuleBase<SocketCommandContext> {
+        //         Nacho nacho = new Nacho ();
 
-    //     [Command ("propose")]
-    //     [Summary("Propose a topic for a meeting to the other representatives.")]
-    //     [RequireBotPermission (GuildPermission.Administrator)]
-    //     public async Task ProposeAsync (String text) {
+        //         List<SocketRole> roles = Context.Guild.GetUser (Context.Message.Author.Id).Roles.ToList ();
 
-    //         ulong channel_id = 476521329122869259;
+        //         SocketRole rep_role = Context.Guild.GetRole (Context.Guild.Roles.FirstOrDefault (e => e.Name == "Representative").Id);
 
-    //         Nacho nacho = new Nacho ();
+        //         if (!roles.Contains (rep_role)) return;
 
-    //         List<SocketRole> roles = Context.Guild.GetUser (Context.Message.Author.Id).Roles.ToList ();
+        //         DateTime stamp = DateTime.Now.ToUniversalTime ();
 
-    //         SocketRole rep_role = Context.Guild.GetRole (Context.Guild.Roles.FirstOrDefault (e => e.Name == "Representative").Id);
+        //         var channel = Context.Guild.GetChannel (channel_id) as ISocketMessageChannel;
+        //         if (channel == null) return;
 
-    //         if (!roles.Contains (rep_role)) return;
+        //         Nacho.representative rep = nacho.get_rep (Context.User.Username, Convert.ToUInt64 (Context.User.Discriminator)).FirstOrDefault ();
 
-    //         DateTime stamp = DateTime.Now.ToUniversalTime ();
+        //         Attachment attach = Context.Message.Attachments.FirstOrDefault ();
 
-    //         var channel = Context.Guild.GetChannel (channel_id) as ISocketMessageChannel;
-    //         if (channel == null) return;
+        //         string nickname = Context.Guild.GetUser (Context.Message.Author.Id).Nickname;
 
-    //         Nacho.representative rep = nacho.get_rep (Context.User.Username, Convert.ToUInt64 (Context.User.Discriminator)).FirstOrDefault ();
+        //         text = text.Insert (0, "```");
+        //         text = text += "```";
+        //         text = stamp.ToString () + System.Environment.NewLine + "Proposal by: " + nickname + System.Environment.NewLine + "Representing Faction: " + rep.faction_text + System.Environment.NewLine + text;
 
-    //         Attachment attach = Context.Message.Attachments.FirstOrDefault ();
+        //         if (attach != null) {
+        //             using (WebClient wc = new WebClient ()) {
+        //                 wc.DownloadFile (new System.Uri (attach.Url),
+        //                     attach.Filename);
+        //             }
 
-    //         string nickname = Context.Guild.GetUser (Context.Message.Author.Id).Nickname;
+        //             await channel.SendFileAsync (attach.Filename, text, false, null);
+        //         } else {
+        //             await channel.SendMessageAsync (text, false, null, null);
+        //         }
 
-    //         text = text.Insert (0, "```");
-    //         text = text += "```";
-    //         text = stamp.ToString () + System.Environment.NewLine + "Proposal by: " + nickname + System.Environment.NewLine + "Representing Faction: " + rep.faction_text + System.Environment.NewLine + text;
-
-    //         if (attach != null) {
-    //             using (WebClient wc = new WebClient ()) {
-    //                 wc.DownloadFile (new System.Uri (attach.Url),
-    //                     attach.Filename);
-    //             }
-
-    //             await channel.SendFileAsync (attach.Filename, text, false, null);
-    //         } else {
-    //             await channel.SendMessageAsync (text, false, null, null);
-    //         }
-
-    //     }
-
+        //     }
     }
 }

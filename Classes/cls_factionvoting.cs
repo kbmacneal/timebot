@@ -1,19 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
 using JsonFlatFileDataStore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace timebot.Classes {
-    public class vote {
+namespace timebot.Classes
+{
+    public class vote
+    {
         public int ID { get; set; }
         public int vote_id { get; set; }
         public int selection { get; set; }
@@ -22,61 +15,70 @@ namespace timebot.Classes {
         public string faction_name { get; set; }
         public ulong faction_id { get; set; }
     }
-    public class factionvoting {
-        public List<vote> getvote (string username, ulong discriminator) {
-            List<vote> rtn = new List<vote> ();
 
-            var store = new DataStore ("data.json");
+    public class factionvoting
+    {
+        public List<vote> getvote(string username, ulong discriminator)
+        {
+            List<vote> rtn = new List<vote>();
 
-            return store.GetCollection<vote> ().AsQueryable ().Where (e => e.name == username && e.discriminator == discriminator).ToList ();
-        }
-        public List<vote> getvote (int ID) {
-            List<vote> rtn = new List<vote> ();
+            var store = new DataStore("data.json");
 
-            var store = new DataStore ("data.json");
-
-            return store.GetCollection<vote> ().AsQueryable ().Where (e => e.ID == ID).ToList ();
+            return store.GetCollection<vote>().AsQueryable().Where(e => e.name == username && e.discriminator == discriminator).ToList();
         }
 
-        public List<vote> getvote (string faction) {
-            List<vote> rtn = new List<vote> ();
+        public List<vote> getvote(int ID)
+        {
+            List<vote> rtn = new List<vote>();
 
-            var store = new DataStore ("data.json");
+            var store = new DataStore("data.json");
 
-            return store.GetCollection<vote> ().AsQueryable ().Where (e => e.faction_name == faction).ToList ();
+            return store.GetCollection<vote>().AsQueryable().Where(e => e.ID == ID).ToList();
         }
 
-        public List<vote> getvote () {
-            List<vote> rtn = new List<vote> ();
+        public List<vote> getvote(string faction)
+        {
+            List<vote> rtn = new List<vote>();
 
-            var store = new DataStore ("data.json");
+            var store = new DataStore("data.json");
 
-            return store.GetCollection<vote> ().AsQueryable ().ToList ();
+            return store.GetCollection<vote>().AsQueryable().Where(e => e.faction_name == faction).ToList();
         }
 
-        public async Task delete_question (int question_id) {
-            List<vote> rtn = new List<vote> ();
+        public List<vote> getvote()
+        {
+            List<vote> rtn = new List<vote>();
 
-            var store = new DataStore ("data.json");
+            var store = new DataStore("data.json");
 
-            await store.GetCollection<vote> ().DeleteManyAsync (e => e.vote_id == question_id);
+            return store.GetCollection<vote>().AsQueryable().ToList();
         }
 
-        public async Task add_vote (vote vote) {
-            List<vote> rtn = new List<vote> ();
+        public async Task delete_question(int question_id)
+        {
+            List<vote> rtn = new List<vote>();
 
-            var store = new DataStore ("data.json");
+            var store = new DataStore("data.json");
 
-            await store.GetCollection<vote> ().InsertOneAsync (vote);
+            await store.GetCollection<vote>().DeleteManyAsync(e => e.vote_id == question_id);
         }
 
-        public List<vote> return_tally (int question_id) {
-            List<vote> rtn = new List<vote> ();
+        public async Task add_vote(vote vote)
+        {
+            List<vote> rtn = new List<vote>();
 
-            var store = new DataStore ("data.json");
+            var store = new DataStore("data.json");
 
-            return store.GetCollection<vote> ().AsQueryable ().Where (e => e.vote_id == question_id).ToList ();
+            await store.GetCollection<vote>().InsertOneAsync(vote);
+        }
+
+        public List<vote> return_tally(int question_id)
+        {
+            List<vote> rtn = new List<vote>();
+
+            var store = new DataStore("data.json");
+
+            return store.GetCollection<vote>().AsQueryable().Where(e => e.vote_id == question_id).ToList();
         }
     }
-
 }

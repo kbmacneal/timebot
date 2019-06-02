@@ -1,11 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using timebot.Classes;
 
 namespace timebot.Commands
@@ -16,7 +15,6 @@ namespace timebot.Commands
         {
             RetryMode = RetryMode.RetryRatelimit
         };
-
 
         [Command("startholdem")]
         [Summary("Starts a holdem game in the channel.")]
@@ -49,7 +47,6 @@ namespace timebot.Commands
                 return;
             }
 
-
             var Player = Classes.Player.GetPlayer(Context.Message.Author.Id);
 
             if (Player == null)
@@ -65,7 +62,6 @@ namespace timebot.Commands
 
             string message = generate_name(Context.Guild.GetUser(Context.Message.Author.Id)) + " has joined the game.";
 
-
             await ReplyAsync(message, false, null, _opt);
         }
 
@@ -73,7 +69,6 @@ namespace timebot.Commands
         [Summary("Once the players are all gathered, starts the holdem round.")]
         public async Task StartroundAsync()
         {
-
             HoldEm game = Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value;
 
             game.players.ForEach(e => e.hole = new List<StandardCard>());
@@ -111,7 +106,6 @@ namespace timebot.Commands
                 foreach (var player in game.players)
                 {
                     player.hole.Add(deck.Pop());
-
                 }
             }
 
@@ -390,7 +384,7 @@ namespace timebot.Commands
 
             game.players.First(e => e.ID == Context.Message.Author.Id).cash_pool = 0;
 
-            if(game.players.Where(e=>!e.fold && !e.allin).Count() == 0)
+            if (game.players.Where(e => !e.fold && !e.allin).Count() == 0)
             {
                 determine_winner(Context);
             }
@@ -430,16 +424,15 @@ namespace timebot.Commands
 
             game.players.First(e => e.ID == Context.Message.Author.Id).fold = true;
 
-            if(game.players.Where(e=>!e.fold).Count() == 1)
+            if (game.players.Where(e => !e.fold).Count() == 1)
             {
-                we_have_a_winner(game.players.First(e=>!e.fold), Context);
+                we_have_a_winner(game.players.First(e => !e.fold), Context);
             }
 
-            if(game.players.Where(e=>!e.fold && !e.allin).Count() == 0)
+            if (game.players.Where(e => !e.fold && !e.allin).Count() == 0)
             {
                 determine_winner(Context);
             }
-
 
             game.current_round.call_position = determine_next_call_index(game.current_round.call_position, game.players);
 
@@ -485,12 +478,11 @@ namespace timebot.Commands
         public async Task HoldemestopAsync()
         {
             Program.HoldEm.First(e => e.Key == Context.Channel.Id).Value.players.ForEach(async e => await e.Save());
-            
+
             Program.HoldEm.Remove(Program.HoldEm.First(e => e.Key == Context.Channel.Id).Key);
             ;
 
             await ReplyAsync("Game halted.");
-
         }
 
         private async Task lay_down_next(SocketCommandContext context)
@@ -600,8 +592,6 @@ namespace timebot.Commands
                 winner = game.players.OrderByDescending(e => e.hand_weight).First();
             }
 
-
-
             we_have_a_winner(winner, context);
         }
 
@@ -618,6 +608,7 @@ namespace timebot.Commands
         {
             return usr.Nickname == null || usr.Nickname == "" ? usr.Username : usr.Nickname;
         }
+
         private void send_cards(UInt64 id)
         {
             SocketGuildUser usr = Context.Guild.GetUser(id);
@@ -669,17 +660,14 @@ namespace timebot.Commands
                         }
                     }
                 }
-
             }
 
             return rtn;
-
 
             // if (rtn == -1)
             // {
             //     rtn = players.FindIndex(0, players.Count - 1, e => e.fold == false);
             // }
-
 
             // return rtn;
         }
@@ -698,22 +686,20 @@ namespace timebot.Commands
             game.dealer_index = (game.dealer_index + 1) % game.players.Count();
 
             player.hole.ForEach(e => hole_cards.Add(StandardCard.value_to_output[e.value].ToString() + " of " + StandardCard.suit_to_output[e.suit].ToString()));
-            
-            
 
             string msg = generate_name(usr) + " has won the round, pot size " + game.current_round.pot.ToString() + " imperial credits. Hole Cards were " + System.Environment.NewLine + string.Join(System.Environment.NewLine, hole_cards) + System.Environment.NewLine + "Use tb!startround to begin another round.";
 
-            msg+= System.Environment.NewLine + "The Flop";
+            msg += System.Environment.NewLine + "The Flop";
 
-            game.current_round.flop.ForEach(e=> msg+= System.Environment.NewLine + StandardCard.value_to_output[e.value].ToString() + " of " + StandardCard.suit_to_output[e.suit].ToString());
+            game.current_round.flop.ForEach(e => msg += System.Environment.NewLine + StandardCard.value_to_output[e.value].ToString() + " of " + StandardCard.suit_to_output[e.suit].ToString());
 
-            msg+= System.Environment.NewLine + "The Turn";
+            msg += System.Environment.NewLine + "The Turn";
 
-            msg+= System.Environment.NewLine + StandardCard.value_to_output[game.current_round.turn.value].ToString() + " of " + StandardCard.suit_to_output[game.current_round.turn.suit].ToString();
+            msg += System.Environment.NewLine + StandardCard.value_to_output[game.current_round.turn.value].ToString() + " of " + StandardCard.suit_to_output[game.current_round.turn.suit].ToString();
 
-            msg+= System.Environment.NewLine + "The River";
+            msg += System.Environment.NewLine + "The River";
 
-            msg+= System.Environment.NewLine + StandardCard.value_to_output[game.current_round.river.value].ToString() + " of " + StandardCard.suit_to_output[game.current_round.river.suit].ToString();
+            msg += System.Environment.NewLine + StandardCard.value_to_output[game.current_round.river.value].ToString() + " of " + StandardCard.suit_to_output[game.current_round.river.suit].ToString();
 
             player.cash_pool += game.current_round.pot;
 
@@ -731,11 +717,7 @@ namespace timebot.Commands
                 rtn = true;
             }
 
-
-
             return rtn;
         }
-
-
     }
 }

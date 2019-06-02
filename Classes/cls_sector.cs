@@ -2,11 +2,11 @@
 
 namespace timebot.Sectors
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
 
     public partial class Sector
     {
@@ -242,14 +242,19 @@ namespace timebot.Sectors
             {
                 case "asteroidBelt":
                     return ParentEntity.AsteroidBelt;
+
                 case "blackHole":
                     return ParentEntity.BlackHole;
+
                 case "moon":
                     return ParentEntity.Moon;
+
                 case "planet":
                     return ParentEntity.Planet;
+
                 case "sector":
                     return ParentEntity.Sector;
+
                 case "system":
                     return ParentEntity.System;
             }
@@ -269,18 +274,23 @@ namespace timebot.Sectors
                 case ParentEntity.AsteroidBelt:
                     serializer.Serialize(writer, "asteroidBelt");
                     return;
+
                 case ParentEntity.BlackHole:
                     serializer.Serialize(writer, "blackHole");
                     return;
+
                 case ParentEntity.Moon:
                     serializer.Serialize(writer, "moon");
                     return;
+
                 case ParentEntity.Planet:
                     serializer.Serialize(writer, "planet");
                     return;
+
                 case ParentEntity.Sector:
                     serializer.Serialize(writer, "sector");
                     return;
+
                 case ParentEntity.System:
                     serializer.Serialize(writer, "system");
                     return;

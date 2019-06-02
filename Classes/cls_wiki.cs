@@ -2,100 +2,98 @@
 
 namespace timebot.Classes
 {
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System;
-    using Newtonsoft.Json.Converters;
     using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
 
     public partial class Wiki
     {
-        [JsonProperty ("batchcomplete")]
+        [JsonProperty("batchcomplete")]
         public string Batchcomplete { get; set; }
 
-        [JsonProperty ("query")]
+        [JsonProperty("query")]
         public Query Query { get; set; }
     }
 
     public partial class Query
     {
-        [JsonProperty ("pages")]
+        [JsonProperty("pages")]
         public Dictionary<string, Page> Pages { get; set; }
     }
 
     public partial class Page
     {
-        [JsonProperty ("pageid")]
+        [JsonProperty("pageid")]
         public int ID { get; set; }
 
-        [JsonProperty ("ns")]
+        [JsonProperty("ns")]
         public string ns { get; set; }
 
-        [JsonProperty ("title")]
+        [JsonProperty("title")]
         public string Title { get; set; }
 
-        [JsonProperty ("extract")]
+        [JsonProperty("extract")]
         public string Extract { get; set; }
     }
 
     public partial class Wiki
     {
-        public static Wiki FromJson (string json) => JsonConvert.DeserializeObject<Wiki> (json, Converter.Settings);
+        public static Wiki FromJson(string json) => JsonConvert.DeserializeObject<Wiki>(json, Converter.Settings);
     }
 
     public partial class Info
     {
-        [JsonProperty ("batchcomplete")]
+        [JsonProperty("batchcomplete")]
         public string Batchcomplete { get; set; }
 
-        [JsonProperty ("query")]
+        [JsonProperty("query")]
         public InfoQuery Query { get; set; }
     }
 
     public partial class InfoQuery
     {
-        [JsonProperty ("pages")]
+        [JsonProperty("pages")]
         public Dictionary<string, InfoPage> Pages { get; set; }
     }
 
     public partial class InfoPage
     {
-        [JsonProperty ("pageid")]
+        [JsonProperty("pageid")]
         public long Pageid { get; set; }
 
-        [JsonProperty ("ns")]
+        [JsonProperty("ns")]
         public long Ns { get; set; }
 
-        [JsonProperty ("title")]
+        [JsonProperty("title")]
         public string Title { get; set; }
 
-        [JsonProperty ("contentmodel")]
+        [JsonProperty("contentmodel")]
         public string Contentmodel { get; set; }
 
-        [JsonProperty ("pagelanguage")]
+        [JsonProperty("pagelanguage")]
         public string Pagelanguage { get; set; }
 
-        [JsonProperty ("pagelanguagehtmlcode")]
+        [JsonProperty("pagelanguagehtmlcode")]
         public string Pagelanguagehtmlcode { get; set; }
 
-        [JsonProperty ("pagelanguagedir")]
+        [JsonProperty("pagelanguagedir")]
         public string Pagelanguagedir { get; set; }
 
-        [JsonProperty ("touched")]
+        [JsonProperty("touched")]
         public DateTimeOffset Touched { get; set; }
 
-        [JsonProperty ("lastrevid")]
+        [JsonProperty("lastrevid")]
         public long Lastrevid { get; set; }
 
-        [JsonProperty ("length")]
+        [JsonProperty("length")]
         public long Length { get; set; }
-        [JsonProperty ("fullurl")]
+
+        [JsonProperty("fullurl")]
         public string URL { get; set; }
     }
 
     public partial class Info
     {
-        public static Info FromJson (string json) => JsonConvert.DeserializeObject<Info> (json, Converter.Settings);
+        public static Info FromJson(string json) => JsonConvert.DeserializeObject<Info>(json, Converter.Settings);
     }
-
 }

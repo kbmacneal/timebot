@@ -17,9 +17,9 @@ namespace timebot.Classes
 
         public static async Task<List<PopCount>> GetCounts()
         {
-            List<Classes.Faction> official_factions = Classes.Factions.get_factions ().apiFactions.ToList ();
+            List<Classes.Faction> official_factions = Classes.Factions.get_factions().apiFactions.ToList();
 
-            List<PopCount> rtn = new List<PopCount> ();
+            List<PopCount> rtn = new List<PopCount>();
 
             foreach (var faction in official_factions)
             {
@@ -34,14 +34,14 @@ namespace timebot.Classes
 
             // official_factions.ForEach (e => rtn.Add (new PopCount () { FactionID = Convert.ToUInt64 (e.FactionDiscordID), FactionName = e.FactionName, timestamp = DateTime.Now, MemCount = Convert.ToInt32 (FactionCountGet.GetCount (e.FactionShortName).Members.Count ().ToString ()) }));
 
-            using (var context = new Context ())
+            using (var context = new Context())
             {
                 foreach (var item in rtn)
                 {
-                    await context.PopCounts.AddAsync (item);
+                    await context.PopCounts.AddAsync(item);
                 }
 
-                await context.SaveChangesAsync ();
+                await context.SaveChangesAsync();
             }
 
             return rtn;

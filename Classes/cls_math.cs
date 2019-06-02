@@ -7,6 +7,7 @@ namespace timebot.Classes
     public class StringToFormula
     {
         private string[] _operators = { "-", "+", "/", "*", "^" };
+
         private Func<double, double, double>[] _operations = {
             (a1, a2) => a1 - a2,
             (a1, a2) => a1 + a2,
@@ -15,11 +16,11 @@ namespace timebot.Classes
             (a1, a2) => Math.Pow (a1, a2)
         };
 
-        public double Eval (string expression)
+        public double Eval(string expression)
         {
-            List<string> tokens = getTokens (expression);
-            Stack<double> operandStack = new Stack<double> ();
-            Stack<string> operatorStack = new Stack<string> ();
+            List<string> tokens = getTokens(expression);
+            Stack<double> operandStack = new Stack<double>();
+            Stack<string> operatorStack = new Stack<string>();
             int tokenIndex = 0;
 
             while (tokenIndex < tokens.Count)
@@ -27,46 +28,46 @@ namespace timebot.Classes
                 string token = tokens[tokenIndex];
                 if (token == "(")
                 {
-                    string subExpr = getSubExpression (tokens, ref tokenIndex);
-                    operandStack.Push (Eval (subExpr));
+                    string subExpr = getSubExpression(tokens, ref tokenIndex);
+                    operandStack.Push(Eval(subExpr));
                     continue;
                 }
                 if (token == ")")
                 {
-                    throw new ArgumentException ("Mis-matched parentheses in expression");
+                    throw new ArgumentException("Mis-matched parentheses in expression");
                 }
-                //If this is an operator  
-                if (Array.IndexOf (_operators, token) >= 0)
+                //If this is an operator
+                if (Array.IndexOf(_operators, token) >= 0)
                 {
-                    while (operatorStack.Count > 0 && Array.IndexOf (_operators, token) < Array.IndexOf (_operators, operatorStack.Peek ()))
+                    while (operatorStack.Count > 0 && Array.IndexOf(_operators, token) < Array.IndexOf(_operators, operatorStack.Peek()))
                     {
-                        string op = operatorStack.Pop ();
-                        double arg2 = operandStack.Pop ();
-                        double arg1 = operandStack.Pop ();
-                        operandStack.Push (_operations[Array.IndexOf (_operators, op)] (arg1, arg2));
+                        string op = operatorStack.Pop();
+                        double arg2 = operandStack.Pop();
+                        double arg1 = operandStack.Pop();
+                        operandStack.Push(_operations[Array.IndexOf(_operators, op)](arg1, arg2));
                     }
-                    operatorStack.Push (token);
+                    operatorStack.Push(token);
                 }
                 else
                 {
-                    operandStack.Push (double.Parse (token));
+                    operandStack.Push(double.Parse(token));
                 }
                 tokenIndex += 1;
             }
 
             while (operatorStack.Count > 0)
             {
-                string op = operatorStack.Pop ();
-                double arg2 = operandStack.Pop ();
-                double arg1 = operandStack.Pop ();
-                operandStack.Push (_operations[Array.IndexOf (_operators, op)] (arg1, arg2));
+                string op = operatorStack.Pop();
+                double arg2 = operandStack.Pop();
+                double arg1 = operandStack.Pop();
+                operandStack.Push(_operations[Array.IndexOf(_operators, op)](arg1, arg2));
             }
-            return operandStack.Pop ();
+            return operandStack.Pop();
         }
 
-        private string getSubExpression (List<string> tokens, ref int index)
+        private string getSubExpression(List<string> tokens, ref int index)
         {
-            StringBuilder subExpr = new StringBuilder ();
+            StringBuilder subExpr = new StringBuilder();
             int parenlevels = 1;
             index += 1;
             while (index < tokens.Count && parenlevels > 0)
@@ -84,7 +85,7 @@ namespace timebot.Classes
 
                 if (parenlevels > 0)
                 {
-                    subExpr.Append (token);
+                    subExpr.Append(token);
                 }
 
                 index += 1;
@@ -92,37 +93,37 @@ namespace timebot.Classes
 
             if ((parenlevels > 0))
             {
-                throw new ArgumentException ("Mis-matched parentheses in expression");
+                throw new ArgumentException("Mis-matched parentheses in expression");
             }
-            return subExpr.ToString ();
+            return subExpr.ToString();
         }
 
-        private List<string> getTokens (string expression)
+        private List<string> getTokens(string expression)
         {
             string operators = "()^*/+-";
-            List<string> tokens = new List<string> ();
-            StringBuilder sb = new StringBuilder ();
+            List<string> tokens = new List<string>();
+            StringBuilder sb = new StringBuilder();
 
-            foreach (char c in expression.Replace (" ", string.Empty))
+            foreach (char c in expression.Replace(" ", string.Empty))
             {
-                if (operators.IndexOf (c) >= 0)
+                if (operators.IndexOf(c) >= 0)
                 {
                     if ((sb.Length > 0))
                     {
-                        tokens.Add (sb.ToString ());
+                        tokens.Add(sb.ToString());
                         sb.Length = 0;
                     }
-                    tokens.Add (c.ToString());
+                    tokens.Add(c.ToString());
                 }
                 else
                 {
-                    sb.Append (c);
+                    sb.Append(c);
                 }
             }
 
             if ((sb.Length > 0))
             {
-                tokens.Add (sb.ToString ());
+                tokens.Add(sb.ToString());
             }
             return tokens;
         }

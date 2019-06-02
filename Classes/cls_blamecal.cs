@@ -8,5 +8,4 @@ namespace timebot.Classes
         public int ID { get; set; }
         public DateTime timestamp { get; set; }
     }
-
 }

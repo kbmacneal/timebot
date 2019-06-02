@@ -2,12 +2,11 @@
 
 namespace timebot.Classes.MTG
 {
-    using System;
-    using System.Collections.Generic;
-
-    using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
 
     public partial class Mtgc
     {
@@ -295,6 +294,7 @@ namespace timebot.Classes.MTG
             {
                 case "legal":
                     return Legality.Legal;
+
                 case "not_legal":
                     return Legality.NotLegal;
             }
@@ -314,6 +314,7 @@ namespace timebot.Classes.MTG
                 case Legality.Legal:
                     serializer.Serialize(writer, "legal");
                     return;
+
                 case Legality.NotLegal:
                     serializer.Serialize(writer, "not_legal");
                     return;

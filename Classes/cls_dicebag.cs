@@ -1,75 +1,88 @@
-using System;
 using System.Collections.Generic;
 
-namespace timebot.Classes.Utilities {
+namespace timebot.Classes.Utilities
+{
     /**
      * Original Author: Gordon Kyle Wallace, "Krythic"
-     * 
+     *
      * This class is designed to emulate/facilitate the rolling of real-world
      * dice within a d20 stylized game/system.
-     * 
+     *
      * License:
      * There is not one; this snippet may be used/modified by anyone for
      * any arbitrary reason. I, Gordon Kyle Wallace "Krythic", lay no claim upon
      * this document, the program it ultimately produces, or the thought-patterns
      * that may—or may not—emerge from using it.
-     * 
+     *
      * This disclaimer may be deleted at your whim.
-     * 
+     *
      * ~Krythic
      */
-    public class DiceBag {
-        public enum Dice : uint {
+
+    public class DiceBag
+    {
+        public enum Dice : uint
+        {
             /// <summary>
             /// This can be considered a double-sided coin;
             /// used to delimit a 50/50 probability.
             /// </summary>
-            D2 = 2 ,
+            D2 = 2,
+
             /// <summary>
             /// A Tetrahedron
             /// A 4 Sided Die
             /// </summary>
-            D4 = 4 ,
+            D4 = 4,
+
             /// <summary>
             /// A Cube
             /// A 6 Sided Die
             /// </summary>
-            D6 = 6 ,
+            D6 = 6,
+
             /// <summary>
             /// A Octahedron
             /// A 8 Sided Die
             /// </summary>
-            D8 = 8 ,
+            D8 = 8,
+
             /// <summary>
             /// A Pentagonal Trapezohedron
             /// A 10 Sided Die
             /// </summary>
-            D10 = 10 ,
+            D10 = 10,
+
             /// <summary>
             /// A Dodecahedron
             /// A 12 Sided Die
             /// </summary>
-            D12 = 12 ,
+            D12 = 12,
+
             /// <summary>
             /// A Icosahedron
             /// A 20 Sided Die
             /// </summary>
-            D20 = 20 ,
+            D20 = 20,
+
             /// <summary>
             /// A Rhombic Triacontahedron
             /// A 30 Sided Die
             /// </summary>
-            D30 = 30 ,
+            D30 = 30,
+
             /// <summary>
             /// A Icosakaipentagonal Trapezohedron
             /// A 50 Sided Die
             /// </summary>
-            D50 = 50 ,
+            D50 = 50,
+
             /// <summary>
             /// A Pentagonal Hexecontahedron
             /// A 60 Sided Die
             /// </summary>
-            D60 = 60 ,
+            D60 = 60,
+
             /// <summary>
             /// A Zocchihedron
             /// A 100 Sided Die
@@ -80,8 +93,10 @@ namespace timebot.Classes.Utilities {
         /**
          * The default dice-rolling method. All methods link to this one.
          */
-        private int InternalRoll( uint dice ) {
-            return 1 + Program.rand.Next( ( int )dice );
+
+        private int InternalRoll(uint dice)
+        {
+            return 1 + Program.rand.Next((int)dice);
         }
 
         /// <summary>
@@ -89,8 +104,9 @@ namespace timebot.Classes.Utilities {
         /// </summary>
         /// <param name="d">The d.</param>
         /// <returns>The Number rolled.</returns>
-        public int Roll( Dice d ) {
-            return InternalRoll( ( uint )d );
+        public int Roll(Dice d)
+        {
+            return InternalRoll((uint)d);
         }
 
         /// <summary>
@@ -100,8 +116,9 @@ namespace timebot.Classes.Utilities {
         /// <param name="dice">The dice.</param>
         /// <param name="modifier">The modifier.</param>
         /// <returns></returns>
-        public int RollWithModifier( Dice dice , uint modifier ) {
-            return InternalRoll( ( uint )dice ) + ( int )modifier;
+        public int RollWithModifier(Dice dice, uint modifier)
+        {
+            return InternalRoll((uint)dice) + (int)modifier;
         }
 
         /// <summary>
@@ -110,10 +127,12 @@ namespace timebot.Classes.Utilities {
         /// <param name="d">The d.</param>
         /// <param name="times">The times.</param>
         /// <returns>A Collection Holding the dice rolls.</returns>
-        public List<int> RollQuantity( Dice d , uint times ) {
+        public List<int> RollQuantity(Dice d, uint times)
+        {
             List<int> rolls = new List<int>();
-            for( int i = 0 ; i < times ; i++ ) {
-                rolls.Add( InternalRoll( ( uint )d ) );
+            for (int i = 0; i < times; i++)
+            {
+                rolls.Add(InternalRoll((uint)d));
             }
             return rolls;
         }

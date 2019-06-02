@@ -3,23 +3,18 @@
 namespace timebot.Classes.Tags
 {
     using System.Collections.Generic;
-    using System.Globalization;
-    using System;
-    using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json;
     using System.Linq;
     using timebot.Contexts;
 
     public class Tag
     {
-        public int ID {get;set;}
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public static List<Tag> GetTags ()
+        public static List<Tag> GetTags()
         {
-            
-            using(var context = new Context())
+            using (var context = new Context())
             {
                 var tags = context.Tags.ToList();
 

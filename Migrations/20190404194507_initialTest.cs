@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using System;
 
 namespace timebot.Migrations
 {
@@ -23,8 +23,6 @@ namespace timebot.Migrations
                 {
                     table.PrimaryKey("PK_PopCounts", x => x.ID);
                 });
-
-            
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

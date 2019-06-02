@@ -3,10 +3,6 @@
 namespace timebot.Classes.Assets
 {
     using System.Collections.Generic;
-    using System.Globalization;
-    using System;
-    using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json;
     using System.Linq;
     using timebot.Contexts;
 
@@ -28,7 +24,7 @@ namespace timebot.Classes.Assets
 
     public class Asset
     {
-        public int ID {get;set;}
+        public int ID { get; set; }
         public string Name { get; set; }
         public string HP { get; set; }
         public string Attack { get; set; }
@@ -46,10 +42,9 @@ namespace timebot.Classes.Assets
 
         public string AssetType { get; set; }
 
-        public static List<Asset> GetAssets ()
+        public static List<Asset> GetAssets()
         {
-
-            using(var context = new Context())
+            using (var context = new Context())
             {
                 var assets = context.Assets.ToList();
 
@@ -57,5 +52,4 @@ namespace timebot.Classes.Assets
             }
         }
     }
-
 }
