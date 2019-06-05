@@ -952,7 +952,7 @@ namespace timebot.Modules.Commands
 
             var rtn_2 = "Only" + (3201-count).ToString() + " blames to go!";
 
-            await ReplyAsync(rtn);
+            await ReplyAsync(rtn + System.Environment.NewLine +  rtn_2);
         }
 
         [Command("wiki")]
