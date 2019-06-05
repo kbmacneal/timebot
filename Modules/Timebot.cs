@@ -960,7 +960,7 @@ namespace timebot.Modules.Commands
 
             var rtn_2 = "Only " + (3201-count).ToString() + " blames to go!";
 
-            var rtn_3 = "Gaius has acquired " + (count/533.5).ToString() + " Infinity Stones!";
+            var rtn_3 = "Gaius has acquired " + Math.Floor((count/533.5)).ToString() + " Infinity Stones!";
 
             await ReplyAsync(rtn + System.Environment.NewLine +  rtn_2 + System.Environment.NewLine +  rtn_3);
         }
