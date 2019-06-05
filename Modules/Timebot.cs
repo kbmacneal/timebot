@@ -941,18 +941,19 @@ namespace timebot.Modules.Commands
 
             using (var context = new Context())
             {
+                count = context.BlameCals.Count() + 1;
+
+                if(count - 1 > 3201)
+                {
+                    await ReplyAsync("Cal has been blamed enough don't you think?");
+                    return;
+                }
 
                 await context.BlameCals.AddAsync(new BlameCal() { timestamp = DateTime.Now });
 
                 await context.SaveChangesAsync();
 
-                count = context.BlameCals.Count();
-
-                if(count > 3201)
-                {
-                    await ReplyAsync("Cal has been blamed enough don't you think?");
-                    return;
-                }
+                
             }
 
             var rtn = "Cal has been blamed " + count + " times.";
