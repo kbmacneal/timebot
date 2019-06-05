@@ -950,6 +950,8 @@ namespace timebot.Modules.Commands
 
             var rtn = "Cal has been blamed " + count + " times.";
 
+            var rtn_2 = "Only" + (3201-count).ToString() + " blames to go!";
+
             await ReplyAsync(rtn);
         }
 
