@@ -15,6 +15,7 @@ namespace timebot.Contexts
         public DbSet<BlameCal> BlameCals { get; set; }
         public DbSet<PopCount> PopCounts { get; set; }
         public DbSet<botcommand> BotCommands { get; set; }
+        public DbSet<Thanos> Thanos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -80,6 +81,14 @@ namespace timebot.Contexts
                entity.Property(e => e.serverid).HasColumnName("serverid");
                entity.Property(e => e.commandname).HasColumnName("commandname");
            });
+
+            modelBuilder.Entity<Thanos>(entity =>
+            {
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID).HasColumnName("id").ValueGeneratedOnAdd();
+                entity.Property(e => e.playerID).HasColumnName("playerid");
+                entity.Property(e => e.role_choice).HasColumnName("rolechoice");
+            });
         }
     }
 }

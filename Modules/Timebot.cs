@@ -943,7 +943,7 @@ namespace timebot.Modules.Commands
             {
                 count = context.BlameCals.Count() + 1;
 
-                if(count - 1 > 3201)
+                if (count - 1 > 3201)
                 {
                     await ReplyAsync("Cal has been blamed enough don't you think?");
                     return;
@@ -952,17 +952,15 @@ namespace timebot.Modules.Commands
                 await context.BlameCals.AddAsync(new BlameCal() { timestamp = DateTime.Now });
 
                 await context.SaveChangesAsync();
-
-                
             }
 
             var rtn = "Cal has been blamed " + count + " times.";
 
-            var rtn_2 = "Only " + (3201-count).ToString() + " blames to go!";
+            var rtn_2 = "Only " + (3201 - count).ToString() + " blames to go!";
 
-            var rtn_3 = "Gaius has acquired " + Math.Floor((count/533.5)).ToString() + " Infinity Stones!";
+            var rtn_3 = "Gaius has acquired " + Math.Floor((count / 533.5)).ToString() + " Infinity Stones!";
 
-            await ReplyAsync(rtn + System.Environment.NewLine +  rtn_2 + System.Environment.NewLine +  rtn_3);
+            await ReplyAsync(rtn + System.Environment.NewLine + rtn_2 + System.Environment.NewLine + rtn_3);
         }
 
         [Command("wiki")]
@@ -1003,6 +1001,42 @@ namespace timebot.Modules.Commands
                 await ReplyAsync("", false, emb, null);
                 return;
             }
+        }
+
+        [Command("Thanos")]
+        [Summary("Determines your place in Thanos's balance.")]
+        public async Task ThanosAsync(string role)
+        {
+            string rtn = "";
+
+            if (role != "Dusted" && role != "Survivor")
+            {
+                rtn = "There is only Dusted or Survivor in the cosmic balance.";
+                await ReplyAsync(rtn);
+                return;
+            }
+
+            using (var context = new Context())
+            {
+                if (context.Thanos.FirstOrDefault(e => e.playerID == Context.User.Id) != null)
+                {
+                    await ReplyAsync("Your place has already been determined, mortal.");
+                }
+                else
+                {
+                    var bal = new Thanos()
+                    {
+                        playerID = Context.User.Id,
+                        role_choice = role
+                    };
+
+                    await context.Thanos.AddAsync(bal);
+
+                    await ReplyAsync("Your place has been determined, mortal.");
+                }
+            }
+
+            return;
         }
 
         [Command("valid")]
