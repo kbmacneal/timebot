@@ -1003,7 +1003,7 @@ namespace timebot.Modules.Commands
             }
         }
 
-        [Command("Thanos")]
+        [Command("thanos")]
         [Summary("Determines your place in Thanos's balance.")]
         public async Task ThanosAsync(string role)
         {
