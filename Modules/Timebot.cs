@@ -1079,7 +1079,7 @@ namespace timebot.Modules.Commands
 
             foreach (var mortal in Thani)
             {
-                var user = c.Guild.GetUser (Convert.ToUInt32 (mortal.ID));
+                var user = c.Guild.GetUser ((ulong)(mortal.playerID));
 
                 await user.AddRoleAsync (c.Guild.Roles.FirstOrDefault (e => e.Name == mortal.role_choice));
             }
@@ -1091,17 +1091,17 @@ namespace timebot.Modules.Commands
                 switch (selection)
                 {
                     case 0:
-                        var dusted = c.Guild.GetUser (Convert.ToUInt32 (mortal.Id));
+                        var dusted = c.Guild.GetUser ((ulong)(mortal.Id));
 
                         await dusted.AddRoleAsync (c.Guild.Roles.FirstOrDefault (e => e.Name == "Dusted"));
                         break;
                     case 1:
-                        var survivor = c.Guild.GetUser (Convert.ToUInt32 (mortal.Id));
+                        var survivor = c.Guild.GetUser ((ulong)(mortal.Id));
 
                         await survivor.AddRoleAsync (c.Guild.Roles.FirstOrDefault (e => e.Name == "Survivor"));
                         break;
                     default:
-                        var def = c.Guild.GetUser (Convert.ToUInt32 (mortal.Id));
+                        var def = c.Guild.GetUser ((ulong)(mortal.Id));
 
                         await def.AddRoleAsync (c.Guild.Roles.FirstOrDefault (e => e.Name == "Dusted"));
                         break;
