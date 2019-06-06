@@ -1032,6 +1032,8 @@ namespace timebot.Modules.Commands
 
                     await context.Thanos.AddAsync(bal);
 
+                    await context.SaveChangesAsync();
+
                     await ReplyAsync("Your place has been determined, mortal.");
                 }
             }
