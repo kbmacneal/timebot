@@ -1060,9 +1060,10 @@ namespace timebot.Modules.Commands
             return;
         }
 
-        [Command("enactbalance")]
+        [Command("snap")]
         [Summary("Makes the server perfectly balanced.")]
-        public async Task EnactbalanceAsync()
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task SnapAsync()
         {
             await ReplyAsync("The Balancing has begun, puny mortals.");
             await EnactBalance(Context);
