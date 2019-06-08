@@ -943,7 +943,7 @@ namespace timebot.Modules.Commands
             {
                 count = context.BlameCals.Count() + 1;
 
-                if (count - 1 > 3201)
+                if (count - 1 >= 3201)
                 {
                     await ReplyAsync("Cal has been blamed enough don't you think?");
                     return;
