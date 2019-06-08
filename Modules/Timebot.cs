@@ -939,6 +939,8 @@ namespace timebot.Modules.Commands
         {
             var count = 0;
 
+            if (Context.User.Id != 301425214162731008) return;
+
             using (var context = new Context())
             {
                 count = context.BlameCals.Count() + 1;
