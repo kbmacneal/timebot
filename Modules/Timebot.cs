@@ -939,8 +939,6 @@ namespace timebot.Modules.Commands
         {
             var count = 0;
 
-            if (Context.User.Id != 301425214162731008) return;
-
             using (var context = new Context())
             {
                 count = context.BlameCals.Count() + 1;
@@ -1073,7 +1071,7 @@ namespace timebot.Modules.Commands
 
         public async Task EnactBalance(SocketCommandContext c)
         {
-            var users = c.Guild.Users.ToList<SocketGuildUser>();
+            var users = c.Guild.Users.Where(e => e.Roles.Select(f => f.Name).Contains("Dusted")).Where(e => e.Roles.Select(f => f.Name).Contains("Survivor")).ToList<SocketGuildUser>();
 
             var Thani = new List<Thanos>();
 
