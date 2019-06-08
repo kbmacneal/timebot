@@ -1071,7 +1071,7 @@ namespace timebot.Modules.Commands
 
         public async Task EnactBalance(SocketCommandContext c)
         {
-            var users = c.Guild.Users.Where(e => e.Roles.Select(f => f.Name).Contains("Dusted")).Where(e => e.Roles.Select(f => f.Name).Contains("Survivor")).ToList<SocketGuildUser>();
+            var users = c.Guild.Users.Where(e => !e.Roles.Select(f => f.Name).Contains("Dusted")).Where(e => !e.Roles.Select(f => f.Name).Contains("Survivor")).ToList<SocketGuildUser>();
 
             var Thani = new List<Thanos>();
 
