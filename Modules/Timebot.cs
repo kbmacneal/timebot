@@ -1073,6 +1073,11 @@ namespace timebot.Modules.Commands
         {
             var users = c.Guild.Users.Where(e => !e.Roles.Select(f => f.Name).Contains("Dusted")).Where(e => !e.Roles.Select(f => f.Name).Contains("Survivor")).ToList<SocketGuildUser>();
 
+            var _opt = new RequestOptions()
+            {
+                RetryMode = RetryMode.RetryRatelimit
+            };
+
             var Thani = new List<Thanos>();
 
             using (var context = new Context())
@@ -1084,7 +1089,7 @@ namespace timebot.Modules.Commands
             {
                 var user = c.Guild.GetUser((ulong)(mortal.playerID));
 
-                await user.AddRoleAsync(c.Guild.Roles.FirstOrDefault(e => e.Name == mortal.role_choice));
+                await user.AddRoleAsync(c.Guild.Roles.FirstOrDefault(e => e.Name == mortal.role_choice), _opt);
             }
 
             foreach (var mortal in users.Where(e => !Thani.Select(f => f.playerID).Contains(e.Id)))
@@ -1096,19 +1101,19 @@ namespace timebot.Modules.Commands
                     case 0:
                         var dusted = c.Guild.GetUser((ulong)(mortal.Id));
 
-                        await dusted.AddRoleAsync(c.Guild.Roles.FirstOrDefault(e => e.Name == "Dusted"));
+                        await dusted.AddRoleAsync(c.Guild.Roles.FirstOrDefault(e => e.Name == "Dusted"), _opt);
                         break;
 
                     case 1:
                         var survivor = c.Guild.GetUser((ulong)(mortal.Id));
 
-                        await survivor.AddRoleAsync(c.Guild.Roles.FirstOrDefault(e => e.Name == "Survivor"));
+                        await survivor.AddRoleAsync(c.Guild.Roles.FirstOrDefault(e => e.Name == "Survivor"), _opt);
                         break;
 
                     default:
                         var def = c.Guild.GetUser((ulong)(mortal.Id));
 
-                        await def.AddRoleAsync(c.Guild.Roles.FirstOrDefault(e => e.Name == "Dusted"));
+                        await def.AddRoleAsync(c.Guild.Roles.FirstOrDefault(e => e.Name == "Dusted"), _opt);
                         break;
                 }
             }
