@@ -1079,16 +1079,16 @@ namespace timebot.Modules.Commands
             var rtn = new Asset()
             {
                 ID = 0,
-                Name = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Name,
-                HP = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).HP,
-                Attack = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Attack,
-                Counterattack = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Counterattack,
-                Description = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Description,
-                Type = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Type,
-                Tier = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Tier,
-                TechLevel = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).TechLevel,
-                Cost = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Cost,
-                AssetType = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).AssetType
+                Name = assets.ElementAt(Program.rand.Next(0, assets.Count)).Name,
+                HP = assets.ElementAt(Program.rand.Next(0, assets.Count)).HP,
+                Attack = assets.ElementAt(Program.rand.Next(0, assets.Count)).Attack,
+                Counterattack = assets.ElementAt(Program.rand.Next(0, assets.Count)).Counterattack,
+                Description = assets.ElementAt(Program.rand.Next(0, assets.Count)).Description,
+                Type = assets.ElementAt(Program.rand.Next(0, assets.Count)).Type,
+                Tier = assets.ElementAt(Program.rand.Next(0, assets.Count)).Tier,
+                TechLevel = assets.ElementAt(Program.rand.Next(0, assets.Count)).TechLevel,
+                Cost = assets.ElementAt(Program.rand.Next(0, assets.Count)).Cost,
+                AssetType = assets.ElementAt(Program.rand.Next(0, assets.Count)).AssetType
             };
 
             Embed emb = Helper.ObjToEmbed (rtn, "Name");
