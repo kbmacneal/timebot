@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using Npgsql;
 using RestSharp;
 using timebot.Classes;
+using timebot.Classes.Assets;
 using timebot.Classes.Utilities;
 using timebot.Contexts;
 
@@ -1067,6 +1068,33 @@ namespace timebot.Modules.Commands
         {
             await ReplyAsync("The Balancing has begun, puny mortals.");
             await EnactBalance(Context);
+        }
+
+        [Command ("randomasset")]
+        [Summary ("Generates a completely random asset.")]
+        public async Task RandomassetAsync ()
+        {
+            var assets = Asset.GetAssets();
+
+            var rtn = new Asset()
+            {
+                ID = 0,
+                Name = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Name,
+                HP = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).HP,
+                Attack = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Attack,
+                Counterattack = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Counterattack,
+                Description = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Description,
+                Type = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Type,
+                Tier = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Tier,
+                TechLevel = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).TechLevel,
+                Cost = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).Cost,
+                AssetType = assets.ElementAt(Program.rand.Next(0, assets.Count + 1)).AssetType
+            };
+
+            Embed emb = Helper.ObjToEmbed (rtn, "Name");
+
+            await ReplyAsync ("", false, emb, null);
+            
         }
 
         public async Task EnactBalance(SocketCommandContext c)
