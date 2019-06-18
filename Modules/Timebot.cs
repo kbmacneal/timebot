@@ -835,7 +835,7 @@ namespace timebot.Modules.Commands
         [Summary("For the authentic Wasiyy experience.")]
         public async Task WasiyyAsync()
         {
-            var rtn = "*Wasiyy walks to the table with a gun in hand. He puts the gun on the table and looks at you.* \"This is a gun.\"";
+            var rtn = "Everyone knows me as Wasiyy the Gentle";
 
             await ReplyAsync(rtn);
         }
