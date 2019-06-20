@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <None Include="Cactus_Pius_seal.png" CopyToPublishDirectory="Always" />
-    <None Include="TINMTTOS.png" CopyToPublishDirectory="Always" />
     <None Include="Timebot-fc612c6f90aa.json" CopyToPublishDirectory="Always" />
   </ItemGroup>
 

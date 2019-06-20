@@ -195,15 +195,6 @@ namespace timebot.Modules.Commands
             return;
         }
 
-        [Command("savior")]
-        [Summary("Answers that age-old question.")]
-        public async Task SaviorAsync()
-        {
-            await Context.Channel.SendFileAsync("TINMTTOS.png", null, false, null);
-
-            return;
-        }
-
         [Command("opensource")]
         [Summary("Pastes a link to the github repo in the chat.")]
         public async Task OpensourceAsync()
