@@ -6,6 +6,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using timebot.Classes;
 using timebot.Contexts;
@@ -743,7 +744,25 @@ namespace timebot.Modules.Commands
         {
             string msg = String.Join(" ", message);
 
+            await channel.TriggerTypingAsync();
+
+            Thread.Sleep(2000);
+
             await channel.SendMessageAsync(msg, false, null, null);
+        }
+
+        [Command("lockchanneltofaction")]
+        [Summary("Removes the Everyone permissions and adds a tag as the primary faction for that channel.")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task LockchanneltofactionAsync(ISocketMessageChannel channel, SocketRole role)
+        {
+            IRole everyone = Context.Guild.EveryoneRole as IRole;
+
+            OverwritePermissions roleperms = new OverwritePermissions(PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny);
+
+            await ((SocketTextChannel)channel).AddPermissionOverwriteAsync(everyone, OverwritePermissions.DenyAll((SocketGuildChannel)channel), null);
+
+            await ((SocketTextChannel)channel).AddPermissionOverwriteAsync(role, roleperms, null);
         }
     }
 }
