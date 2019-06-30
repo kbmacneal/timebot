@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -18,6 +11,13 @@ using MoreLinq;
 using Newtonsoft.Json;
 using Npgsql;
 using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using timebot.Classes;
 using timebot.Classes.Assets;
 using timebot.Classes.Utilities;
@@ -533,98 +533,197 @@ namespace timebot.Modules.Commands
                 ApplicationName = "timebot",
             });
 
-            // Define request parameters.
-            String spreadsheetId = "1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ";
-            String range = "\'Faction Turns\'!A2:A14";
-            SpreadsheetsResource.ValuesResource.GetRequest request =
-                service.Spreadsheets.Values.Get(spreadsheetId, range);
-
-            // Prints the names and majors of students in a sample spreadsheet:
-            // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-            ValueRange response = request.Execute();
-            IList<IList<Object>> values = response.Values;
-            int row_index = -1;
-            if (values != null && values.Count > 0)
+            if (turn < 13)
             {
-                for (int i = 0; i < values.Count; i++)
+                // Define request parameters.
+                String spreadsheetId = "1M_yvwRbQhCtm-HWItwRaHV2yzmqFl9cesqlqFpiMebA";
+                String range = "\'Faction Turns S1\'!A2:A20";
+                SpreadsheetsResource.ValuesResource.GetRequest request =
+                    service.Spreadsheets.Values.Get(spreadsheetId, range);
+
+                // Prints the names and majors of students in a sample spreadsheet:
+                // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+                ValueRange response = request.Execute();
+                IList<IList<Object>> values = response.Values;
+                int row_index = -1;
+                if (values != null && values.Count > 0)
                 {
-                    if (values[i][0].ToString() == faction_name)
+                    for (int i = 0; i < values.Count; i++)
                     {
-                        row_index = i + 2;
-                        break;
+                        if (values[i][0].ToString() == faction_name)
+                        {
+                            row_index = i + 2;
+                            break;
+                        }
+                    }
+
+                    if (row_index == -1)
+                    {
+                        throw new KeyNotFoundException();
                     }
                 }
-
-                if (row_index == -1)
+                else
                 {
                     throw new KeyNotFoundException();
                 }
-            }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
 
-            string col_name = cols[turn + 1];
+                string col_name = cols[turn + 1];
 
-            range = "\'Faction Turns\'!" + col_name + row_index;
+                range = "\'Faction Turns S1\'!" + col_name + row_index;
 
-            SpreadsheetsResource.ValuesResource.GetRequest cell_request =
-                service.Spreadsheets.Values.Get(spreadsheetId, range);
+                SpreadsheetsResource.ValuesResource.GetRequest cell_request =
+                    service.Spreadsheets.Values.Get(spreadsheetId, range);
 
-            // Prints the names and majors of students in a sample spreadsheet:
-            // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-            ValueRange cell_resp = cell_request.Execute();
-            if (cell_resp.Values == null)
-            {
-                rtn = "I'm sorry Dave, I'm afraid I can't do that.";
-                await ReplyAsync(rtn);
-                return;
-            }
-            IList<IList<Object>> cell_val = cell_resp.Values;
-
-            if (values == null || values.Count == 0)
-            {
-                throw new KeyNotFoundException();
-            }
-
-            if (cell_val[0][0] == null)
-            {
-                rtn = "I'm sorry Dave, I'm afraid I can't do that.";
-                await ReplyAsync(rtn);
-                return;
-            }
-            else
-            {
-                rtn = cell_val[0][0].ToString();
-            }
-
-            if (rtn.ToCharArray().Length >= 2000)
-            {
-                Queue<string> sender = new Queue<string>();
-                Queue<char> rtn_q = new Queue<char>();
-
-                rtn.ToCharArray().ToList().ForEach(e => rtn_q.Enqueue(e));
-
-                while (rtn_q.Count > 0)
+                // Prints the names and majors of students in a sample spreadsheet:
+                // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+                ValueRange cell_resp = cell_request.Execute();
+                if (cell_resp.Values == null)
                 {
-                    int count = rtn_q.Count < 2000 ? rtn_q.Count : 2000;
+                    rtn = "I'm sorry Dave, I'm afraid I can't do that.";
+                    await ReplyAsync(rtn);
+                    return;
+                }
+                IList<IList<Object>> cell_val = cell_resp.Values;
 
-                    string part = String.Join("", rtn_q.Take(count));
-
-                    rtn_q.ToList().RemoveRange(0, count);
-
-                    sender.Enqueue(part);
+                if (values == null || values.Count == 0)
+                {
+                    throw new KeyNotFoundException();
                 }
 
-                foreach (string part in sender)
+                if (cell_val[0][0] == null)
                 {
-                    await ReplyAsync(part);
+                    rtn = "I'm sorry Dave, I'm afraid I can't do that.";
+                    await ReplyAsync(rtn);
+                    return;
+                }
+                else
+                {
+                    rtn = cell_val[0][0].ToString();
+                }
+
+                if (rtn.ToCharArray().Length >= 2000)
+                {
+                    Queue<string> sender = new Queue<string>();
+                    Queue<char> rtn_q = new Queue<char>();
+
+                    rtn.ToCharArray().ToList().ForEach(e => rtn_q.Enqueue(e));
+
+                    while (rtn_q.Count > 0)
+                    {
+                        int count = rtn_q.Count < 2000 ? rtn_q.Count : 2000;
+
+                        string part = String.Join("", rtn_q.Take(count));
+
+                        rtn_q.ToList().RemoveRange(0, count);
+
+                        sender.Enqueue(part);
+                    }
+
+                    foreach (string part in sender)
+                    {
+                        await ReplyAsync(part);
+                    }
+                }
+                else
+                {
+                    await ReplyAsync(rtn);
                 }
             }
             else
             {
-                await ReplyAsync(rtn);
+                // Define request parameters.
+                String spreadsheetId = "1M_yvwRbQhCtm-HWItwRaHV2yzmqFl9cesqlqFpiMebA";
+                String range = "\'Faction Turns S2\'!A2:A20";
+                SpreadsheetsResource.ValuesResource.GetRequest request =
+                    service.Spreadsheets.Values.Get(spreadsheetId, range);
+
+                // Prints the names and majors of students in a sample spreadsheet:
+                // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+                ValueRange response = request.Execute();
+                IList<IList<Object>> values = response.Values;
+                int row_index = -1;
+                if (values != null && values.Count > 0)
+                {
+                    for (int i = 0; i < values.Count; i++)
+                    {
+                        if (values[i][0].ToString() == faction_name)
+                        {
+                            row_index = i + 2;
+                            break;
+                        }
+                    }
+
+                    if (row_index == -1)
+                    {
+                        throw new KeyNotFoundException();
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException();
+                }
+
+                string col_name = cols[12 - turn + 3];
+
+                range = "\'Faction Turns S2\'!" + col_name + row_index;
+
+                SpreadsheetsResource.ValuesResource.GetRequest cell_request =
+                    service.Spreadsheets.Values.Get(spreadsheetId, range);
+
+                // Prints the names and majors of students in a sample spreadsheet:
+                // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+                ValueRange cell_resp = cell_request.Execute();
+                if (cell_resp.Values == null)
+                {
+                    rtn = "I'm sorry Dave, I'm afraid I can't do that.";
+                    await ReplyAsync(rtn);
+                    return;
+                }
+                IList<IList<Object>> cell_val = cell_resp.Values;
+
+                if (values == null || values.Count == 0)
+                {
+                    throw new KeyNotFoundException();
+                }
+
+                if (cell_val[0][0] == null)
+                {
+                    rtn = "I'm sorry Dave, I'm afraid I can't do that.";
+                    await ReplyAsync(rtn);
+                    return;
+                }
+                else
+                {
+                    rtn = cell_val[0][0].ToString();
+                }
+
+                if (rtn.ToCharArray().Length >= 2000)
+                {
+                    Queue<string> sender = new Queue<string>();
+                    Queue<char> rtn_q = new Queue<char>();
+
+                    rtn.ToCharArray().ToList().ForEach(e => rtn_q.Enqueue(e));
+
+                    while (rtn_q.Count > 0)
+                    {
+                        int count = rtn_q.Count < 2000 ? rtn_q.Count : 2000;
+
+                        string part = String.Join("", rtn_q.Take(count));
+
+                        rtn_q.ToList().RemoveRange(0, count);
+
+                        sender.Enqueue(part);
+                    }
+
+                    foreach (string part in sender)
+                    {
+                        await ReplyAsync(part);
+                    }
+                }
+                else
+                {
+                    await ReplyAsync(rtn);
+                }
             }
         }
 
@@ -665,9 +764,11 @@ namespace timebot.Modules.Commands
             });
 
             // Define request parameters.
-            String spreadsheetId = "1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ";
+            //String spreadsheetId = "1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ";
 
-            String range = "AssetTracker!A2:L";
+            string spreadsheetId = "1M_yvwRbQhCtm-HWItwRaHV2yzmqFl9cesqlqFpiMebA";
+
+            String range = "AssetTracker!A2:M";
 
             SpreadsheetsResource.ValuesResource.GetRequest request =
                 service.Spreadsheets.Values.Get(spreadsheetId, range);
@@ -678,72 +779,38 @@ namespace timebot.Modules.Commands
 
             IList<IList<Object>> values = response.Values;
 
-            int row_index = -1;
-
             if (values != null && values.Count > 0)
             {
-                for (int i = 0; i < values.Count - 1; i++)
-                {
-                    if (values[i][0].ToString() == faction_name)
-                    {
-                        Classes.Assets.TrackerAsset asset = new Classes.Assets.TrackerAsset()
-                        {
-                            Owner = values[i][0].ToString(),
-                            Asset = values[i][1].ToString(),
-                            Stealthed = values[i][3].ToString(),
-                            Stat = values[i][4].ToString(),
-                            HP = values[i][5].ToString(),
-                            MaxHP = values[i][6].ToString(),
-                            CombinedHP = values[i][5].ToString() + "/" + values[i][6].ToString(),
-                            Type = values[i][7].ToString(),
-                            Attack = values[i][8].ToString(),
-                            Counter = values[i][9].ToString(),
-                            Notes = values[i][10].ToString(),
-                            Location = values[i][11].ToString().Split("/")[2].ToString()
-                        };
-                        row_index = i;
-
-                        assets.Add(asset);
-                    }
-
-                    if (values[i][11].ToString().Contains(faction_name))
-                    {
-                        Classes.Assets.TrackerAsset asset = new Classes.Assets.TrackerAsset()
-                        {
-                            Owner = values[i][0].ToString(),
-                            Asset = values[i][1].ToString(),
-                            Stealthed = values[i][3].ToString(),
-                            Stat = values[i][4].ToString(),
-                            HP = values[i][5].ToString(),
-                            MaxHP = values[i][6].ToString(),
-                            CombinedHP = values[i][5].ToString() + "/" + values[i][6].ToString(),
-                            Type = values[i][7].ToString(),
-                            Attack = values[i][8].ToString(),
-                            Counter = values[i][9].ToString(),
-                            Notes = values[i][10].ToString(),
-                            Location = values[i][11].ToString().Split("/")[2].ToString()
-                        };
-                        row_index = i;
-
-                        assets.Add(asset);
-                    }
-                }
-
-                if (row_index == -1)
-                {
-                    throw new KeyNotFoundException();
-                }
+                values.Where(e => e[0].ToString() != "").ForEach(e =>
+                 assets.Add(new Classes.Assets.TrackerAsset()
+                 {
+                     Owner = e[0].ToString(),
+                     Asset = e[1].ToString(),
+                     Stealthed = e[3].ToString(),
+                     Stat = e[4].ToString(),
+                     HP = e[5].ToString(),
+                     MaxHP = e[6].ToString(),
+                     CombinedHP = e[5].ToString() + "/" + e[6].ToString(),
+                     Type = e[7].ToString(),
+                     Attack = e[8].ToString(),
+                     Counter = e[9].ToString(),
+                     Notes = e[10].ToString(),
+                     Upkeep = e[11].ToString(),
+                     Location = e[12].ToString().Split("/")[2].ToString()
+                 }));
             }
             else
             {
                 throw new KeyNotFoundException();
             }
 
+            List<TrackerAsset> found_assets = assets.Where(e => e.Owner == faction_name || e.Location.Contains(faction_name)).ToList();
+
             await ReplyAsync("Assets for: " + faction_name);
 
             var header = new string[6] { "Owner", "Name", "HP", "Attack Dice", "Counter Dice", "Location" };
 
-            var table = Classes.TableParser.ToStringTable(assets.Select(asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy(e => e.Owner).ThenBy(e => e.Location).ThenBy(e => e.Asset), header, a => a.Owner.Length > 15 ? a.Owner.Substring(0, 15) + "..." : a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
+            var table = Classes.TableParser.ToStringTable(found_assets.Select(asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy(e => e.Owner).ThenBy(e => e.Location).ThenBy(e => e.Asset), header, a => a.Owner.Length > 15 ? a.Owner.Substring(0, 15) + "..." : a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location);
 
             Helper.SplitToLines(table, 1994).ForEach(e => ReplyAsync("```" + e + "```").GetAwaiter().GetResult());
         }
@@ -777,8 +844,8 @@ namespace timebot.Modules.Commands
             });
 
             // Define request parameters.
-            String spreadsheetId = "1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ";
-            String range = "\'Faction Turns\'!A2:A";
+            String spreadsheetId = "1M_yvwRbQhCtm-HWItwRaHV2yzmqFl9cesqlqFpiMebA";
+            String range = "\'Faction Turns S2\'!A2:A";
             SpreadsheetsResource.ValuesResource.GetRequest request =
                 service.Spreadsheets.Values.Get(spreadsheetId, range);
 
@@ -1061,9 +1128,9 @@ namespace timebot.Modules.Commands
             await EnactBalance(Context);
         }
 
-        [Command ("randomasset")]
-        [Summary ("Generates a completely random asset.")]
-        public async Task RandomassetAsync ()
+        [Command("randomasset")]
+        [Summary("Generates a completely random asset.")]
+        public async Task RandomassetAsync()
         {
             var assets = Asset.GetAssets();
 
@@ -1082,10 +1149,9 @@ namespace timebot.Modules.Commands
                 AssetType = assets.ElementAt(Program.rand.Next(0, assets.Count)).AssetType
             };
 
-            Embed emb = Helper.ObjToEmbed (rtn, "Name");
+            Embed emb = Helper.ObjToEmbed(rtn, "Name");
 
-            await ReplyAsync ("", false, emb, null);
-            
+            await ReplyAsync("", false, emb, null);
         }
 
         public async Task EnactBalance(SocketCommandContext c)

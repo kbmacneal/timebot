@@ -19,6 +19,7 @@ namespace timebot.Classes.Assets
         public string Attack { get; set; }
         public string Counter { get; set; }
         public string Notes { get; set; }
+        public string Upkeep { get; set; }
         public string Location { get; set; }
     }
 
