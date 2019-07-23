@@ -79,50 +79,6 @@ namespace timebot.Modules.Commands
             await ReplyAsync(String.Join(System.Environment.NewLine, rtn_message));
         }
 
-        [Command("addspeaker")]
-        [Summary("Adds the user as a speaker for meeting purposes.")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task AddspeakerAsync(IGuildUser user)
-        {
-            Data.speaker spkr = Data.GuilduserToSpeaker(user);
-            Data.insert_speaker(spkr);
-
-            await ReplyAsync("User been added as a speaker");
-        }
-
-        [Command("changedefaults")]
-        [Summary("Changes the default speaking time, if needed.")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task ChangedefaultsAsync(int minutes)
-        {
-            Data.reset_speaking_time(minutes);
-
-            await ReplyAsync("Speaking times have been reset");
-        }
-
-        [Command("clearspeakers")]
-        [Summary("Resets the speaker list.")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task ClearspeakersAsync()
-        {
-            List<ulong> roles = Context.Guild.Roles.Where(e => e.Name == "Speaker" || e.Name == "Observer" || e.Name == "NACHO").Select(e => e.Id).ToList();
-
-            List<SocketGuildUser> users = Context.Guild.Users.ToList();
-
-            foreach (SocketGuildUser usr in users)
-            {
-                if (roles.Any(usr.Roles.Select(e => e.Id).Contains))
-                {
-                    foreach (ulong role in roles)
-                    {
-                        await usr.RemoveRoleAsync(Context.Guild.GetRole(role));
-                    }
-                }
-            }
-
-            await ReplyAsync("Tags removed");
-        }
-
         [Command("clearchannel")]
         [Summary("Clears the channel of chat messages.")]
         [RequireUserPermission(GuildPermission.Administrator)]
@@ -418,19 +374,6 @@ namespace timebot.Modules.Commands
             await ReplyAsync(content.Alt, false, null, null);
 
             await ReplyAsync(content.Img.ToString(), false, null, null);
-        }
-
-        public class commands_json
-        {
-            public string api_key { get; set; }
-            public List<command> commands { get; set; }
-        }
-
-        public class command
-        {
-            public string name { get; set; }
-            public string summary { get; set; }
-            public bool admin_required { get; set; }
         }
 
         [Command("dumpcommands")]

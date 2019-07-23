@@ -54,17 +54,6 @@ namespace timebot
 
         public async Task RunBotAsync()
         {
-            //initialize the default admin
-
-            if (Data.get_users().Count(s => s.Name == "BowmoreK") == 0)
-            {
-                Data.user usr = new Data.user();
-                usr.Name = "BowmoreK";
-                usr.Discriminator = "9327";
-                usr.admin = true;
-
-                Data.insert_user(usr);
-            }
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(secrets_file));
 

@@ -36,10 +36,6 @@ namespace timebot.Modules.Commands
             "TrilliantMeeting"
         };
 
-        private static readonly Dictionary<string, string> blasters = new Dictionary<string, string>()
-        { { "The High Church of Messiah-as-Emperox", "messiah" }
-        };
-
         private static Boolean security_check(string faction, ulong id)
         {
             Boolean rtn = false;
@@ -74,32 +70,6 @@ namespace timebot.Modules.Commands
             }
 
             return rtn;
-        }
-
-        [Command("sendfactionblast")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        [Summary("Sends a message to every member of a faction that the bot can see.")]
-        public async Task SendfactionblastAsync(string faction, string message)
-        {
-            if (!(blasters.Keys.ToList().Contains(faction)))
-            {
-                await ReplyAsync("Your faction is not configured to receive bot blasts. Consult for rep.");
-
-                return;
-            }
-
-            var users = (await Classes.FactionCount.FactionCountGet.GetCount(blasters[faction])).Members;
-
-            foreach (var user in users)
-            {
-                RequestOptions opt = new RequestOptions();
-                opt.RetryMode = RetryMode.RetryRatelimit;
-                var send = Context.Client.GetUser(Convert.ToUInt64(user.User.Id));
-
-                if (send != null) await send.SendMessageAsync(message, false, null, opt);
-            }
-
-            await ReplyAsync("Messages Sent");
         }
 
         [Command("getfactioncount")]
@@ -503,7 +473,7 @@ namespace timebot.Modules.Commands
         }
 
         [Command("removeentirefaction")]
-        [Summary("Kicks and entire faction from the server")]
+        [Summary("Kicks an entire faction from the server")]
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task RemoveentirefactionAsync(params string[] args)
         {
