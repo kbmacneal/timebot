@@ -507,7 +507,7 @@ namespace timebot.Modules.Commands
         [Summary("Pastes the link to the faction tracker in chat.")]
         public async Task TrackerAsync()
         {
-            await ReplyAsync("https://docs.google.com/spreadsheets/d/1QR078QvO5Q8S9gbQDglRhYK1HV3tBd0111SmjoVV0jQ/edit#gid=859451630");
+            await ReplyAsync("https://docs.google.com/spreadsheets/d/1M_yvwRbQhCtm-HWItwRaHV2yzmqFl9cesqlqFpiMebA/");
         }
 
         [Command("rulings")]
