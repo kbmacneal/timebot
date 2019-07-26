@@ -1097,6 +1097,13 @@ namespace timebot.Modules.Commands
             await ReplyAsync("", false, emb, null);
         }
 
+        [Command("ok")]
+        [Summary("Expresses approval")]
+        public async Task okAsync()
+        {
+            await ReplyAsync("https://highchurch.space/Assets/terminator_thumbs_up.gif");
+        }
+
         public async Task EnactBalance(SocketCommandContext c)
         {
             var users = c.Guild.Users.Where(e => !e.Roles.Select(f => f.Name).Contains("Dusted")).Where(e => !e.Roles.Select(f => f.Name).Contains("Survivor")).ToList<SocketGuildUser>();
