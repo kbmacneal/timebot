@@ -10,6 +10,7 @@ namespace timebot.Classes.Assets
     {
         public string Owner { get; set; }
         public string Asset { get; set; }
+        public string Cost { get; set; }
         public string Stealthed { get; set; }
         public string Stat { get; set; }
         public string HP { get; set; }
