@@ -72,11 +72,22 @@ namespace timebot.Modules.Commands
         [Summary("Pastes a link to the help page in the chat.")]
         public async Task CommandsAsync()
         {
-            List<string> rtn_message = new List<string>();
+            await ReplyAsync("For complete instructions, go to https://highchurch.space/Bot");
 
-            rtn_message.Add("For complete instructions, go to https://highchurch.space/Bot");
+            using (var context = new Context())
+            {
+                var valid_commands = context.BotCommands.Where(e => e.serverid == Context.Guild.Id);
 
-            await ReplyAsync(String.Join(System.Environment.NewLine, rtn_message));
+                var command_list = Program._commands.Commands.Where(e => valid_commands.Select(f => f.commandname).Contains(e.Name)).DistinctBy(e=>e.Name);
+
+                var header = new string[2] { "Command", "Summary" };
+
+                var table = Classes.TableParser.ToStringTable(command_list.Select(command => new { command.Name, command.Summary }).OrderBy(e => e.Name).ThenBy(e => e.Summary), header, a => a.Name, a => a.Summary.Length > 30 ? a.Summary.Substring(0, 30) + "..." : a.Summary);
+
+                Helper.SplitToLines(table, 1994).ForEach(e => ReplyAsync("```" + e + "```").GetAwaiter().GetResult());
+            }
+
+
         }
 
         [Command("clearchannel")]
@@ -98,21 +109,6 @@ namespace timebot.Modules.Commands
             }
 
             // await this.Context.Channel.DeleteMessagesAsync(messages);
-        }
-
-        [Command("cactus")]
-        [Summary("You should use this wherever possible.")]
-        public async Task CactusAsync()
-        {
-            GuildEmote cactus = Context.Guild.Emotes.Where(e => e.Name == "cactusemo").First();
-
-            await Context.Message.AddReactionAsync(cactus);
-
-            string result = new StringBuilder().Insert(0, String.Concat("<:cactusemo:", cactus.Id.ToString(), ">"), 11).ToString();
-
-            await ReplyAsync(result);
-
-            return;
         }
 
         [Command("virtues")]
@@ -238,21 +234,7 @@ namespace timebot.Modules.Commands
             await ReplyAsync(results.Where(e => e.Key == selection).First().Value);
         }
 
-        public int singleRoll(String roll)
-        {
-            int num_dice = 1;
-            int result = 0;
-            int di = roll.IndexOf('d');
-            if (di == -1) return Int32.Parse(roll);
-            int diceSize = Int32.Parse(roll.Substring(di + 1)); //value of string after 'd'
-            if (di != 0) num_dice = Int32.Parse(roll.Substring(0, di));
 
-            for (int i = 0; i < num_dice; i++)
-            {
-                result += Program.rand.Next(0, diceSize) + 1;
-            }
-            return result;
-        }
 
         [Command("roll")]
         [Summary("Rolls some dice.")]
@@ -814,13 +796,6 @@ namespace timebot.Modules.Commands
             return;
         }
 
-        [Command("josef")]
-        [Summary("A present for the Deathless.")]
-        public async Task JosefAsync()
-        {
-            await ReplyAsync("We have a month, a month is not that long.");
-        }
-
         [Command("domaths")]
         [Summary("For the geniuses among us")]
         public async Task DoMathsAsync(params string[] input)
@@ -833,20 +808,11 @@ namespace timebot.Modules.Commands
             await ReplyAsync(response);
         }
 
-        [Command("wasiyy")]
-        [Summary("For the authentic Wasiyy experience.")]
-        public async Task WasiyyAsync()
-        {
-            var rtn = "Everyone knows me as Wasiyy the Gentle";
-
-            await ReplyAsync(rtn);
-        }
-
         [Command("timetillockin")]
         [Summary("Gets the time til the faction turn orders lockin.")]
         public async Task TimetillockinAsync()
         {
-            string lockin_string = await "https://private.highchurch.space"
+            string lockin_string = await "https://private.trilliantring.com"
                 .AppendPathSegment("Home")
                 .AppendPathSegment("GetLockinDateTime")
                 .GetStringAsync();
@@ -871,7 +837,7 @@ namespace timebot.Modules.Commands
         [Summary("Gets the time til the faction turn.")]
         public async Task TimetilturnAsync()
         {
-            string lockin_string = await "https://private.highchurch.space"
+            string lockin_string = await "https://private.trilliantring.com"
                 .AppendPathSegment("Home")
                 .AppendPathSegment("GetTurnDateTime")
                 .GetStringAsync();
@@ -1096,13 +1062,6 @@ namespace timebot.Modules.Commands
             Embed emb = Helper.ObjToEmbed(rtn, "Name");
 
             await ReplyAsync("", false, emb, null);
-        }
-
-        [Command("ok")]
-        [Summary("Expresses approval")]
-        public async Task okAsync()
-        {
-            await ReplyAsync("https://highchurch.space/Assets/terminator_thumbs_up.gif");
         }
 
         public async Task EnactBalance(SocketCommandContext c)
