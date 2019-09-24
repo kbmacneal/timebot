@@ -1,7 +1,6 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Flurl.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
@@ -9,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using timebot.Classes;
 
 namespace timebot
 {
@@ -25,41 +23,16 @@ namespace timebot
         public static CommandService _commands = new CommandService();
         public static IServiceProvider _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
         public static string secrets_file = "timebot.json";
-        public static int latest_xkcd = get_latest_xkcd();
+        public static int latest_xkcd = Classes.Xkcd.Comic.get_latest_xkcd();
 
         public static readonly string[] prefixes = {
             "tb!"
         };
 
-        private static int get_latest_xkcd()
-        {
-            // string baseurl = string.Concat("https://xkcd.com/info.0.json");
-
-            // var client = new RestClient(baseurl);
-
-            // var request = new RestRequest(Method.GET);
-
-            // var response = client.Execute(request);
-
-            // if (!response.IsSuccessful) return 0;
-
-            var response = "https://xkcd.com/info.0.json"
-                .GetAsync()
-                .ReceiveString();
-
-            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.GetAwaiter().GetResult());
-
-            return content.Num;
-        }
-
         public async Task RunBotAsync()
         {
 
             Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(secrets_file));
-
-            // _client = new DiscordSocketClient();
-            // _commands = new CommandService();
-            // _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
 
             //event subscriptions
             _client.Log += Log;

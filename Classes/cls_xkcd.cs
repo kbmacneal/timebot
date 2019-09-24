@@ -2,6 +2,7 @@
 
 namespace timebot.Classes.Xkcd
 {
+    using Flurl.Http;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using System;
@@ -41,6 +42,17 @@ namespace timebot.Classes.Xkcd
 
         [JsonProperty("day")]
         public int Day { get; set; }
+
+        public static int get_latest_xkcd()
+        {
+            var response = "https://xkcd.com/info.0.json"
+                .GetAsync()
+                .ReceiveString();
+
+            var content = JsonConvert.DeserializeObject<Classes.Xkcd.Comic>(response.GetAwaiter().GetResult());
+
+            return content.Num;
+        }
     }
 
     public partial class Xkcd
@@ -94,5 +106,8 @@ namespace timebot.Classes.Xkcd
         }
 
         public static readonly ParseStringConverter Singleton = new ParseStringConverter();
+
+        
     }
+    
 }
