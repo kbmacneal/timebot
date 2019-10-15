@@ -1066,7 +1066,6 @@ namespace timebot.Modules.Commands
 
         [Command("pelax")]
         [Summary("Restores order")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task PelaxAsync()
         {
             await ReplyAsync("https://highchurch.space/Assets/Memes/Pelax.png");
