@@ -1069,7 +1069,6 @@ namespace timebot.Modules.Commands
         public async Task PelaxAsync()
         {
             await ReplyAsync("https://highchurch.space/Assets/Memes/Pelax.png");
-            await EnactBalance(Context);
         }
 
         public async Task EnactBalance(SocketCommandContext c)
