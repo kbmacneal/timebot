@@ -1064,6 +1064,15 @@ namespace timebot.Modules.Commands
             await ReplyAsync("", false, emb, null);
         }
 
+        [Command("pelax")]
+        [Summary("Restores order")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task PelaxAsync()
+        {
+            await ReplyAsync("https://highchurch.space/Assets/Memes/Pelax.png");
+            await EnactBalance(Context);
+        }
+
         public async Task EnactBalance(SocketCommandContext c)
         {
             var users = c.Guild.Users.Where(e => !e.Roles.Select(f => f.Name).Contains("Dusted")).Where(e => !e.Roles.Select(f => f.Name).Contains("Survivor")).ToList<SocketGuildUser>();
