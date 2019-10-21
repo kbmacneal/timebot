@@ -56,6 +56,13 @@ namespace timebot.Modules.Commands
             "Z",
         };
 
+        public class nextevent{
+            [JsonProperty("name")]
+            public string name{get;set;}
+            [JsonProperty("time")]
+            public string time{get;set;}
+        }
+
         private async Task SendPMAsync(string message, SocketUser user)
         {
             await user.SendMessageAsync(message);
@@ -1070,6 +1077,23 @@ namespace timebot.Modules.Commands
         {
             await ReplyAsync("https://highchurch.space/Assets/Memes/Pelax.png");
         }
+
+        [Command("getnextevent")]
+        [Summary("Gets the next event in the Far Verona calendar")]
+        public async Task GetNextEventAsync()
+        {
+            var result = JsonConvert.DeserializeObject<nextevent>(await "https://private.trilliantring.com"
+            .AppendPathSegment("Home")
+            .AppendPathSegment("GetNextEvent")
+            .GetStringAsync());
+            
+
+            var emb = Helper.ObjToEmbed(result,"name");
+
+            await ReplyAsync("Next event on the calendar",false,emb,null);
+        }
+
+        
 
         public async Task EnactBalance(SocketCommandContext c)
         {
