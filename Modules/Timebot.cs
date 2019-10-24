@@ -61,6 +61,8 @@ namespace timebot.Modules.Commands
             public string name{get;set;}
             [JsonProperty("time")]
             public string time{get;set;}
+            [JsonProperty("countdown")]
+            public string countdown{get;set;}
         }
 
         private async Task SendPMAsync(string message, SocketUser user)
