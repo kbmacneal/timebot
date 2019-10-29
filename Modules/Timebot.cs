@@ -597,7 +597,7 @@ namespace timebot.Modules.Commands
                     throw new KeyNotFoundException();
                 }
 
-                string col_name = cols[12 - turn + 3];
+                string col_name = cols[turn-11];
 
                 range = "\'Faction Turns S2\'!" + col_name + row_index;
 
