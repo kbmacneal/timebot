@@ -23,7 +23,7 @@ namespace timebot.Modules.Commands
             Tuple.Create ("House Serpens", "#009115"),
             Tuple.Create ("House Triangulum", "#7DB6FF"),
             Tuple.Create ("The Prism Network", "#AB99B6"),
-            Tuple.Create ("The Trilliant Ring", "#BBBBBB"),
+            Tuple.Create ("The Trilliant Ring", "#FFDFF00"),
             Tuple.Create ("The Deathless", "#8F5C5C"),
             Tuple.Create ("Confederation of the Upright Vagrant", "#2F4CCA"),
             Tuple.Create ("Democratic Mandate", "#147162")
