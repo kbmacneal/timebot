@@ -1099,6 +1099,12 @@ namespace timebot.Modules.Commands
         [Summary("Gets the next event in the Trill calendar")]
         public async Task GetNextPrivateEventAsync()
         {
+            if(Context.Guild.Id != 452883319328210984)
+            {
+                await ReplyAsync("Not allowed on this server");
+                return;
+            }
+            
             var result = JsonConvert.DeserializeObject<nextevent>(await "https://private.trilliantring.com"
             .AppendPathSegment("Home")
             .AppendPathSegment("GetNextPrivateEvent")
@@ -1110,7 +1116,15 @@ namespace timebot.Modules.Commands
             await ReplyAsync("Next event on the calendar",false,emb,null);
         }
 
-        
+        [Command("refreshtimers")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [Summary("Gets the next event in the Trill calendar")]
+        public async Task RefreshTimersAsync()
+        {
+            await Startup.RegisterTimers(Program._client);
+
+            await ReplyAsync("Timers Refreshed");
+        }
 
         public async Task EnactBalance(SocketCommandContext c)
         {
