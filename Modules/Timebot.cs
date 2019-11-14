@@ -1095,6 +1095,21 @@ namespace timebot.Modules.Commands
             await ReplyAsync("Next event on the calendar",false,emb,null);
         }
 
+        [Command("getnextprivateevent")]
+        [Summary("Gets the next event in the Trill calendar")]
+        public async Task GetNextPrivateEventAsync()
+        {
+            var result = JsonConvert.DeserializeObject<nextevent>(await "https://private.trilliantring.com"
+            .AppendPathSegment("Home")
+            .AppendPathSegment("GetNextPrivateEvent")
+            .GetStringAsync());
+            
+
+            var emb = Helper.ObjToEmbed(result,"name");
+
+            await ReplyAsync("Next event on the calendar",false,emb,null);
+        }
+
         
 
         public async Task EnactBalance(SocketCommandContext c)
