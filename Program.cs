@@ -49,8 +49,6 @@ namespace timebot {
 
                 Console.WriteLine(_timers.Count + " Timers Registered");
 
-                _timers.ForEach(e=>Console.WriteLine(e.ToString()));
-
                 return Task.CompletedTask;
             };
 
