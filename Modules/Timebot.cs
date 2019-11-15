@@ -1117,7 +1117,6 @@ namespace timebot.Modules.Commands
         }
 
         [Command("refreshtimers")]
-        [RequireUserPermission(GuildPermission.Administrator)]
         [Summary("Gets the next event in the Trill calendar")]
         public async Task RefreshTimersAsync()
         {
