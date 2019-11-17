@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using timebot.Classes;
 using timebot.Classes.Assets;
@@ -56,13 +55,16 @@ namespace timebot.Modules.Commands
             "Z",
         };
 
-        public class nextevent{
+        public class nextevent
+        {
             [JsonProperty("name")]
-            public string name{get;set;}
+            public string name { get; set; }
+
             [JsonProperty("time")]
-            public string time{get;set;}
+            public string time { get; set; }
+
             [JsonProperty("countdown")]
-            public string countdown{get;set;}
+            public string countdown { get; set; }
         }
 
         private async Task SendPMAsync(string message, SocketUser user)
@@ -87,7 +89,7 @@ namespace timebot.Modules.Commands
             {
                 var valid_commands = context.BotCommands.Where(e => e.serverid == Context.Guild.Id);
 
-                var command_list = Program._commands.Commands.Where(e => valid_commands.Select(f => f.commandname).Contains(e.Name)).DistinctBy(e=>e.Name);
+                var command_list = Program._commands.Commands.Where(e => valid_commands.Select(f => f.commandname).Contains(e.Name)).DistinctBy(e => e.Name);
 
                 var header = new string[2] { "Command", "Summary" };
 
@@ -95,8 +97,6 @@ namespace timebot.Modules.Commands
 
                 Helper.SplitToLines(table, 1994).ForEach(e => ReplyAsync("```" + e + "```").GetAwaiter().GetResult());
             }
-
-
         }
 
         [Command("clearchannel")]
@@ -242,8 +242,6 @@ namespace timebot.Modules.Commands
 
             await ReplyAsync(results.Where(e => e.Key == selection).First().Value);
         }
-
-
 
         [Command("roll")]
         [Summary("Rolls some dice.")]
@@ -597,7 +595,7 @@ namespace timebot.Modules.Commands
                     throw new KeyNotFoundException();
                 }
 
-                string col_name = cols[turn-11];
+                string col_name = cols[turn - 11];
 
                 range = "\'Faction Turns S2\'!" + col_name + row_index;
 
@@ -1088,32 +1086,30 @@ namespace timebot.Modules.Commands
             .AppendPathSegment("Home")
             .AppendPathSegment("GetNextEvent")
             .GetStringAsync());
-            
 
-            var emb = Helper.ObjToEmbed(result,"name");
+            var emb = Helper.ObjToEmbed(result, "name");
 
-            await ReplyAsync("Next event on the calendar",false,emb,null);
+            await ReplyAsync("Next event on the calendar", false, emb, null);
         }
 
         [Command("getnextprivateevent")]
         [Summary("Gets the next event in the Trill calendar")]
         public async Task GetNextPrivateEventAsync()
         {
-            if(Context.Guild.Id != 452883319328210984)
+            if (Context.Guild.Id != 452883319328210984)
             {
                 await ReplyAsync("Not allowed on this server");
                 return;
             }
-            
+
             var result = JsonConvert.DeserializeObject<nextevent>(await "https://private.trilliantring.com"
             .AppendPathSegment("Home")
             .AppendPathSegment("GetNextPrivateEvent")
             .GetStringAsync());
-            
 
-            var emb = Helper.ObjToEmbed(result,"name");
+            var emb = Helper.ObjToEmbed(result, "name");
 
-            await ReplyAsync("Next event on the calendar",false,emb,null);
+            await ReplyAsync("Next event on the calendar", false, emb, null);
         }
 
         [Command("refreshtimers")]

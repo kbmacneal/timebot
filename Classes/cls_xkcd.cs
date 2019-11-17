@@ -106,8 +106,5 @@ namespace timebot.Classes.Xkcd
         }
 
         public static readonly ParseStringConverter Singleton = new ParseStringConverter();
-
-        
     }
-    
 }
