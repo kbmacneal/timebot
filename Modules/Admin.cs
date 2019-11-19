@@ -728,7 +728,7 @@ namespace timebot.Modules.Commands
         {
             IRole everyone = Context.Guild.EveryoneRole as IRole;
 
-            OverwritePermissions roleperms = new OverwritePermissions(PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Allow,PermValue.Allow,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny,PermValue.Deny);
+            OverwritePermissions roleperms = new OverwritePermissions(PermValue.Deny, PermValue.Deny, PermValue.Allow, PermValue.Allow, PermValue.Allow, PermValue.Deny, PermValue.Deny, PermValue.Allow, PermValue.Allow, PermValue.Allow, PermValue.Deny, PermValue.Allow, PermValue.Allow, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny, PermValue.Deny);
 
             await ((SocketTextChannel)channel).AddPermissionOverwriteAsync(everyone, OverwritePermissions.DenyAll((SocketGuildChannel)channel), null);
 
