@@ -15,7 +15,7 @@ namespace timebot.Classes
     {
         public static async Task RegisterTimers(DiscordSocketClient client)
         {
-            Program._timers.ForEach(async e => await e.DisposeAsync());
+            Program._timers.ForEach(e => e.Dispose());
             Program._timers.Clear();
 
             var chan = client.GetChannel(452989251966205964);

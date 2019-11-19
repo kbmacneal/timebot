@@ -23,7 +23,7 @@ namespace timebot {
         public static CommandService _commands = new CommandService ();
         public static IServiceProvider _services = new ServiceCollection ().AddSingleton (_client).AddSingleton (_commands).BuildServiceProvider ();
 
-        public static List<Timer> _timers = new List<Timer> ();
+        public static List<System.Timers.Timer> _timers = new List<System.Timers.Timer> ();
         public static string secrets_file = "timebot.json";
         public static int latest_xkcd = Classes.Xkcd.Comic.get_latest_xkcd ();
 
