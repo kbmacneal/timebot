@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -22,6 +23,17 @@ namespace timebot.Classes {
 
             result.ForEach (async e => {
                 await ReminderTimer.RegisterTimer (chan,e);
+            });
+        }
+
+        public static async Task SetUsername(DiscordSocketClient client)
+        {
+            client.Guilds.ToList().ForEach(async e =>
+            {
+                var user = e.GetUser(client.CurrentUser.Id);
+                await user.ModifyAsync(e=>e.Nickname = "Arch Lector Frederick of Timebot",null);
+                await client.SetStatusAsync(Discord.UserStatus.Online);
+                await client.SetGameAsync("World Domination",null,Discord.ActivityType.Playing);
             });
         }
     }

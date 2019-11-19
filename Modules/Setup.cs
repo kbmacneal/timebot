@@ -86,23 +86,5 @@ namespace timebot.Modules.Commands
                 // await channel.AddPermissionOverwriteAsync(role,roleperms,null);
             }
         }
-
-        [Command("setbotusername")]
-        [Summary("Makes the bot all fancy")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task SetBotUserName()
-        {
-            var guild = Context.Client.GetGuild(Context.Guild.Id);
-
-            var user = guild.GetUser(Context.Client.CurrentUser.Id);
-
-            await user.ModifyAsync(e => e.Nickname = "Arch Lector Frederick of Timebot", null);
-
-            await Context.Client.SetStatusAsync(UserStatus.Online);
-
-            await Context.Client.SetGameAsync("World Domination", null, ActivityType.Playing);
-
-            await ReplyAsync("Username changed");
-        }
     }
 }

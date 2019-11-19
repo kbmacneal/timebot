@@ -49,6 +49,10 @@ namespace timebot {
 
                 Console.WriteLine(_timers.Count + " Timers Registered");
 
+                Startup.SetUsername(_client).GetAwaiter().GetResult();
+
+                Console.WriteLine("Name Changed");
+
                 return Task.CompletedTask;
             };
 
