@@ -45,18 +45,16 @@ namespace timebot {
             await _client.StartAsync ();
 
             _client.Ready += () => {
-                Startup.RegisterTimers (_client).GetAwaiter().GetResult();
+                Startup.RegisterTimers (_client).GetAwaiter ().GetResult ();
 
-                Console.WriteLine(_timers.Count + " Timers Registered");
+                Console.WriteLine (_timers.Count + " Timers Registered");
 
-                Startup.SetUsername(_client).GetAwaiter().GetResult();
+                Startup.SetUsername (_client).GetAwaiter ().GetResult ();
 
-                Console.WriteLine("Name Changed");
+                Console.WriteLine ("Name Changed");
 
                 return Task.CompletedTask;
             };
-
-            
 
             await Task.Delay (-1);
 
