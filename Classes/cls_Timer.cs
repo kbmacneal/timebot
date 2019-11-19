@@ -92,6 +92,7 @@ namespace timebot.Classes
             return tmr;
         }
 
+        #pragma warning disable CS1998
         public static async Task RegisterTimer(SocketChannel chan, nextevent e)
         {
             var t = CreateTimer(chan, e);
@@ -108,6 +109,7 @@ namespace timebot.Classes
 
             Program._timers.Add(t);
         }
+        #pragma warning restore CS1998
 
         public static async Task ReminderCallBack(SocketChannel chan, nextevent t)
         {

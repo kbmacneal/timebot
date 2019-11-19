@@ -36,6 +36,8 @@ namespace timebot.Classes
             });
         }
 
+        #pragma warning disable CS1998
+
         public static async Task SetUsername(DiscordSocketClient client)
         {
             client.Guilds.ToList().ForEach(async e =>
@@ -47,5 +49,7 @@ namespace timebot.Classes
                 await client.SetGameAsync("World Domination",null,Discord.ActivityType.Playing);
             });
         }
+
+        #pragma warning restore CS1998
     }
 }
