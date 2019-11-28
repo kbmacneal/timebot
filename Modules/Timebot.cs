@@ -700,7 +700,7 @@ namespace timebot.Modules.Commands
 
             string spreadsheetId = "1M_yvwRbQhCtm-HWItwRaHV2yzmqFl9cesqlqFpiMebA";
 
-            String range = "AssetTracker!A2:N";
+            String range = "AssetTracker!A2:O";
 
             SpreadsheetsResource.ValuesResource.GetRequest request =
                 service.Spreadsheets.Values.Get(spreadsheetId, range);
@@ -720,16 +720,17 @@ namespace timebot.Modules.Commands
                      Asset = e[1].ToString(),
                      Cost = e[2].ToString(),
                      Stealthed = e[4].ToString(),
-                     Stat = e[5].ToString(),
-                     HP = e[6].ToString(),
-                     MaxHP = e[7].ToString(),
-                     CombinedHP = e[6].ToString() + "/" + e[7].ToString(),
-                     Type = e[8].ToString(),
-                     Attack = e[9].ToString(),
-                     Counter = e[10].ToString(),
-                     Notes = e[11].ToString(),
-                     Upkeep = e[12].ToString(),
-                     Location = e[13].ToString().Split("/")[2].ToString()
+                     Status = e[5].ToString(),
+                     Stat = e[6].ToString(),
+                     HP = e[7].ToString(),
+                     MaxHP = e[8].ToString(),
+                     CombinedHP = e[7].ToString() + "/" + e[8].ToString(),
+                     Type = e[9].ToString(),
+                     Attack = e[10].ToString(),
+                     Counter = e[11].ToString(),
+                     Notes = e[12].ToString(),
+                     Upkeep = e[13].ToString(),
+                     Location = e[14].ToString().Split("/")[2].ToString()
                  }));
             }
             else
@@ -741,9 +742,9 @@ namespace timebot.Modules.Commands
 
             await ReplyAsync("Assets for: " + faction_name);
 
-            var header = new string[6] { "Owner", "Name", "HP", "Attack Dice", "Counter Dice", "Location" };
+            var header = new string[7] { "Owner", "Name", "Status", "HP", "Attack Dice", "Counter Dice", "Location" };
 
-            var table = Classes.TableParser.ToStringTable(found_assets.Select(asset => new { asset.Owner, asset.Asset, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy(e => e.Owner).ThenBy(e => e.Location).ThenBy(e => e.Asset), header, a => a.Owner.Length > 15 ? a.Owner.Substring(0, 15) + "..." : a.Owner, a => a.Asset, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location.Length > 15 ? a.Location.Substring(0, 15) + "..." : a.Location);
+            var table = Classes.TableParser.ToStringTable(found_assets.Select(asset => new { asset.Owner, asset.Asset, asset.Status, asset.CombinedHP, asset.Attack, asset.Counter, asset.Location }).OrderBy(e => e.Owner).ThenBy(e => e.Location).ThenBy(e => e.Asset), header, a => a.Owner.Length > 15 ? a.Owner.Substring(0, 15) + "..." : a.Owner, a => a.Asset, a=> a.Status, a => a.CombinedHP, a => a.Attack, a => a.Counter, a => a.Location.Length > 15 ? a.Location.Substring(0, 15) + "..." : a.Location);
 
             Helper.SplitToLines(table, 1994).ForEach(e => ReplyAsync("```" + e + "```").GetAwaiter().GetResult());
         }
