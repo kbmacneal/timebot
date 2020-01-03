@@ -19,6 +19,7 @@ using Npgsql;
 using RestSharp;
 using timebot.Classes;
 using timebot.Classes.Assets;
+using timebot.Classes.Extensions;
 using timebot.Classes.Utilities;
 using timebot.Contexts;
 
@@ -26,6 +27,60 @@ namespace timebot.Modules.Commands
 {
     public class commands : ModuleBase<SocketCommandContext>
     {
+        private static string [] insults = new string []
+        {
+            "A most notable coward, an infinite and endless liar, an hourly promise breaker, the owner of no one good quality.",
+            "Away, you starvelling, you elf-skin, you dried neat’s-tongue, bull’s-pizzle, you stock-fish!",
+            "Away, you three-inch fool!",
+            "Come, come, you froward and unable worms!",
+            "Go, prick thy face, and over-red thy fear, Thou lily-liver’d boy.",
+            "His wit’s as thick as a Tewkesbury mustard.",
+            "I am pigeon-liver’d and lack gall.",
+            "I am sick when I do look on thee.",
+            "I must tell you friendly in your ear, sell when you can, you are not for all markets.",
+            "If thou wilt needs marry, marry a fool; for wise men know well enough what monsters you make of them.",
+            "I’ll beat thee, but I would infect my hands.",
+            "I scorn you, scurvy companion.",
+            "Methink’st thou art a general offence and every man should beat thee.",
+            "More of your conversation would infect my brain.",
+            "My wife’s a hobby horse!",
+            "Peace, ye fat guts!",
+            "Poisonous bunch-backed toad!",
+            "The rankest compound of villainous smell that ever offended nostril",
+            "The tartness of his face sours ripe grapes.",
+            "There’s no more faith in thee than in a stewed prune.",
+            "Thine forward voice, now, is to speak well of thine friend; thine backward voice is to utter foul speeches and to detract.",
+            "That trunk of humours, that bolting-hutch of beastliness, that swollen parcel of dropsies, that huge bombard of sack, that stuffed cloak-bag of guts, that roasted Manningtree ox with pudding in his belly, that reverend vice, that grey Iniquity, that father ruffian, that vanity in years?",
+            "Thine face is not worth sunburning.",
+            "This woman’s an easy glove, my lord, she goes off and on at pleasure.",
+            "Thou art a boil, a plague sore",
+            "Was the Duke a flesh-monger, a fool and a coward?",
+            "Thou art as fat as butter.",
+            "Here is the babe, as loathsome as a toad.",
+            "Like the toad; ugly and venomous.",
+            "Thou art unfit for any place but hell.",
+            "Thou cream faced loon",
+            "Thou clay-brained guts, thou knotty-pated fool, thou whoreson obscene greasy tallow-catch!",
+            "Thou damned and luxurious mountain goat.",
+            "Thou elvish-mark’d, abortive, rooting hog!",
+            "Thou leathern-jerkin, crystal-button, knot-pated, agatering, puke-stocking, caddis-garter, smooth-tongue, Spanish pouch!",
+            "Thou lump of foul deformity",
+            "That poisonous bunch-back’d toad!",
+            "Thou sodden-witted lord! Thou hast no more brain than I have in mine elbows.",
+            "Thou subtle, perjur’d, false, disloyal man!",
+            "Thou whoreson zed , thou unnecessary letter!",
+            "Thy sin’s not accidental, but a trade.",
+            "Thy tongue outvenoms all the worms of Nile.",
+            "Would thou wert clean enough to spit upon.",
+            "Would thou wouldst burst!",
+            "You poor, base, rascally, cheating lack-linen mate!",
+            "You are as a candle, the better burnt out.",
+            "You scullion! You rampallian! You fustilarian! I’ll tickle your catastrophe!",
+            "You starvelling, you eel-skin, you dried neat’s-tongue, you bull’s-pizzle, you stock-fish–O for breath to utter what is like thee!-you tailor’s-yard, you sheath, you bow-case, you vile standing tuck!",
+            "Your brain is as dry as the remainder biscuit after voyage.",
+            "Virginity breeds mites, much like a cheese.",
+            "Villain, I have done thy mother"
+        };
         private static string [] cols = {
             "A",
             "B",
@@ -229,9 +284,11 @@ namespace timebot.Modules.Commands
         {
             Dictionary<int, string> results = new Dictionary<int, string> ();
 
+            var shakespeare = insults.GetRandom(1);
+
             results.Add (1, "BANNED!");
             results.Add (2, "You come over here and say that to my face.");
-            results.Add (3, "...");
+            results.Add (3, "As Bill Shakespeare would say: \"" + shakespeare + "\"");
             results.Add (4, "Eh? What?");
             results.Add (5, "Who said that?");
             results.Add (6, "```The details of my life are quite inconsequential... very well, where do I begin? My father was a relentlessly self-improving boulangerie owner from Belgium with low grade narcolepsy and a penchant for buggery. My mother was a fifteen year old French prostitute named Chloe with webbed feet. My father would womanize, he would drink. He would make outrageous claims like he invented the question mark. Sometimes he would accuse chestnuts of being lazy. The sort of general malaise that only the genius possess and the insane lament. My childhood was typical. Summers in Rangoon, luge lessons. In the spring we'd make meat helmets. When I was insolent I was placed in a burlap bag and beaten with reeds- pretty standard really. At the age of twelve I received my first scribe. At the age of fourteen a Zoroastrian named Vilma ritualistically shaved my testicles. There really is nothing like a shorn scrotum... it's breathtaking- I highly suggest you try it.```");
