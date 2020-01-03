@@ -284,7 +284,7 @@ namespace timebot.Modules.Commands
         {
             Dictionary<int, string> results = new Dictionary<int, string> ();
 
-            var shakespeare = insults.GetRandom(1);
+            var shakespeare = insults.GetRandom(1).First();
 
             results.Add (1, "BANNED!");
             results.Add (2, "You come over here and say that to my face.");
