@@ -6,13 +6,16 @@ namespace timebot.Classes.Extensions
 {
     public static class IEnumerableExtensions
     {
-        public static IEnumerable<T> GetRandom<T> (this IEnumerable<T> list, int count)
+        public static List<T> GetRandom<T> (this IEnumerable<T> list, int count)
         {
+            var rtn = new List<T>();
             for (int i = 0; i < count; i++)
             {
                 var index = Program.rand.Next (0, list.Count () - 1);
-                yield return list.ElementAt(index);
+                rtn.Add(list.ElementAt(index));
             }
+
+            return rtn;
         }
     }
 
