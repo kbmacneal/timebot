@@ -1119,7 +1119,9 @@ namespace timebot.Modules.Commands
         {
             await Startup.RegisterTimers (Program._client);
 
-            await ReplyAsync ("Timers flushed and " + Program._timers.Count + " Timers created.");
+            await Startup.RegisterPublicTimers (Program._client);
+
+            await ReplyAsync ("Timers flushed and " + (Program._timers.Count + Program._publictimers.Count) + " Timers created.");
         }
 
         public async Task EnactBalance (SocketCommandContext c)
