@@ -31,7 +31,30 @@ namespace timebot.Classes
 
                 if (DateTimeOffset.Parse(e.time) <= max_possible_date)
                 {
-                    await ReminderTimer.RegisterTimer(chan, e);
+                    await ReminderTimer.RegisterTimer(chan, e, true);
+                }
+            });
+        }
+
+        public static async Task RegisterPublicTimers(DiscordSocketClient client)
+        {
+            Program._publictimers.ForEach(e => e.Dispose());
+            Program._publictimers.Clear();
+
+            var chan = client.GetChannel(662767673582813255);
+
+            var result = JsonConvert.DeserializeObject<List<nextevent>>(await "https://private.trilliantring.com"
+                .AppendPathSegment("Home")
+                .AppendPathSegment("GetAllPublicEvents")
+                .GetStringAsync());
+
+            result.ForEach(async e =>
+            {
+                var max_possible_date = DateTimeOffset.Now.AddMilliseconds(Int32.MaxValue);
+
+                if (DateTimeOffset.Parse(e.time) <= max_possible_date)
+                {
+                    await ReminderTimer.RegisterTimer(chan, e, false);
                 }
             });
         }

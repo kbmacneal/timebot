@@ -24,6 +24,7 @@ namespace timebot {
         public static IServiceProvider _services = new ServiceCollection ().AddSingleton (_client).AddSingleton (_commands).BuildServiceProvider ();
 
         public static List<System.Timers.Timer> _timers = new List<System.Timers.Timer> ();
+        public static List<System.Timers.Timer> _publictimers = new List<System.Timers.Timer> ();
         public static string secrets_file = "timebot.json";
         public static int latest_xkcd = Classes.Xkcd.Comic.get_latest_xkcd ();
 
@@ -46,6 +47,8 @@ namespace timebot {
 
             _client.Ready += () => {
                 Startup.RegisterTimers (_client).GetAwaiter ().GetResult ();
+
+                Startup.RegisterPublicTimers (_client).GetAwaiter ().GetResult ();
 
                 Console.WriteLine (_timers.Count + " Timers Registered");
 
