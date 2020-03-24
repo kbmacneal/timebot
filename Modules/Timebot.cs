@@ -1150,6 +1150,13 @@ namespace timebot.Modules.Commands
             await ReplyAsync ("Next event on the calendar", false, emb, null);
         }
 
+        [Command ("sayno")]
+        [Summary ("Pastes the word 'No' into chat.")]
+        public async Task GetNextEventAsync ()
+        {
+            await ReplyAsync ("Yes");
+        }
+
         [Command ("getnextprivateevent")]
         [Summary ("Gets the next event in the Trill calendar")]
         public async Task GetNextPrivateEventAsync ()
