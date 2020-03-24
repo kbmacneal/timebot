@@ -1152,7 +1152,7 @@ namespace timebot.Modules.Commands
 
         [Command ("sayno")]
         [Summary ("Pastes the word 'No' into chat.")]
-        public async Task GetNextEventAsync ()
+        public async Task SaynoAsync ()
         {
             await ReplyAsync ("Yes");
         }
