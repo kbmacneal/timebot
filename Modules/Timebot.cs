@@ -138,7 +138,7 @@ namespace timebot.Modules.Commands
         [Summary ("Pastes a link to the help page in the chat.")]
         public async Task CommandsAsync ()
         {
-            await ReplyAsync ("For complete instructions, go to https://highchurch.space/Bot");
+            // await ReplyAsync ("For complete instructions, go to https://highchurch.space/Bot");
 
             using (var context = new Context ())
             {
@@ -1129,12 +1129,12 @@ namespace timebot.Modules.Commands
             await ReplyAsync ("", false, emb, null);
         }
 
-        [Command ("pelax")]
-        [Summary ("Restores order")]
-        public async Task PelaxAsync ()
-        {
-            await ReplyAsync ("https://highchurch.space/Assets/Memes/Pelax.png");
-        }
+        // [Command ("pelax")]
+        // [Summary ("Restores order")]
+        // public async Task PelaxAsync ()
+        // {
+        //     await ReplyAsync ("https://highchurch.space/Assets/Memes/Pelax.png");
+        // }
 
         [Command ("getnextevent")]
         [Summary ("Gets the next event in the Far Verona calendar")]
