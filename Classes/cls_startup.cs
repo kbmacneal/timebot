@@ -1,19 +1,12 @@
 using Discord;
 using Discord.WebSocket;
-using Flurl;
-using Flurl.Http;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static timebot.Modules.Commands.commands;
 
 namespace timebot.Classes
 {
     public class Startup
     {
-
 #pragma warning disable CS1998
 
         public static async Task SetUsername(DiscordSocketClient client)

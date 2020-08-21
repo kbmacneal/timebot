@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace timebot.Classes
+﻿namespace timebot.Classes
 {
     public class Command
     {
