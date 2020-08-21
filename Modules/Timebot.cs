@@ -5,7 +5,6 @@ using Flurl;
 using Flurl.Http;
 using MoreLinq;
 using Newtonsoft.Json;
-using Npgsql;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -353,46 +352,30 @@ namespace timebot.Modules.Commands
         [RequireUserPermission(GuildPermission.Administrator)]
         private async Task DumpcommandsAsync()
         {
-            List<command> commands = new List<command>();
+            List<Command> commands = new List<Command>();
 
             foreach (var command in Program._commands.Commands.ToList())
             {
-                command c = new command
+                Command c = new Command
                 {
-                    name = command.Name,
-                    summary = command.Summary,
-                    admin_required = command.Preconditions.Count() > 0
+                    Name = command.Name,
+                    Summary = command.Summary,
+                    AdminReqd = command.Preconditions.Count() > 0
                 };
 
                 commands.Add(c);
             }
 
-            Dictionary<string, string> secrets = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(Program.secrets_file));
-
-            using (Npgsql.NpgsqlConnection conn = new NpgsqlConnection(JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(Program.secrets_file))["connection_string"]))
+            using (var context = new Context())
             {
-                conn.Open();
+                context.Command.RemoveRange(context.Command);
 
-                // Insert some data
-                using (var cmd = new NpgsqlCommand())
+                foreach (var item in commands.DistinctBy(e => e.Name.ToString() + e.Summary.ToString()).OrderBy(e => e.Name).ThenBy(e => e.AdminReqd))
                 {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "DELETE FROM commands;";
-                    cmd.ExecuteNonQuery();
+                    context.Command.Add(item);
                 }
 
-                foreach (var item in commands.DistinctBy(e => e.name.ToString() + e.summary.ToString()).OrderBy(e => e.name).ThenBy(e => e.admin_required))
-                {
-                    using (var cmd = new NpgsqlCommand())
-                    {
-                        cmd.Connection = conn;
-                        cmd.CommandText = "INSERT INTO commands (name,summary,admin_required) VALUES (@n,@s,@a)";
-                        cmd.Parameters.AddWithValue("n", item.name);
-                        cmd.Parameters.AddWithValue("s", item.summary);
-                        cmd.Parameters.AddWithValue("a", item.admin_required);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                await context.SaveChangesAsync();
             }
 
             await ReplyAsync("Commands Updated");

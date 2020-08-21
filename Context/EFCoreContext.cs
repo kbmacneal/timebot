@@ -13,6 +13,7 @@ namespace timebot.Contexts
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BlameCal> BlameCals { get; set; }
         public DbSet<botcommand> BotCommands { get; set; }
+        public DbSet<Command> Command { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
