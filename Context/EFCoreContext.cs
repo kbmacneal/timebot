@@ -11,11 +11,8 @@ namespace timebot.Contexts
     {
         public DbSet<Asset> Assets { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<BullyReason> BullyReasons { get; set; }
         public DbSet<BlameCal> BlameCals { get; set; }
-        public DbSet<PopCount> PopCounts { get; set; }
         public DbSet<botcommand> BotCommands { get; set; }
-        public DbSet<Thanos> Thanos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -50,27 +47,10 @@ namespace timebot.Contexts
                entity.Property(e => e.Description).HasColumnName("Description");
            });
 
-            modelBuilder.Entity<BullyReason>(entity =>
-           {
-               entity.HasKey(e => e.ID);
-               entity.Property(e => e.ID).HasColumnName("ID").ValueGeneratedOnAdd();
-               entity.Property(e => e.value).HasColumnName("value");
-           });
-
             modelBuilder.Entity<BlameCal>(entity =>
            {
                entity.HasKey(e => e.ID);
                entity.Property(e => e.ID).HasColumnName("ID").ValueGeneratedOnAdd();
-               entity.Property(e => e.timestamp).HasColumnName("timestamp");
-           });
-
-            modelBuilder.Entity<PopCount>(entity =>
-           {
-               entity.HasKey(e => e.ID);
-               entity.Property(e => e.ID).HasColumnName("ID").ValueGeneratedOnAdd();
-               entity.Property(e => e.FactionID).HasColumnName("FactionID");
-               entity.Property(e => e.FactionName).HasColumnName("FactionName");
-               entity.Property(e => e.MemCount).HasColumnName("MemCount");
                entity.Property(e => e.timestamp).HasColumnName("timestamp");
            });
 
@@ -81,14 +61,6 @@ namespace timebot.Contexts
                entity.Property(e => e.serverid).HasColumnName("serverid");
                entity.Property(e => e.commandname).HasColumnName("commandname");
            });
-
-            modelBuilder.Entity<Thanos>(entity =>
-            {
-                entity.HasKey(e => e.ID);
-                entity.Property(e => e.ID).HasColumnName("id").ValueGeneratedOnAdd();
-                entity.Property(e => e.playerID).HasColumnName("playerid");
-                entity.Property(e => e.role_choice).HasColumnName("rolechoice");
-            });
         }
     }
 }

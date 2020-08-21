@@ -13,66 +13,21 @@ namespace timebot.Classes
 {
     public class Startup
     {
-        public static async Task RegisterTimers(DiscordSocketClient client)
-        {
-            Program._timers.ForEach(e => e.Dispose());
-            Program._timers.Clear();
 
-            var chan = client.GetChannel(452989251966205964);
-
-            var result = JsonConvert.DeserializeObject<List<nextevent>>(await "https://private.trilliantring.com"
-                .AppendPathSegment("Home")
-                .AppendPathSegment("GetAllPrivateEvents")
-                .GetStringAsync());
-
-            result.ForEach(async e =>
-            {
-                var max_possible_date = DateTimeOffset.Now.AddMilliseconds(Int32.MaxValue);
-
-                if (DateTimeOffset.Parse(e.time) <= max_possible_date)
-                {
-                    await ReminderTimer.RegisterTimer(chan, e, true);
-                }
-            });
-        }
-
-        public static async Task RegisterPublicTimers(DiscordSocketClient client)
-        {
-            Program._publictimers.ForEach(e => e.Dispose());
-            Program._publictimers.Clear();
-
-            var chan = client.GetChannel(662767673582813255);
-
-            var result = JsonConvert.DeserializeObject<List<nextevent>>(await "https://private.trilliantring.com"
-                .AppendPathSegment("Home")
-                .AppendPathSegment("GetAllPublicEvents")
-                .GetStringAsync());
-
-            result.ForEach(async e =>
-            {
-                var max_possible_date = DateTimeOffset.Now.AddMilliseconds(Int32.MaxValue);
-
-                if (DateTimeOffset.Parse(e.time) <= max_possible_date)
-                {
-                    await ReminderTimer.RegisterTimer(chan, e, false);
-                }
-            });
-        }
-
-        #pragma warning disable CS1998
+#pragma warning disable CS1998
 
         public static async Task SetUsername(DiscordSocketClient client)
         {
             client.Guilds.ToList().ForEach(async e =>
             {
-                var _opt = new RequestOptions(){RetryMode = RetryMode.RetryRatelimit};
+                var _opt = new RequestOptions() { RetryMode = RetryMode.RetryRatelimit };
                 var user = e.GetUser(client.CurrentUser.Id);
-                await user.ModifyAsync(e=>e.Nickname = "Arch Lector Frederick of Timebot",_opt);
+                await user.ModifyAsync(e => e.Nickname = "Arch Lector Frederick of Timebot", _opt);
                 await client.SetStatusAsync(Discord.UserStatus.Online);
-                await client.SetGameAsync("World Domination",null,Discord.ActivityType.Playing);
+                await client.SetGameAsync("World Domination", null, Discord.ActivityType.Playing);
             });
         }
 
-        #pragma warning restore CS1998
+#pragma warning restore CS1998
     }
 }

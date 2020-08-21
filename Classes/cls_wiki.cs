@@ -38,7 +38,7 @@ namespace timebot.Classes
 
     public partial class Wiki
     {
-        public static Wiki FromJson(string json) => JsonConvert.DeserializeObject<Wiki>(json, Converter.Settings);
+        public static Wiki FromJson(string json) => JsonConvert.DeserializeObject<Wiki>(json, Xkcd.Converter.Settings);
     }
 
     public partial class Info
@@ -94,6 +94,6 @@ namespace timebot.Classes
 
     public partial class Info
     {
-        public static Info FromJson(string json) => JsonConvert.DeserializeObject<Info>(json, Converter.Settings);
+        public static Info FromJson(string json) => JsonConvert.DeserializeObject<Info>(json, Xkcd.Converter.Settings);
     }
 }
