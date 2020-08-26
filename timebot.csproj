@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Cactus_Pius_seal.png" CopyToPublishDirectory="Always" />
-    <None Include="Timebot-fc612c6f90aa.json" CopyToPublishDirectory="Always" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommonMark.Net" Version="0.15.1" />
     <PackageReference Include="Discord.Net" Version="2.1.1" />
     <PackageReference Include="Flurl" Version="2.8.2" />
