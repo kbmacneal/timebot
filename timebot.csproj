@@ -17,15 +17,12 @@
     <PackageReference Include="Discord.Net" Version="2.1.1" />
     <PackageReference Include="Flurl" Version="2.8.2" />
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.41.1.1734" />
-    <PackageReference Include="JsonFlatFileDataStore" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="microsoft.extensions.dependencyinjection" Version="3.0.0" />
     <PackageReference Include="morelinq" Version="3.2.0" />
-    <PackageReference Include="NodaTime" Version="2.4.7" />
     <PackageReference Include="Npgsql" Version="4.1.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
     <PackageReference Include="RestSharp" Version="106.6.10" />
