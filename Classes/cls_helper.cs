@@ -134,28 +134,5 @@ namespace timebot.Classes
 
             return src;
         }
-
-        public static string calc_salt()
-        {
-            var random = new RNGCryptoServiceProvider();
-
-            // Maximum length of salt
-            int max_length = 8;
-
-            // Empty salt array
-            byte[] salt = new byte[max_length];
-
-            // Build the random bytes
-            random.GetNonZeroBytes(salt);
-
-            // Return the string encoded salt
-            return Convert.ToBase64String(salt);
-        }
-
-        public static string compute_hash(string plaintext, string salt, string algorithm = "HMACSHA512")
-        {
-            if (salt == null || salt == "") salt = calc_salt();
-            return Westwind.Utilities.Encryption.ComputeHash(plaintext, salt, algorithm, false);
-        }
     }
 }
