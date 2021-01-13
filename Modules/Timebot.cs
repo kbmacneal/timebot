@@ -137,7 +137,9 @@ namespace timebot.Modules.Commands
 
             using (var context = new Context())
             {
-                var valid_commands = context.BotCommands.Where(e => e.serverid == Context.Guild.Id);
+                var valid_commands = await context.BotCommands.AsAsyncEnumerable().Where(e => e.serverid == Context.Guild.Id).ToListAsync();
+
+                //var valid_commands = context.BotCommands.Where(e => e.serverid == Context.Guild.Id);
 
                 var command_list = Program._commands.Commands.Where(e => valid_commands.Select(f => f.commandname).Contains(e.Name)).DistinctBy(e => e.Name);
 
@@ -154,7 +156,7 @@ namespace timebot.Modules.Commands
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task ClearchannelAsync(int count)
         {
-            var messages = (this.Context.Channel.GetMessagesAsync(count)).Flatten().ToList().GetAwaiter().GetResult();
+            var messages = await (this.Context.Channel.GetMessagesAsync(count)).Flatten().ToListAsync();
 
             RequestOptions opt = new RequestOptions();
 

@@ -1,3 +1,5 @@
+
+
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -129,7 +131,7 @@ namespace timebot.Modules.Commands
 
             using (var context = new Context())
             {
-                commands = context.BotCommands.Where(e => e.serverid == server_id).Select(e => e.commandname).OrderBy(e => e).ToList();
+                commands = await context.BotCommands.ToAsyncEnumerable().Where(e => e.serverid == server_id).Select(e => e.commandname).OrderBy(e => e).ToListAsync();
             }
 
             await ReplyAsync(string.Join(System.Environment.NewLine, commands), false, null, null);
